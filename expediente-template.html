@@ -27,6 +27,7 @@
 <div class="footer">Curso de Verano Poblado Tres · Ing. Luis Alberto Antonio Narciso · 2026</div>
 </main>
 <script src="expedientes-data.js"></script>
+<script src="expedientes-extra.js"></script>
 <script>
 const params=new URLSearchParams(location.search);const id=params.get('alumno')||'demo';const data=window.EXPEDIENTES?.[id]||window.EXPEDIENTES?.demo;
 const set=(id,value)=>document.getElementById(id).textContent=value||'';const initials=name=>name.split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase();
