@@ -29,6 +29,7 @@
 <script src="expedientes-data.js"></script>
 <script src="expedientes-extra.js"></script>
 <script src="expediente-aldo.js"></script>
+<script src="expediente-medio-superior-extra.js"></script>
 <script>
 const params=new URLSearchParams(location.search);const id=params.get('alumno')||'demo';if(id==='ana'){location.replace('index.html#alumnos');}delete window.EXPEDIENTES?.ana;const data=window.EXPEDIENTES?.[id]||window.EXPEDIENTES?.demo;
 const set=(id,value)=>document.getElementById(id).textContent=value||'';const initials=name=>name.split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase();
