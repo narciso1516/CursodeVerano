@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Tiendita Matemática — Segundo de secundaria</title>
+<style>html,body{height:100%;margin:0}body{display:grid;place-items:center;background:#0b1020;color:#f5f7ff;font-family:system-ui,-apple-system,Segoe UI,sans-serif}.card{max-width:520px;margin:24px;padding:32px;text-align:center;background:#121a31;border:1px solid #2b385f;border-radius:24px;box-shadow:0 18px 50px #0005}.spinner{width:48px;height:48px;margin:0 auto 20px;border:5px solid #2b385f;border-top-color:#7c5cff;border-radius:50%;animation:girar .8s linear infinite}@keyframes girar{to{transform:rotate(360deg)}}h1{font-size:1.45rem}p{color:#b8c2df;line-height:1.5}.error{color:#ffb4b4}button{border:0;border-radius:14px;padding:13px 18px;background:#7c5cff;color:#fff;font-weight:800;font-size:1rem}</style>
+</head>
+<body>
+<main class="card" id="estado"><div class="spinner"></div><h1>Cargando Tiendita Matemática…</h1><p>Preparando los 100 retos.</p></main>
+<script src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js"></script>
+<script>
+(async()=>{try{const r=await fetch('./tiendita-matematica-segundo-secundaria.html?v='+Date.now(),{cache:'no-store'});if(!r.ok)throw new Error('No se encontró la evaluación ('+r.status+').');const fuente=await r.text();const m=fuente.match(/const b64=`([A-Za-z0-9+/=]+)`/);if(!m)throw new Error('El archivo no contiene los datos esperados.');const bin=Uint8Array.from(atob(m[1]),c=>c.charCodeAt(0));const html=pako.ungzip(bin,{to:'string'});document.open();document.write(html);document.close()}catch(e){document.getElementById('estado').innerHTML='<h1>No se pudo abrir</h1><p class="error">'+String(e.message||e)+'</p><button onclick="location.reload()">Intentar de nuevo</button>'}})();
+</script>
+</body>
+</html>
