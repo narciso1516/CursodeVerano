@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Gráfica de progreso de las actividades del Curso de Verano 2026.">
+  <title>Progreso de actividades · Curso de Verano 2026</title>
+  <style>
+    :root{--green:#185b35;--green2:#2f8d4a;--gold:#f2bd2c;--navy:#17324d;--ink:#243440;--muted:#66747e;--paper:#fff;--bg:#edf7f2;--line:#dce8e2}
+    *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(180deg,#e7f5ee,#fffaf0);color:var(--ink)}
+    a{color:inherit}.top{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:17px max(20px,calc((100vw - 1120px)/2));background:var(--green);color:#fff}
+    .top strong{font-size:19px}.top a{font-weight:800}.wrap{max-width:1120px;margin:auto;padding:34px 20px 70px}
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center;padding:clamp(24px,5vw,48px);border-radius:30px;background:var(--navy);color:#fff;box-shadow:0 20px 50px #17324d20}
+    .eyebrow{margin:0 0 10px;color:#9be0b2;font-weight:900;text-transform:uppercase;letter-spacing:.08em;font-size:13px}.hero h1{margin:0;font-size:clamp(38px,7vw,72px);line-height:.98}.hero p{max-width:650px;line-height:1.6;color:#dce7ef}
+    .donut{display:grid;place-items:center;width:min(260px,70vw);aspect-ratio:1;margin:auto;border-radius:50%;background:conic-gradient(var(--gold) 0 41.2%,#ffffff1f 41.2% 100%);position:relative}
+    .donut::after{content:"";position:absolute;width:68%;aspect-ratio:1;border-radius:50%;background:var(--navy)}.donut div{position:relative;z-index:1;text-align:center}.donut strong{display:block;font-size:48px}.donut span{color:#dce7ef}
+    .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}.metric,.panel{padding:24px;border:1px solid var(--line);border-radius:22px;background:var(--paper);box-shadow:0 10px 30px #17324d0a}.metric strong{display:block;font-size:38px;color:var(--green)}.metric span{color:var(--muted)}
+    .panel{margin-top:20px}.panel h2{margin:0 0 6px;font-size:28px}.panel>p{margin-top:0;color:var(--muted);line-height:1.5}.bars{display:grid;gap:17px;margin-top:24px}.bar-head{display:flex;justify-content:space-between;gap:12px;margin-bottom:7px;font-weight:800}.track{height:18px;overflow:hidden;border-radius:999px;background:#e9efec}.fill{height:100%;min-width:5px;border-radius:inherit;background:linear-gradient(90deg,var(--green),var(--green2))}
+    .notice{margin-top:20px;padding:18px 20px;border-left:5px solid var(--gold);border-radius:14px;background:#fff5cf;line-height:1.55}.local-list{display:grid;gap:10px;margin-top:18px}.local-item{display:flex;justify-content:space-between;gap:18px;padding:14px;border-radius:14px;background:#f4f8f6}.empty{color:var(--muted);font-style:italic}
+    @media(max-width:760px){.hero{grid-template-columns:1fr}.metrics{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}.donut{width:210px}.local-item{align-items:flex-start;flex-direction:column}}
+  </style>
+</head>
+<body>
+  <header class="top"><strong>📊 Curso de Verano · Progreso</strong><a href="index.html">← Volver al inicio</a></header>
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Seguimiento inicial · 23 de julio de 2026</p>
+        <h1>Progreso de actividades</h1>
+        <p>Resumen elaborado con las capturas recibidas. Las evidencias anteriores permanecen anónimas porque el informe todavía no mostraba el nombre del alumno.</p>
+      </div>
+      <div class="donut" role="img" aria-label="14 de 34 entregas comprobadas, equivalente a 41.2 por ciento">
+        <div><strong>41%</strong><span>14 de 34</span></div>
+      </div>
+    </section>
+
+    <section class="metrics" aria-label="Resumen">
+      <article class="metric"><strong>34</strong><span>alumnos en el padrón</span></article>
+      <article class="metric"><strong>14</strong><span>evidencias recibidas</span></article>
+      <article class="metric"><strong>20</strong><span>entregas por identificar o recibir</span></article>
+    </section>
+
+    <section class="panel">
+      <h2>Evidencias por actividad</h2>
+      <p>Distribución de las 14 capturas revisadas. No representa una comparación de calificaciones.</p>
+      <div class="bars">
+        <div><div class="bar-head"><span>1.º de secundaria</span><span>4</span></div><div class="track"><div class="fill" style="width:100%"></div></div></div>
+        <div><div class="bar-head"><span>2.º de secundaria</span><span>3</span></div><div class="track"><div class="fill" style="width:75%"></div></div></div>
+        <div><div class="bar-head"><span>2.º de primaria</span><span>2</span></div><div class="track"><div class="fill" style="width:50%"></div></div></div>
+        <div><div class="bar-head"><span>3.º de secundaria</span><span>2</span></div><div class="track"><div class="fill" style="width:50%"></div></div></div>
+        <div><div class="bar-head"><span>1.er semestre de preparatoria</span><span>2</span></div><div class="track"><div class="fill" style="width:50%"></div></div></div>
+        <div><div class="bar-head"><span>6.º</span><span>1</span></div><div class="track"><div class="fill" style="width:25%"></div></div></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Entregas identificadas en este dispositivo</h2>
+      <p>Las actividades actualizadas guardan el nombre y la finalización en el dispositivo donde se realizaron.</p>
+      <div id="localProgress" class="local-list"></div>
+    </section>
+
+    <div class="notice"><strong>Importante:</strong> el nombre aparecerá en los nuevos informes finales. Para tener una lista central automática desde todos los teléfonos todavía será necesario conectar una base de datos privada.</div>
+  </main>
+  <script>
+    const target=document.getElementById("localProgress");
+    let records=[];try{records=JSON.parse(localStorage.getItem("cursoVeranoProgressV1"))||[]}catch(_){}
+    if(!records.length)target.innerHTML='<p class="empty">Todavía no hay nuevas entregas identificadas en este dispositivo.</p>';
+    else target.innerHTML=records.slice().reverse().map(item=>`<div class="local-item"><strong>${escapeHtml(item.student)}</strong><span>${escapeHtml(item.activity)} · ${new Date(item.completedAt).toLocaleString("es-MX")}</span></div>`).join("");
+    function escapeHtml(value){const div=document.createElement("div");div.textContent=value||"";return div.innerHTML}
+  </script>
+</body>
+</html>
