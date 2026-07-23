@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Demostración del portal familiar de progreso del Curso de Verano.">
+  <title>Demostración familiar · Curso de Verano</title>
+  <link rel="stylesheet" href="assets/css/family-portal.css">
+  <style>
+    .portal{max-width:1180px;margin:auto;padding:45px 24px 80px}.demo-banner{display:flex;justify-content:space-between;gap:20px;padding:14px 18px;border-radius:15px;background:#fff0c7;border:1px solid #e8c85f}.portal-head{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;margin:30px 0;padding:28px;border-radius:25px;background:#fff;box-shadow:var(--shadow)}.portal-head .avatar{width:68px;height:68px;font-size:20px}.portal-head h1{font-size:42px}.portal-head p{margin:4px 0;color:var(--muted)}.period{padding:10px 13px;border-radius:12px;background:#eef1ff;color:var(--blue);font-weight:800}.dashboard-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:20px}.panel{padding:24px;border:1px solid var(--line);border-radius:22px;background:#fff}.panel h2{margin:0 0 5px;font-size:25px}.panel .intro{margin:0 0 20px;color:var(--muted)}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.metric{padding:17px;border-radius:15px;background:#f4f5f8}.metric strong,.metric span{display:block}.metric strong{font-size:28px}.metric span{color:var(--muted);font-size:12px}.area-row{padding:15px 0;border-bottom:1px solid var(--line)}.area-row:last-child{border:0}.area-top{display:flex;justify-content:space-between;gap:10px}.level-pill{padding:4px 8px;border-radius:99px;background:var(--mint);color:#16633d;font-size:11px;font-weight:850}.bar{height:10px;margin-top:9px;border-radius:99px;background:#eaecf1;overflow:hidden}.bar span{display:block;height:100%;border-radius:99px;background:var(--blue)}.timeline{display:grid;gap:12px}.event{display:grid;grid-template-columns:78px 1fr;gap:15px;padding:15px;border-radius:16px;background:#f8f8fa}.event time{color:var(--blue);font-size:12px;font-weight:900}.event h3{margin:0 0 5px;font-size:17px}.event p{margin:0;color:var(--muted);font-size:14px}.evidence{margin-top:20px;padding:18px;border-radius:17px;background:#fff7dc}.evidence strong{display:block}.teacher-note{padding:20px;border-left:5px solid var(--blue);background:#eef1ff;border-radius:0 18px 18px 0}.teacher-note p{margin-bottom:0}.home-card{margin-top:20px;padding:22px;border-radius:20px;background:var(--ink);color:#fff}.home-card p{color:#d9deea}.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.legend span{padding:6px 9px;border-radius:99px;background:#f4f5f8;font-size:11px}.print{margin-top:20px}@media(max-width:800px){.dashboard-grid{grid-template-columns:1fr}.portal-head{grid-template-columns:auto 1fr}.period{grid-column:1/-1}.metrics{grid-template-columns:1fr}.demo-banner{display:block}.demo-banner a{display:inline-block;margin-top:8px}}@media print{.site-header,.demo-banner,.print{display:none}.portal{padding:0}.panel,.portal-head{box-shadow:none;break-inside:avoid}}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">CV</span><span><strong>Curso de Verano</strong><small>Portal para familias</small></span></a>
+    <nav aria-label="Navegación"><a href="index.html">Inicio</a><a href="privacidad.html">Privacidad</a></nav>
+  </header>
+  <main class="portal" id="contenido">
+    <div class="demo-banner"><span><strong>Vista demostrativa.</strong> “Lucía Sol” y todos los datos de esta página son ficticios.</span><a href="privacidad.html">¿Por qué usamos datos ficticios?</a></div>
+    <section class="portal-head">
+      <span class="avatar" aria-hidden="true">LS</span>
+      <div><p class="eyebrow">Resumen de aprendizaje</p><h1>Lucía Sol</h1><p>Primaria · Equipo Exploradores · Perfil demostrativo</p></div>
+      <span class="period">Semana 3 de 6</span>
+    </section>
+
+    <div class="dashboard-grid">
+      <div>
+        <section class="panel">
+          <h2>Panorama de esta semana</h2>
+          <p class="intro">El progreso se basa en actividades, productos y observaciones docentes.</p>
+          <div class="metrics">
+            <div class="metric"><strong>8</strong><span>actividades realizadas</span></div>
+            <div class="metric"><strong>92%</strong><span>asistencia</span></div>
+            <div class="metric"><strong>3</strong><span>evidencias seleccionadas</span></div>
+          </div>
+          <div class="teacher-note" style="margin-top:20px"><strong>Mensaje del docente</strong><p>Lucía participa con entusiasmo y explica sus ideas con mayor claridad. Esta semana trabajaremos en justificar sus respuestas utilizando información del texto.</p></div>
+        </section>
+
+        <section class="panel" style="margin-top:20px">
+          <h2>Actividades recientes</h2>
+          <p class="intro">Qué realizó, qué practicó y cuál es el siguiente paso.</p>
+          <div class="timeline">
+            <article class="event"><time datetime="2026-07-22">22 JUL</time><div><h3>La Mulata de Córdoba</h3><p><strong>Lectura:</strong> identificó personajes y secuencias. Necesitó una pista para distinguir hechos de rumores.</p></div></article>
+            <article class="event"><time datetime="2026-07-21">21 JUL</time><div><h3>Tienda matemática</h3><p><strong>Matemáticas:</strong> resolvió compras sencillas y explicó dos estrategias para calcular el cambio.</p></div></article>
+            <article class="event"><time datetime="2026-07-19">19 JUL</time><div><h3>Mi jardín de observación</h3><p><strong>Ciencia:</strong> clasificó plantas por características visibles y formuló tres preguntas.</p></div></article>
+          </div>
+          <div class="evidence"><strong>Evidencia destacada</strong><p>Mapa de la historia con inicio, conflicto y desenlace. La evidencia real podría incluir una fotografía autorizada del trabajo, no necesariamente del estudiante.</p></div>
+        </section>
+      </div>
+
+      <aside>
+        <section class="panel">
+          <h2>Progreso por áreas</h2>
+          <p class="intro">Estados descriptivos, no calificaciones oficiales.</p>
+          <div class="area-row"><div class="area-top"><strong>Comprensión lectora</strong><span class="level-pill">Avance consistente</span></div><div class="bar" aria-label="Comprensión lectora: avance consistente"><span style="width:75%"></span></div></div>
+          <div class="area-row"><div class="area-top"><strong>Pensamiento matemático</strong><span class="level-pill">En desarrollo</span></div><div class="bar" aria-label="Pensamiento matemático: en desarrollo"><span style="width:55%"></span></div></div>
+          <div class="area-row"><div class="area-top"><strong>Comunicación</strong><span class="level-pill">Avance consistente</span></div><div class="bar" aria-label="Comunicación: avance consistente"><span style="width:72%"></span></div></div>
+          <div class="area-row"><div class="area-top"><strong>Participación y convivencia</strong><span class="level-pill">Logro observado</span></div><div class="bar" aria-label="Participación y convivencia: logro observado"><span style="width:90%"></span></div></div>
+          <div class="legend" aria-label="Escala de progreso"><span>Iniciando</span><span>En desarrollo</span><span>Avance consistente</span><span>Logro observado</span></div>
+        </section>
+        <section class="home-card">
+          <p class="eyebrow" style="color:#bfc9ff">Sugerencia para casa</p>
+          <h2>Leer y explicar en 10 minutos</h2>
+          <p>Lean juntos un texto breve. Pídele que cuente qué ocurrió primero, después y al final, y que señale una frase que apoye su explicación.</p>
+        </section>
+        <button class="button secondary print" type="button" onclick="window.print()">Imprimir este resumen</button>
+      </aside>
+    </div>
+  </main>
+</body>
+</html>

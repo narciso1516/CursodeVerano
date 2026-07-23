@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Práctica formativa de comprensión lectora con pistas, explicación y reporte por habilidades.">
+  <title>Práctica formativa · Curso de Verano</title>
+  <style>
+    :root{--ink:#172033;--muted:#626b79;--paper:#f7f7f2;--white:#fff;--blue:#3156d3;--blue2:#253d95;--green:#168554;--red:#c44747;--amber:#a86600;--line:#dfe2e8;--soft:#eef1ff}
+    *{box-sizing:border-box}body{margin:0;color:var(--ink);background:linear-gradient(180deg,#eef1ff,var(--paper));font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55}
+    button,input,select{font:inherit}button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:4px solid #ffbf47;outline-offset:3px}
+    .app{width:min(100%,760px);margin:auto;padding:18px 18px 70px}.back{display:inline-block;margin:8px 0 16px;color:var(--blue);font-weight:850}.hero,.card{border:1px solid var(--line);border-radius:25px;background:var(--white);box-shadow:0 14px 38px #17203312}.hero{padding:28px;color:#fff;background:linear-gradient(145deg,var(--ink),var(--blue) 62%,#6b7ee8)}.eyebrow{font-size:12px;font-weight:900;letter-spacing:.11em;text-transform:uppercase;opacity:.8}.hero h1{margin:8px 0;font-size:clamp(34px,7vw,58px);line-height:1}.hero p{max-width:620px;margin:0;color:#edf0ff}.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.badge{padding:7px 10px;border-radius:99px;background:#ffffff20;font-size:12px;font-weight:800}
+    .card{margin-top:16px;padding:24px}.card h2{margin-top:0}.privacy{padding:14px;border-left:5px solid var(--blue);background:var(--soft);border-radius:0 14px 14px 0;color:#314473}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{display:block;margin-bottom:6px;font-weight:800}input,select{width:100%;padding:13px;border:2px solid var(--line);border-radius:13px;background:#fff}.button{width:100%;margin-top:18px;padding:14px 17px;border:0;border-radius:14px;background:var(--blue);color:#fff;font-weight:900;cursor:pointer}.button:hover{background:var(--blue2)}.secondary{background:var(--ink)}
+    .hidden{display:none!important}.top{display:flex;justify-content:space-between;gap:15px;font-weight:850}.skill{color:var(--blue)}.progress{height:12px;margin:12px 0 22px;border-radius:99px;background:#e8eaf0;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,#68c49a,var(--blue));transition:.25s}.question{font-size:clamp(22px,4vw,29px);font-weight:900;line-height:1.3}.options{display:grid;gap:10px;margin-top:18px}.option{padding:13px 15px;border:2px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);text-align:left;font-weight:750;cursor:pointer}.option:hover:not(:disabled){border-color:var(--blue);background:var(--soft)}.option:disabled{cursor:default}.option.wrong{border-color:var(--red);background:#fff0f0}.option.correct{border-color:var(--green);background:#edf9f2}.feedback{min-height:76px;margin-top:15px;padding:14px;border-radius:14px;background:#f4f5f7}.feedback.hint{background:#fff6dd;color:#6f4900}.feedback.ok{background:#edf9f2;color:#11663f}.feedback.explain{background:#eef1ff;color:#2d4295}.continue{width:auto;margin-top:12px}
+    .score-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.score{padding:17px;border-radius:16px;background:#f4f5f7;text-align:center}.score strong,.score span{display:block}.score strong{font-size:28px}.score span{font-size:12px;color:var(--muted)}.state{display:inline-block;padding:7px 11px;border-radius:99px;background:#dff3e8;color:#12643c;font-weight:900}.skill-list{display:grid;gap:10px}.skill-row{padding:14px;border:1px solid var(--line);border-radius:15px}.skill-row div{display:flex;justify-content:space-between;gap:12px}.skill-row small{display:block;margin-top:5px;color:var(--muted)}.home{padding:18px;border-radius:17px;background:var(--ink);color:#fff}.home p{color:#d9deea}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:580px){.form-grid,.score-grid,.actions{grid-template-columns:1fr}.app{padding:12px}.card{padding:19px}.top{display:block}.top span{display:block}}
+    @media print{.hero,.back,#start,.actions{display:none}.app{width:100%;padding:0}.card{box-shadow:none;break-inside:avoid}}
+  </style>
+</head>
+<body>
+<main class="app">
+  <a class="back" href="index.html">← Volver a los cuestionarios</a>
+  <section class="hero">
+    <span class="eyebrow">Comprensión lectora · La Mulata de Córdoba</span>
+    <h1>Práctica formativa</h1>
+    <p>Piensa, responde y aprende con la retroalimentación. Equivocarte no borra tu avance.</p>
+    <div class="badges"><span class="badge">Sin reinicios</span><span class="badge">Pistas y explicaciones</span><span class="badge">Reporte por habilidades</span></div>
+  </section>
+
+  <section class="card" id="start">
+    <h2>Antes de comenzar</h2>
+    <p>Lee cada pregunta con calma. Si necesitas apoyo, recibirás una pista y podrás volver a intentarlo.</p>
+    <p class="privacy"><strong>Cuida tus datos:</strong> utiliza un nombre de pila o el código asignado por el docente. No escribas apellidos, teléfono, escuela ni otros datos personales.</p>
+    <div class="form-grid">
+      <div><label for="studentCode">Nombre de pila o código</label><input id="studentCode" maxlength="18" autocomplete="off" placeholder="Ejemplo: L-024"></div>
+      <div><label for="level">Nivel</label><select id="level"><option value="primaria-baja">2.º–4.º de primaria</option><option value="primaria-alta">5.º–6.º de primaria</option><option value="secundaria">Secundaria</option><option value="medio-superior">Medio superior</option></select></div>
+    </div>
+    <button class="button" id="startButton" type="button">Comenzar práctica</button>
+  </section>
+
+  <section class="card hidden" id="quiz" aria-live="polite">
+    <div class="top"><span class="skill" id="skill"></span><span id="counter"></span></div>
+    <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback">Selecciona la respuesta que consideres correcta.</div>
+    <button class="button continue hidden" id="continueButton" type="button">Continuar</button>
+  </section>
+
+  <section class="card hidden" id="result">
+    <span class="state" id="progressState"></span>
+    <h2>Resumen de aprendizaje</h2>
+    <p><strong id="resultCode"></strong>, este reporte describe tu proceso durante la práctica. No es una calificación oficial.</p>
+    <div class="score-grid">
+      <div class="score"><strong id="firstTry"></strong><span>logradas al primer intento</span></div>
+      <div class="score"><strong id="withHint"></strong><span>logradas con una pista</span></div>
+      <div class="score"><strong id="withExplanation"></strong><span>revisadas con explicación</span></div>
+    </div>
+    <h3>Progreso por habilidades</h3><div class="skill-list" id="skillReport"></div>
+    <div class="home"><strong>Siguiente paso recomendado</strong><p id="recommendation"></p></div>
+    <div class="actions"><button class="button" type="button" onclick="window.print()">Imprimir resumen</button><button class="button secondary" id="restartButton" type="button">Realizar otra práctica</button></div>
+  </section>
+</main>
+<script>
+const banks={
+  "primaria-baja":[
+    ["Comprensión literal","¿Dónde vivía Soledad?",["En Córdoba, Veracruz","En Mérida","En un barco"],0,"Busca el nombre de la ciudad al inicio del texto.","La historia sitúa a Soledad en Córdoba, Veracruz."],
+    ["Comprensión literal","¿Qué conocía Soledad?",["Instrumentos musicales","Plantas medicinales","Mapas del mar"],1,"Recuerda cómo ayudaba a las personas enfermas.","Soledad conocía plantas medicinales y preparaba remedios."],
+    ["Secuencia","¿Qué ocurrió después de que pidió carbón?",["Dibujó un barco","Preparó una medicina","Salió por la puerta"],0,"Piensa qué objeto apareció en la pared de la celda.","Después de pedir carbón, dibujó un barco."],
+    ["Vocabulario","¿Qué es un rumor?",["Información comprobada","Una receta","Información que no se ha comprobado"],2,"Un rumor puede repetirse aunque nadie tenga pruebas.","Un rumor es información no comprobada."],
+    ["Pensamiento crítico","¿Qué debieron hacer las autoridades antes de encerrarla?",["Investigar y escucharla","Creer lo que decía la gente","Ignorar todas las preguntas"],0,"Busca la opción que reúne evidencia y derecho a ser escuchada.","Lo justo era investigar los hechos y escuchar su versión."],
+    ["Inferencia","¿Qué representa el barco en la leyenda?",["Un castigo","La libertad","Una enfermedad"],1,"El barco permite que Soledad deje de estar encerrada.","El barco funciona como símbolo de libertad."]
+  ],
+  "primaria-alta":[
+    ["Comprensión literal","¿Por qué muchas familias apreciaban a Soledad?",["Porque ayudaba a personas enfermas","Porque dirigía la cárcel","Porque vendía barcos"],0,"Relaciona sus conocimientos con la ayuda a la comunidad.","La apreciaban porque utilizaba sus conocimientos para ayudar."],
+    ["Causa y consecuencia","¿Qué consecuencia tuvieron los rumores?",["Recibió un reconocimiento","Fue encerrada sin una investigación justa","Abrió una escuela"],1,"Piensa qué decisión injusta tomaron las autoridades.","Los rumores contribuyeron a que la encerraran sin comprobar los hechos."],
+    ["Hechos y opiniones","¿Cuál afirmación puede comprobarse dentro del relato?",["Soledad era la persona más sabia del mundo","Pidió un pedazo de carbón","Todos le tenían miedo"],1,"Busca una acción narrada, no una valoración general.","El texto narra directamente que pidió carbón."],
+    ["Vocabulario","En el texto, ¿qué significa «propiedades medicinales»?",["Características que pueden contribuir al cuidado de la salud","Poderes mágicos seguros","Colores de las flores"],0,"La expresión se relaciona con el uso responsable de algunas plantas.","Son características asociadas con posibles usos para el cuidado de la salud."],
+    ["Pensamiento crítico","¿Por qué repetir un rumor puede causar daño?",["Porque puede convertir información no comprobada en una acusación","Porque todas las historias son aburridas","Porque investigar está prohibido"],0,"Considera qué pasa cuando una acusación se comparte sin evidencia.","La repetición puede ampliar una acusación falsa y producir decisiones injustas."],
+    ["Interpretación","¿Cuál es la enseñanza mejor sustentada por la historia?",["Debemos desconfiar de cualquier planta","Debemos buscar evidencia antes de juzgar","Todos los dibujos pueden moverse"],1,"Relaciona los rumores, la falta de investigación y el encierro.","La historia invita a buscar evidencia y escuchar antes de juzgar."]
+  ],
+  "secundaria":[
+    ["Análisis narrativo","¿Qué función cumple el elemento fantástico del barco?",["Resolver simbólicamente el conflicto y representar libertad","Demostrar científicamente la historia","Eliminar el contexto social"],0,"Observa cómo cambia la situación de la protagonista.","El barco resuelve el encierro en el plano legendario y simboliza libertad."],
+    ["Fuentes","¿Qué afirmación sería más responsable al investigar la leyenda?",["Todo ocurrió exactamente como se cuenta","Es una tradición narrativa que debe contrastarse con fuentes históricas","No tiene ningún valor cultural"],1,"Distingue valor cultural de comprobación histórica.","Una leyenda puede tener valor cultural sin que todos sus elementos sean hechos comprobados."],
+    ["Causalidad","¿Qué cadena causal explica mejor el conflicto?",["Conocimiento distinto → rumores → decisión sin evidencia → encierro","Carbón → enfermedad → celebración","Viaje → escuela → investigación"],0,"Ordena la diferencia, la acusación y la decisión de las autoridades.","La falta de comprensión generó rumores que influyeron en una decisión injusta."],
+    ["Ciudadanía digital","¿Qué acción aplica la enseñanza de la leyenda en redes sociales?",["Compartir primero y verificar después","Verificar la fuente antes de difundir una acusación","Aceptar una publicación si tiene muchas reacciones"],1,"La popularidad no sustituye la evidencia.","Antes de difundir se debe verificar fuente, contexto y evidencia."],
+    ["Argumentación","¿Cuál es el argumento más sólido contra el encarcelamiento?",["No existían pruebas verificables y no se escuchó su versión","Soledad era conocida","El guardia vio un dibujo"],0,"Busca una razón basada en debido proceso y evidencia.","La ausencia de pruebas y de oportunidad para responder hace injusta la decisión."],
+    ["Sesgo","¿Qué sesgo aparece cuando se juzga como peligrosa una práctica que no se comprende?",["Prejuicio ante lo desconocido","Confirmación científica","Medición objetiva"],0,"Se trata de una valoración previa sin evidencia suficiente.","El prejuicio ante lo desconocido convierte la diferencia en sospecha."]
+  ],
+  "medio-superior":[
+    ["Análisis discursivo","¿Qué tensión central articula la leyenda?",["Conocimiento comunitario frente a autoridad y prejuicio","Comercio frente a agricultura","Tecnología frente a deporte"],0,"Relaciona saberes de la protagonista, rumores y poder institucional.","La narración contrapone conocimiento comunitario con prejuicio y ejercicio de autoridad."],
+    ["Epistemología","¿Qué distingue una afirmación histórica de una afirmación legendaria?",["La posibilidad de contrastarla con fuentes y evidencia","Que sea más entretenida","Que aparezca un personaje conocido"],0,"Piensa en criterios de verificación, no en popularidad.","Una afirmación histórica exige contraste crítico con fuentes y evidencia."],
+    ["Ética","¿Qué principio se vulnera al castigar sin investigar ni escuchar?",["Debido proceso","Competencia comercial","Libertad estética"],0,"Considera el derecho a conocer la acusación y responder.","Se vulnera el debido proceso al decidir sin evidencia ni defensa."],
+    ["Argumentación","¿Cuál tesis interpreta mejor la vigencia de la leyenda?",["Advierte cómo rumor y prejuicio pueden legitimar injusticias","Prueba que todo conocimiento tradicional es científico","Demuestra que las autoridades siempre actúan igual"],0,"Evita afirmaciones absolutas y busca una lectura sustentada.","La tesis reconoce una advertencia social sin convertir la leyenda en prueba histórica."],
+    ["Alfabetización mediática","¿Cuál es la mejor respuesta ante una acusación viral?",["Evaluar fuente, evidencia, contexto e impacto antes de compartir","Compartirla si coincide con nuestras ideas","Esperar a que tenga más reacciones"],0,"Aplica un proceso completo de verificación.","La evaluación crítica considera fuente, evidencia, contexto y posibles daños."],
+    ["Síntesis","¿Qué relación une el barco, la libertad y la memoria colectiva?",["El símbolo transforma una injusticia en un relato cultural de resistencia","El barco elimina toda interpretación ética","La memoria colectiva convierte automáticamente ficción en hecho"],0,"Observa cómo un símbolo conserva una lectura social del conflicto.","El barco convierte la fuga fantástica en un símbolo cultural de libertad y resistencia."]
+  ]
+};
+const $=id=>document.getElementById(id);
+let questions=[],current=0,attemptOnQuestion=0,records=[],studentCode="",selectedLevel="";
+const requested=new URLSearchParams(location.search).get("nivel");
+const levelMap={"2-primaria":"primaria-baja","4-primaria":"primaria-baja","5-6-primaria":"primaria-alta","1-secundaria":"secundaria","2-secundaria":"secundaria","3-secundaria":"secundaria","1-semestre":"medio-superior"};
+if(levelMap[requested])$("level").value=levelMap[requested];
+$("startButton").addEventListener("click",()=>{studentCode=$("studentCode").value.trim();if(!studentCode){alert("Escribe un nombre de pila o código.");return}selectedLevel=$("level").value;questions=banks[selectedLevel];current=0;records=[];$("start").classList.add("hidden");$("quiz").classList.remove("hidden");render()});
+function render(){attemptOnQuestion=0;const q=questions[current];$("skill").textContent=q[0];$("counter").textContent=`Pregunta ${current+1} de ${questions.length}`;$("bar").style.width=`${current/questions.length*100}%`;$("question").textContent=q[1];$("feedback").className="feedback";$("feedback").textContent="Selecciona la respuesta que consideres correcta.";$("continueButton").classList.add("hidden");$("options").innerHTML="";q[2].forEach((text,index)=>{const button=document.createElement("button");button.type="button";button.className="option";button.textContent=`${String.fromCharCode(65+index)}) ${text}`;button.addEventListener("click",()=>answer(index,button));$("options").appendChild(button)})}
+function answer(index,button){const q=questions[current],correct=q[3];attemptOnQuestion++;if(index===correct){button.classList.add("correct");document.querySelectorAll(".option").forEach(x=>x.disabled=true);records.push({skill:q[0],support:attemptOnQuestion===1?0:1});$("feedback").className="feedback ok";$("feedback").textContent=attemptOnQuestion===1?"¡Correcto! Explicaste la idea sin apoyo.":`¡Correcto con apoyo! ${q[5]}`;showContinue();return}button.classList.add("wrong");button.disabled=true;if(attemptOnQuestion===1){$("feedback").className="feedback hint";$("feedback").innerHTML=`<strong>Pista:</strong> ${q[4]} Intenta nuevamente.`;return}document.querySelectorAll(".option").forEach((x,i)=>{x.disabled=true;if(i===correct)x.classList.add("correct")});records.push({skill:q[0],support:2});$("feedback").className="feedback explain";$("feedback").innerHTML=`<strong>Revisemos:</strong> ${q[5]}`;showContinue()}
+function showContinue(){$("continueButton").classList.remove("hidden")}
+$("continueButton").addEventListener("click",()=>{current++;if(current===questions.length)finish();else render()});
+function finish(){$("quiz").classList.add("hidden");$("result").classList.remove("hidden");$("bar").style.width="100%";const first=records.filter(r=>r.support===0).length,hint=records.filter(r=>r.support===1).length,explain=records.filter(r=>r.support===2).length,total=records.length;$("resultCode").textContent=studentCode;$("firstTry").textContent=`${first}/${total}`;$("withHint").textContent=hint;$("withExplanation").textContent=explain;const ratio=first/total;let state=ratio>=.83?"Logro observado":ratio>=.6?"Avance consistente":ratio>=.35?"En desarrollo":"Iniciando";$("progressState").textContent=state;const grouped={};records.forEach(r=>(grouped[r.skill]??=[]).push(r.support));$("skillReport").innerHTML=Object.entries(grouped).map(([skill,values])=>{const support=values.reduce((a,b)=>a+b,0);const label=support===0?"Logro observado":support<=values.length?"Avance consistente":support<values.length*2?"En desarrollo":"Iniciando";return `<div class="skill-row"><div><strong>${skill}</strong><span>${label}</span></div><small>${values.filter(v=>v===0).length} sin apoyo · ${values.filter(v=>v===1).length} con pista · ${values.filter(v=>v===2).length} con explicación</small></div>`}).join("");const needs=Object.entries(grouped).sort((a,b)=>b[1].reduce((x,y)=>x+y,0)-a[1].reduce((x,y)=>x+y,0))[0]?.[0];$("recommendation").textContent=explain===0?"Continúa leyendo textos breves y explicando qué evidencia apoya cada respuesta.":`Practica nuevamente ${needs?.toLowerCase()||"las habilidades que necesitaron apoyo"}. Lee la pregunta, busca una frase del texto y explica por qué descarta las otras opciones.`;window.scrollTo({top:$("result").offsetTop-10,behavior:"smooth"})}
+$("restartButton").addEventListener("click",()=>{location.href="index.html"});
+</script>
+</body>
+</html>

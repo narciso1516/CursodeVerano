@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "status": "design-only-no-real-student-data",
+  "privacy": {
+    "publicDemoUsesFictionalData": true,
+    "realProfilesRequireAuthentication": true,
+    "familyCanOnlyReadAuthorizedStudent": true,
+    "photosRequireConsent": true
+  },
+  "progressScale": [
+    "Iniciando",
+    "En desarrollo",
+    "Avance consistente",
+    "Logro observado"
+  ],
+  "entities": {
+    "student": [
+      "private_id",
+      "display_name",
+      "level",
+      "group",
+      "active_period"
+    ],
+    "family_access": [
+      "private_id",
+      "student_id",
+      "guardian_id",
+      "status",
+      "granted_at",
+      "revoked_at"
+    ],
+    "activity_record": [
+      "private_id",
+      "student_id",
+      "activity_id",
+      "completed_at",
+      "skills",
+      "first_try_count",
+      "hint_count",
+      "explanation_count"
+    ],
+    "teacher_observation": [
+      "private_id",
+      "student_id",
+      "observed_at",
+      "strength",
+      "current_goal",
+      "next_step",
+      "family_message"
+    ],
+    "attendance": [
+      "private_id",
+      "student_id",
+      "session_date",
+      "status"
+    ],
+    "evidence": [
+      "private_id",
+      "student_id",
+      "activity_id",
+      "type",
+      "consent_status",
+      "private_storage_key",
+      "caption"
+    ]
+  }
+}
