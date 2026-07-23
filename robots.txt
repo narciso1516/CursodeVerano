@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /expediente-template.html
+Disallow: /*-cumplido.html
+Disallow: /*-garza.html
+Disallow: /*-beltran.html
+Disallow: /*-bolanos.html
+Disallow: /*-manzano.html
+Disallow: /*-merino.html
