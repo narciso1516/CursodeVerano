@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Tarea-juego de presente continuo para Henry, Fabián y Heder.">
+  <title>Misión en progreso · Tarea de inglés</title>
+  <style>
+    :root{--ink:#172033;--blue:#3659d9;--cyan:#2bc4c9;--yellow:#ffd75e;--coral:#ff7968;--green:#32ad78;--paper:#fff;--bg:#f1f5ff;--muted:#63708a;--line:#d9e1f3}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:radial-gradient(circle at 12% 5%,#d7f7f8,transparent 24%),radial-gradient(circle at 90% 8%,#fff0b7,transparent 22%),var(--bg)}
+    button,input,textarea{font:inherit}button{cursor:pointer}.shell{width:min(1050px,calc(100% - 28px));margin:auto}.top{padding:18px 0;display:flex;justify-content:space-between;align-items:center;gap:12px}.back{color:var(--blue);font-weight:850;text-decoration:none}.score{padding:9px 13px;border:2px solid var(--ink);border-radius:999px;background:var(--yellow);font-weight:950}
+    .hero{padding:42px;border:3px solid var(--ink);border-radius:32px;background:linear-gradient(135deg,#233d9d,#5c43c6);color:#fff;box-shadow:0 13px 0 #172033;position:relative;overflow:hidden}.hero:after{content:"ING";position:absolute;right:-20px;bottom:-48px;font-size:180px;font-weight:1000;opacity:.08}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:950;color:var(--yellow)}h1{font-size:clamp(42px,8vw,82px);line-height:.92;letter-spacing:-.055em;margin:10px 0 18px;max-width:760px}.hero p{font-size:18px;line-height:1.6;max-width:740px}.team{display:flex;gap:8px;flex-wrap:wrap}.team span{padding:7px 11px;border:1px solid #ffffff55;border-radius:999px;background:#ffffff18;font-weight:850}
+    .objectives{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:34px 0}.objective{padding:18px;border:2px solid var(--ink);border-radius:18px;background:#fff;box-shadow:0 6px 0 #c9d3ea}.objective b{display:block;font-size:18px;margin-bottom:5px}.objective span{color:var(--muted);font-size:13px}
+    .progress-card{position:sticky;top:10px;z-index:10;margin:25px 0;padding:14px 18px;border:2px solid var(--ink);border-radius:18px;background:#fff;box-shadow:0 6px 20px #22305b1f}.progress-head{display:flex;justify-content:space-between;font-weight:900}.track{height:13px;margin-top:10px;border-radius:999px;background:#e8edf8;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--blue),#8c55db);transition:.35s}
+    .mission{margin:28px 0;padding:28px;border:3px solid var(--ink);border-radius:27px;background:var(--paper);box-shadow:0 10px 0 #c9d3ea}.mission-head{display:flex;gap:15px;align-items:center}.num{flex:0 0 52px;height:52px;display:grid;place-items:center;border:2px solid var(--ink);border-radius:16px;background:var(--yellow);font-size:22px;font-weight:1000}.mission h2{font-size:clamp(28px,5vw,42px);margin:0}.instruction{margin:16px 0;padding:14px 16px;border-left:6px solid var(--blue);background:#edf2ff;border-radius:10px;line-height:1.55}.question{margin:16px 0;padding:18px;border:2px solid var(--line);border-radius:17px;background:#f9fbff}.question p{font-weight:850}.options{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.option{padding:12px;text-align:left;border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font-weight:750}.option:hover,.option:focus-visible{border-color:var(--blue)}.option.correct{background:#dff8eb;border-color:var(--green)}.option.wrong{background:#ffe5e1;border-color:var(--coral)}
+    .builder{display:grid;gap:13px}.build-row{display:grid;grid-template-columns:1fr 1fr auto;gap:9px}.build-row select,.answer-input,textarea{width:100%;padding:12px;border:2px solid var(--line);border-radius:12px;background:#fff}.check{padding:11px 15px;border:2px solid var(--ink);border-radius:12px;background:var(--blue);color:#fff;font-weight:900}.feedback{min-height:25px;margin-top:8px;font-weight:800}.ok{color:#08764b}.bad{color:#b63527}
+    .design-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.design-card{padding:15px;border:2px dashed var(--blue);border-radius:16px;background:#f7f9ff}.design-card label{display:block;font-weight:850;margin-bottom:8px}.design-card textarea{min-height:92px;resize:vertical}.notebook{margin-top:18px;padding:17px;border:2px solid #b88b00;border-radius:16px;background:#fff7cf}.notebook strong{display:block;margin-bottom:6px}.checkbox{display:flex;gap:10px;align-items:flex-start;margin-top:12px}.checkbox input{width:21px;height:21px}
+    .finish{display:none;margin:35px 0 70px;padding:32px;border:3px solid var(--ink);border-radius:28px;background:linear-gradient(135deg,#dff8eb,#fff7cf);text-align:center;box-shadow:0 10px 0 var(--green)}.finish.show{display:block}.finish h2{font-size:clamp(34px,6vw,55px);margin:8px}.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}.actions button{padding:12px 16px;border:2px solid var(--ink);border-radius:12px;font-weight:900}.primary{background:var(--blue);color:#fff}.secondary{background:#fff}
+    @media(max-width:780px){.objectives,.design-grid{grid-template-columns:1fr 1fr}.hero{padding:28px}.build-row{grid-template-columns:1fr}.options{grid-template-columns:1fr}}@media(max-width:520px){.objectives,.design-grid{grid-template-columns:1fr}.mission{padding:20px}.mission-head{align-items:flex-start}}
+    @media print{.top,.progress-card,.actions,.option,.check{display:none!important}body{background:#fff}.hero,.mission,.finish{box-shadow:none;break-inside:avoid}.hero{color:#000;background:#fff}.eyebrow{color:#000}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="top"><a class="back" href="../">← Regresar a Inglés</a><div class="score">⭐ <span id="points">0</span> puntos</div></header>
+    <section class="hero">
+      <div class="eyebrow">Tarea dinámica · Clase 2</div>
+      <h1>Misión: acciones en progreso</h1>
+      <p>Superen cuatro misiones para demostrar que pueden reconocer, construir y mejorar oraciones en <strong>Present Continuous</strong>.</p>
+      <div class="team"><span>Henry</span><span>Fabián</span><span>Heder</span><span>⏱ 30–40 minutos</span></div>
+    </section>
+
+    <section class="objectives" aria-label="Objetivos de aprendizaje">
+      <article class="objective"><b>Analizar</b><span>Identificar la estructura correcta.</span></article>
+      <article class="objective"><b>Construir</b><span>Formar oraciones con am, is y are.</span></article>
+      <article class="objective"><b>Diseñar</b><span>Crear ejemplos propios y útiles.</span></article>
+      <article class="objective"><b>Mejorar</b><span>Detectar y corregir errores.</span></article>
+    </section>
+
+    <div class="progress-card"><div class="progress-head"><span>Progreso de la misión</span><span id="progressText">0 de 4</span></div><div class="track"><div class="fill" id="progressFill"></div></div></div>
+
+    <main>
+      <section class="mission" id="mission1">
+        <div class="mission-head"><div class="num">1</div><div><div class="eyebrow" style="color:var(--blue)">Analiza</div><h2>Detective de estructuras</h2></div></div>
+        <div class="instruction"><strong>Objetivo:</strong> reconocer sujeto + am/is/are + verbo-ing. Selecciona una respuesta en cada caso.</div>
+        <div id="quiz"></div>
+        <div class="feedback" id="quizFeedback"></div>
+      </section>
+
+      <section class="mission" id="mission2">
+        <div class="mission-head"><div class="num">2</div><div><div class="eyebrow" style="color:var(--blue)">Construye</div><h2>Fábrica de oraciones</h2></div></div>
+        <div class="instruction"><strong>Objetivo:</strong> elegir el auxiliar correcto y combinarlo con una acción. Completa las tres oraciones.</div>
+        <div class="builder" id="builder"></div>
+        <button class="check" onclick="checkBuilder()">Comprobar construcciones</button>
+        <div class="feedback" id="builderFeedback"></div>
+      </section>
+
+      <section class="mission" id="mission3">
+        <div class="mission-head"><div class="num">3</div><div><div class="eyebrow" style="color:var(--blue)">Diseña</div><h2>Crea tu escena</h2></div></div>
+        <div class="instruction"><strong>Objetivo:</strong> producir ejemplos originales. Imagina que miras el salón ahora y escribe tres acciones completas en inglés.</div>
+        <div class="design-grid">
+          <div class="design-card"><label for="own1">Una oración con I am…</label><textarea id="own1" placeholder="I am..."></textarea></div>
+          <div class="design-card"><label for="own2">Una oración con He/She is…</label><textarea id="own2" placeholder="She is..."></textarea></div>
+          <div class="design-card"><label for="own3">Una oración con We/They are…</label><textarea id="own3" placeholder="They are..."></textarea></div>
+        </div>
+        <div class="notebook"><strong>📓 Evidencia en la libreta</strong>Copia tus tres oraciones. Debajo de cada una, subraya el sujeto, encierra am/is/are y marca el verbo terminado en <em>-ing</em>.<label class="checkbox"><input type="checkbox" id="notebook1"><span>Confirmo que escribí y marqué los tres ejemplos en mi libreta.</span></label></div>
+        <button class="check" onclick="checkDesign()" style="margin-top:15px">Validar mis ejemplos</button>
+        <div class="feedback" id="designFeedback"></div>
+      </section>
+
+      <section class="mission" id="mission4">
+        <div class="mission-head"><div class="num">4</div><div><div class="eyebrow" style="color:var(--blue)">Mejora</div><h2>Taller de corrección</h2></div></div>
+        <div class="instruction"><strong>Objetivo:</strong> explicar y corregir errores. Reescribe correctamente cada oración.</div>
+        <div class="question"><p>1. Henry are study English now.</p><input class="answer-input" id="fix1" placeholder="Escribe la versión correcta"></div>
+        <div class="question"><p>2. Fabián is play soccer.</p><input class="answer-input" id="fix2" placeholder="Escribe la versión correcta"></div>
+        <div class="question"><p>3. Heder am writing a message.</p><input class="answer-input" id="fix3" placeholder="Escribe la versión correcta"></div>
+        <div class="notebook"><strong>📓 Explicación en la libreta</strong>Elige uno de los errores y escribe por qué estaba mal y cómo lo mejoraste.<label class="checkbox"><input type="checkbox" id="notebook2"><span>Confirmo que expliqué una corrección en mi libreta.</span></label></div>
+        <button class="check" onclick="checkFixes()" style="margin-top:15px">Revisar mejoras</button>
+        <div class="feedback" id="fixFeedback"></div>
+      </section>
+    </main>
+
+    <section class="finish" id="finish">
+      <div class="eyebrow" style="color:var(--green)">Objetivos cumplidos</div>
+      <h2>¡Misión completada!</h2>
+      <p>Reconociste la estructura, construiste oraciones, diseñaste ejemplos propios y mejoraste errores.</p>
+      <p><strong>Puntuación final: <span id="finalPoints">0</span> puntos</strong></p>
+      <div class="actions"><button class="primary" onclick="window.print()">Imprimir evidencia</button><button class="secondary" onclick="resetMission()">Jugar de nuevo</button></div>
+    </section>
+  </div>
+  <script>
+    const quizData=[
+      {q:"¿Cuál oración habla de una acción que ocurre ahora?",a:["She is reading now.","She reads every day.","She read yesterday.","She will read."],c:0},
+      {q:"Elige la estructura correcta.",a:["Subject + verb-ing","Subject + am/is/are + verb-ing","Subject + do + verb-ing","Subject + was + verb"],c:1},
+      {q:"¿Cuál oración es correcta?",a:["They is studying.","They are study.","They are studying.","They studying are."],c:2},
+      {q:"¿Qué oración está en forma negativa?",a:["He is running.","Is he running?","He isn't running.","He runs."],c:2}
+    ];
+    const builderData=[
+      {s:"I",aux:"am",action:"doing my homework"},
+      {s:"She",aux:"is",action:"listening to music"},
+      {s:"They",aux:"are",action:"playing a game"}
+    ];
+    let completed=[false,false,false,false],points=0,quizAnswered=new Set();
+    const quiz=document.getElementById("quiz"),builder=document.getElementById("builder");
+    quizData.forEach((item,qi)=>{const box=document.createElement("div");box.className="question";box.innerHTML=`<p>${qi+1}. ${item.q}</p><div class="options">${item.a.map((x,i)=>`<button class="option" onclick="answerQuiz(${qi},${i},this)">${x}</button>`).join("")}</div>`;quiz.appendChild(box)});
+    builderData.forEach((item,i)=>{const row=document.createElement("div");row.className="build-row";row.innerHTML=`<strong style="padding:12px">${item.s}</strong><select id="aux${i}" aria-label="Auxiliar para ${item.s}"><option value="">Elige am/is/are</option><option>am</option><option>is</option><option>are</option></select><span style="padding:12px">${item.action}.</span>`;builder.appendChild(row)});
+    function answerQuiz(qi,choice,button){if(quizAnswered.has(qi))return;quizAnswered.add(qi);const buttons=button.parentElement.querySelectorAll("button");buttons.forEach((b,i)=>{b.disabled=true;if(i===quizData[qi].c)b.classList.add("correct")});if(choice===quizData[qi].c){points+=10;button.classList.add("correct")}else button.classList.add("wrong");if(quizAnswered.size===quizData.length){completed[0]=true;quizFeedback.textContent="Misión 1 completada: ya puedes reconocer la estructura.";quizFeedback.className="feedback ok";update()}else updateScore()}
+    function checkBuilder(){let ok=true;builderData.forEach((x,i)=>{const el=document.getElementById("aux"+i);const right=el.value===x.aux;el.style.borderColor=right?"var(--green)":"var(--coral)";ok=ok&&right});builderFeedback.textContent=ok?"¡Bien construido! Cada sujeto tiene su auxiliar correcto.":"Revisa: I usa am; he/she usa is; we/they usa are.";builderFeedback.className="feedback "+(ok?"ok":"bad");if(ok&&!completed[1]){completed[1]=true;points+=30;update()}}
+    function checkDesign(){const values=[own1.value,own2.value,own3.value].map(x=>x.trim().toLowerCase());const valid=[/^i am .+ing\\b/,/^(he|she) is .+ing\\b/,/^(we|they) are .+ing\\b/];const ok=values.every((x,i)=>valid[i].test(x))&&notebook1.checked;designFeedback.textContent=ok?"¡Diseño aprobado! Tus tres ideas incluyen sujeto, auxiliar y verbo-ing.":"Revisa las tres estructuras y confirma la evidencia de tu libreta.";designFeedback.className="feedback "+(ok?"ok":"bad");if(ok&&!completed[2]){completed[2]=true;points+=30;update()}}
+    function normalize(x){return x.toLowerCase().replace(/[.,!?]/g,"").replace(/\\s+/g," ").trim()}
+    function checkFixes(){const expected=["henry is studying english now","fabián is playing soccer","heder is writing a message"];const values=[fix1.value,fix2.value,fix3.value].map(normalize);const ok=values.every((x,i)=>x===expected[i])&&notebook2.checked;fixFeedback.textContent=ok?"¡Excelente mejora! Corregiste auxiliares y verbos correctamente.":"Aún hay algo por mejorar. Usa is con cada nombre y convierte el verbo a -ing; después confirma tu explicación en la libreta.";fixFeedback.className="feedback "+(ok?"ok":"bad");if(ok&&!completed[3]){completed[3]=true;points+=30;update()}}
+    function updateScore(){pointsEl.textContent=points}
+    const pointsEl=document.getElementById("points");
+    function update(){updateScore();const done=completed.filter(Boolean).length;progressText.textContent=`${done} de 4`;progressFill.style.width=(done*25)+"%";if(done===4){finalPoints.textContent=points;finish.classList.add("show");finish.scrollIntoView({behavior:"smooth"})}}
+    function resetMission(){location.reload()}
+  </script>
+</body>
+</html>
