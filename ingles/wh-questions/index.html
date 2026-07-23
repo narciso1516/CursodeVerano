@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Material de estudio de WH Questions para Henry, Fabián y Heder.">
+  <title>WH Questions · Material de estudio</title>
+  <style>
+    :root{--ink:#152239;--blue:#3156d3;--purple:#7547c9;--cyan:#20b8c2;--yellow:#ffd65a;--coral:#ff7868;--green:#2da66e;--paper:#fff;--bg:#f3f6ff;--muted:#65718a;--line:#d8e0f1}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:radial-gradient(circle at 8% 2%,#d9fbf9,transparent 25%),radial-gradient(circle at 94% 5%,#fff0b2,transparent 22%),var(--bg)}
+    button{font:inherit;cursor:pointer}.shell{width:min(1080px,calc(100% - 28px));margin:auto}.top{padding:18px 0;display:flex;justify-content:space-between;align-items:center}.top a{color:var(--blue);font-weight:900;text-decoration:none}.tag{padding:8px 12px;border:2px solid var(--ink);border-radius:999px;background:#fff;font-weight:850}
+    .hero{padding:48px 42px;border:3px solid var(--ink);border-radius:32px;background:linear-gradient(135deg,#243b91,#7041bd);color:#fff;box-shadow:0 13px 0 var(--ink);overflow:hidden;position:relative}.hero:after{content:"?";position:absolute;right:20px;bottom:-90px;font-size:280px;font-weight:1000;opacity:.09}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:950;color:var(--yellow)}h1{font-size:clamp(50px,9vw,96px);letter-spacing:-.065em;line-height:.88;margin:12px 0 20px}.hero p{max-width:720px;font-size:18px;line-height:1.65}.names{display:flex;gap:8px;flex-wrap:wrap}.names span{padding:7px 11px;border:1px solid #ffffff55;border-radius:999px;background:#ffffff18;font-weight:850}
+    .goal{margin:32px 0;padding:22px;border:3px solid var(--ink);border-radius:22px;background:#fff;box-shadow:0 8px 0 var(--cyan)}.goal h2{margin:0 0 8px;font-size:28px}.goal p{margin:0;line-height:1.6}.formula{margin-top:18px;padding:17px;border-radius:16px;background:var(--ink);color:#fff;text-align:center;font-size:clamp(18px,3vw,27px);font-weight:950}
+    .section{margin:30px 0;padding:29px;border:3px solid var(--ink);border-radius:28px;background:#fff;box-shadow:0 10px 0 #ccd5e9}.section h2{font-size:clamp(30px,5vw,46px);margin:0 0 8px}.lead{color:var(--muted);line-height:1.6}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}.card{min-height:190px;padding:21px;border:2px solid var(--ink);border-radius:20px;background:#f9fbff;transition:.2s}.card:hover{transform:translateY(-4px);box-shadow:0 7px 0 #d7dff0}.word{font-size:32px;font-weight:1000;color:var(--blue)}.meaning{display:inline-block;margin:8px 0;padding:5px 9px;border-radius:999px;background:var(--yellow);font-weight:900}.example{font-weight:800;line-height:1.45}.answer{color:var(--muted);font-size:14px;margin-top:7px}
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px;counter-reset:step}.step{counter-increment:step;padding:18px;border:2px solid var(--line);border-radius:16px;background:#f8faff}.step:before{content:counter(step);width:34px;height:34px;display:grid;place-items:center;margin-bottom:10px;border:2px solid var(--ink);border-radius:10px;background:var(--yellow);font-weight:1000}.step b{display:block;margin-bottom:6px}
+    .compare{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:20px}.good,.bad{padding:19px;border:2px solid;border-radius:17px}.good{border-color:var(--green);background:#e8f8ef}.bad{border-color:var(--coral);background:#fff0ed}.good b,.bad b{display:block;margin-bottom:7px}
+    .quiz{display:grid;gap:13px;margin-top:20px}.question{padding:18px;border:2px solid var(--line);border-radius:17px;background:#f9fbff}.question p{font-weight:900}.options{display:grid;grid-template-columns:1fr 1fr;gap:9px}.option{padding:12px;border:2px solid var(--line);border-radius:12px;background:#fff;text-align:left;font-weight:750}.option:hover,.option:focus-visible{border-color:var(--blue)}.option.correct{background:#e2f7eb;border-color:var(--green)}.option.wrong{background:#ffe7e3;border-color:var(--coral)}.score{margin-top:16px;font-size:20px;font-weight:950}
+    .notebook{padding:22px;border:3px solid #a97d00;border-radius:20px;background:#fff6c8}.notebook h3{font-size:27px;margin:0 0 10px}.notebook ol{line-height:1.8}.challenge{margin-top:18px;padding:17px;border-left:7px solid var(--purple);border-radius:12px;background:#f3edff}
+    .footer{padding:25px 0 60px;text-align:center;color:var(--muted)}@media(max-width:800px){.cards{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}}@media(max-width:560px){.hero,.section{padding:23px}.cards,.steps,.compare,.options{grid-template-columns:1fr}.hero h1{font-size:54px}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="top"><a href="../">← Regresar a Inglés</a><span class="tag">Clase 2 · Estudio</span></header>
+    <section class="hero">
+      <div class="eyebrow">Material de estudio</div>
+      <h1>WH Questions</h1>
+      <p>Aprende a pedir información en inglés usando la palabra correcta y el orden correcto. Hoy conectaremos las preguntas con acciones que están ocurriendo ahora.</p>
+      <div class="names"><span>Henry</span><span>Fabián</span><span>Heder</span><span>20–30 minutos</span></div>
+    </section>
+
+    <section class="goal">
+      <h2>Objetivo de aprendizaje</h2>
+      <p>Al terminar, podrás <strong>identificar</strong> qué información pide cada WH word, <strong>construir</strong> preguntas y <strong>responder</strong> con una oración completa.</p>
+      <div class="formula">WH word + am / is / are + sujeto + verbo-ing + ?</div>
+    </section>
+
+    <main>
+      <section class="section">
+        <div class="eyebrow" style="color:var(--blue)">1 · Conoce</div>
+        <h2>Las palabras que abren preguntas</h2>
+        <p class="lead">No todas las preguntas buscan lo mismo. Primero piensa qué información necesitas; después elige la palabra.</p>
+        <div class="cards">
+          <article class="card"><div class="word">What</div><span class="meaning">¿Qué? / ¿Cuál?</span><div class="example">What are you reading?</div><div class="answer">I am reading a comic.</div></article>
+          <article class="card"><div class="word">Where</div><span class="meaning">¿Dónde?</span><div class="example">Where is Henry studying?</div><div class="answer">He is studying at home.</div></article>
+          <article class="card"><div class="word">Who</div><span class="meaning">¿Quién?</span><div class="example">Who is speaking?</div><div class="answer">Fabián is speaking.</div></article>
+          <article class="card"><div class="word">When</div><span class="meaning">¿Cuándo?</span><div class="example">When are they practicing?</div><div class="answer">They are practicing now.</div></article>
+          <article class="card"><div class="word">Why</div><span class="meaning">¿Por qué?</span><div class="example">Why is Heder smiling?</div><div class="answer">Because he is happy.</div></article>
+          <article class="card"><div class="word">How</div><span class="meaning">¿Cómo?</span><div class="example">How are you learning English?</div><div class="answer">I am learning with games.</div></article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="eyebrow" style="color:var(--blue)">2 · Construye</div>
+        <h2>El orden importa</h2>
+        <p class="lead">Sigue estos cuatro pasos. No uses <em>do/does</em> cuando la pregunta lleva presente continuo.</p>
+        <div class="steps">
+          <div class="step"><b>Elige WH</b>¿Qué información quieres?</div>
+          <div class="step"><b>Coloca BE</b>am, is o are.</div>
+          <div class="step"><b>Agrega el sujeto</b>I, Henry, she, they…</div>
+          <div class="step"><b>Termina la acción</b>verbo-ing y signo ?</div>
+        </div>
+        <div class="compare">
+          <div class="good"><b>✓ Correcto</b>What <strong>is Henry doing</strong>?<br>Where <strong>are they studying</strong>?</div>
+          <div class="bad"><b>✕ Hay que mejorar</b>What Henry is doing?<br>Where do they studying?</div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="eyebrow" style="color:var(--blue)">3 · Comprueba</div>
+        <h2>Reto rápido</h2>
+        <p class="lead">Responde las seis preguntas. Cada respuesta correcta vale 10 puntos.</p>
+        <div class="quiz" id="quiz"></div>
+        <div class="score" id="score">Puntuación: 0 / 60</div>
+      </section>
+
+      <section class="section">
+        <div class="eyebrow" style="color:var(--blue)">4 · Produce</div>
+        <h2>Trabajo en la libreta</h2>
+        <div class="notebook">
+          <h3>📓 Evidencia de aprendizaje</h3>
+          <ol>
+            <li>Escribe las seis WH words y su significado en español.</li>
+            <li>Construye una pregunta original con cada palabra.</li>
+            <li>Responde cada pregunta con una oración completa.</li>
+            <li>Subraya la WH word, encierra am/is/are y marca el verbo-ing.</li>
+          </ol>
+          <div class="challenge"><strong>Reto creativo:</strong> diseña un mini diálogo de cuatro líneas entre dos personas. Debe incluir por lo menos dos WH Questions y dos respuestas completas.</div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer">Consejo: primero decide qué quieres saber; después construye la pregunta.</footer>
+  </div>
+  <script>
+    const data=[
+      {q:"___ are you doing?",a:["What","Where","Who","When"],c:0},
+      {q:"___ is Henry studying? — At home.",a:["Why","Where","Who","How"],c:1},
+      {q:"___ is speaking? — Fabián.",a:["What","When","Who","Why"],c:2},
+      {q:"___ is Heder laughing? — Because the game is fun.",a:["Where","Why","When","What"],c:1},
+      {q:"Choose the correct question.",a:["What you are reading?","What are you reading?","What do you reading?","What reading are you?"],c:1},
+      {q:"Choose the correct question.",a:["Where is she going?","Where she is going?","Where does she going?","Where going she is?"],c:0}
+    ];
+    let points=0,answered=new Set();const quiz=document.getElementById("quiz");
+    data.forEach((item,qi)=>{const box=document.createElement("article");box.className="question";box.innerHTML=`<p>${qi+1}. ${item.q}</p><div class="options">${item.a.map((x,i)=>`<button class="option" onclick="answer(${qi},${i},this)">${x}</button>`).join("")}</div>`;quiz.appendChild(box)});
+    function answer(qi,choice,button){if(answered.has(qi))return;answered.add(qi);const buttons=button.parentElement.querySelectorAll("button");buttons.forEach((b,i)=>{b.disabled=true;if(i===data[qi].c)b.classList.add("correct")});if(choice===data[qi].c){points+=10;button.classList.add("correct")}else button.classList.add("wrong");score.textContent=`Puntuación: ${points} / 60`;}
+  </script>
+</body>
+</html>
