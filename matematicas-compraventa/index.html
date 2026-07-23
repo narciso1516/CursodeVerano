@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Actividades interactivas de compraventa matemática para los seis grados de primaria.">
+  <title>Compraventa matemática · 1.º a 6.º de primaria</title>
+  <style>
+    :root {
+      --ink: #17324d;
+      --muted: #52677b;
+      --paper: #fffdf7;
+      --line: #d9e4eb;
+      --blue: #1769aa;
+      --blue-dark: #0e4879;
+      --green: #26824e;
+      --orange: #c95d21;
+      --purple: #7042a6;
+      --teal: #197a72;
+      --red: #a53b45;
+      --shadow: 0 18px 45px rgba(23, 50, 77, .12);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: ui-rounded, "Avenir Next", Avenir, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(255, 209, 92, .34), transparent 25rem),
+        radial-gradient(circle at 90% 20%, rgba(100, 191, 238, .25), transparent 27rem),
+        linear-gradient(145deg, #f4fbff, #fffaf0 52%, #f7f2ff);
+    }
+
+    a { color: inherit; }
+
+    .skip-link {
+      position: fixed;
+      z-index: 10;
+      top: .6rem;
+      left: .6rem;
+      padding: .7rem 1rem;
+      border-radius: .7rem;
+      color: #fff;
+      background: var(--ink);
+      transform: translateY(-180%);
+    }
+
+    .skip-link:focus { transform: translateY(0); }
+
+    .shell {
+      width: min(1120px, calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(3.5rem, 8vw, 6.5rem) 0 3rem;
+      text-align: center;
+    }
+
+    .hero::before,
+    .hero::after {
+      position: absolute;
+      z-index: -1;
+      border-radius: 50%;
+      content: "";
+    }
+
+    .hero::before {
+      width: 8rem;
+      height: 8rem;
+      top: 1rem;
+      left: 4%;
+      background: repeating-linear-gradient(45deg, #ffd15c 0 12px, #ffe49b 12px 24px);
+      rotate: -12deg;
+    }
+
+    .hero::after {
+      width: 7rem;
+      height: 7rem;
+      right: 5%;
+      bottom: 1rem;
+      border: 20px solid rgba(112, 66, 166, .13);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      margin: 0 0 1rem;
+      padding: .5rem .85rem;
+      border: 1px solid #c5ddeb;
+      border-radius: 999px;
+      color: var(--blue-dark);
+      font-weight: 800;
+      background: rgba(255, 255, 255, .78);
+    }
+
+    h1 {
+      max-width: 850px;
+      margin: 0 auto;
+      font-size: clamp(2.3rem, 7vw, 5rem);
+      line-height: .98;
+      letter-spacing: -.055em;
+    }
+
+    .hero p:last-child {
+      max-width: 700px;
+      margin: 1.4rem auto 0;
+      color: var(--muted);
+      font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+      line-height: 1.55;
+    }
+
+    main { padding-bottom: 4.5rem; }
+
+    .section-heading {
+      margin: 0 0 1.2rem;
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      letter-spacing: -.025em;
+    }
+
+    .family-message {
+      display: grid;
+      margin: 0 0 2rem;
+      padding: clamp(1.25rem, 3vw, 2rem);
+      border: 2px solid #edc84f;
+      border-radius: 1.5rem;
+      grid-template-columns: auto 1fr;
+      gap: 1.1rem;
+      background: rgba(255, 250, 220, .94);
+      box-shadow: 0 14px 35px rgba(110, 82, 16, .1);
+    }
+
+    .family-message .message-icon {
+      display: grid;
+      width: 3.4rem;
+      height: 3.4rem;
+      border-radius: 1rem;
+      font-size: 1.75rem;
+      background: #ffe281;
+      place-items: center;
+    }
+
+    .family-message h2 {
+      margin: 0 0 .55rem;
+      font-size: clamp(1.25rem, 3vw, 1.65rem);
+    }
+
+    .family-message p {
+      margin: .45rem 0 0;
+      color: #4b5260;
+      line-height: 1.6;
+    }
+
+    .family-message strong { color: var(--ink); }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+    }
+
+    .card {
+      --accent: var(--blue);
+      display: flex;
+      min-height: 31rem;
+      overflow: hidden;
+      border: 1px solid rgba(23, 50, 77, .12);
+      border-radius: 1.5rem;
+      background: rgba(255, 255, 255, .9);
+      box-shadow: var(--shadow);
+      flex-direction: column;
+    }
+
+    .card:nth-child(2) { --accent: var(--orange); }
+    .card:nth-child(3) { --accent: var(--purple); }
+    .card:nth-child(4) { --accent: var(--teal); }
+    .card:nth-child(5) { --accent: var(--red); }
+
+    .card-top {
+      min-height: 9.5rem;
+      padding: 1.4rem;
+      color: #fff;
+      background:
+        linear-gradient(135deg, color-mix(in srgb, var(--accent), #fff 15%), var(--accent));
+    }
+
+    .grade {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .grade strong {
+      font-size: 1.15rem;
+      letter-spacing: .02em;
+    }
+
+    .emoji {
+      display: grid;
+      width: 3.4rem;
+      height: 3.4rem;
+      border: 1px solid rgba(255, 255, 255, .35);
+      border-radius: 1rem;
+      font-size: 1.8rem;
+      background: rgba(255, 255, 255, .17);
+      place-items: center;
+    }
+
+    .card-top p {
+      margin: 1.25rem 0 0;
+      font-size: 1.55rem;
+      font-weight: 900;
+      line-height: 1.12;
+    }
+
+    .card-body {
+      display: flex;
+      padding: 1.45rem;
+      flex: 1;
+      flex-direction: column;
+    }
+
+    .challenge-count {
+      align-self: flex-start;
+      margin: 0 0 1rem;
+      padding: .4rem .7rem;
+      border-radius: 999px;
+      color: var(--accent);
+      font-size: .9rem;
+      font-weight: 900;
+      background: color-mix(in srgb, var(--accent), #fff 90%);
+    }
+
+    .card h2 {
+      margin: 0 0 .65rem;
+      font-size: 1.35rem;
+      line-height: 1.2;
+    }
+
+    .card-body > p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .skills {
+      display: grid;
+      gap: .55rem;
+      margin: 1.15rem 0 1.5rem;
+      padding: 0;
+      list-style: none;
+    }
+
+    .skills li {
+      position: relative;
+      padding-left: 1.45rem;
+      line-height: 1.35;
+    }
+
+    .skills li::before {
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      font-weight: 900;
+      content: "✓";
+    }
+
+    .open-link {
+      display: inline-flex;
+      min-height: 3.25rem;
+      margin-top: auto;
+      padding: .75rem 1rem;
+      border: 2px solid var(--accent);
+      border-radius: .9rem;
+      align-items: center;
+      justify-content: center;
+      gap: .55rem;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 900;
+      text-align: center;
+      text-decoration: none;
+      background: var(--accent);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .open-link:hover {
+      box-shadow: 0 9px 20px color-mix(in srgb, var(--accent), transparent 70%);
+      transform: translateY(-2px);
+    }
+
+    .open-link:focus-visible {
+      outline: 4px solid #ffd15c;
+      outline-offset: 3px;
+    }
+
+    .guide {
+      display: grid;
+      margin-top: 1.4rem;
+      padding: 1.5rem;
+      border: 1px solid #d6e3e9;
+      border-radius: 1.4rem;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      background: rgba(255, 255, 255, .78);
+    }
+
+    .guide-icon {
+      display: grid;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      font-size: 1.45rem;
+      background: #e7f6ed;
+      place-items: center;
+    }
+
+    .guide h2 { margin: 0 0 .35rem; font-size: 1.15rem; }
+    .guide p { margin: 0; color: var(--muted); line-height: 1.55; }
+
+    footer {
+      padding: 1.5rem 0 2.2rem;
+      border-top: 1px solid rgba(23, 50, 77, .12);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 850px) {
+      .cards { grid-template-columns: 1fr; }
+      .card { min-height: auto; }
+      .hero::before { left: -3rem; }
+      .hero::after { right: -3rem; }
+    }
+
+    @media (max-width: 480px) {
+      .shell { width: min(100% - 1rem, 1120px); }
+      .hero { padding-top: 2.6rem; }
+      .hero p:last-child { font-size: 1rem; }
+      .card, .guide { border-radius: 1.1rem; }
+      .guide, .family-message { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .open-link { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#materiales">Saltar a los materiales</a>
+
+  <header class="hero">
+    <div class="shell">
+      <p class="eyebrow"><span aria-hidden="true">🪙</span> Biblioteca interactiva</p>
+      <h1>Compraventa matemática</h1>
+      <p>Elige el grado y aprende a contar, comprar, pagar y resolver problemas con actividades adaptadas de 1.º a 6.º de primaria.</p>
+    </div>
+  </header>
+
+  <main id="materiales" class="shell">
+    <section class="family-message" aria-labelledby="aviso-familias">
+      <span class="message-icon" aria-hidden="true">📝</span>
+      <div>
+        <h2 id="aviso-familias">Antes de comenzar</h2>
+        <p>Los alumnos llevaron ayer una hoja con los productos y precios del mercado. Pueden consultarla durante la actividad.</p>
+        <p>Para tener suficiente espacio, realicen las operaciones y procedimientos <strong>en una hoja aparte</strong>. Trabajen con calma y paciencia: tienen todo el día de hoy para avanzar y terminar.</p>
+        <p>Si alguien no concluye hoy, <strong>no hay problema</strong>; podremos darle seguimiento y continuar después.</p>
+      </div>
+    </section>
+
+    <h2 class="section-heading">Selecciona un grado</h2>
+
+    <div class="cards">
+      <article class="card">
+        <div class="card-top">
+          <div class="grade">
+            <strong>1.º DE PRIMARIA</strong>
+            <span class="emoji" aria-hidden="true">🔍</span>
+          </div>
+          <p>Detectives de las fichas</p>
+        </div>
+        <div class="card-body">
+          <p class="challenge-count">30 retos · 3 niveles</p>
+          <h2>Reconoce, cuenta y compra</h2>
+          <p>Preguntas cortas y concretas para comenzar a comprender el valor del dinero.</p>
+          <ul class="skills">
+            <li>Reconocimiento de fichas</li>
+            <li>Conteo y sumas pequeñas</li>
+            <li>Compras sencillas con frutas</li>
+          </ul>
+          <a class="open-link" href="../compraventa-matematica-1/">
+            Abrir actividad de 1.º <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="grade">
+            <strong>2.º DE PRIMARIA</strong>
+            <span class="emoji" aria-hidden="true">🍎</span>
+          </div>
+          <p>Mercado de frutas y fichas</p>
+        </div>
+        <div class="card-body">
+          <p class="challenge-count">40 retos · 4 niveles</p>
+          <h2>Elige, suma, paga y comprueba</h2>
+          <p>Problemas cercanos a la vida diaria para practicar operaciones y decisiones de compra.</p>
+          <ul class="skills">
+            <li>Lectura y comparación de precios</li>
+            <li>Sumas y cálculo de cambio</li>
+            <li>Elección de fichas y estrategias</li>
+          </ul>
+          <a class="open-link" href="../compraventa-matematica-2/">
+            Abrir actividad de 2.º <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="grade">
+            <strong>3.º DE PRIMARIA</strong>
+            <span class="emoji" aria-hidden="true">🛍️</span>
+          </div>
+          <p>Tienda y compraventa matemática</p>
+        </div>
+        <div class="card-body">
+          <p class="challenge-count">50 retos · 5 niveles</p>
+          <h2>Multiplica, administra y decide</h2>
+          <p>Retos progresivos que combinan distintas operaciones y requieren elegir una estrategia.</p>
+          <ul class="skills">
+            <li>Multiplicación de precios</li>
+            <li>Presupuesto y equivalencias</li>
+            <li>Problemas de varios pasos</li>
+          </ul>
+          <a class="open-link" href="../compraventa-matematica-3/">
+            Abrir actividad de 3.º <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="grade">
+            <strong>4.º Y 5.º DE PRIMARIA</strong>
+            <span class="emoji" aria-hidden="true">🛒</span>
+          </div>
+          <p>Tienda matemática</p>
+        </div>
+        <div class="card-body">
+          <p class="challenge-count">50 retos · 5 niveles</p>
+          <h2>Calcula, compara y explica</h2>
+          <p>Una actividad compartida para fortalecer operaciones, medidas y razonamiento en situaciones de compra.</p>
+          <ul class="skills">
+            <li>Operaciones con precios y cantidades</li>
+            <li>Kilogramos, litros y fracciones</li>
+            <li>Problemas de varios pasos</li>
+          </ul>
+          <a class="open-link" href="../tienda-matematica/">
+            Abrir actividad de 4.º–5.º <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <div class="grade">
+            <strong>6.º DE PRIMARIA</strong>
+            <span class="emoji" aria-hidden="true">⛏️</span>
+          </div>
+          <p>Supermercado matemático Minecraft</p>
+        </div>
+        <div class="card-body">
+          <p class="challenge-count">50 retos · 5 niveles</p>
+          <h2>Planea, resuelve y argumenta</h2>
+          <p>Desafíos de mayor profundidad para administrar presupuestos y combinar distintas estrategias matemáticas.</p>
+          <ul class="skills">
+            <li>Porcentajes y proporcionalidad</li>
+            <li>Presupuesto, ahorro y cambio</li>
+            <li>Problemas complejos de varios pasos</li>
+          </ul>
+          <a class="open-link" href="../supermercado-minecraft-6/">
+            Abrir actividad de 6.º <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </article>
+    </div>
+
+    <aside class="guide" aria-labelledby="guia-titulo">
+      <span class="guide-icon" aria-hidden="true">💡</span>
+      <div>
+        <h2 id="guia-titulo">Sugerencia para acompañar el aprendizaje</h2>
+        <p>Comienza con la práctica guiada para recibir pistas. Cuando el alumno se sienta seguro, puede cambiar al modo evaluación y comprobar cuánto aprendió.</p>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <div class="shell">Materiales de matemáticas para aprender jugando y pensando.</div>
+  </footer>
+</body>
+</html>
