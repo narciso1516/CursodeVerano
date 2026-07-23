@@ -1,0 +1,160 @@
+/* Capa visual inspirada en carreras y plataformas clásicas.
+   No altera el contenido ni la lógica educativa. */
+:root{
+  --mk-red:#e52521;
+  --mk-blue:#1f63d5;
+  --mk-sky:#29b6e9;
+  --mk-yellow:#ffd429;
+  --mk-green:#31a84a;
+  --mk-ink:#172033;
+  --mk-paper:#fff;
+  --mk-shadow:#172033;
+}
+
+html{scroll-behavior:smooth}
+body{
+  background-color:#edf7ff!important;
+  background-image:
+    radial-gradient(circle at 12% 8%,rgba(255,212,41,.34),transparent 18rem),
+    radial-gradient(circle at 90% 16%,rgba(41,182,233,.26),transparent 22rem),
+    linear-gradient(135deg,rgba(255,255,255,.82),rgba(226,242,255,.92))!important;
+  background-attachment:fixed!important;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0 0 auto;
+  z-index:1000;
+  height:8px;
+  pointer-events:none;
+  background:
+    linear-gradient(45deg,#111 25%,transparent 25%) 0 0/16px 16px,
+    linear-gradient(45deg,transparent 75%,#111 75%) 0 0/16px 16px,
+    linear-gradient(45deg,transparent 25%,#fff 25%,#fff 75%,transparent 75%) 8px 8px/16px 16px;
+}
+
+/* Navegación: botones grandes, claros y aptos para tacto */
+.site-header,.top{border-bottom-color:rgba(23,32,51,.16)!important}
+.course-menu,.course-nav{
+  border-color:var(--mk-ink)!important;
+  box-shadow:0 6px 0 rgba(23,32,51,.18),0 14px 30px rgba(31,99,213,.12)!important;
+}
+.course-links a,.course-nav a{
+  min-height:40px;
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  border:2px solid var(--mk-ink)!important;
+  color:var(--mk-ink)!important;
+  background:var(--mk-paper)!important;
+  box-shadow:0 4px 0 rgba(23,32,51,.2);
+  transition:transform .18s ease,box-shadow .18s ease,background .18s ease!important;
+}
+.course-links a:nth-child(2),.course-nav a:nth-child(2){border-bottom:6px solid var(--mk-blue)!important}
+.course-links a:nth-child(3),.course-nav a:nth-child(3){border-bottom:6px solid var(--mk-red)!important}
+.course-links a:nth-child(4),.course-nav a:nth-child(4){border-bottom:6px solid var(--mk-green)!important}
+.course-links a:nth-child(5),.course-nav a:nth-child(5){border-bottom:6px solid var(--mk-yellow)!important}
+.course-links a:first-child,.course-nav a:first-child,.course-nav a.active{
+  background:var(--mk-yellow)!important;
+}
+.course-links a:hover,.course-links a:focus-visible,.course-nav a:hover,.course-nav a:focus-visible{
+  transform:translateY(-3px) rotate(-1deg);
+  box-shadow:0 7px 0 rgba(23,32,51,.25);
+  outline:3px solid rgba(31,99,213,.25);
+  outline-offset:2px;
+}
+.course-links a:active,.course-nav a:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(23,32,51,.2)}
+
+/* Cabeceras con sensación de pista y movimiento */
+.hero{
+  position:relative!important;
+  isolation:isolate;
+  border-color:var(--mk-ink)!important;
+  background:
+    linear-gradient(115deg,var(--mk-red) 0 25%,#bd1815 25% 32%,var(--mk-blue) 32% 72%,#15439b 72%)!important;
+  box-shadow:0 12px 0 var(--mk-ink),0 25px 45px rgba(31,99,213,.2)!important;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:0;
+  opacity:.18;
+  pointer-events:none;
+  background:
+    repeating-linear-gradient(135deg,transparent 0 26px,rgba(255,255,255,.65) 26px 31px,transparent 31px 58px);
+  animation:trackMove 12s linear infinite;
+}
+.hero h1{text-shadow:0 4px 0 rgba(0,0,0,.3),0 10px 24px rgba(0,0,0,.2)}
+.eyebrow,.badge{letter-spacing:.12em!important}
+
+/* Tarjetas como bloques de juego */
+.lesson,.section,.mission,.goal,.resource,.homework,.card,.question,.objective,.example,.step,.rule,.pc{
+  border-color:var(--mk-ink)!important;
+}
+.lesson,.section,.mission,.goal{
+  box-shadow:0 10px 0 rgba(23,32,51,.2),0 20px 45px rgba(31,99,213,.09)!important;
+}
+.resource,.homework,.card,.objective,.example,.step,.rule,.pc{
+  transition:transform .2s ease,box-shadow .2s ease,filter .2s ease!important;
+}
+.resource:hover,.homework:hover,.card:hover,.objective:hover,.example:hover,.step:hover,.rule:hover,.pc:hover{
+  transform:translateY(-5px)!important;
+  box-shadow:0 8px 0 rgba(23,32,51,.2),0 16px 30px rgba(31,99,213,.12)!important;
+}
+.resource:nth-child(4n+1),.card:nth-child(4n+1){border-top:8px solid var(--mk-red)!important}
+.resource:nth-child(4n+2),.card:nth-child(4n+2){border-top:8px solid var(--mk-blue)!important}
+.resource:nth-child(4n+3),.card:nth-child(4n+3){border-top:8px solid var(--mk-green)!important}
+.resource:nth-child(4n+4),.card:nth-child(4n+4){border-top:8px solid var(--mk-yellow)!important}
+.number,.num,.step::before{background:var(--mk-yellow)!important;color:var(--mk-ink)!important}
+.formula,.timerbox{background:linear-gradient(135deg,var(--mk-ink),#253859)!important}
+
+/* Botones con respuesta táctil */
+button,.resource a,.homework a,.listen,.check,.btn,.open-profile{
+  border-color:var(--mk-ink)!important;
+  box-shadow:0 5px 0 rgba(23,32,51,.25)!important;
+  transition:transform .14s ease,box-shadow .14s ease,filter .14s ease!important;
+}
+button:hover,.resource a:hover,.homework a:hover,.listen:hover,.check:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 0 rgba(23,32,51,.24)!important;
+  filter:saturate(1.12);
+}
+button:active,.resource a:active,.homework a:active,.listen:active,.check:active{
+  transform:translateY(3px)!important;
+  box-shadow:0 1px 0 rgba(23,32,51,.25)!important;
+}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{
+  outline:4px solid rgba(255,212,41,.8)!important;
+  outline-offset:3px!important;
+}
+.primary,.btn-primary,.check,.homework a{background:var(--mk-red)!important;color:#fff!important}
+.listen,.resource a{background:var(--mk-yellow)!important;color:var(--mk-ink)!important}
+.option.correct,.answer.correct{animation:correctPop .35s ease;background:#dff6e4!important;border-color:var(--mk-green)!important}
+.option.wrong,.answer.wrong{animation:wrongShake .3s ease;background:#ffe3df!important;border-color:var(--mk-red)!important}
+.fill,.progress{background:linear-gradient(90deg,var(--mk-red),var(--mk-yellow),var(--mk-green),var(--mk-blue))!important}
+
+/* Entrada suave: no oculta contenido si JavaScript está desactivado */
+.course-menu,.hero,.lesson,.goal,.section,.mission{animation:courseEnter .55s ease both}
+.lesson,.goal{animation-delay:.08s}.section:nth-of-type(2),.mission:nth-of-type(2){animation-delay:.08s}
+.section:nth-of-type(3),.mission:nth-of-type(3){animation-delay:.14s}
+.section:nth-of-type(4),.mission:nth-of-type(4){animation-delay:.2s}
+
+@keyframes trackMove{to{background-position:220px 0}}
+@keyframes courseEnter{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes correctPop{50%{transform:scale(1.025)}}
+@keyframes wrongShake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+@media(max-width:620px){
+  body{background-attachment:scroll!important}
+  .hero{border-radius:24px!important}
+  .course-menu{margin-inline:12px!important;padding:14px!important}
+  .course-links{display:grid!important;grid-template-columns:1fr 1fr}
+  .course-links a{width:100%}
+  .course-nav{scroll-snap-type:x proximity;padding-bottom:9px!important}
+  .course-nav a{scroll-snap-align:start}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+}
+
