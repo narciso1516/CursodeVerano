@@ -8,7 +8,7 @@
   <style>
     :root{--ink:#152239;--blue:#3156d3;--purple:#7547c9;--cyan:#20b8c2;--yellow:#ffd65a;--coral:#ff7868;--green:#2da66e;--paper:#fff;--bg:#f3f6ff;--muted:#65718a;--line:#d8e0f1}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:radial-gradient(circle at 8% 2%,#d9fbf9,transparent 25%),radial-gradient(circle at 94% 5%,#fff0b2,transparent 22%),var(--bg)}
-    button{font:inherit;cursor:pointer}.shell{width:min(1080px,calc(100% - 28px));margin:auto}.top{padding:18px 0;display:flex;justify-content:space-between;align-items:center}.top a{color:var(--blue);font-weight:900;text-decoration:none}.tag{padding:8px 12px;border:2px solid var(--ink);border-radius:999px;background:#fff;font-weight:850}
+    button{font:inherit;cursor:pointer}.shell{width:min(1080px,calc(100% - 28px));margin:auto}.top{padding:18px 0;display:flex;justify-content:space-between;align-items:center}.top a{color:var(--blue);font-weight:900;text-decoration:none}.tag{padding:8px 12px;border:2px solid var(--ink);border-radius:999px;background:#fff;font-weight:850}.course-nav{display:flex;gap:8px;overflow-x:auto;padding:0 0 14px}.course-nav a{flex:0 0 auto;padding:8px 11px;border:2px solid var(--ink);border-radius:999px;background:#fff;color:var(--blue);font-size:12px;font-weight:900;text-decoration:none}.course-nav a.active{background:var(--yellow);color:var(--ink)}
     .hero{padding:48px 42px;border:3px solid var(--ink);border-radius:32px;background:linear-gradient(135deg,#243b91,#7041bd);color:#fff;box-shadow:0 13px 0 var(--ink);overflow:hidden;position:relative}.hero:after{content:"?";position:absolute;right:20px;bottom:-90px;font-size:280px;font-weight:1000;opacity:.09}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:950;color:var(--yellow)}h1{font-size:clamp(50px,9vw,96px);letter-spacing:-.065em;line-height:.88;margin:12px 0 20px}.hero p{max-width:720px;font-size:18px;line-height:1.65}.names{display:flex;gap:8px;flex-wrap:wrap}.names span{padding:7px 11px;border:1px solid #ffffff55;border-radius:999px;background:#ffffff18;font-weight:850}
     .goal{margin:32px 0;padding:22px;border:3px solid var(--ink);border-radius:22px;background:#fff;box-shadow:0 8px 0 var(--cyan)}.goal h2{margin:0 0 8px;font-size:28px}.goal p{margin:0;line-height:1.6}.formula{margin-top:18px;padding:17px;border-radius:16px;background:var(--ink);color:#fff;text-align:center;font-size:clamp(18px,3vw,27px);font-weight:950}
     .section{margin:30px 0;padding:29px;border:3px solid var(--ink);border-radius:28px;background:#fff;box-shadow:0 10px 0 #ccd5e9}.section h2{font-size:clamp(30px,5vw,46px);margin:0 0 8px}.lead{color:var(--muted);line-height:1.6}
@@ -23,7 +23,8 @@
 </head>
 <body>
   <div class="shell">
-    <header class="top"><a href="../">← Regresar a Inglés</a><span class="tag">Clase 2 · Estudio</span></header>
+    <header class="top"><a href="../">← Regresar al menú</a><span class="tag">Clase 2 · Estudio</span></header>
+    <nav class="course-nav" aria-label="Materiales de Inglés"><a href="../">Inicio</a><a class="active" href="./">WH Questions</a><a href="../Juego_10_Minutos_Ingles_Henry_Fabian_Heder.html">Juego</a><a href="../presente-continuo-equipo/">Reto</a><a href="../tarea-clase-2/">Tarea</a></nav>
     <section class="hero">
       <div class="eyebrow">Material de estudio</div>
       <h1>WH Questions</h1>
