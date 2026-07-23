@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Demostración del panel docente para registrar y comunicar el progreso del Curso de Verano.">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Panel docente demostrativo · Curso de Verano</title>
+  <link rel="stylesheet" href="assets/css/family-portal.css">
+  <style>
+    .teacher-shell{max-width:1280px;margin:auto;padding:34px 24px 80px}.demo-alert{display:flex;justify-content:space-between;gap:18px;padding:14px 17px;border:1px solid #e8c85f;border-radius:15px;background:#fff0c7}.teacher-title{display:flex;align-items:end;justify-content:space-between;gap:25px;margin:35px 0}.teacher-title h1{font-size:clamp(40px,6vw,70px)}.teacher-title p{max-width:600px;color:var(--muted)}.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.summary-card{padding:19px;border:1px solid var(--line);border-radius:18px;background:#fff}.summary-card strong,.summary-card span{display:block}.summary-card strong{font-size:31px}.summary-card span{color:var(--muted);font-size:12px}.workspace{display:grid;grid-template-columns:360px 1fr;gap:20px;margin-top:22px}.panel{padding:22px;border:1px solid var(--line);border-radius:22px;background:#fff;box-shadow:0 12px 35px #1720330c}.panel h2,.panel h3{margin-top:0}.search{width:100%;padding:13px 14px;border:2px solid var(--line);border-radius:14px;font:inherit}.student-list{display:grid;gap:9px;margin-top:15px}.student-button{width:100%;display:grid;grid-template-columns:auto 1fr auto;gap:11px;align-items:center;padding:12px;border:2px solid transparent;border-radius:15px;background:#f5f6f8;color:var(--ink);text-align:left;cursor:pointer}.student-button:hover,.student-button.active{border-color:var(--blue);background:#eef1ff}.student-button .avatar{width:42px;height:42px;border-radius:13px}.student-button strong,.student-button small{display:block}.student-button small{color:var(--muted)}.alert-dot{width:10px;height:10px;border-radius:50%;background:#f0b73b}.alert-dot.ok{background:#64b987}.student-head{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center}.student-head .avatar{width:62px;height:62px}.student-head h2{margin:0}.student-head p{margin:3px 0;color:var(--muted)}.student-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.mini-button{padding:9px 12px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);font-weight:800;cursor:pointer;text-decoration:none}.mini-button.primary{background:var(--blue);border-color:var(--blue);color:#fff}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}.subpanel{padding:19px;border:1px solid var(--line);border-radius:18px}.subpanel.full{grid-column:1/-1}.attendance{display:flex;align-items:center;justify-content:space-between;gap:15px}.attendance-options{display:flex;gap:7px}.attendance-options button{padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;font-weight:800;cursor:pointer}.attendance-options button.selected{background:var(--mint);border-color:#7bc49a;color:#12643c}.area-row{padding:12px 0;border-bottom:1px solid var(--line)}.area-row:last-child{border:0}.area-top{display:flex;justify-content:space-between;gap:12px}.level-pill{padding:4px 8px;border-radius:99px;background:var(--mint);color:#16633d;font-size:11px;font-weight:850}.bar{height:9px;margin-top:8px;border-radius:99px;background:#eaecf1;overflow:hidden}.bar span{display:block;height:100%;border-radius:99px;background:var(--blue)}.activity-item{display:grid;grid-template-columns:75px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.activity-item:last-child{border:0}.activity-item time{color:var(--blue);font-size:12px;font-weight:900}.activity-item strong,.activity-item small{display:block}.activity-item small{color:var(--muted)}.observation{padding:16px;border-left:5px solid var(--blue);border-radius:0 14px 14px 0;background:#eef1ff}.observation p{margin:5px 0 0}.observation-form{display:none;margin-top:15px;padding:17px;border-radius:16px;background:#f5f6f8}.observation-form.open{display:block}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.observation-form label{display:block;font-size:12px;font-weight:850}.observation-form input,.observation-form textarea{width:100%;margin-top:5px;padding:11px;border:1px solid var(--line);border-radius:10px;font:inherit}.observation-form textarea{min-height:90px;resize:vertical}.privacy-note{margin-top:20px;padding:16px;border-radius:15px;background:#fff7dc;color:#64501b}.empty{padding:25px;color:var(--muted);text-align:center}@media(max-width:980px){.workspace{grid-template-columns:1fr}.student-list{grid-template-columns:repeat(2,1fr)}.summary-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.teacher-shell{padding:20px 15px 60px}.teacher-title,.demo-alert{display:block}.teacher-title p{margin-top:12px}.summary-grid,.student-list,.detail-grid,.form-grid{grid-template-columns:1fr}.subpanel.full{grid-column:auto}.student-head{grid-template-columns:auto 1fr}.student-actions{grid-column:1/-1;justify-content:flex-start}.attendance{align-items:flex-start;display:block}.attendance-options{margin-top:10px}}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">CV</span><span><strong>Curso de Verano</strong><small>Panel docente</small></span></a>
+    <nav aria-label="Navegación"><a href="index.html">Inicio</a><a href="portal-familias-demo.html">Vista familiar</a><a href="privacidad.html">Privacidad</a></nav>
+  </header>
+
+  <main class="teacher-shell" id="contenido">
+    <div class="demo-alert"><span><strong>Demostración interactiva.</strong> Todos los estudiantes y registros de esta página son ficticios.</span><span>Los cambios duran solamente mientras esta página permanezca abierta.</span></div>
+    <section class="teacher-title">
+      <div><p class="eyebrow">Seguimiento del grupo</p><h1>Panel docente</h1></div>
+      <p>Registra asistencia, revisa actividades y redacta observaciones concretas antes de compartir un resumen con la familia.</p>
+    </section>
+
+    <section class="summary-grid" aria-label="Resumen del grupo">
+      <article class="summary-card"><strong>4</strong><span>perfiles demostrativos</span></article>
+      <article class="summary-card"><strong>91%</strong><span>asistencia del grupo</span></article>
+      <article class="summary-card"><strong>27</strong><span>actividades registradas</span></article>
+      <article class="summary-card"><strong>2</strong><span>actualizaciones pendientes</span></article>
+    </section>
+
+    <div class="workspace">
+      <aside class="panel">
+        <h2>Estudiantes</h2>
+        <label class="eyebrow" for="studentSearch">Buscar perfil</label>
+        <input class="search" id="studentSearch" type="search" placeholder="Nombre ficticio o nivel">
+        <div class="student-list" id="studentList"></div>
+      </aside>
+
+      <section class="panel" id="studentDetail" aria-live="polite">
+        <div class="student-head">
+          <span class="avatar" id="studentAvatar" aria-hidden="true"></span>
+          <div><h2 id="studentName"></h2><p id="studentMeta"></p></div>
+          <div class="student-actions">
+            <a class="mini-button" href="portal-familias-demo.html">Vista familiar</a>
+            <button class="mini-button primary" id="toggleObservation" type="button">Nueva observación</button>
+          </div>
+        </div>
+
+        <div class="detail-grid">
+          <section class="subpanel">
+            <div class="attendance"><div><h3>Asistencia de hoy</h3><small id="attendanceText"></small></div><div class="attendance-options" id="attendanceOptions"><button type="button" data-state="Presente">Presente</button><button type="button" data-state="Ausente">Ausente</button><button type="button" data-state="Justificada">Justificada</button></div></div>
+          </section>
+          <section class="subpanel"><h3>Evidencias</h3><p><strong id="evidenceCount"></strong> seleccionadas para el periodo.</p><small>Las fotografías requieren autorización familiar.</small></section>
+
+          <section class="subpanel">
+            <h3>Progreso por áreas</h3>
+            <div id="progressAreas"></div>
+          </section>
+          <section class="subpanel">
+            <h3>Actividades recientes</h3>
+            <div id="recentActivities"></div>
+          </section>
+
+          <section class="subpanel full">
+            <h3>Última observación compartible</h3>
+            <div class="observation"><strong id="observationTitle"></strong><p id="observationText"></p></div>
+            <form class="observation-form" id="observationForm">
+              <div class="form-grid">
+                <label>Fortaleza observada<input id="strengthInput" required maxlength="90" placeholder="Conducta o evidencia concreta"></label>
+                <label>Meta actual<input id="goalInput" required maxlength="90" placeholder="Una prioridad alcanzable"></label>
+              </div>
+              <label style="display:block;margin-top:11px">Mensaje para la familia<textarea id="familyMessageInput" required maxlength="320" placeholder="Qué ocurrió y cómo pueden acompañar"></textarea></label>
+              <button class="mini-button primary" style="margin-top:11px" type="submit">Guardar en esta demostración</button>
+            </form>
+          </section>
+        </div>
+        <p class="privacy-note"><strong>Antes de usar datos reales:</strong> este panel necesitará inicio de sesión, permisos por familia, almacenamiento privado, registro de cambios y consentimiento para evidencias.</p>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const students=[
+      {id:"lucia",name:"Lucía Sol",initials:"LS",level:"4.º de primaria",group:"Exploradores",attendance:"Presente",evidence:3,pending:false,areas:[["Comprensión lectora","Avance consistente",75],["Pensamiento matemático","En desarrollo",55],["Participación","Logro observado",90]],activities:[["22 JUL","La Mulata de Córdoba","Distinguió hechos y rumores con una pista."],["21 JUL","Tienda matemática","Explicó dos estrategias para calcular el cambio."]],observation:["Comunicación con evidencia","Explica sus ideas con mayor claridad y empieza a justificar sus respuestas con información del texto."]},
+      {id:"mateo",name:"Mateo Río",initials:"MR",level:"2.º de primaria",group:"Exploradores",attendance:"Presente",evidence:2,pending:true,areas:[["Comprensión lectora","En desarrollo",50],["Pensamiento matemático","Avance consistente",72],["Participación","Avance consistente",78]],activities:[["22 JUL","Secuencias de una historia","Ordenó cuatro escenas con apoyo visual."],["20 JUL","Detectives de fichas","Reconoció equivalencias hasta 20 pesos."]],observation:["Uso de estrategias","Resuelve retos concretos con seguridad; necesita verbalizar con más detalle cómo obtuvo la respuesta."]},
+      {id:"valentina",name:"Valentina Mar",initials:"VM",level:"1.º de secundaria",group:"Horizonte",attendance:"Justificada",evidence:4,pending:false,areas:[["Comprensión crítica","Logro observado",88],["Pensamiento matemático","Avance consistente",76],["Trabajo colaborativo","Avance consistente",80]],activities:[["22 JUL","Fuentes y rumores","Comparó dos afirmaciones y pidió evidencia."],["19 JUL","Presupuesto semanal","Ajustó decisiones a un límite de gasto."]],observation:["Pensamiento crítico","Formula buenas preguntas antes de aceptar una afirmación y utiliza evidencia para defender sus conclusiones."]},
+      {id:"diego",name:"Diego Luna",initials:"DL",level:"1.er semestre",group:"Horizonte",attendance:"Presente",evidence:1,pending:true,areas:[["Análisis discursivo","En desarrollo",58],["Argumentación","En desarrollo",52],["Autonomía","Avance consistente",70]],activities:[["21 JUL","Análisis de una leyenda","Reconoció la tesis, pero necesita citar evidencia."],["18 JUL","Ciudadanía digital","Identificó señales de una fuente poco confiable."]],observation:["Autonomía creciente","Organiza su trabajo sin recordatorios frecuentes. El siguiente paso es sustentar cada conclusión con una evidencia específica."]}
+    ];
+    let selectedId="lucia";
+    const $=id=>document.getElementById(id);
+    function renderList(term=""){const normalized=term.trim().toLowerCase();const matches=students.filter(s=>`${s.name} ${s.level} ${s.group}`.toLowerCase().includes(normalized));$("studentList").innerHTML=matches.length?matches.map(s=>`<button class="student-button ${s.id===selectedId?"active":""}" type="button" data-id="${s.id}"><span class="avatar" aria-hidden="true">${s.initials}</span><span><strong>${s.name}</strong><small>${s.level}</small></span><span class="alert-dot ${s.pending?"":"ok"}" title="${s.pending?"Actualización pendiente":"Perfil actualizado"}"></span></button>`).join(""):'<p class="empty">No se encontraron perfiles.</p>';$("studentList").querySelectorAll("button").forEach(button=>button.addEventListener("click",()=>{selectedId=button.dataset.id;renderList($("studentSearch").value);renderDetail()}))}
+    function renderDetail(){const s=students.find(x=>x.id===selectedId);$("studentAvatar").textContent=s.initials;$("studentName").textContent=s.name;$("studentMeta").textContent=`${s.level} · Equipo ${s.group} · Perfil ficticio`;$("attendanceText").textContent=`Estado actual: ${s.attendance}`;$("evidenceCount").textContent=s.evidence;$("attendanceOptions").querySelectorAll("button").forEach(button=>button.classList.toggle("selected",button.dataset.state===s.attendance));$("progressAreas").innerHTML=s.areas.map(a=>`<div class="area-row"><div class="area-top"><strong>${a[0]}</strong><span class="level-pill">${a[1]}</span></div><div class="bar" aria-label="${a[0]}: ${a[1]}"><span style="width:${a[2]}%"></span></div></div>`).join("");$("recentActivities").innerHTML=s.activities.map(a=>`<article class="activity-item"><time>${a[0]}</time><div><strong>${a[1]}</strong><small>${a[2]}</small></div></article>`).join("");$("observationTitle").textContent=s.observation[0];$("observationText").textContent=s.observation[1];$("observationForm").classList.remove("open")}
+    $("studentSearch").addEventListener("input",event=>renderList(event.target.value));
+    $("attendanceOptions").addEventListener("click",event=>{const button=event.target.closest("button");if(!button)return;const s=students.find(x=>x.id===selectedId);s.attendance=button.dataset.state;renderDetail()});
+    $("toggleObservation").addEventListener("click",()=>{$("observationForm").classList.toggle("open");if($("observationForm").classList.contains("open"))$("strengthInput").focus()});
+    $("observationForm").addEventListener("submit",event=>{event.preventDefault();const s=students.find(x=>x.id===selectedId);const message=$("familyMessageInput").value.trim(),goal=$("goalInput").value.trim();s.observation=[$("strengthInput").value.trim(),`${message} Próximo paso: ${goal}.`];s.pending=false;$("observationForm").reset();renderList($("studentSearch").value);renderDetail()});
+    renderList();renderDetail();
+  </script>
+</body>
+</html>

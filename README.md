@@ -20,6 +20,7 @@ familia.
 
 - Presentación del programa para familias
 - Demostración de un perfil de progreso ficticio
+- Panel docente interactivo con perfiles ficticios
 - Ruta de comprensión lectora
 - Actividades de matemáticas, inglés y ciencia
 - Cuestionarios de práctica
@@ -56,6 +57,16 @@ Los accesos vigentes utilizan `evaluaciones/practica-formativa.html`.
 
 `modelo-seguimiento.json` documenta las entidades mínimas para la futura base de
 datos privada. No contiene información real de estudiantes.
+
+## Panel docente demostrativo
+
+`panel-docente-demo.html` permite explorar el flujo previsto sin guardar datos:
+
+- buscar y seleccionar un perfil ficticio;
+- revisar progreso, evidencias y actividades recientes;
+- marcar asistencia durante la sesión;
+- redactar una observación para la familia;
+- alternar entre la perspectiva docente y la vista familiar.
 
 ## Tecnología actual
 
