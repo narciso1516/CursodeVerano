@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Misión Leer — 150 retos</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body><div class="shell">
+<div class="hero"><div><span class="badge">📚 Alfabetización inicial</span><h1>Misión Leer</h1><p>3 bloques · 50 retos cada uno · 150 retos</p></div><div class="top-tools no-print"><button class="btn" id="teacherBtn">Modo docente</button><button class="btn danger" id="resetBtn">Reiniciar</button></div></div>
+<section class="panel" id="startScreen"><h2>Datos del alumno o alumna</h2><p class="helper">Se recomienda trabajar entre 10 y 20 retos por sesión.</p><div class="mobile-device-note"><div class="device-icons">📱💻</div><div><strong>Diseñado para celular o tableta</strong><small>Botones grandes, lectura clara y controles fáciles de tocar.</small></div></div><div class="grid two">
+<div><label>Nombre completo</label><input id="studentName" placeholder="Ejemplo: María López"></div>
+<div><label>Edad</label><input id="age" type="number" min="5" max="12" placeholder="7"></div>
+<div><label>Grado</label><select id="grade"><option value="">Selecciona</option><option>Primero de primaria</option><option>Segundo de primaria</option><option>Tercero de primaria</option><option>Otro</option></select></div>
+<div><label>Docente o aplicador</label><input id="teacherName" placeholder="Nombre del docente"></div>
+</div><div class="actions"><button class="btn primary" id="startBtn">Continuar →</button></div></section>
+<section class="panel hidden" id="blockScreen"><span class="badge">Hola, soy Chat 👋</span><h2 id="welcome"></h2><p class="helper">Equivocarse también es aprender. Elige una misión.</p><div class="block-grid" id="blockGrid"></div></section>
+<section class="hidden quiz-stage" id="quizScreen">
+  <div class="progress-wrap"><div class="progress-meta"><span id="counter"></span><span id="score"></span></div><div class="progress"><div class="bar" id="bar"></div></div></div>
+  <div class="panel question-card">
+    <span class="level" id="level"></span>
+    <div class="question-kicker">Tu reto de lectura</div>
+    <h2 class="question-title" id="title"></h2>
+    <p class="instruction" id="instruction"></p>
+    <div class="prompt-label">Mira, escucha y piensa</div>
+    <div class="prompt" id="prompt"></div>
+    <div class="audio-panel no-print"><div class="audio-title">¿Necesitas escucharlo?</div><div class="audio-row">
+      <button class="btn audio-btn listen" id="listenBtn"><span class="audio-icon">🔊</span><span>Escuchar normal</span></button>
+      <button class="btn audio-btn slow" id="slowBtn"><span class="audio-icon">🐢</span><span>Escuchar despacio</span></button>
+    </div></div>
+    <div class="answer-zone"><div class="answer-heading">👇 Elige una respuesta</div><div class="options" id="options"></div></div>
+    <div class="feedback" id="feedback"></div><div class="teacher-note" id="teacherNote"></div>
+    <div class="nav no-print"><button class="btn" id="blocksBtn">← Volver a misiones</button><button class="btn primary" id="nextBtn">Siguiente →</button></div>
+  </div>
+</section>
+<section class="panel hidden" id="reportScreen"><div id="report"></div><div class="actions no-print"><button class="btn primary" onclick="print()">🖨️ Imprimir o PDF</button><button class="btn" id="returnBtn">Volver a misiones</button></div></section>
+<div class="credits">Material educativo interactivo elaborado por <strong>Luis Alberto Antonio Narciso</strong> · <a href="https://narciso1516.github.io/narcisotesting.com/" target="_blank" rel="noopener noreferrer">narciso1516.github.io/narcisotesting.com</a></div>
+</div>
+<script src="block1.js"></script>
+<script src="block2.js"></script>
+<script src="block3.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body></html>
