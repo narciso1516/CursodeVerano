@@ -1,0 +1,1 @@
+const blocks=[window.MISION_BLOCK_1,window.MISION_BLOCK_2,window.MISION_BLOCK_3];
