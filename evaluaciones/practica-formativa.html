@@ -23,8 +23,8 @@
   <section class="hero">
     <span class="eyebrow">Comprensión lectora · La Mulata de Córdoba</span>
     <h1>Práctica formativa</h1>
-    <p>Piensa, responde y aprende con la retroalimentación. Equivocarte no borra tu avance.</p>
-    <div class="badges"><span class="badge">Sin reinicios</span><span class="badge">Pistas y explicaciones</span><span class="badge">Reporte por habilidades</span></div>
+    <p>Primero lee el cuento completo. Después responde las preguntas usando evidencias de la lectura.</p>
+    <div class="badges"><span class="badge">Lectura antes de responder</span><span class="badge">Pistas y explicaciones</span><span class="badge">Reporte por habilidades</span></div>
   </section>
 
   <section class="card" id="start">
@@ -38,9 +38,9 @@
   </section>
 
   <section class="card story-card hidden" id="reading" aria-labelledby="storyTitle">
-    <span class="story-level">Lectura para Secundaria</span>
+    <span class="story-level">Lectura obligatoria · 1.º de secundaria</span>
     <h2 id="storyTitle">La Mulata de Córdoba</h2>
-    <p class="story-lead">Lee el cuento con atención. Encontrarás los hechos, símbolos y conflictos necesarios para responder las preguntas de la práctica.</p>
+    <p class="story-lead"><strong>Lee el cuento completo antes de responder.</strong> Aquí encontrarás los hechos, símbolos y conflictos necesarios para contestar la práctica.</p>
     <div class="story-text">
       <p>Hace muchos años, en la ciudad de Córdoba, Veracruz, vivía una mujer llamada Soledad. La gente la conocía como la Mulata de Córdoba. Sabía reconocer plantas y preparar remedios tradicionales, por lo que varias familias acudían a ella cuando alguien enfermaba. Muchos apreciaban su conocimiento; otros, en cambio, desconfiaban de aquello que no comprendían.</p>
       <p>Con el paso del tiempo comenzaron a circular rumores. Algunas personas aseguraban, sin presentar pruebas, que las habilidades de Soledad eran peligrosas. Las versiones se repetían de una casa a otra hasta convertirse en acusaciones. Las autoridades aceptaron esos rumores sin investigar su origen, sin buscar evidencias y sin escuchar la explicación de Soledad. Finalmente, la encerraron en una celda.</p>
@@ -58,7 +58,7 @@
         <li>¿Cómo aplicarías esta enseñanza al recibir una acusación en redes sociales?</li>
       </ul>
     </div>
-    <button class="button" id="startQuestionsButton" type="button">Responder las preguntas</button>
+    <button class="button" id="startQuestionsButton" type="button">Ya terminé de leer · responder preguntas</button>
   </section>
 
   <section class="card hidden" id="quiz" aria-live="polite">
@@ -124,15 +124,25 @@ let questions=[],current=0,attemptOnQuestion=0,records=[],selectedLevel="";
 const requested=new URLSearchParams(location.search).get("nivel");
 const levelMap={"2-primaria":"primaria-baja","4-primaria":"primaria-baja","5-6-primaria":"primaria-alta","1-secundaria":"secundaria","2-secundaria":"secundaria","3-secundaria":"secundaria","1-semestre":"medio-superior"};
 if(levelMap[requested])$("level").value=levelMap[requested];
+function showReading(){
+  selectedLevel="secundaria";
+  questions=banks[selectedLevel];
+  current=0;
+  records=[];
+  $("start").classList.add("hidden");
+  $("reading").classList.remove("hidden");
+  window.scrollTo({top:$("reading").offsetTop-10,behavior:"smooth"});
+}
 function beginQuestions(){$("reading").classList.add("hidden");$("quiz").classList.remove("hidden");render();window.scrollTo({top:$("quiz").offsetTop-10,behavior:"smooth"})}
-$("startButton").addEventListener("click",()=>{selectedLevel=$("level").value;questions=banks[selectedLevel];current=0;records=[];$("start").classList.add("hidden");if(selectedLevel==="secundaria"){$("reading").classList.remove("hidden");window.scrollTo({top:$("reading").offsetTop-10,behavior:"smooth"});return}beginQuestions()});
+$("startButton").addEventListener("click",()=>{selectedLevel=$("level").value;questions=banks[selectedLevel];current=0;records=[];$("start").classList.add("hidden");if(selectedLevel==="secundaria"){showReading();return}beginQuestions()});
 $("startQuestionsButton").addEventListener("click",beginQuestions);
 function render(){attemptOnQuestion=0;const q=questions[current];$("skill").textContent=q[0];$("counter").textContent=`Pregunta ${current+1} de ${questions.length}`;$("bar").style.width=`${current/questions.length*100}%`;$("question").textContent=q[1];$("feedback").className="feedback";$("feedback").textContent="Selecciona la respuesta que consideres correcta.";$("continueButton").classList.add("hidden");$("options").innerHTML="";q[2].forEach((text,index)=>{const button=document.createElement("button");button.type="button";button.className="option";button.textContent=`${String.fromCharCode(65+index)}) ${text}`;button.addEventListener("click",()=>answer(index,button));$("options").appendChild(button)})}
 function answer(index,button){const q=questions[current],correct=q[3];attemptOnQuestion++;if(index===correct){button.classList.add("correct");document.querySelectorAll(".option").forEach(x=>x.disabled=true);records.push({skill:q[0],support:attemptOnQuestion===1?0:1});$("feedback").className="feedback ok";$("feedback").textContent=attemptOnQuestion===1?"¡Correcto! Explicaste la idea sin apoyo.":`¡Correcto con apoyo! ${q[5]}`;showContinue();return}button.classList.add("wrong");button.disabled=true;if(attemptOnQuestion===1){$("feedback").className="feedback hint";$("feedback").innerHTML=`<strong>Pista:</strong> ${q[4]} Intenta nuevamente.`;return}document.querySelectorAll(".option").forEach((x,i)=>{x.disabled=true;if(i===correct)x.classList.add("correct")});records.push({skill:q[0],support:2});$("feedback").className="feedback explain";$("feedback").innerHTML=`<strong>Revisemos:</strong> ${q[5]}`;showContinue()}
 function showContinue(){$("continueButton").classList.remove("hidden")}
 $("continueButton").addEventListener("click",()=>{current++;if(current===questions.length)finish();else render()});
-function finish(){$("quiz").classList.add("hidden");$("result").classList.remove("hidden");$("bar").style.width="100%";const first=records.filter(r=>r.support===0).length,hint=records.filter(r=>r.support===1).length,explain=records.filter(r=>r.support===2).length,total=records.length;$("firstTry").textContent=`${first}/${total}`;$("withHint").textContent=hint;$("withExplanation").textContent=explain;const ratio=first/total;let state=ratio>=.83?"Logro observado":ratio>=.6?"Avance consistente":ratio>=.35?"En desarrollo":"Iniciando";$("progressState").textContent=state;const grouped={};records.forEach(r=>(grouped[r.skill]??=[]).push(r.support));$("skillReport").innerHTML=Object.entries(grouped).map(([skill,values])=>{const support=values.reduce((a,b)=>a+b,0);const label=support===0?"Logro observado":support<=values.length?"Avance consistente":support<values.length*2?"En desarrollo":"Iniciando";return `<div class="skill-row"><div><strong>${skill}</strong><span>${label}</span></div><small>${values.filter(v=>v===0).length} sin apoyo · ${values.filter(v=>v===1).length} con pista · ${values.filter(v=>v===2).length} con explicación</small></div>`}).join("");const needs=Object.entries(grouped).sort((a,b)=>b[1].reduce((x,y)=>x+y,0)-a[1].reduce((x,y)=>x+y,0))[0]?.[0];$("recommendation").textContent=explain===0?"Continúa leyendo textos breves y explicando qué evidencia apoya cada respuesta.":`Practica nuevamente ${needs?.toLowerCase()||"las habilidades que necesitaron apoyo"}. Lee la pregunta, busca una frase del texto y explica por qué descarta las otras opciones.`;window.scrollTo({top:$("result").offsetTop-10,behavior:"smooth"})}
+function finish(){$("quiz").classList.add("hidden");$("result").classList.remove("hidden");$("bar").style.width="100%";const first=records.filter(r=>r.support===0).length,hint=records.filter(r=>r.support===1).length,explain=records.filter(r=>r.support===2).length,total=records.length;$("firstTry").textContent=`${first}/${total}`;$("withHint").textContent=hint;$("withExplanation").textContent=explain;const ratio=first/total;let state=ratio>=.83?"Logro observado":ratio>=.6?"Avance consistente":ratio>=.35?"En desarrollo":"Iniciando";$("progressState").textContent=state;const grouped={};records.forEach(r=>(grouped[r.skill]??=[]).push(r.support));$("skillReport").innerHTML=Object.entries(grouped).map(([skill,values])=>{const support=values.reduce((a,b)=>a+b,0);const label=support===0?"Logro observado":support<=values.length?"Avance consistente":support<values.length*2?"En desarrollo":"Iniciando";return `<div class="skill-row"><div><strong>${skill}</strong><span>${label}</span></div><small>${values.filter(v=>v===0).length} sin apoyo · ${values.filter(v=>v===1).length} con pista · ${values.filter(v=>v===2).length} con explicación</small></div>`}).join("");const needs=Object.entries(grouped).sort((a,b)=>b[1].reduce((x,y)=>x+y,0)-a[1].reduce((x,y)=>x+y,0))[0]?.[0];$("recommendation").textContent=explain===0?"Continúa leyendo textos breves y explicando qué evidencia apoya cada respuesta.":`Practica nuevamente ${needs?.toLowerCase()||"las habilidades que necesitaron apoyo"}. Lee la pregunta, busca una frase del texto y explica por qué descarta las otras opciones.`;window.scrollTo({top:$("result").offsetTop-10,behavior:"smooth")}
 $("restartButton").addEventListener("click",()=>{location.href=location.pathname+location.search});
+if(requested==="1-secundaria")showReading();
 </script>
 </body>
 </html>
