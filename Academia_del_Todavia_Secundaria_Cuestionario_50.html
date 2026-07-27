@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#312e81">
+  <title>Academia del ¡Todavía! · Secundaria · 50 retos</title>
+  <style>
+    :root{--ink:#17203b;--muted:#64708c;--violet:#6d3ce7;--indigo:#3730a3;--cyan:#0891b2;--green:#16865c;--red:#c2415d;--gold:#e9a414;--paper:#fff;--line:#dce2f0;--shadow:0 22px 65px rgba(26,31,82,.18)}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;min-height:100vh;font-family:Inter,ui-rounded,"Trebuchet MS",system-ui,-apple-system,sans-serif;color:var(--ink);background:radial-gradient(circle at 6% 5%,rgba(8,145,178,.22),transparent 27%),radial-gradient(circle at 92% 2%,rgba(109,60,231,.25),transparent 30%),linear-gradient(145deg,#eef4ff,#fbf7ff 56%,#effcfa)}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    a{color:inherit}
+    .shell{width:min(980px,calc(100% - 28px));margin:auto;padding:20px 0 48px}
+    .back{display:inline-flex;align-items:center;gap:8px;margin:0 0 14px;padding:10px 14px;border-radius:999px;background:#fff;border:1px solid var(--line);text-decoration:none;font-weight:850;box-shadow:0 8px 24px rgba(26,31,82,.08)}
+    .card{background:rgba(255,255,255,.96);border:1px solid rgba(255,255,255,.9);border-radius:30px;padding:clamp(20px,5vw,42px);box-shadow:var(--shadow)}
+    .hidden{display:none!important}
+    .center{text-align:center}
+    .hero{font-size:clamp(4.6rem,13vw,7.5rem);line-height:1}
+    .eyebrow,.pill,.category{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:999px;font-size:.82rem;font-weight:900}
+    .eyebrow{background:#ede9fe;color:#4c1d95;border:1px solid #ddd2ff}
+    h1{margin:15px 0 12px;font-size:clamp(2.5rem,8vw,5.2rem);line-height:.94;letter-spacing:-.05em;background:linear-gradient(100deg,var(--indigo),var(--violet),var(--cyan));-webkit-background-clip:text;color:transparent}
+    .lead{max-width:760px;margin:0 auto;color:var(--muted);font-size:clamp(1rem,2.5vw,1.24rem);line-height:1.6}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:720px;margin:22px auto}
+    .feature{padding:15px 8px;background:#f8f9ff;border:1px solid var(--line);border-radius:18px}
+    .feature b{display:block;font-size:1.25rem;color:var(--indigo)}
+    .feature span{color:var(--muted);font-size:.82rem}
+    .form{max-width:720px;margin:22px auto 0;padding:22px;text-align:left;background:#f8f9ff;border:1px solid var(--line);border-radius:22px}
+    .legend{display:block;margin:0 0 8px;font-weight:900}
+    input[type=text]{width:100%;min-height:52px;border:2px solid #cbd4e7;border-radius:14px;padding:0 14px;font-size:1rem;background:#fff;color:var(--ink)}
+    input[type=text]:focus{outline:0;border-color:var(--violet);box-shadow:0 0 0 4px rgba(109,60,231,.13)}
+    .grades{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0 4px}
+    .grade{display:flex;align-items:center;justify-content:center;gap:7px;padding:13px;border:2px solid #d3daea;border-radius:14px;background:#fff;font-weight:850}
+    .grade:has(input:checked){border-color:var(--violet);background:#f0ebff;color:#4c1d95}
+    .helper{color:var(--muted);font-size:.86rem;line-height:1.45}
+    .error{min-height:24px;color:#a81f40;font-weight:850}
+    .primary,.secondary{border:0;border-radius:15px;padding:14px 18px;font-weight:900}
+    .primary{color:#fff;background:linear-gradient(100deg,var(--indigo),var(--violet),var(--cyan));box-shadow:0 11px 25px rgba(76,29,149,.22)}
+    .secondary{background:#eef1f8;color:var(--ink)}
+    .primary:hover,.secondary:hover{filter:brightness(.97)}
+    .primary:focus-visible,.secondary:focus-visible,.answer:focus-visible,.back:focus-visible{outline:4px solid rgba(8,145,178,.28);outline-offset:2px}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+    .pill{background:#eef2ff;color:#3730a3;border:1px solid #d9ddff}
+    .progress{height:14px;margin:18px 0 24px;background:#e5e9f3;border-radius:999px;overflow:hidden}
+    .bar{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--violet));transition:width .3s ease}
+    .category{background:#e6fbff;color:#0e6477;border:1px solid #b7eef5}
+    .question{font-size:clamp(1.35rem,4vw,2rem);line-height:1.3;margin:15px 0 20px}
+    .answers{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .answer{display:grid;grid-template-columns:40px 1fr;align-items:center;gap:12px;width:100%;min-height:88px;margin:0;padding:14px;text-align:left;color:var(--ink);background:#fff;border:2px solid var(--line);border-radius:17px;font-weight:760}
+    .answer:hover:not(:disabled){border-color:#a995ed;transform:translateY(-2px)}
+    .letter{width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:#ece9ff;color:#4c1d95;font-weight:950}
+    .answer.correct{background:#eafaf3;border-color:#35ad7d}
+    .answer.correct .letter{background:var(--green);color:#fff}
+    .answer.wrong{background:#fff1f4;border-color:#e16d85}
+    .answer.wrong .letter{background:var(--red);color:#fff}
+    .feedback{margin-top:16px;padding:16px 18px;border-radius:16px;line-height:1.5;font-weight:750}
+    .feedback.good{background:#eafaf3;border:2px solid #8bd4b6}
+    .feedback.try{background:#fff7e7;border:2px solid #f0c568}
+    .actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:760px;margin:24px auto}
+    .stat{padding:16px;background:#f7f8fc;border:1px solid var(--line);border-radius:17px}
+    .stat b{display:block;font-size:1.65rem;color:var(--indigo)}
+    .plan{max-width:760px;margin:0 auto 24px;padding:18px;text-align:left;background:#ecfeff;border:1px solid #b9edf2;border-radius:18px;line-height:1.55}
+    .diploma{max-width:860px;margin:22px auto;padding:clamp(22px,5vw,38px);background:linear-gradient(135deg,#fffdf2,#fff,#f2f3ff);border:11px double #c18a19;border-radius:18px}
+    .student{display:inline-block;margin:10px 0;padding:0 16px 5px;border-bottom:4px solid var(--gold);font-size:clamp(2rem,7vw,4.2rem);font-weight:950;color:#8d173c}
+    @media(max-width:700px){.answers,.summary{grid-template-columns:1fr}.card{border-radius:22px}.shell{width:min(100% - 16px,980px)}.answer{min-height:76px}}
+    @media(max-width:470px){.grades,.features{grid-template-columns:1fr}.feature{display:flex;justify-content:space-between;align-items:center;padding:11px 14px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+    @media print{body{background:#fff}.shell{width:100%;padding:0}.back,#intro,#game,.actions{display:none!important}#final{display:block!important;box-shadow:none;border:0}.diploma{page-break-inside:avoid}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <a class="back" href="Plataforma_Misiones_Curso_de_Verano.html">← Volver a la plataforma</a>
+
+    <section id="intro" class="card center">
+      <div class="hero" aria-hidden="true">🧠🚀</div>
+      <span class="eyebrow">🌱 MENTALIDAD DE CRECIMIENTO · SECUNDARIA</span>
+      <h1>Academia del ¡Todavía!</h1>
+      <p class="lead">Cambia “no puedo” por “todavía no lo domino”. Enfrenta 50 situaciones de Secundaria, elige estrategias útiles y construye un plan para seguir avanzando.</p>
+      <div class="features">
+        <div class="feature"><b>50</b><span>retos diferentes</span></div>
+        <div class="feature"><b>10</b><span>áreas para practicar</span></div>
+        <div class="feature"><b>1</b><span>diploma personal</span></div>
+      </div>
+      <div class="form">
+        <label class="legend" for="name">Nombre del estudiante</label>
+        <input id="name" type="text" maxlength="50" autocomplete="name" placeholder="Escribe tu nombre">
+        <p class="helper">El nombre y el resultado se guardan solamente en este dispositivo.</p>
+        <span class="legend">Grado de secundaria</span>
+        <div class="grades" role="radiogroup" aria-label="Grado de secundaria">
+          <label class="grade"><input type="radio" name="grade" value="1.º"> 1.º</label>
+          <label class="grade"><input type="radio" name="grade" value="2.º"> 2.º</label>
+          <label class="grade"><input type="radio" name="grade" value="3.º"> 3.º</label>
+        </div>
+        <p id="error" class="error" role="alert"></p>
+        <div class="center"><button id="startButton" class="primary">Comenzar los 50 retos →</button></div>
+      </div>
+    </section>
+
+    <section id="game" class="card hidden" aria-labelledby="question">
+      <div class="top">
+        <span id="counter" class="pill">Reto 1 de 50</span>
+        <span id="score" class="pill">Aciertos: 0</span>
+        <span id="streak" class="pill">🔥 Racha: 0</span>
+      </div>
+      <div class="progress" aria-label="Progreso"><div id="progressBar" class="bar"></div></div>
+      <span id="category" class="category"></span>
+      <h2 id="question" class="question"></h2>
+      <div id="answers" class="answers"></div>
+      <div id="feedback" class="feedback hidden" role="status" aria-live="polite"></div>
+      <div class="actions"><button id="nextButton" class="primary hidden">Siguiente reto →</button></div>
+    </section>
+
+    <section id="final" class="card center hidden">
+      <div class="hero" aria-hidden="true">🏆✨</div>
+      <h1>¡Misión cumplida!</h1>
+      <p id="finalMessage" class="lead"></p>
+      <div class="summary">
+        <div class="stat"><b id="finalScore"></b>Respuestas correctas</div>
+        <div class="stat"><b id="finalGrade"></b>Grado</div>
+        <div class="stat"><b id="bestStreak"></b>Mejor racha</div>
+      </div>
+      <div id="growthPlan" class="plan"></div>
+      <div class="diploma">
+        <div style="font-size:4.5rem">🏅</div>
+        <p style="letter-spacing:.14em;font-weight:900;color:var(--indigo)">DIPLOMA DE MENTALIDAD DE CRECIMIENTO</p>
+        <h2>ESTUDIANTE QUE AVANZA</h2>
+        <div id="certificateName" class="student"></div>
+        <p id="certificateText" class="lead"></p>
+        <p><b>“Todavía no lo domino, pero puedo aprenderlo con estrategia, práctica y apoyo.”</b></p>
+        <p id="date"></p>
+      </div>
+      <div class="actions">
+        <button id="shareButton" class="primary">Compartir resultado</button>
+        <button id="printButton" class="secondary">Imprimir diploma</button>
+        <button id="restartButton" class="secondary">Volver a empezar</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const questions = [
+      {cat:'🌱 Mentalidad',q:'Recibes un ejercicio nuevo y piensas: “No soy bueno para esto”. ¿Qué reformulación te ayuda más?',o:['Nunca entenderé este tema','Todavía no lo domino; empezaré con un ejemplo y pediré retroalimentación','Lo evitaré para no equivocarme','Esperaré a que alguien lo haga por mí'],a:1,tip:'Agregar “todavía” y una acción concreta convierte una dificultad en un plan.'},
+      {cat:'🌱 Mentalidad',q:'Cometiste el mismo error dos veces. ¿Cuál es la respuesta más estratégica?',o:['Ocultarlo para que nadie lo vea','Repetir exactamente lo mismo','Identificar en qué paso ocurre y probar un cambio específico','Concluir que no puedes aprender'],a:2,tip:'Localizar el paso donde aparece el error permite cambiar la estrategia.'},
+      {cat:'🌱 Mentalidad',q:'Una compañera resuelve el reto más rápido que tú. ¿Qué pensamiento favorece tu aprendizaje?',o:['Puedo observar su estrategia y adaptar lo que me sirva','La rapidez demuestra quién es inteligente','Ya no vale la pena intentarlo','Debo copiar su respuesta sin comprender'],a:0,tip:'Comparar estrategias puede darte herramientas; aprender no es una carrera.'},
+      {cat:'🌱 Mentalidad',q:'Un proyecto no quedó como imaginabas. ¿Qué significa verlo como prototipo?',o:['Que debe desecharse sin revisión','Que la primera versión muestra qué mejorar en la siguiente','Que alguien más debe terminarlo','Que los errores no importan'],a:1,tip:'Un prototipo sirve para aprender, recibir comentarios e iterar.'},
+      {cat:'🌱 Mentalidad',q:'¿Cuál frase reconoce esfuerzo y estrategia sin prometer resultados automáticos?',o:['Si te esfuerzas, todo siempre saldrá perfecto','Naciste con talento para todo','Tu avance muestra que practicar de otra manera te está ayudando','Equivocarse significa no haber estudiado'],a:2,tip:'La retroalimentación útil conecta el avance con acciones que pueden repetirse.'},
+
+      {cat:'📖 Comprensión lectora',q:'Lees un texto argumentativo y no identificas la postura del autor. ¿Qué haces primero?',o:['Buscas la tesis y las razones que se repiten','Memorizas el último párrafo','Eliges una frase al azar','Lees solo el título y respondes'],a:0,tip:'La tesis y las razones centrales revelan la postura del autor.'},
+      {cat:'📖 Comprensión lectora',q:'Una palabra desconocida impide entender una idea clave. ¿Cuál secuencia funciona mejor?',o:['Ignorarla y cambiar de texto','Copiar la palabra muchas veces','Inferir por contexto, verificar su significado y releer la oración','Preguntar por la respuesta completa'],a:2,tip:'Combinar contexto, verificación y relectura construye vocabulario y comprensión.'},
+      {cat:'📖 Comprensión lectora',q:'Dos fuentes presentan datos diferentes. ¿Qué estrategia demuestra pensamiento crítico?',o:['Elegir la que confirme tu opinión','Comparar fecha, autor, evidencia y propósito de ambas','Compartir las dos sin revisarlas','Suponer que la más larga es correcta'],a:1,tip:'Evaluar procedencia, actualidad y evidencia ayuda a decidir qué fuente es más confiable.'},
+      {cat:'📖 Comprensión lectora',q:'Terminaste una lectura compleja. ¿Cómo compruebas que realmente la comprendiste?',o:['Cuentas cuántas páginas leíste','Subrayas todo con el mismo color','La explicas con tus palabras y respondes una pregunta nueva','Repites una oración de memoria'],a:2,tip:'Explicar y aplicar una idea nueva demuestra comprensión, no solo recuerdo.'},
+      {cat:'📖 Comprensión lectora',q:'Tu resumen incluye demasiados detalles. ¿Qué revisión lo mejora?',o:['Añadir más ejemplos secundarios','Conservar tema, ideas principales y relaciones esenciales','Copiar cada subtítulo','Eliminar la conclusión sin leerla'],a:1,tip:'Un buen resumen prioriza ideas centrales y cómo se relacionan.'},
+
+      {cat:'📊 Matemáticas',q:'Un problema de proporcionalidad tiene varios datos. ¿Qué haces antes de operar?',o:['Multiplicas todos los números','Identificas qué magnitudes cambian y cómo se relacionan','Buscas la respuesta al final del libro','Eliges la operación más larga'],a:1,tip:'Comprender la relación entre magnitudes evita operaciones sin sentido.'},
+      {cat:'📊 Matemáticas',q:'Tu resultado es 350%, pero el contexto describe una parte pequeña del total. ¿Qué conviene hacer?',o:['Entregarlo porque la calculadora lo mostró','Cambiarlo a 35% sin revisar','Estimar el rango esperado y comprobar operaciones y unidades','Borrar todo y empezar otra materia'],a:2,tip:'Una estimación permite detectar resultados que no tienen sentido en el contexto.'},
+      {cat:'📊 Matemáticas',q:'No sabes cómo iniciar una ecuación. ¿Qué apoyo desarrolla más autonomía?',o:['Pedir que te den el resultado','Revisar un ejemplo parecido, explicar cada paso y luego intentar uno nuevo','Copiar el procedimiento sin leerlo','Esperar hasta que termine la clase'],a:1,tip:'Un ejemplo trabajado sirve cuando comprendes los pasos y transfieres la estrategia.'},
+      {cat:'📊 Matemáticas',q:'Obtienes una respuesta distinta a la de tu equipo. ¿Cuál es la mejor siguiente acción?',o:['Votar por la respuesta más popular','Ocultar tu procedimiento','Comparar pasos, supuestos y verificaciones antes de decidir','Cambiar tu respuesta de inmediato'],a:2,tip:'Comparar procedimientos permite encontrar el punto exacto de la diferencia.'},
+      {cat:'📊 Matemáticas',q:'¿Qué registro te ayuda más a mejorar después de una práctica?',o:['Solo el número de aciertos','Los ejercicios que fallaste, el tipo de error y la estrategia corregida','El tiempo total sin contexto','Una lista de temas que ya te gustan'],a:1,tip:'Clasificar errores revela patrones y orienta una práctica más precisa.'},
+
+      {cat:'🧪 Ciencias',q:'Tu experimento no confirma la hipótesis. ¿Qué conclusión es científicamente responsable?',o:['Los datos no sirven','La hipótesis debe ser cierta de todos modos','Los resultados aportan evidencia para revisar la hipótesis y el diseño','Hay que cambiar los datos'],a:2,tip:'Un resultado inesperado también produce conocimiento cuando se registra y analiza.'},
+      {cat:'🧪 Ciencias',q:'Un equipo obtiene mediciones muy variables. ¿Qué revisión ayuda más?',o:['Elegir solo la medición favorita','Revisar instrumento, procedimiento, unidades y repetir bajo las mismas condiciones','Promediar sin revisar nada','Eliminar las mediciones bajas'],a:1,tip:'Controlar el procedimiento ayuda a distinguir variación real de errores de medición.'},
+      {cat:'🧪 Ciencias',q:'Una explicación científica parece convincente. ¿Qué falta para evaluarla?',o:['Que use palabras complicadas','Que sea popular en redes','Evidencia verificable y razonamiento que conecte datos con conclusión','Que coincida con tu primera idea'],a:2,tip:'Una afirmación se fortalece con evidencia pertinente y razonamiento claro.'},
+      {cat:'🧪 Ciencias',q:'Te confundes entre variable independiente y dependiente. ¿Qué estrategia es más útil?',o:['Memorizar las palabras sin ejemplo','Identificar qué cambias y qué mides en un experimento concreto','Usarlas como sinónimos','Evitar describir el experimento'],a:1,tip:'Relacionar cada concepto con una acción concreta facilita distinguirlos.'},
+      {cat:'🧪 Ciencias',q:'El modelo que usaste explica algunos datos, pero no todos. ¿Qué haces?',o:['Lo declaras perfecto','Ignoras los datos que no encajan','Señalas sus límites y propones cómo mejorarlo o probar otro','Abandonas cualquier modelo'],a:2,tip:'Los modelos son herramientas revisables con alcances y limitaciones.'},
+
+      {cat:'🌎 Inglés',q:'No entiendes una frase en inglés durante un audio. ¿Qué estrategia conviene?',o:['Traducir mentalmente cada sonido','Escuchar de nuevo buscando palabras clave y contexto','Apagar el audio','Memorizar una respuesta sin escuchar'],a:1,tip:'Escuchar con un propósito concreto reduce la carga y mejora la comprensión.'},
+      {cat:'🌎 Inglés',q:'Te da pena hablar porque puedes equivocarte. ¿Qué meta es más realista?',o:['Esperar a pronunciar todo perfecto','Practicar una frase breve, grabarte y mejorar un aspecto cada vez','No participar hasta el próximo año','Leer sin voz para evitar errores'],a:1,tip:'Una práctica breve y repetida hace visible el progreso sin exigir perfección.'},
+      {cat:'🌎 Inglés',q:'Olvidas vocabulario nuevo después de estudiarlo. ¿Qué cambio ayuda más?',o:['Copiar cien veces la lista en una sesión','Usar las palabras en frases propias y repasarlas en varios días','Estudiar solo la noche anterior','Cambiar de tema cada minuto'],a:1,tip:'Usar y recuperar palabras en distintos momentos fortalece la memoria.'},
+      {cat:'🌎 Inglés',q:'¿Qué pregunta pide retroalimentación específica sobre una presentación oral?',o:['¿Estuvo bien?','¿Me dices la calificación?','¿Se entendió mi idea principal y qué sonido debo practicar?','¿Puedo no presentarla?'],a:2,tip:'Una pregunta específica produce comentarios que puedes convertir en acciones.'},
+      {cat:'🌎 Inglés',q:'Lees una palabra nueva y no conoces su pronunciación. ¿Qué proceso es mejor?',o:['Inventarla y no revisarla','Consultar un audio confiable, dividirla en partes y usarla en una frase','Evitar esa palabra para siempre','Cambiar todas las letras'],a:1,tip:'Escuchar, segmentar y usar la palabra integra pronunciación y significado.'},
+
+      {cat:'⏳ Organización',q:'Tienes examen, proyecto y tarea en la misma semana. ¿Cómo comienzas?',o:['Trabajas solo en lo que más te gusta','Anotas fechas, divides entregables y bloqueas tiempos realistas','Esperas a sentir motivación','Intentas terminar todo la última noche'],a:1,tip:'Visibilizar fechas y dividir tareas reduce la saturación y facilita empezar.'},
+      {cat:'⏳ Organización',q:'Tu plan de estudio no funcionó porque calculaste poco tiempo. ¿Qué haces?',o:['Concluyes que planear no sirve','Registras el tiempo real y ajustas el siguiente bloque','Eliminas los descansos por completo','Copias el horario de otra persona'],a:1,tip:'Comparar tiempo estimado y real mejora futuras decisiones.'},
+      {cat:'⏳ Organización',q:'Una tarea grande te paraliza. ¿Cuál es un primer paso concreto?',o:['Pensar en toda la entrega al mismo tiempo','Abrir el documento, escribir el objetivo y listar tres subtareas','Cambiar el diseño de la portada durante horas','Esperar a tener la idea perfecta'],a:1,tip:'Un paso pequeño y visible reduce la barrera para comenzar.'},
+      {cat:'⏳ Organización',q:'Te distraes con notificaciones cada pocos minutos. ¿Qué ajuste puedes probar?',o:['Depender solo de fuerza de voluntad','Silenciar notificaciones y trabajar un bloque corto con una meta definida','Responder todo de inmediato','Estudiar con cinco aplicaciones abiertas'],a:1,tip:'Modificar el entorno facilita concentrarte en una meta concreta.'},
+      {cat:'⏳ Organización',q:'No terminaste lo planeado hoy. ¿Qué revisión evita castigarte y mejora mañana?',o:['Anotar qué avanzó, qué bloqueó y cuál será el siguiente paso','Duplicar todas las tareas sin priorizar','Decirte que eres irresponsable','Renunciar al plan semanal'],a:0,tip:'Una revisión objetiva convierte el día en información para ajustar.'},
+
+      {cat:'🤝 Colaboración',q:'Tu equipo rechaza una idea sin explicar. ¿Cómo respondes de forma constructiva?',o:['Atacas la idea de otra persona','Pides criterios y propones comparar opciones con la meta del proyecto','Te retiras del trabajo','Insistes sin escuchar'],a:1,tip:'Usar criterios compartidos mantiene la conversación enfocada en el trabajo.'},
+      {cat:'🤝 Colaboración',q:'Una persona participa poco en el equipo. ¿Qué acción favorece su inclusión?',o:['Asignarle lo que nadie quiere','Preguntar qué necesita, ofrecer un rol claro y abrir un turno para su propuesta','Hablar por ella siempre','Excluirla de las decisiones'],a:1,tip:'Un rol claro y un espacio real para aportar favorecen la participación.'},
+      {cat:'🤝 Colaboración',q:'Dos integrantes discuten sobre el diseño. ¿Qué puede destrabar la decisión?',o:['Que gane quien hable más fuerte','Hacer dos prototipos breves y evaluarlos con los mismos criterios','Evitar decidir','Combinar todo sin revisar'],a:1,tip:'Probar opciones con criterios reduce la discusión basada solo en preferencias.'},
+      {cat:'🤝 Colaboración',q:'Recibes un comentario que no entiendes: “Hazlo mejor”. ¿Qué preguntas?',o:['¿Qué parte necesita cambio y qué ejemplo muestra el resultado esperado?','¿Por qué no te gusta nada?','¿Puedo ignorarlo?','¿Quién tuvo la culpa?'],a:0,tip:'Pedir ubicación, criterio y ejemplo convierte un comentario vago en información útil.'},
+      {cat:'🤝 Colaboración',q:'El equipo se equivocó en una entrega. ¿Qué cierre genera aprendizaje compartido?',o:['Buscar a una persona culpable','Ocultar el problema','Revisar decisiones, acordar una mejora y documentarla para la siguiente entrega','Prometer que nunca habrá errores'],a:2,tip:'Una retrospectiva sin culpas ayuda a mejorar el proceso del equipo.'},
+
+      {cat:'🖥️ Proyectos digitales',q:'Tu presentación tiene demasiado texto y nadie identifica la idea central. ¿Qué iteración haces?',o:['Agregar más párrafos','Definir un mensaje por diapositiva y apoyar con evidencia visual pertinente','Reducir el tamaño de letra','Usar más animaciones'],a:1,tip:'Una jerarquía clara ayuda a que la audiencia siga el argumento.'},
+      {cat:'🖥️ Proyectos digitales',q:'El código muestra un error. ¿Qué estrategia de depuración es más útil?',o:['Cambiar muchas líneas al azar','Leer el mensaje, aislar la parte que falla y probar un cambio cada vez','Borrar el proyecto','Copiar otro programa completo'],a:1,tip:'Aislar variables permite saber qué cambio resolvió o causó el problema.'},
+      {cat:'🖥️ Proyectos digitales',q:'Una respuesta generada por una herramienta digital parece correcta. ¿Qué haces antes de usarla?',o:['La entregas sin leer','Verificas datos, fuentes y adecuación a la consigna','Cambias algunas palabras y listo','Asumes que la herramienta no se equivoca'],a:1,tip:'La responsabilidad de verificar el contenido sigue siendo de quien lo utiliza.'},
+      {cat:'🖥️ Proyectos digitales',q:'Tu sitio funciona en computadora, pero no en celular. ¿Qué aprendizaje aplicas?',o:['Los celulares no cuentan','Pruebas distintos tamaños, identificas el quiebre y ajustas el diseño responsivo','Publicas sin revisar','Haces el texto más pequeño en todas partes'],a:1,tip:'Probar en contextos reales revela necesidades que el primer diseño no mostró.'},
+      {cat:'🖥️ Proyectos digitales',q:'Perdiste cambios porque sobrescribiste un archivo. ¿Qué mejora previene repetirlo?',o:['Guardar todo con el mismo nombre','Usar historial de versiones o copias identificadas y revisar antes de reemplazar','No volver a editar','Depender de recordar cada cambio'],a:1,tip:'El control de versiones hace recuperable el proceso de mejora.'},
+
+      {cat:'📝 Evaluación',q:'Tu calificación fue menor a la esperada. ¿Cuál es el primer análisis útil?',o:['Compararte con la calificación más alta','Clasificar errores por concepto, procedimiento o interpretación','Romper la evaluación','Decidir que la materia no es para ti'],a:1,tip:'Clasificar errores permite elegir una práctica adecuada para cada causa.'},
+      {cat:'📝 Evaluación',q:'Estudiaste muchas horas, pero aprendiste poco. ¿Qué conviene revisar?',o:['Solo la cantidad de horas','Si usaste recuperación activa, práctica y pausas en lugar de solo releer','El color de tus apuntes','La velocidad de otras personas'],a:1,tip:'La calidad de la estrategia importa además del tiempo invertido.'},
+      {cat:'📝 Evaluación',q:'¿Qué meta está bajo tu control antes del próximo examen?',o:['Obtener exactamente la calificación más alta','Que todas las preguntas sean fáciles','Resolver cinco problemas diarios y explicar los errores al final','Que nadie más estudie'],a:2,tip:'Una meta de proceso define acciones observables que puedes realizar.'},
+      {cat:'📝 Evaluación',q:'Durante un examen te atoras en una pregunta. ¿Qué estrategia administra mejor el tiempo?',o:['Quedarte ahí hasta terminar el tiempo','Marcarla, avanzar en las que sí puedes resolver y volver después','Elegir cualquier respuesta sin leer','Entregar inmediatamente'],a:1,tip:'Administrar el tiempo permite usar lo que sabes y regresar con una mirada nueva.'},
+      {cat:'📝 Evaluación',q:'Al revisar una respuesta incorrecta, ¿qué evidencia muestra que aprendiste?',o:['Memorizas la letra correcta','Puedes explicar por qué falló tu razonamiento y resolver una variante','Borras el procedimiento','Dices que fue mala suerte'],a:1,tip:'Explicar el error y transferir la corrección demuestra aprendizaje.'},
+
+      {cat:'🎯 Autonomía',q:'Quieres mejorar en una habilidad, pero tu meta es “ser excelente”. ¿Cómo la haces accionable?',o:['La mantienes igual','Defines una práctica concreta, una frecuencia y una forma de observar avance','Esperas inspiración','La comparas con el talento de alguien más'],a:1,tip:'Una meta accionable indica qué harás, cuándo y cómo revisarás el progreso.'},
+      {cat:'🎯 Autonomía',q:'Te sientes saturado y ya no puedes concentrarte. ¿Qué respuesta cuida el aprendizaje?',o:['Continuar sin pausa hasta equivocarte más','Hacer una pausa breve, identificar la prioridad y retomar con un paso pequeño','Abandonar todas las tareas','Castigarte por sentir cansancio'],a:1,tip:'Regular la carga y priorizar ayuda a recuperar atención.'},
+      {cat:'🎯 Autonomía',q:'Necesitas ayuda, pero quieres conservar tu autonomía. ¿Cómo la pides?',o:['Hazlo por mí','No digo nada','Intenté estos dos pasos y me atoro aquí; ¿puedes ayudarme a revisar esta parte?','Dame todas las respuestas'],a:2,tip:'Mostrar el intento y señalar el bloqueo permite recibir apoyo específico.'},
+      {cat:'🎯 Autonomía',q:'Has mejorado, pero aún cometes errores. ¿Cuál interpretación es más precisa?',o:['El avance no cuenta hasta ser perfecto','Los errores actuales muestran el siguiente nivel de práctica','Debes dejar de intentar','La habilidad depende solo de talento'],a:1,tip:'El progreso y los errores pueden coexistir; ambos informan el siguiente paso.'},
+      {cat:'🎯 Autonomía',q:'Al terminar esta academia, ¿qué frase resume mejor una mentalidad de crecimiento?',o:['Puedo todo sin ayuda ni práctica','Si algo cuesta, significa que no es para mí','Todavía no lo domino; puedo elegir una estrategia, practicar y pedir apoyo','Equivocarme elimina mis avances'],a:2,tip:'Aprender combina estrategia, práctica, retroalimentación y apoyo.'}
+    ];
+
+    let index = 0;
+    let points = 0;
+    let streak = 0;
+    let best = 0;
+    let locked = false;
+    let student = {name:'', grade:''};
+    const categoryStats = {};
+    const $ = id => document.getElementById(id);
+
+    function show(section){
+      ['intro','game','final'].forEach(id => $(id).classList.toggle('hidden', id !== section));
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    function start(){
+      const name = $('name').value.trim();
+      const grade = document.querySelector('[name="grade"]:checked');
+      if(name.length < 2 || !grade){
+        $('error').textContent = 'Escribe tu nombre y selecciona tu grado de secundaria.';
+        return;
+      }
+      student = {name, grade:grade.value};
+      localStorage.setItem('academiaTodaviaSecundariaStudent', JSON.stringify(student));
+      $('error').textContent = '';
+      index = points = streak = best = 0;
+      Object.keys(categoryStats).forEach(key => delete categoryStats[key]);
+      show('game');
+      render();
+    }
+
+    function render(){
+      locked = false;
+      const item = questions[index];
+      $('counter').textContent = `Reto ${index + 1} de ${questions.length}`;
+      $('score').textContent = `Aciertos: ${points}`;
+      $('streak').textContent = `🔥 Racha: ${streak}`;
+      $('progressBar').style.width = `${(index / questions.length) * 100}%`;
+      $('category').textContent = item.cat;
+      $('question').textContent = item.q;
+      $('feedback').className = 'feedback hidden';
+      $('nextButton').classList.add('hidden');
+      $('answers').innerHTML = '';
+      item.o.forEach((text, answerIndex) => {
+        const button = document.createElement('button');
+        button.className = 'answer';
+        button.innerHTML = `<span class="letter">${'ABCD'[answerIndex]}</span><span>${text}</span>`;
+        button.addEventListener('click', () => choose(answerIndex, button));
+        $('answers').appendChild(button);
+      });
+    }
+
+    function choose(answerIndex, selectedButton){
+      if(locked) return;
+      locked = true;
+      const item = questions[index];
+      const buttons = [...document.querySelectorAll('.answer')];
+      buttons.forEach((button, buttonIndex) => {
+        button.disabled = true;
+        if(buttonIndex === item.a) button.classList.add('correct');
+      });
+      const isCorrect = answerIndex === item.a;
+      if(isCorrect){
+        points++;
+        streak++;
+        best = Math.max(best, streak);
+      }else{
+        streak = 0;
+        selectedButton.classList.add('wrong');
+      }
+      categoryStats[item.cat] ||= {right:0,total:0};
+      categoryStats[item.cat].total++;
+      if(isCorrect) categoryStats[item.cat].right++;
+      $('feedback').className = `feedback ${isCorrect ? 'good' : 'try'}`;
+      $('feedback').innerHTML = `<b>${isCorrect ? '✅ ¡Buena estrategia!' : '🔎 Buen intento.'}</b><br>${item.tip}`;
+      $('score').textContent = `Aciertos: ${points}`;
+      $('streak').textContent = `🔥 Racha: ${streak}`;
+      $('nextButton').textContent = index === questions.length - 1 ? 'Ver mi resultado →' : 'Siguiente reto →';
+      $('nextButton').classList.remove('hidden');
+    }
+
+    function next(){
+      index++;
+      if(index < questions.length) render();
+      else finish();
+    }
+
+    function finish(){
+      const percentage = Math.round((points / questions.length) * 100);
+      const weakest = Object.entries(categoryStats).sort((a,b) => (a[1].right / a[1].total) - (b[1].right / b[1].total))[0];
+      const weakestName = weakest ? weakest[0].replace(/^\S+\s/,'') : 'una estrategia nueva';
+      $('progressBar').style.width = '100%';
+      $('finalScore').textContent = `${points}/50`;
+      $('finalGrade').textContent = `${student.grade} secundaria`;
+      $('bestStreak').textContent = best;
+      $('finalMessage').textContent = `${student.name}, completaste los 50 retos con ${percentage}% de aciertos. Cada respuesta es información para tu siguiente paso.`;
+      $('growthPlan').innerHTML = `<b>🎯 Tu siguiente paso:</b> vuelve a las estrategias de <b>${weakestName}</b>. Elige una, aplícala esta semana y anota qué cambió. No se trata de hacerlo perfecto, sino de aprender del intento.`;
+      $('certificateName').textContent = student.name;
+      $('certificateText').textContent = `Se reconoce a ${student.name}, estudiante de ${student.grade} de secundaria, por completar 50 retos y demostrar perseverancia, reflexión y disposición para aprender de los errores.`;
+      $('date').textContent = new Intl.DateTimeFormat('es-MX',{day:'numeric',month:'long',year:'numeric'}).format(new Date());
+      localStorage.setItem('academiaTodaviaSecundariaLastResult', JSON.stringify({student,points,percentage,best,date:new Date().toISOString()}));
+      show('final');
+    }
+
+    async function share(){
+      const text = `¡${student.name} completó la Academia del ¡Todavía! para Secundaria con ${points}/50! 🧠🚀`;
+      try{
+        if(navigator.share) await navigator.share({title:'Academia del ¡Todavía! · Secundaria',text,url:location.href});
+        else if(navigator.clipboard){await navigator.clipboard.writeText(`${text} ${location.href}`);alert('Resultado copiado para compartir.');}
+        else alert(text);
+      }catch(error){
+        if(error.name !== 'AbortError') alert('No se pudo compartir. Puedes imprimir el diploma.');
+      }
+    }
+
+    $('startButton').addEventListener('click', start);
+    $('nextButton').addEventListener('click', next);
+    $('shareButton').addEventListener('click', share);
+    $('printButton').addEventListener('click', () => window.print());
+    $('restartButton').addEventListener('click', () => location.reload());
+    $('name').addEventListener('keydown', event => {if(event.key === 'Enter') start();});
+
+    try{
+      const saved = JSON.parse(localStorage.getItem('academiaTodaviaSecundariaStudent'));
+      if(saved?.name) $('name').value = saved.name;
+      if(saved?.grade){
+        const radio = document.querySelector(`[name="grade"][value="${saved.grade}"]`);
+        if(radio) radio.checked = true;
+      }
+    }catch(error){
+      localStorage.removeItem('academiaTodaviaSecundariaStudent');
+    }
+  </script>
+</body>
+</html>
