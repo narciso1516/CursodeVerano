@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>🌈 El Laboratorio del ¡Todavía!</title>
+<style>
+:root{--green:#16a34a;--yellow:#facc15;--purple:#7c3aed;--ink:#19324a;--soft:#f8fbff}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Trebuchet MS",Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,#7dd3fc,#fff6c7);overflow-x:hidden;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 10% 20%,rgba(255,255,255,.5),transparent 20%),radial-gradient(circle at 90% 10%,rgba(255,255,255,.4),transparent 25%),radial-gradient(circle at 50% 100%,rgba(255,230,120,.35),transparent 35%);pointer-events:none}
+.wrap{max-width:980px;margin:auto;padding:20px;position:relative;z-index:1}
+.card{background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-radius:28px;padding:24px;box-shadow:0 20px 40px rgba(0,0,0,.18)}
+.center{text-align:center}.hidden{display:none!important}
+h1{font-size:clamp(2.1rem,6vw,3.2rem);margin:.2em}h2{color:#15803d}
+#robot,#monster{font-size:clamp(72px,18vw,110px);display:inline-block;transition:.5s}
+.float{animation:float 2.8s ease-in-out infinite}@keyframes float{50%{transform:translateY(-12px)}}
+.glow{animation:glow 1s infinite alternate}@keyframes glow{from{text-shadow:0 0 10px gold}to{text-shadow:0 0 30px orange}}
+button{border:none;border-radius:18px;padding:15px 20px;font-size:1.08rem;font-weight:800;cursor:pointer;transition:.2s;margin:8px;touch-action:manipulation}
+button:hover{transform:scale(1.035)}button:focus-visible,input:focus-visible{outline:4px solid #60a5fa;outline-offset:3px}
+.good{background:#4ade80}.bad{background:#fca5a5}.next{background:#facc15}.share{background:#dbeafe}.download{background:#c4b5fd}.restart{background:#e5e7eb}
+#answers{display:grid;grid-template-columns:1fr 1fr;gap:12px}.panel{margin-top:18px;padding:18px;border-radius:20px;background:#eefdf3}
+#progress{height:18px;background:#ddd;border-radius:999px;overflow:hidden;margin:12px 0}#bar{height:100%;width:0;background:linear-gradient(90deg,#22c55e,#facc15);transition:.4s}
+#confetti{font-size:42px;height:60px}.badge{display:inline-block;padding:10px 18px;background:#ede9fe;border-radius:999px;font-weight:bold;margin:6px}
+.form-box{max-width:620px;margin:20px auto 0;padding:22px;border-radius:24px;background:linear-gradient(145deg,#eff6ff,#fff7ed);border:3px dashed #8b5cf6}
+label{display:block;font-weight:900;font-size:1.15rem;margin:10px 0 7px}input[type=text]{width:100%;padding:16px 18px;border:3px solid #bfdbfe;border-radius:16px;font-size:1.2rem;font-weight:700;background:white}
+.gender-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0 4px}.gender-option{display:flex;align-items:center;justify-content:center;gap:9px;padding:15px;border-radius:18px;background:white;border:3px solid #ddd;font-weight:900;cursor:pointer}.gender-option:has(input:checked){border-color:#8b5cf6;background:#f3e8ff}.gender-option input{transform:scale(1.35)}
+.error{color:#b91c1c;font-weight:800;min-height:24px}
+#diplomaWrap{overflow:auto;padding:4px}.diploma{width:min(100%,900px);aspect-ratio:1.414/1;margin:10px auto;background:linear-gradient(135deg,#fffef4,#fff 55%,#eefaff);border:12px double #f59e0b;border-radius:20px;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:34px;text-align:center;box-shadow:0 15px 35px rgba(0,0,0,.16)}
+.diploma:before,.diploma:after{content:"⭐";position:absolute;font-size:42px}.diploma:before{left:24px;top:18px}.diploma:after{right:24px;bottom:18px}
+.diploma .seal{font-size:72px}.diploma .small{font-size:clamp(.9rem,2.2vw,1.2rem);letter-spacing:.08em;font-weight:900;color:#7c3aed}.diploma h3{font-size:clamp(1.7rem,5vw,3.4rem);margin:8px;color:#0f766e}.student-name{font-size:clamp(2rem,6vw,4.3rem);font-weight:1000;color:#be123c;border-bottom:4px solid #facc15;padding:0 18px 6px;max-width:90%;overflow-wrap:anywhere}.diploma p{font-size:clamp(1rem,2.7vw,1.45rem);max-width:720px;margin:12px}.signature{display:flex;gap:50px;margin-top:14px;font-weight:900}.share-note{max-width:760px;margin:12px auto;font-size:.95rem;color:#475569}
+@media(max-width:700px){#answers,.gender-grid{grid-template-columns:1fr}.wrap{padding:10px}.card{padding:18px;border-radius:22px}.diploma{padding:20px;border-width:8px}.signature{gap:18px;flex-direction:column}.diploma .seal{font-size:54px}}
+@media print{body{background:white}.wrap{padding:0}.card>*:not(#diplomaWrap){display:none!important}#final{box-shadow:none;padding:0}.diploma{width:100%;height:auto;box-shadow:none;margin:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="card" id="intro">
+<div class="center">
+<div id="robot" class="float">🤖</div><div id="monster" class="float">👾</div>
+<h1 class="glow">El Laboratorio del ¡Todavía!</h1>
+<p style="font-size:1.35rem">El Señor <b>“No Puedo”</b> se hace más fuerte cuando escuchamos frases negativas. ¡Ayuda a Tito a transformarlas!</p>
+<div class="form-box">
+<label for="studentName">✍️ Escribe tu nombre</label>
+<input id="studentName" type="text" maxlength="40" autocomplete="name" placeholder="Ejemplo: Sofía Hernández">
+<label>🧒 ¿Cómo quieres que aparezca tu diploma?</label>
+<div class="gender-grid">
+<label class="gender-option"><input type="radio" name="gender" value="niño"> 👦 Niño</label>
+<label class="gender-option"><input type="radio" name="gender" value="niña"> 👧 Niña</label>
+</div>
+<div id="formError" class="error" aria-live="polite"></div>
+<button class="next" onclick="start()">🚀 Comenzar misión</button>
+</div>
+</div>
+</section>
+
+<section id="game" class="card hidden">
+<h2 id="level"></h2><p id="welcome" class="center" style="font-weight:900"></p>
+<p id="question" style="font-size:2rem;text-align:center"></p><div id="answers"></div><div id="confetti" class="center"></div>
+<div class="panel"><h3>✨ Transformador de Palabras</h3><p id="machine" class="center" style="font-size:1.5rem"></p><button class="next" onclick="transform()">⚡ Transformar</button></div>
+<div class="center"><button id="nextBtn" class="next hidden" onclick="nextQuestion()">➡️ Siguiente</button></div>
+<div id="progress"><div id="bar"></div></div>
+</section>
+
+<section id="final" class="card hidden center">
+<div style="font-size:90px">🏆🌈⭐</div><h1>¡Misión cumplida!</h1>
+<p id="finalMessage" style="font-size:1.4rem"></p>
+<div id="diplomaWrap"><div id="diploma" class="diploma">
+<div class="seal">🏅</div><div class="small">DIPLOMA DE RECONOCIMIENTO</div><h3>HÉROE DEL “TODAVÍA”</h3>
+<div id="diplomaName" class="student-name"></div>
+<p id="diplomaText"></p>
+<p><b>“No digo no puedo; digo: ¡todavía estoy aprendiendo!”</b></p>
+<div class="signature"><span>🌈 Laboratorio del ¡Todavía!</span><span id="diplomaDate"></span></div>
+</div></div>
+<div>
+<button class="download" onclick="downloadDiploma()">⬇️ Guardar diploma</button>
+<button class="share" onclick="shareDiploma()">📲 Compartir</button>
+<button class="share" onclick="shareOn('facebook')">Facebook</button>
+<button class="share" onclick="shareOn('x')">X / Twitter</button>
+<button class="share" onclick="shareOn('linkedin')">LinkedIn</button>
+<button class="share" onclick="shareOn('instagram')">Instagram</button>
+<button class="restart" onclick="restartGame()">🔄 Jugar otra vez</button>
+</div>
+<p class="share-note">En Instagram, el navegador no permite publicar directamente una imagen. Usa <b>Guardar diploma</b> y después súbelo a una historia o publicación. En celular, el botón <b>Compartir</b> abre las aplicaciones disponibles.</p>
+<canvas id="fire" width="700" height="180" aria-hidden="true"></canvas>
+</section>
+</div>
+<script>
+const qs=[
+["📖 Leer","No me salió una palabra.","❌ No puedo.","✅ Todavía estoy aprendiendo."],
+["✏️ Escribir","Mi nombre quedó chueco.","❌ Nunca aprenderé.","✅ Voy a practicar."],
+["➕ Matemáticas","La suma es difícil.","❌ Soy malo.","✅ Lo intentaré otra vez."],
+["🎨 Dibujo","No me gustó mi dibujo.","❌ Ya no quiero.","✅ Lo puedo mejorar."],
+["🏃 Deportes","Perdí la carrera.","❌ Nunca ganaré.","✅ Seguiré entrenando."]];
+const tr=[["No puedo.","Todavía no me sale."],["Está difícil.","Con práctica lo lograré."],["Me equivoqué.","¡Ahora aprendí algo nuevo!"],["Nunca podré.","Cada día mejoro."],["No entiendo.","Voy a preguntar."]];
+let i=0,t=0,student={name:"",gender:""};
+const $=id=>document.getElementById(id);
+function escapeText(s){return s.replace(/[<>]/g,"").replace(/\s+/g," ").trim()}
+function start(){
+ const name=escapeText($("studentName").value); const choice=document.querySelector('input[name="gender"]:checked');
+ if(name.length<2||!choice){$("formError").textContent="Escribe tu nombre y elige Niño o Niña para comenzar.";return}
+ student={name,gender:choice.value}; localStorage.setItem("laboratorioStudent",JSON.stringify(student));
+ $("formError").textContent="";$("intro").classList.add("hidden");$("game").classList.remove("hidden");$("welcome").textContent=`¡Adelante, ${student.name}!`;render();
+}
+function render(){
+ $("bar").style.width=(i/qs.length*100)+"%";$("level").textContent="Nivel "+(i+1)+" de "+qs.length+" · "+qs[i][0];$("question").textContent=qs[i][1];$("answers").innerHTML="";$("confetti").textContent="";$("nextBtn").classList.add("hidden");$("monster").style.transform="scale("+(1.4-i*.1)+")";
+ [qs[i][2],qs[i][3]].forEach((txt,n)=>{const b=document.createElement("button");b.className=n?"good":"bad";b.textContent=txt;b.onclick=()=>answer(n);$("answers").appendChild(b)});$("machine").innerHTML="<b>"+tr[t][0]+"</b>";
+}
+function answer(ok){if(ok){$("confetti").textContent="🎉⭐✨🎈";$("monster").textContent="😵";setTimeout(()=>$("monster").textContent="👾",600);$("nextBtn").classList.remove("hidden");if(navigator.vibrate)navigator.vibrate(100)}else alert("👾 ¡El Señor 'No Puedo' creció! Busca una frase que te ayude a seguir aprendiendo.")}
+function nextQuestion(){i++;if(i>=qs.length){$("bar").style.width="100%";$("game").classList.add("hidden");showDiploma()}else render()}
+function transform(){$("machine").innerHTML="<b>"+tr[t][0]+"</b><br>⬇️<br><span style='color:#16a34a;font-weight:bold'>"+tr[t][1]+"</span>";t=(t+1)%tr.length}
+function showDiploma(){
+ $("final").classList.remove("hidden");$("diplomaName").textContent=student.name;const hero=student.gender==="niña"?"una heroína":"un héroe";$("finalMessage").textContent=`¡Felicidades, ${student.name}! Hoy demostraste que eres ${hero} que aprende, practica y vuelve a intentarlo.`;$("diplomaText").textContent=`Se otorga a ${student.name} por completar con entusiasmo El Laboratorio del ¡Todavía! y demostrar valentía para aprender de los errores.`;$("diplomaDate").textContent=new Intl.DateTimeFormat("es-MX",{day:"numeric",month:"long",year:"numeric"}).format(new Date());fireworks();
+}
+function diplomaCanvas(){
+ const d=$("diploma"),r=d.getBoundingClientRect(),scale=2,w=1200,h=848,c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d");
+ const g=x.createLinearGradient(0,0,w,h);g.addColorStop(0,"#fffef4");g.addColorStop(.55,"#ffffff");g.addColorStop(1,"#eefaff");x.fillStyle=g;x.fillRect(0,0,w,h);x.strokeStyle="#f59e0b";x.lineWidth=18;x.strokeRect(16,16,w-32,h-32);x.strokeStyle="#fbbf24";x.lineWidth=5;x.strokeRect(38,38,w-76,h-76);
+ x.textAlign="center";x.fillStyle="#7c3aed";x.font="900 28px Arial";x.fillText("DIPLOMA DE RECONOCIMIENTO",w/2,150);x.font="72px Arial";x.fillText("🏅",w/2,100);x.fillStyle="#0f766e";x.font="900 60px Arial";x.fillText("HÉROE DEL “TODAVÍA”",w/2,235);x.fillStyle="#be123c";x.font="900 72px Arial";fitText(x,student.name,w-170,72);x.fillText(student.name,w/2,350);x.strokeStyle="#facc15";x.lineWidth=6;x.beginPath();x.moveTo(160,375);x.lineTo(w-160,375);x.stroke();
+ x.fillStyle="#19324a";x.font="32px Arial";wrapText(x,`Se otorga a ${student.name} por completar con entusiasmo El Laboratorio del ¡Todavía! y demostrar valentía para aprender de los errores.`,w/2,450,w-190,45);x.font="900 32px Arial";x.fillText("“No digo no puedo; digo: ¡todavía estoy aprendiendo!”",w/2,620);x.font="900 25px Arial";x.fillText("🌈 Laboratorio del ¡Todavía!",320,735);x.fillText($("diplomaDate").textContent,880,735);x.font="46px Arial";x.fillText("⭐",80,90);x.fillText("⭐",1120,780);return c
+}
+function fitText(ctx,text,maxWidth,start){let size=start;while(size>34){ctx.font=`900 ${size}px Arial`;if(ctx.measureText(text).width<=maxWidth)break;size-=2}}
+function wrapText(ctx,text,x,y,maxWidth,lineHeight){const words=text.split(" ");let line="",lines=[];for(const word of words){const test=line+word+" ";if(ctx.measureText(test).width>maxWidth&&line){lines.push(line);line=word+" "}else line=test}lines.push(line);lines.forEach((ln,n)=>ctx.fillText(ln.trim(),x,y+n*lineHeight))}
+function dataURLtoFile(dataurl,filename){const arr=dataurl.split(','),mime=arr[0].match(/:(.*?);/)[1],bstr=atob(arr[1]);let n=bstr.length,u8=new Uint8Array(n);while(n--)u8[n]=bstr.charCodeAt(n);return new File([u8],filename,{type:mime})}
+function downloadDiploma(){const c=diplomaCanvas(),a=document.createElement("a");a.download=`Diploma_${student.name.replace(/\s+/g,"_")}.png`;a.href=c.toDataURL("image/png");a.click()}
+async function shareDiploma(){
+ const c=diplomaCanvas(),file=dataURLtoFile(c.toDataURL("image/png"),`Diploma_${student.name}.png`),text=`¡${student.name} completó El Laboratorio del ¡Todavía! 🌈🏅`;
+ try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({title:"Diploma del ¡Todavía!",text,files:[file]})}else if(navigator.share){await navigator.share({title:"Diploma del ¡Todavía!",text,url:location.href})}else{downloadDiploma();alert("El diploma se guardó. Ahora puedes subirlo a tu red social favorita.")}}catch(e){if(e.name!=="AbortError")downloadDiploma()}
+}
+function shareOn(network){const text=encodeURIComponent(`¡${student.name} completó El Laboratorio del ¡Todavía! 🌈🏅`),url=encodeURIComponent(location.href);if(network==="instagram"){downloadDiploma();alert("Diploma guardado. Abre Instagram y súbelo como historia o publicación.");return}const links={facebook:`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`,x:`https://twitter.com/intent/tweet?text=${text}&url=${url}`,linkedin:`https://www.linkedin.com/sharing/share-offsite/?url=${url}`};window.open(links[network],"_blank","noopener,noreferrer")}
+function restartGame(){i=0;t=0;$("final").classList.add("hidden");$("intro").classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"})}
+function fireworks(){const c=$("fire"),x=c.getContext("2d");let p=[];for(let k=0;k<120;k++)p.push({x:350,y:150,vx:(Math.random()-.5)*8,vy:-Math.random()*8,r:2+Math.random()*3});let frames=0;(function a(){x.clearRect(0,0,c.width,c.height);p.forEach(o=>{o.x+=o.vx;o.y+=o.vy;o.vy+=.08;x.beginPath();x.arc(o.x,o.y,o.r,0,7);x.fillStyle=`hsl(${(o.x+o.y)%360},100%,60%)`;x.fill()});if(frames++<260)requestAnimationFrame(a)})()}
+window.addEventListener("DOMContentLoaded",()=>{try{const saved=JSON.parse(localStorage.getItem("laboratorioStudent"));if(saved?.name)$("studentName").value=saved.name;if(saved?.gender)document.querySelector(`input[value="${saved.gender}"]`).checked=true}catch(e){}});
+</script>
+</body></html>
