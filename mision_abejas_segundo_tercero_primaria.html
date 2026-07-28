@@ -9,18 +9,28 @@
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#fff8e8;font-family:Nunito,system-ui,-apple-system,"Segoe UI",sans-serif}
 .page{display:flex;flex-direction:column;width:100%;height:100%}
 iframe{display:block;width:100%;flex:1;border:0;background:#fff}
-.author-bar{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:12px 16px;background:#24343a;color:#fff;font-size:15px;font-weight:800;text-align:center;box-shadow:0 -5px 20px rgba(0,0,0,.14)}
-.author-bar a{display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border-radius:999px;background:#ffc94a;color:#3b2a00;text-decoration:none;font-weight:1000;transition:.18s}
+.author-bar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:12px 16px;background:linear-gradient(135deg,#24343a,#34515a);color:#fff;box-shadow:0 -5px 20px rgba(0,0,0,.14)}
+.author-icon{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:#ffc94a;color:#3b2a00;font-size:1.55rem}
+.author-copy{min-width:0}
+.author-copy strong{display:block;font-size:15px;margin-bottom:2px}
+.author-copy .place{color:#ffe6a2;font-size:13px;font-weight:900;margin-bottom:3px}
+.author-copy p{margin:0;color:#e6f3f5;font-size:12.5px;line-height:1.35}
+.author-bar a{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 14px;border-radius:999px;background:#ffc94a;color:#3b2a00;text-decoration:none;font-weight:1000;white-space:nowrap;transition:.18s}
 .author-bar a:hover{transform:translateY(-1px);background:#ffd978}
-@media(max-width:600px){.author-bar{font-size:13px;padding:9px 10px}.author-bar a{padding:7px 11px}}
+@media(max-width:720px){.author-bar{grid-template-columns:auto 1fr;gap:10px;padding:10px}.author-bar a{grid-column:1/-1;width:100%;padding:8px 12px}.author-copy strong{font-size:13px}.author-copy .place,.author-copy p{font-size:11px}.author-icon{width:42px;height:42px;font-size:1.35rem}}
 </style>
 </head>
 <body>
 <div class="page">
   <iframe src="mision_abejas_segundo_tercero_primaria_core.html" title="Misión Abejas para segundo y tercero de primaria"></iframe>
   <footer class="author-bar">
-    <span>Autor: Ing. Luis Alberto Antonio Narciso</span>
-    <a href="https://narciso1516.github.io/narcisotesting.com/" target="_blank" rel="noopener noreferrer">👤 Ver mi CV</a>
+    <div class="author-icon" aria-hidden="true">👨‍💻</div>
+    <div class="author-copy">
+      <strong>Creada y desarrollada por Ing. Luis Alberto Antonio Narciso</strong>
+      <div class="place">Curso de Verano Poblado Tres · Tres Valles, Veracruz</div>
+      <p>Ingeniero en Electrónica, especialista en calidad de software y creador de experiencias educativas digitales.<br>Combina tecnología, pedagogía y diseño para crear actividades claras, interactivas y motivadoras.</p>
+    </div>
+    <a href="https://narciso1516.github.io/narcisotesting.com/" target="_blank" rel="noopener noreferrer">👤 Consultar mi CV</a>
   </footer>
 </div>
 </body>
