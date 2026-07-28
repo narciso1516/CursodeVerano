@@ -5,177 +5,72 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Misión Abejas · 2.º y 3.º de primaria</title>
 <style>
-:root{
-  --ink:#24343a;
-  --muted:#64777d;
-  --yellow:#ffc94a;
-  --yellow-soft:#fff1b7;
-  --cream:#fff8e8;
-  --green:#4e9f65;
-  --line:#ead58d;
-  --shadow:0 24px 65px rgba(36,52,58,.25)
-}
+:root{--ink:#24343a;--muted:#64777d;--yellow:#ffc94a;--cream:#fff8e8;--green:#4e9f65;--blue:#4a8db7}
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--cream);font-family:Nunito,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink)}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:linear-gradient(180deg,#f8fff7,#fff8e8);font-family:Nunito,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink)}
 button,a{font:inherit}
-.page{position:relative;width:100%;height:100%}
+.page{height:100%;display:flex;flex-direction:column;position:relative}
+.creator-zone{flex:0 0 auto;padding:14px 14px 0;position:relative;z-index:20}
+.creator-section-button{width:min(1092px,100%);margin:0 auto -20px;min-height:116px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:22px;padding:20px 24px;border:0;border-radius:30px;background:linear-gradient(135deg,#253f47 0%,#315e69 48%,#4e9f65 100%);color:#fff;text-align:left;cursor:pointer;position:relative;overflow:hidden;box-shadow:0 18px 0 rgba(31,65,73,.16),0 34px 70px rgba(36,52,58,.32);transform:translateY(0);transition:transform .2s ease,box-shadow .2s ease}
+.creator-section-button:before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-70px;top:-120px;background:rgba(255,255,255,.1)}
+.creator-section-button:after{content:"";position:absolute;inset:0;border:2px solid rgba(255,255,255,.22);border-radius:30px;pointer-events:none}
+.creator-section-button:hover{transform:translateY(-5px);box-shadow:0 22px 0 rgba(31,65,73,.17),0 42px 80px rgba(36,52,58,.38)}
+.creator-section-button:active{transform:translateY(2px)}
+.creator-avatar{width:76px;height:76px;border-radius:24px;display:grid;place-items:center;background:linear-gradient(135deg,var(--yellow),#ffe99f);color:#4a3500;font-size:2.35rem;box-shadow:inset 0 -6px 0 rgba(0,0,0,.08),0 13px 25px rgba(0,0,0,.18)}
+.creator-copy{min-width:0;position:relative;z-index:1}
+.creator-copy small{display:inline-flex;margin-bottom:7px;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);font-size:.72rem;font-weight:1000;letter-spacing:.08em}
+.creator-copy strong{display:block;font-size:clamp(1.25rem,2.8vw,1.75rem);line-height:1.08}
+.creator-copy span{display:block;margin-top:7px;color:rgba(255,255,255,.82);font-size:.9rem;font-weight:800}
+.creator-cta{position:relative;z-index:1;display:flex;align-items:center;gap:10px;padding:14px 18px;border-radius:17px;background:#fff;color:var(--ink);font-size:.9rem;font-weight:1000;white-space:nowrap;box-shadow:0 11px 24px rgba(0,0,0,.18)}
+.creator-cta b{font-size:1.3rem}
+.activity-shell{flex:1;min-height:0;padding-top:20px;background:transparent}
 .activity-frame{display:block;width:100%;height:100%;border:0;background:#fff}
-
-.creator-section-button{
-  position:fixed;
-  left:50%;
-  bottom:18px;
-  z-index:30;
-  width:min(1092px,calc(100vw - 28px));
-  min-height:92px;
-  transform:translateX(-50%) translateY(0);
-  display:grid;
-  grid-template-columns:auto 1fr auto;
-  align-items:center;
-  gap:18px;
-  padding:16px 20px;
-  border:2px solid rgba(255,201,74,.9);
-  border-radius:28px;
-  background:
-    radial-gradient(circle at 4% 20%,rgba(255,255,255,.55),transparent 24%),
-    linear-gradient(135deg,#fff6c9 0%,#fffdf3 48%,#eaf8ed 100%);
-  color:var(--ink);
-  text-align:left;
-  box-shadow:
-    0 10px 0 rgba(199,142,16,.25),
-    0 28px 68px rgba(36,52,58,.28);
-  cursor:pointer;
-  overflow:hidden;
-  isolation:isolate;
-  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease
-}
-.creator-section-button::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:-1;
-  background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.7) 45%,transparent 65%);
-  transform:translateX(-120%);
-  transition:transform .7s ease
-}
-.creator-section-button:hover{
-  transform:translateX(-50%) translateY(-6px);
-  border-color:#e4a515;
-  box-shadow:
-    0 13px 0 rgba(199,142,16,.3),
-    0 35px 78px rgba(36,52,58,.34)
-}
-.creator-section-button:hover::before{transform:translateX(120%)}
-.creator-section-button:active{transform:translateX(-50%) translateY(1px);box-shadow:0 5px 0 rgba(199,142,16,.28),0 16px 35px rgba(36,52,58,.22)}
-.creator-section-button:focus-visible{outline:5px solid rgba(74,141,183,.3);outline-offset:4px}
-.creator-avatar{
-  width:62px;
-  height:62px;
-  border-radius:20px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(135deg,var(--yellow),#ffe89a);
-  font-size:2rem;
-  box-shadow:inset 0 -5px 0 rgba(0,0,0,.07),0 10px 22px rgba(180,127,0,.2)
-}
-.creator-copy{min-width:0}
-.creator-copy small{display:inline-flex;margin-bottom:5px;padding:4px 9px;border-radius:999px;background:#fff0b7;color:#765000;font-size:.7rem;font-weight:1000;letter-spacing:.06em}
-.creator-copy strong{display:block;font-size:clamp(1rem,2.3vw,1.28rem);line-height:1.15}
-.creator-copy span{display:block;margin-top:5px;color:var(--muted);font-size:.84rem;font-weight:800}
-.creator-cta{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:16px;background:var(--ink);color:#fff;font-size:.88rem;font-weight:1000;white-space:nowrap;box-shadow:0 10px 22px rgba(36,52,58,.2)}
-.creator-cta b{font-size:1.25rem;line-height:1}
-
-.modal{position:fixed;inset:0;z-index:50;display:none;place-items:center;padding:18px;background:rgba(24,35,39,.62);backdrop-filter:blur(8px)}
+.modal{position:fixed;inset:0;z-index:50;display:none;place-items:center;padding:18px;background:rgba(24,35,39,.68);backdrop-filter:blur(9px)}
 .modal.open{display:grid}
-.creator-card{position:relative;width:min(680px,100%);max-height:min(760px,92vh);overflow:auto;border:1px solid rgba(255,255,255,.75);border-radius:30px;background:radial-gradient(circle at 8% 0%,rgba(255,201,74,.28),transparent 28%),linear-gradient(180deg,#fffdf7,#ffffff);box-shadow:0 30px 90px rgba(0,0,0,.34)}
-.close-btn{position:absolute;top:14px;right:14px;width:42px;height:42px;border:0;border-radius:50%;background:rgba(255,255,255,.92);color:var(--ink);font-size:1.2rem;font-weight:1000;box-shadow:0 8px 20px rgba(36,52,58,.12);cursor:pointer}
+.creator-card{position:relative;width:min(680px,100%);max-height:92vh;overflow:auto;border-radius:30px;background:radial-gradient(circle at 8% 0%,rgba(255,201,74,.28),transparent 28%),linear-gradient(180deg,#fffdf7,#fff);box-shadow:0 30px 90px rgba(0,0,0,.34)}
+.close-btn{position:absolute;top:14px;right:14px;width:42px;height:42px;border:0;border-radius:50%;background:#fff;color:var(--ink);font-size:1.2rem;font-weight:1000;cursor:pointer;box-shadow:0 8px 20px rgba(36,52,58,.12)}
 .creator-hero{padding:34px 30px 24px;text-align:center}
 .big-avatar{width:88px;height:88px;margin:0 auto 16px;border-radius:27px;display:grid;place-items:center;background:linear-gradient(135deg,var(--yellow),#ffe89a);font-size:2.8rem;box-shadow:0 16px 30px rgba(180,127,0,.2)}
-.eyebrow{display:inline-flex;padding:7px 11px;border-radius:999px;background:var(--yellow-soft);color:#765000;font-size:.74rem;font-weight:1000;letter-spacing:.06em}
-.creator-hero h2{margin:12px 0 6px;font-size:clamp(1.6rem,5vw,2.25rem);line-height:1.08}
-.creator-hero .role{margin:0;color:var(--green);font-weight:1000;font-size:1rem}
-.creator-hero .place{margin:6px 0 0;color:var(--muted);font-size:.92rem}
-.profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0 26px}
-.profile-item{padding:15px;border:1px solid #eee1b7;border-radius:18px;background:#fffaf0}
-.profile-item strong{display:block;font-size:.94rem}
-.profile-item span{display:block;margin-top:3px;color:var(--muted);font-size:.8rem;line-height:1.35}
-.creator-message{margin:20px 26px 0;padding:18px;border-left:6px solid var(--yellow);border-radius:18px;background:#fff7d9;color:#57491d;line-height:1.55;font-weight:800}
-.creator-actions{display:flex;gap:10px;flex-wrap:wrap;padding:22px 26px 28px}
-.primary-link,.secondary-btn{flex:1;min-width:210px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 17px;border-radius:16px;font-weight:1000;text-decoration:none;cursor:pointer}
-.primary-link{background:var(--ink);color:#fff;box-shadow:0 10px 24px rgba(36,52,58,.2)}
-.primary-link:hover{background:#31505a}
-.secondary-btn{border:2px solid #e6d79c;background:#fff;color:var(--ink)}
-
-@media(max-width:720px){
-  .creator-section-button{bottom:10px;min-height:82px;grid-template-columns:auto 1fr auto;gap:10px;padding:12px;border-radius:22px}
-  .creator-avatar{width:50px;height:50px;border-radius:16px;font-size:1.55rem}
-  .creator-copy span{display:none}
-  .creator-copy strong{font-size:.88rem}
-  .creator-copy small{font-size:.61rem}
-  .creator-cta{width:42px;height:42px;padding:0;justify-content:center;border-radius:14px}
-  .creator-cta span{display:none}
-  .creator-card{border-radius:24px}
-  .creator-hero{padding:30px 20px 20px}
-  .profile-grid{grid-template-columns:1fr;padding:0 18px}
-  .creator-message{margin:18px 18px 0}
-  .creator-actions{padding:18px}
-  .primary-link,.secondary-btn{min-width:100%}
-}
-@media(max-height:650px){.creator-section-button{min-height:70px;padding-top:9px;padding-bottom:9px}.creator-avatar{width:46px;height:46px}.creator-copy span{display:none}}
+.eyebrow{display:inline-flex;padding:7px 11px;border-radius:999px;background:#fff1b7;color:#765000;font-size:.74rem;font-weight:1000;letter-spacing:.06em}
+.creator-hero h2{margin:12px 0 6px;font-size:clamp(1.6rem,5vw,2.25rem);line-height:1.08}.creator-hero .role{margin:0;color:var(--green);font-weight:1000}.creator-hero .place{margin:6px 0 0;color:var(--muted);font-size:.92rem}
+.profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0 26px}.profile-item{padding:15px;border:1px solid #eee1b7;border-radius:18px;background:#fffaf0}.profile-item strong{display:block}.profile-item span{display:block;margin-top:3px;color:var(--muted);font-size:.8rem;line-height:1.35}
+.creator-message{margin:20px 26px 0;padding:18px;border-left:6px solid var(--yellow);border-radius:18px;background:#fff7d9;color:#57491d;line-height:1.55;font-weight:800}.creator-actions{display:flex;gap:10px;flex-wrap:wrap;padding:22px 26px 28px}.primary-link,.secondary-btn{flex:1;min-width:210px;display:inline-flex;align-items:center;justify-content:center;padding:14px 17px;border-radius:16px;font-weight:1000;text-decoration:none;cursor:pointer}.primary-link{background:var(--ink);color:#fff}.secondary-btn{border:2px solid #e6d79c;background:#fff;color:var(--ink)}
+@media(max-width:720px){.creator-zone{padding:8px 8px 0}.creator-section-button{min-height:92px;margin-bottom:-14px;grid-template-columns:auto 1fr auto;gap:11px;padding:13px 14px;border-radius:23px}.creator-section-button:after{border-radius:23px}.creator-avatar{width:54px;height:54px;border-radius:17px;font-size:1.65rem}.creator-copy small{font-size:.57rem;margin-bottom:4px}.creator-copy strong{font-size:.92rem}.creator-copy span{display:none}.creator-cta{width:44px;height:44px;padding:0;justify-content:center;border-radius:14px}.creator-cta span{display:none}.activity-shell{padding-top:14px}.profile-grid{grid-template-columns:1fr;padding:0 18px}.creator-message{margin:18px 18px 0}.creator-actions{padding:18px}.primary-link,.secondary-btn{min-width:100%}}
+@media(max-height:700px){.creator-section-button{min-height:78px;padding-top:10px;padding-bottom:10px}.creator-avatar{width:48px;height:48px}.creator-copy span{display:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <div class="page">
-  <iframe class="activity-frame" src="mision_abejas_segundo_tercero_primaria_core.html" title="Misión Abejas para segundo y tercero de primaria"></iframe>
-
-  <button class="creator-section-button" id="openCreator" type="button" aria-haspopup="dialog" aria-controls="creatorModal">
-    <span class="creator-avatar" aria-hidden="true">👨‍💻</span>
-    <span class="creator-copy">
-      <small>CONOCE AL CREADOR DE ESTA EXPERIENCIA</small>
-      <strong>Ing. Luis Alberto Antonio Narciso</strong>
-      <span>Tecnología, pedagogía y diseño educativo desde Poblado Tres, Veracruz.</span>
-    </span>
-    <span class="creator-cta"><span>Ver perfil</span><b aria-hidden="true">›</b></span>
-  </button>
-
+  <div class="creator-zone">
+    <button class="creator-section-button" id="openCreator" type="button" aria-haspopup="dialog" aria-controls="creatorModal">
+      <span class="creator-avatar" aria-hidden="true">👨‍💻</span>
+      <span class="creator-copy">
+        <small>CREADOR DE ESTA EXPERIENCIA</small>
+        <strong>Ing. Luis Alberto Antonio Narciso</strong>
+        <span>Tecnología, pedagogía y diseño educativo desde Poblado Tres, Veracruz.</span>
+      </span>
+      <span class="creator-cta"><span>Conocer perfil</span><b aria-hidden="true">›</b></span>
+    </button>
+  </div>
+  <div class="activity-shell">
+    <iframe class="activity-frame" src="mision_abejas_segundo_tercero_primaria_core.html?v=4" title="Misión Abejas para segundo y tercero de primaria"></iframe>
+  </div>
   <div class="modal" id="creatorModal" role="dialog" aria-modal="true" aria-labelledby="creatorTitle">
     <article class="creator-card">
       <button class="close-btn" id="closeCreator" type="button" aria-label="Cerrar información del creador">×</button>
-      <div class="creator-hero">
-        <div class="big-avatar" aria-hidden="true">👨‍💻</div>
-        <span class="eyebrow">AUTOR Y DESARROLLADOR</span>
-        <h2 id="creatorTitle">Ing. Luis Alberto Antonio Narciso</h2>
-        <p class="role">Diseñador de experiencias educativas interactivas</p>
-        <p class="place">Curso de Verano Poblado Tres · Tres Valles, Veracruz</p>
-      </div>
-      <div class="profile-grid">
-        <div class="profile-item"><strong>🎓 Ingeniería</strong><span>Ingeniero en Electrónica con enfoque tecnológico.</span></div>
-        <div class="profile-item"><strong>💻 Calidad de software</strong><span>Especialista en pruebas y experiencias digitales confiables.</span></div>
-        <div class="profile-item"><strong>🤖 Inteligencia artificial</strong><span>Uso responsable de IA para crear mejores recursos.</span></div>
-        <div class="profile-item"><strong>📚 Tecnología educativa</strong><span>Actividades claras, interactivas y apropiadas para cada edad.</span></div>
-      </div>
+      <div class="creator-hero"><div class="big-avatar" aria-hidden="true">👨‍💻</div><span class="eyebrow">AUTOR Y DESARROLLADOR</span><h2 id="creatorTitle">Ing. Luis Alberto Antonio Narciso</h2><p class="role">Diseñador de experiencias educativas interactivas</p><p class="place">Curso de Verano Poblado Tres · Tres Valles, Veracruz</p></div>
+      <div class="profile-grid"><div class="profile-item"><strong>🎓 Ingeniería</strong><span>Ingeniero en Electrónica con enfoque tecnológico.</span></div><div class="profile-item"><strong>💻 Calidad de software</strong><span>Especialista en pruebas y experiencias digitales confiables.</span></div><div class="profile-item"><strong>🤖 Inteligencia artificial</strong><span>Uso responsable de IA para crear mejores recursos.</span></div><div class="profile-item"><strong>📚 Tecnología educativa</strong><span>Actividades claras, interactivas y apropiadas para cada edad.</span></div></div>
       <div class="creator-message">Cada actividad fue diseñada para despertar la curiosidad, fortalecer la comprensión y demostrar que aprender también puede ser una experiencia emocionante.</div>
-      <div class="creator-actions">
-        <a class="primary-link" href="https://narciso1516.github.io/narcisotesting.com/" target="_blank" rel="noopener noreferrer">👤 Conoce al creador</a>
-        <button class="secondary-btn" id="closeCreatorBottom" type="button">Seguir con la actividad</button>
-      </div>
+      <div class="creator-actions"><a class="primary-link" href="https://narciso1516.github.io/narcisotesting.com/" target="_blank" rel="noopener noreferrer">👤 Conoce al creador</a><button class="secondary-btn" id="closeCreatorBottom" type="button">Seguir con la actividad</button></div>
     </article>
   </div>
 </div>
 <script>
-const modal=document.getElementById('creatorModal');
-const openBtn=document.getElementById('openCreator');
-const closeBtn=document.getElementById('closeCreator');
-const closeBottom=document.getElementById('closeCreatorBottom');
-let lastFocus=null;
+const modal=document.getElementById('creatorModal'),openBtn=document.getElementById('openCreator'),closeBtn=document.getElementById('closeCreator'),closeBottom=document.getElementById('closeCreatorBottom');let lastFocus=null;
 function openModal(){lastFocus=document.activeElement;modal.classList.add('open');closeBtn.focus()}
 function closeModal(){modal.classList.remove('open');if(lastFocus)lastFocus.focus()}
-openBtn.addEventListener('click',openModal);
-closeBtn.addEventListener('click',closeModal);
-closeBottom.addEventListener('click',closeModal);
-modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))closeModal()});
+openBtn.addEventListener('click',openModal);closeBtn.addEventListener('click',closeModal);closeBottom.addEventListener('click',closeModal);modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))closeModal()});
 </script>
 </body>
 </html>
