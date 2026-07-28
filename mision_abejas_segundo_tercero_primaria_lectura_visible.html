@@ -18,12 +18,16 @@ const frame=document.getElementById('actividad');
 frame.addEventListener('load',()=>{
   try{
     const doc=frame.contentDocument||frame.contentWindow.document;
-    const aplicar=()=>{
+
+    const mostrarLectura=()=>{
       const panel=doc.getElementById('storyPanel');
       const boton=doc.getElementById('storyToggle');
       const flecha=doc.getElementById('arrow');
-      if(panel){
+
+      if(panel && panel.classList.contains('hidden')){
         panel.classList.remove('hidden');
+      }
+      if(panel && panel.style.display!=='block'){
         panel.style.display='block';
         panel.style.marginTop='10px';
       }
@@ -31,13 +35,24 @@ frame.addEventListener('load',()=>{
         boton.disabled=true;
         boton.style.cursor='default';
         const texto=boton.querySelector('span');
-        if(texto) texto.textContent='📖 Lectura para consultar antes de responder';
+        if(texto && texto.textContent!=='📖 Lectura para consultar antes de responder'){
+          texto.textContent='📖 Lectura para consultar antes de responder';
+        }
       }
-      if(flecha) flecha.textContent='▲';
+      if(flecha && flecha.textContent!=='▲') flecha.textContent='▲';
     };
-    aplicar();
-    new MutationObserver(aplicar).observe(doc.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style']});
-  }catch(e){document.getElementById('msg').style.display='block'}
+
+    mostrarLectura();
+
+    const game=doc.getElementById('game');
+    if(game){
+      new MutationObserver(()=>{
+        window.requestAnimationFrame(mostrarLectura);
+      }).observe(game,{childList:true,subtree:true});
+    }
+  }catch(e){
+    document.getElementById('msg').style.display='block';
+  }
 });
 </script>
 </body>
