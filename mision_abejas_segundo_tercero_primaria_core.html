@@ -1,0 +1,787 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Misión Abejas · 2.º y 3.º de primaria</title>
+<style>
+:root{
+  --miel:#FFC94A;
+  --miel-osc:#E79B16;
+  --verde:#4E9F65;
+  --verde-suave:#DFF2E4;
+  --cielo:#A8DDF0;
+  --azul:#4A8DB7;
+  --rosa:#F39AB8;
+  --lavanda:#BFA8EA;
+  --crema:#FFF9E9;
+  --papel:#FFFDF7;
+  --tinta:#24343A;
+  --texto-suave:#607078;
+  --rojo:#E46D6D;
+  --linea:#E9DDBF;
+  --sombra:0 18px 45px rgba(58,76,65,.16);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Nunito,ui-rounded,"SF Pro Rounded",system-ui,-apple-system,sans-serif;
+  color:var(--tinta);
+  background:
+    radial-gradient(circle at 10% 10%,rgba(255,201,74,.32),transparent 22%),
+    radial-gradient(circle at 88% 12%,rgba(168,221,240,.38),transparent 24%),
+    linear-gradient(180deg,#F8FFF7 0%,#FFF8E8 100%);
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{max-width:1120px;margin:auto;padding:14px}
+.topbar{
+  position:sticky;top:8px;z-index:20;
+  display:flex;align-items:center;gap:14px;
+  padding:12px 14px;
+  border-radius:24px;
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(255,255,255,.85);
+  box-shadow:var(--sombra);
+  backdrop-filter:blur(14px)
+}
+.logo{
+  width:54px;height:54px;border-radius:18px;
+  display:grid;place-items:center;font-size:31px;
+  background:linear-gradient(145deg,var(--miel),#FFE58D);
+  box-shadow:inset 0 -5px 0 rgba(0,0,0,.08)
+}
+.progress{flex:1}
+.progress-row{display:flex;justify-content:space-between;gap:10px;font-weight:900}
+.track{height:13px;background:#EEE7D5;border-radius:999px;overflow:hidden;margin-top:7px}
+.track>span{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--miel),var(--verde));transition:.35s}
+.score{display:flex;gap:12px;font-weight:1000;white-space:nowrap}
+.hero{
+  margin:18px 0;
+  padding:30px;
+  border-radius:34px;
+  color:#fff;
+  overflow:hidden;
+  position:relative;
+  background:
+    linear-gradient(135deg,rgba(57,127,83,.96),rgba(78,159,101,.94)),
+    linear-gradient(135deg,var(--verde),var(--azul));
+  box-shadow:var(--sombra)
+}
+.hero:before,.hero:after{
+  content:"";position:absolute;border-radius:50%;
+  background:rgba(255,255,255,.11)
+}
+.hero:before{width:240px;height:240px;right:-60px;top:-80px}
+.hero:after{width:155px;height:155px;left:-45px;bottom:-65px}
+.hero .tag{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 12px;border-radius:999px;
+  background:rgba(255,255,255,.17);
+  border:1px solid rgba(255,255,255,.22);
+  font-weight:1000;margin-bottom:12px
+}
+.hero h1{font-size:clamp(36px,6vw,66px);line-height:.98;margin:0;max-width:780px}
+.hero p{font-size:18px;line-height:1.55;max-width:780px;margin-bottom:0}
+.card{
+  background:var(--papel);
+  border:1px solid var(--linea);
+  border-radius:30px;
+  padding:24px;
+  box-shadow:var(--sombra)
+}
+.hidden{display:none!important}
+.start{text-align:center}
+.start h2{font-size:36px;margin:0;color:var(--verde)}
+.start p{font-size:18px;line-height:1.55;color:var(--texto-suave)}
+.form{
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:12px;
+  margin:20px 0
+}
+.field{
+  width:100%;
+  padding:15px 16px;
+  border:2px solid var(--linea);
+  background:#fff;
+  border-radius:16px;
+  font-size:18px;
+  outline:none
+}
+.field:focus{border-color:var(--miel-osc);box-shadow:0 0 0 4px rgba(255,201,74,.18)}
+.primary{
+  border:0;
+  border-radius:17px;
+  padding:14px 22px;
+  background:linear-gradient(145deg,var(--miel),#FFD978);
+  color:#4A3500;
+  font-size:18px;
+  font-weight:1000;
+  box-shadow:0 7px 0 #C67C12
+}
+.primary:active{transform:translateY(3px);box-shadow:0 4px 0 #C67C12}
+.secondary{
+  border:2px solid var(--linea);
+  background:#fff;
+  border-radius:16px;
+  padding:12px 16px;
+  font-weight:1000
+}
+.reading{
+  background:linear-gradient(180deg,#FFFDF4,#FFFFFF);
+  border:2px solid #EBCF75;
+  border-radius:24px;
+  padding:22px
+}
+.reading h2{margin:0 0 10px;color:var(--verde);font-size:31px}
+.reading p{
+  font-family:Georgia,serif;
+  font-size:20px;
+  line-height:1.72;
+  margin:12px 0
+}
+.word{
+  display:inline-block;
+  padding:2px 7px;
+  border-radius:9px;
+  background:#FFF0B5;
+  font-weight:700
+}
+.fact{
+  margin-top:16px;
+  padding:14px 16px;
+  border-radius:15px;
+  background:var(--verde-suave);
+  border-left:7px solid var(--verde);
+  font-weight:900;
+  line-height:1.45
+}
+.qhead{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.skill{
+  display:inline-block;
+  padding:8px 12px;
+  border-radius:999px;
+  background:#E9F6EC;
+  color:#2F7C4B;
+  font-weight:1000
+}
+.qcount{font-weight:900;color:var(--texto-suave)}
+.question{
+  margin:14px 0 8px;
+  font-size:clamp(26px,4vw,40px);
+  line-height:1.15
+}
+.instruction{
+  margin-bottom:14px;
+  padding:13px 15px;
+  border-radius:15px;
+  background:#EDF6FC;
+  border-left:6px solid var(--cielo);
+  font-weight:900
+}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.option,.tile,.match{
+  min-height:72px;
+  padding:14px;
+  border:3px solid #E7DCC1;
+  border-radius:18px;
+  background:#FFFDF7;
+  color:var(--tinta);
+  font-weight:1000;
+  font-size:18px;
+  text-align:center;
+  transition:.15s
+}
+.option:hover,.tile:hover,.match:hover{transform:translateY(-2px);border-color:var(--miel)}
+.selected{background:#FFF1B8!important;border-color:var(--miel-osc)!important}
+.correct{background:#E1F4E5!important;border-color:var(--verde)!important}
+.textarea{
+  width:100%;
+  min-height:115px;
+  resize:vertical;
+  padding:15px;
+  border:2px solid var(--linea);
+  border-radius:16px;
+  background:#fff;
+  font-size:18px;
+  outline:none
+}
+.textarea:focus{border-color:var(--verde)}
+.answer-zone{
+  min-height:72px;
+  margin-bottom:12px;
+  padding:12px;
+  border:3px dashed #D7C38E;
+  border-radius:16px;
+  background:#FFFDF4
+}
+.order{display:grid;gap:10px}
+.tile{text-align:left}
+.matchgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.feedback{
+  display:none;
+  margin-top:14px;
+  padding:14px 16px;
+  border-radius:16px;
+  font-size:18px;
+  font-weight:1000
+}
+.feedback.show{display:block}
+.feedback.ok{background:#E3F5E7;color:#236C3E}
+.feedback.hint{background:#EAF4FF;color:#245D84}
+.feedback.bad{background:#FFE7E7;color:#8A3030}
+.actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:16px}
+.story-wrap{margin-top:18px}
+.story-toggle{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:15px 17px;
+  border:0;
+  border-radius:17px;
+  background:#F8EFD4;
+  color:#563C00;
+  font-weight:1000;
+  font-size:17px
+}
+.dashboard{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stat{
+  padding:16px;
+  border:2px solid #EED579;
+  border-radius:18px;
+  background:#FFF9DE
+}
+.stat strong{display:block;font-size:29px;color:var(--verde)}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.badge{
+  padding:10px 12px;
+  border-radius:999px;
+  background:#F1EBFF;
+  border:2px solid #CDBFED;
+  color:#5B4787;
+  font-weight:1000
+}
+.tablewrap{overflow:auto}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid #E7DFCC;text-align:left}
+.footer{text-align:center;padding:16px;color:var(--texto-suave)}
+@media(max-width:760px){
+  .app{padding:8px}
+  .topbar{padding:10px}
+  .score{font-size:13px;gap:7px}
+  .form,.options,.dashboard,.matchgrid{grid-template-columns:1fr}
+  .hero{padding:22px}
+  .card{padding:17px}
+}
+@media print{
+  body{background:#fff}
+  .topbar,.hero,.actions,.story-wrap,.footer{display:none!important}
+  .card{box-shadow:none;border:0}
+  .app{max-width:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="logo">🐝</div>
+    <div class="progress">
+      <div class="progress-row">
+        <span id="stage">Misión sin iniciar</span>
+        <span id="counter">0/35</span>
+      </div>
+      <div class="track"><span id="bar"></span></div>
+    </div>
+    <div class="score">
+      <span>🍯 <b id="honey">0</b></span>
+      <span>💡 <b id="chance">2</b></span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="tag">🌼 Lectura y comprensión</div>
+    <h1>Guardianes de las abejas</h1>
+    <p>Actividad individual para 2.º y 3.º de primaria. Lee el cuento, responde 35 retos y consulta el texto debajo de cada pregunta cuando lo necesites.</p>
+  </section>
+
+  <section id="start" class="card start">
+    <h2>Comienza la aventura</h2>
+    <p>Escribe tus datos. La actividad registrará tiempo, intentos, errores y habilidades para crear un reporte final.</p>
+    <div class="form">
+      <input id="student" class="field" placeholder="Nombre del alumno o alumna">
+      <select id="grade" class="field">
+        <option value="">Selecciona tu grado</option>
+        <option>2.º de primaria</option>
+        <option>3.º de primaria</option>
+      </select>
+    </div>
+    <button class="primary" id="startBtn">Comenzar</button>
+  </section>
+
+  <section id="intro" class="card hidden">
+    <div class="reading" id="readingTop"></div>
+    <div class="actions">
+      <button class="primary" id="beginBtn">Ir a las preguntas</button>
+    </div>
+  </section>
+
+  <section id="game" class="card hidden">
+    <div class="qhead">
+      <span id="skill" class="skill"></span>
+      <span id="qnum" class="qcount"></span>
+    </div>
+
+    <h2 id="qtext" class="question"></h2>
+    <div id="instruction" class="instruction"></div>
+
+    <div id="interaction"></div>
+    <div id="feedback" class="feedback"></div>
+
+    <div class="actions">
+      <button class="secondary" id="speakBtn">🔊 Leer pregunta</button>
+      <button class="primary" id="checkBtn">Comprobar</button>
+    </div>
+
+    <div class="story-wrap">
+      <button id="storyToggle" class="story-toggle">
+        <span>📖 ¿Necesitas volver a leer el cuento? Toca aquí</span>
+        <span id="arrow">▼</span>
+      </button>
+      <div id="storyPanel" class="reading hidden" style="margin-top:10px"></div>
+    </div>
+  </section>
+
+  <section id="result" class="card hidden"></section>
+  <div class="footer">Recurso educativo para 2.º y 3.º de primaria</div>
+</div>
+
+<script>
+const readingHTML = `
+<h2>🐝 Luna y el jardín que volvió a florecer</h2>
+<p>Luna era una abeja joven que vivía en una colmena cerca de un gran jardín. Cada mañana salía a buscar <span class="word">néctar</span> y <span class="word">polen</span> entre las flores.</p>
+<p>Mientras Luna volaba de una flor a otra, pequeños granos de polen se pegaban a los pelitos de su cuerpo. Después, al visitar otra flor, una parte del polen caía sobre ella. Así ayudaba a las plantas a formar semillas y frutos. A este proceso se le llama <span class="word">polinización</span>.</p>
+<p>Un día, Luna notó que había menos flores. Algunas personas habían cortado muchas plantas y otras habían usado productos fuertes cerca del jardín. La abeja regresó preocupada a la colmena.</p>
+<p>Las obreras hablaron con la reina y decidieron buscar un lugar con más flores. Antes de irse, Luna encontró a Sofía y Mateo, dos niños que cuidaban el parque. Ellos observaron que las abejas necesitaban alimento y un espacio seguro.</p>
+<p>Sofía y Mateo sembraron girasoles, lavanda y otras flores de la región. También colocaron un pequeño letrero: “Cuidemos a los polinizadores. No dañemos sus refugios”. Con el paso de las semanas, el jardín volvió a llenarse de colores.</p>
+<p>Luna regresó con otras abejas. Había alimento suficiente y muchas plantas comenzaron a producir frutos. Los niños comprendieron que las abejas no solo hacen miel: también ayudan a conservar la vida de los jardines y los cultivos.</p>
+<div class="fact">Importante: cuidar a las abejas no significa tocarlas ni acercarse a una colmena. Significa respetarlas, conservar flores y pedir ayuda a un adulto cuando sea necesario.</div>`;
+
+const questions = [
+{type:'choice',skill:'Comprensión literal',q:'¿Cómo se llama la abeja del cuento?',i:'Selecciona la respuesta correcta.',o:['Luna','Sofía','Mateo','Lavanda'],a:0,h:'Su nombre aparece al inicio del cuento.'},
+{type:'choice',skill:'Comprensión literal',q:'¿Dónde vivía Luna?',i:'Elige la respuesta correcta.',o:['En una colmena cerca de un jardín','En una escuela','Dentro de una casa','En el mar'],a:0,h:'Revisa el primer párrafo.'},
+{type:'multi',skill:'Comprensión literal',q:'¿Qué buscaba Luna entre las flores?',i:'Selecciona las dos respuestas correctas.',o:['Néctar','Polen','Piedras','Juguetes'],a:[0,1],h:'Aparece en el primer párrafo.'},
+{type:'tf',skill:'Comprensión literal',q:'El polen se pegaba a los pelitos del cuerpo de Luna.',i:'Marca verdadero o falso.',a:true,h:'Revisa el segundo párrafo.'},
+{type:'choice',skill:'Vocabulario',q:'¿Cómo se llama el proceso por el que las abejas ayudan a las flores?',i:'Elige el concepto correcto.',o:['Polinización','Evaporación','Congelación','Respiración'],a:0,h:'La palabra está resaltada en el cuento.'},
+
+{type:'choice',skill:'Secuencia',q:'¿Qué ocurrió después de que el polen se pegó al cuerpo de Luna?',i:'Elige lo que pasó después.',o:['Visitó otra flor','Se quedó dormida','Entró a una casa','Fue al mar'],a:0,h:'Sigue el orden del segundo párrafo.'},
+{type:'order',skill:'Secuencia',q:'Ordena el proceso de polinización.',i:'Toca las tarjetas en el orden correcto.',o:['Luna visita una flor','El polen se pega a su cuerpo','Luna visita otra flor','Parte del polen cae en la nueva flor'],a:[0,1,2,3],h:'Empieza cuando Luna visita una flor.'},
+{type:'choice',skill:'Comprensión literal',q:'¿Qué notó Luna un día?',i:'Selecciona la respuesta correcta.',o:['Había menos flores','Había más casas','El jardín estaba bajo el agua','No existía la colmena'],a:0,h:'Revisa el tercer párrafo.'},
+{type:'multi',skill:'Causa y efecto',q:'¿Qué problemas aparecieron en el jardín?',i:'Selecciona todas las respuestas correctas.',o:['Cortaron muchas plantas','Usaron productos fuertes','Sembraron más flores','Cuidaron mejor el parque'],a:[0,1],h:'Busca las causas del problema.'},
+{type:'choice',skill:'Emociones',q:'¿Cómo regresó Luna a la colmena?',i:'Elige la emoción correcta.',o:['Preocupada','Enojada con los niños','Muy divertida','Sin darse cuenta'],a:0,h:'El cuento dice cómo se sentía.'},
+
+{type:'choice',skill:'Comprensión literal',q:'¿Con quiénes encontró Luna ayuda?',i:'Selecciona la respuesta correcta.',o:['Sofía y Mateo','La reina y un gato','Dos agricultores','Un pájaro y una mariposa'],a:0,h:'Revisa el cuarto párrafo.'},
+{type:'tf',skill:'Comprensión literal',q:'Sofía y Mateo cuidaban el parque.',i:'Marca verdadero o falso.',a:true,h:'La respuesta aparece directamente en el texto.'},
+{type:'choice',skill:'Inferencia',q:'¿Por qué las abejas necesitaban buscar otro lugar?',i:'Elige la mejor explicación.',o:['Porque había pocas flores y menos alimento','Porque querían conocer una ciudad','Porque no les gustaba la colmena','Porque buscaban juguetes'],a:0,h:'Relaciona las flores con el alimento de las abejas.'},
+{type:'multi',skill:'Comprensión literal',q:'¿Qué sembraron Sofía y Mateo?',i:'Selecciona las respuestas correctas.',o:['Girasoles','Lavanda','Flores de la región','Árboles de plástico'],a:[0,1,2],h:'Revisa el quinto párrafo.'},
+{type:'choice',skill:'Comprensión literal',q:'¿Qué decía el letrero?',i:'Elige la idea correcta.',o:['Cuidemos a los polinizadores','No entren al parque','Se venden flores','Prohibido leer'],a:0,h:'El mensaje aparece entre comillas.'},
+
+{type:'tf',skill:'Causa y efecto',q:'El jardín volvió a llenarse de colores después de sembrar flores.',i:'Marca verdadero o falso.',a:true,h:'Revisa lo que ocurrió con el paso de las semanas.'},
+{type:'choice',skill:'Inferencia',q:'¿Por qué regresó Luna con otras abejas?',i:'Elige la mejor respuesta.',o:['Porque había alimento suficiente','Porque el jardín estaba vacío','Porque querían esconderse','Porque empezó a nevar'],a:0,h:'Piensa qué cambió en el jardín.'},
+{type:'multi',skill:'Comprensión literal',q:'¿Qué beneficios aparecieron al final?',i:'Selecciona todas las respuestas correctas.',o:['Había alimento para las abejas','Muchas plantas produjeron frutos','El jardín tuvo más colores','Desaparecieron todas las plantas'],a:[0,1,2],h:'Revisa los últimos dos párrafos.'},
+{type:'choice',skill:'Idea principal',q:'¿Qué aprendieron los niños?',i:'Elige la mejor respuesta.',o:['Que las abejas ayudan a jardines y cultivos','Que las abejas solo sirven para hacer miel','Que todas las flores son iguales','Que no deben cuidar el parque'],a:0,h:'La idea aparece al final del cuento.'},
+{type:'tf',skill:'Seguridad',q:'Cuidar a las abejas significa tocarlas y acercarse a una colmena.',i:'Marca verdadero o falso.',a:false,h:'Consulta el recuadro importante.'},
+
+{type:'choice',skill:'Vocabulario',q:'¿Qué significa “refugio” en el cuento?',i:'Selecciona la opción correcta.',o:['Lugar seguro donde vive o se protege un ser vivo','Una fruta dulce','Un juguete','Una canción'],a:0,h:'Relaciona la palabra con protección y seguridad.'},
+{type:'choice',skill:'Vocabulario',q:'¿Qué significa “cultivo”?',i:'Elige la respuesta correcta.',o:['Plantas que las personas siembran y cuidan','Un grupo de juguetes','Un tipo de nube','Una casa de abejas'],a:0,h:'Piensa en plantas sembradas para obtener alimentos.'},
+{type:'choice',skill:'Idea principal',q:'¿Cuál es la idea principal del cuento?',i:'Selecciona la mejor respuesta.',o:['Cuidar flores y espacios verdes ayuda a las abejas y a las plantas','Las abejas quieren vivir dentro de las casas','Los jardines no necesitan cuidados','La miel es el único trabajo de las abejas'],a:0,h:'Piensa en todo lo que cambió gracias al cuidado del jardín.'},
+{type:'multi',skill:'Acciones responsables',q:'¿Qué acciones ayudan a las abejas?',i:'Selecciona todas las correctas.',o:['Sembrar flores','Cuidar espacios verdes','No destruir refugios','Tocar una colmena sin ayuda'],a:[0,1,2],h:'Elige acciones seguras y respetuosas.'},
+{type:'choice',skill:'Aplicación',q:'¿Qué podrías hacer en tu escuela para ayudar a los polinizadores?',i:'Elige la mejor opción.',o:['Crear un pequeño jardín con ayuda de adultos','Atrapar abejas en una caja','Quitar todas las flores','Usar productos fuertes sin preguntar'],a:0,h:'Busca una acción segura y útil.'},
+
+{type:'order',skill:'Secuencia',q:'Ordena los hechos principales del cuento.',i:'Toca las tarjetas en el orden correcto.',o:['Luna encuentra menos flores','Sofía y Mateo observan el problema','Los niños siembran flores','El jardín vuelve a florecer'],a:[0,1,2,3],h:'Empieza cuando Luna descubre el problema.'},
+{type:'match',skill:'Relación de ideas',q:'Relaciona cada personaje con su acción.',i:'Toca un elemento de la izquierda y después su pareja.',pairs:[['Luna','Transporta polen'],['Sofía y Mateo','Siembran flores'],['Las plantas','Producen semillas y frutos']],h:'Recuerda lo que hizo cada uno.'},
+{type:'fill',skill:'Expresión escrita',q:'Escribe una oración que explique por qué son importantes las abejas.',i:'Escribe al menos 8 palabras.',min:8,keys:['flor','planta','fruto','poliniz','jardin','cultivo'],h:'Menciona cómo ayudan a las plantas.'},
+{type:'fill',skill:'Expresión escrita',q:'¿Qué harías si vieras una colmena cerca de tu casa o escuela?',i:'Escribe al menos 8 palabras y menciona una acción segura.',min:8,keys:['adult','avis','alejar','tocar','ayuda','segur'],h:'No debes tocarla. Piensa en pedir ayuda a un adulto.'},
+{type:'choice',skill:'Inferencia',q:'¿Qué habría pasado si Sofía y Mateo no ayudaban?',i:'Elige la respuesta más probable.',o:['Las abejas tendrían menos alimento y el jardín seguiría con pocas flores','El jardín produciría más flores solo','Las abejas aprenderían a hablar','El parque se convertiría en mar'],a:0,h:'Relaciona la ayuda de los niños con el cambio final.'},
+
+{type:'tf',skill:'Análisis',q:'Las abejas son importantes solamente porque producen miel.',i:'Marca verdadero o falso.',a:false,h:'El cuento explica otra función muy importante.'},
+{type:'choice',skill:'Causa y efecto',q:'¿Cuál relación es correcta?',i:'Elige la opción correcta.',o:['Más flores → más alimento para polinizadores','Menos flores → más alimento','Cortar plantas → jardín más sano','Productos fuertes → refugio más seguro'],a:0,h:'Piensa en qué necesitan las abejas.'},
+{type:'fill',skill:'Síntesis',q:'Resume el cuento en dos oraciones.',i:'Escribe al menos 18 palabras.',min:18,keys:['luna','flor','abeja','jardin','niñ','ayud','poliniz'],h:'Incluye el problema, la ayuda y el resultado.'},
+{type:'fill',skill:'Opinión',q:'¿Cuál fue la acción más importante de Sofía y Mateo y por qué?',i:'Escribe al menos 15 palabras.',min:15,keys:['sembr','flor','cuid','porque','abej','alimento'],h:'Explica la acción y su beneficio.'},
+{type:'fill',skill:'Reto final',q:'Escribe un mensaje para invitar a tu familia a cuidar a las abejas.',i:'Escribe entre 20 y 50 palabras. Incluye una acción y una regla de seguridad.',min:20,keys:['flor','cuid','adult','tocar','colmena','segur','jardin'],h:'Menciona qué pueden hacer y qué deben evitar.'}
+];
+
+let idx=0, attempt=1, selected=null, order=[], matchFirst=null, matchDone=0;
+let honey=0, chance=2, student='', grade='', startTime=0, qStart=0, storyViews=0;
+const records=questions.map(()=>({attempts:0,errors:0,time:0,correct:false}));
+
+const $=id=>document.getElementById(id);
+$('readingTop').innerHTML=readingHTML;
+$('storyPanel').innerHTML=readingHTML;
+
+$('startBtn').onclick=()=>{
+  student=$('student').value.trim();
+  grade=$('grade').value;
+  if(!student || !grade){
+    alert('Escribe el nombre y selecciona el grado.');
+    return;
+  }
+  $('start').classList.add('hidden');
+  $('intro').classList.remove('hidden');
+};
+
+$('beginBtn').onclick=()=>{
+  $('intro').classList.add('hidden');
+  $('game').classList.remove('hidden');
+  startTime=Date.now();
+  render();
+};
+
+$('storyToggle').onclick=()=>{
+  storyViews++;
+  $('storyPanel').classList.toggle('hidden');
+  $('arrow').textContent=$('storyPanel').classList.contains('hidden')?'▼':'▲';
+};
+
+$('speakBtn').onclick=()=>{
+  const u=new SpeechSynthesisUtterance($('qtext').textContent+'. '+$('instruction').textContent);
+  u.lang='es-MX';
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+};
+
+$('checkBtn').onclick=check;
+
+function updateTop(){
+  $('counter').textContent=`${idx+1}/35`;
+  $('bar').style.width=`${(idx/35)*100}%`;
+  $('honey').textContent=honey;
+  $('chance').textContent=chance;
+  const stages=['Conoce a Luna','La polinización','El problema','La solución','Comprende y aplica','Reto final'];
+  $('stage').textContent=stages[Math.min(5,Math.floor(idx/6))];
+}
+
+function render(){
+  selected=null;
+  order=[];
+  matchFirst=null;
+  matchDone=0;
+  qStart=Date.now();
+  updateTop();
+
+  const q=questions[idx];
+  $('skill').textContent=q.skill;
+  $('qnum').textContent=`Pregunta ${idx+1}`;
+  $('qtext').textContent=q.q;
+  $('instruction').textContent=q.i;
+  $('feedback').className='feedback';
+  $('feedback').textContent='';
+  $('checkBtn').style.display='inline-block';
+
+  const box=$('interaction');
+  box.innerHTML='';
+  box.className='';
+
+  if(q.type==='choice' || q.type==='multi' || q.type==='tf'){
+    box.className='options';
+    const opts=q.type==='tf'?['Verdadero','Falso']:q.o;
+
+    opts.forEach((text,i)=>{
+      const b=document.createElement('button');
+      b.className='option';
+      b.textContent=text;
+      b.onclick=()=>{
+        if(q.type==='multi'){
+          if(!Array.isArray(selected)) selected=[];
+          const pos=selected.indexOf(i);
+          if(pos>=0) selected.splice(pos,1);
+          else selected.push(i);
+          b.classList.toggle('selected');
+        }else{
+          selected=q.type==='tf' ? (i===0) : i;
+          [...box.children].forEach(c=>c.classList.remove('selected'));
+          b.classList.add('selected');
+        }
+      };
+      box.appendChild(b);
+    });
+  }
+
+  if(q.type==='fill'){
+    const ta=document.createElement('textarea');
+    ta.id='fill';
+    ta.className='textarea';
+    ta.placeholder='Escribe tu respuesta aquí...';
+    box.appendChild(ta);
+  }
+
+  if(q.type==='order'){
+    const zone=document.createElement('div');
+    zone.className='answer-zone';
+    zone.innerHTML='<b>Tu orden:</b><br>';
+    box.appendChild(zone);
+
+    q.o.map((text,i)=>({text,i})).sort(()=>Math.random()-.5).forEach(({text,i})=>{
+      const b=document.createElement('button');
+      b.className='tile';
+      b.textContent=text;
+      b.onclick=()=>{
+        if(!order.includes(i)){
+          order.push(i);
+          b.classList.add('selected');
+          zone.innerHTML += `<span style="display:inline-block;margin:5px;padding:8px 10px;background:#FFF0B9;border-radius:10px">${order.length}. ${text}</span>`;
+        }
+      };
+      box.appendChild(b);
+    });
+  }
+
+  if(q.type==='match'){
+    box.className='matchgrid';
+    const items=[
+      ...q.pairs.map((p,i)=>({text:p[0],side:'l',i})),
+      ...q.pairs.map((p,i)=>({text:p[1],side:'r',i})).sort(()=>Math.random()-.5)
+    ];
+
+    items.forEach(item=>{
+      const b=document.createElement('button');
+      b.className='match';
+      b.textContent=item.text;
+      b.dataset.side=item.side;
+      b.dataset.i=item.i;
+      b.onclick=()=>matchClick(b);
+      box.appendChild(b);
+    });
+  }
+}
+
+function matchClick(b){
+  if(b.classList.contains('correct')) return;
+
+  if(!matchFirst){
+    matchFirst=b;
+    b.classList.add('selected');
+    return;
+  }
+
+  if(matchFirst.dataset.side===b.dataset.side){
+    matchFirst.classList.remove('selected');
+    matchFirst=b;
+    b.classList.add('selected');
+    return;
+  }
+
+  if(matchFirst.dataset.i===b.dataset.i){
+    matchFirst.classList.remove('selected');
+    matchFirst.classList.add('correct');
+    b.classList.add('correct');
+    matchDone++;
+    matchFirst=null;
+  }else{
+    matchFirst.classList.remove('selected');
+    matchFirst=null;
+    show('hint','Esa pareja no coincide. Vuelve a intentarlo.');
+  }
+}
+
+function normalize(s){
+  return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+}
+
+function isCorrect(){
+  const q=questions[idx];
+
+  if(q.type==='choice' || q.type==='tf') return selected===q.a;
+
+  if(q.type==='multi'){
+    return Array.isArray(selected)
+      && JSON.stringify([...selected].sort())===JSON.stringify([...q.a].sort());
+  }
+
+  if(q.type==='order') return JSON.stringify(order)===JSON.stringify(q.a);
+
+  if(q.type==='match') return matchDone===q.pairs.length;
+
+  if(q.type==='fill'){
+    const value=$('fill')?.value.trim()||'';
+    const normalized=normalize(value);
+    const words=value.split(/\s+/).filter(Boolean).length;
+    return words>=q.min && q.keys.some(k=>normalized.includes(normalize(k)));
+  }
+
+  return false;
+}
+
+function check(){
+  records[idx].attempts++;
+  records[idx].time += Date.now()-qStart;
+
+  if(isCorrect()){
+    records[idx].correct=true;
+    honey++;
+    show('ok',attempt===1?'¡Excelente! Respuesta correcta al primer intento. 🍯':'¡Muy bien! Corregiste tu respuesta.');
+    $('checkBtn').style.display='none';
+    setTimeout(next,850);
+  }else{
+    records[idx].errors++;
+
+    if(attempt===1){
+      attempt=2;
+      chance=1;
+      updateTop();
+      show('hint','Tienes otra oportunidad. Pista: '+questions[idx].h);
+      qStart=Date.now();
+    }else{
+      show('bad','Todavía no coincide. Vuelve a leer el cuento y prueba de nuevo.');
+      setTimeout(()=>{
+        attempt=1;
+        chance=2;
+        render();
+      },1500);
+    }
+  }
+}
+
+function next(){
+  idx++;
+  attempt=1;
+  chance=2;
+
+  if(idx>=questions.length) finish();
+  else render();
+}
+
+function show(type,message){
+  $('feedback').className='feedback show '+type;
+  $('feedback').textContent=message;
+}
+
+function finish(){
+  $('game').classList.add('hidden');
+  $('result').classList.remove('hidden');
+  $('bar').style.width='100%';
+  $('counter').textContent='35/35';
+
+  const totalAttempts=records.reduce((s,r)=>s+r.attempts,0);
+  const errors=records.reduce((s,r)=>s+r.errors,0);
+  const first=records.filter(r=>r.correct && r.attempts===1).length;
+  const second=records.filter(r=>r.correct && r.attempts>1).length;
+  const totalMinutes=Math.max(1,Math.round((Date.now()-startTime)/60000));
+  const avgSeconds=Math.max(1,Math.round(records.reduce((s,r)=>s+r.time,0)/35000));
+  const efficiency=Math.round(35/Math.max(35,totalAttempts)*100);
+
+  const skills={};
+  questions.forEach((q,i)=>{
+    if(!skills[q.skill]) skills[q.skill]={items:0,attempts:0,errors:0};
+    skills[q.skill].items++;
+    skills[q.skill].attempts += records[i].attempts;
+    skills[q.skill].errors += records[i].errors;
+  });
+
+  const rows=Object.entries(skills).map(([name,v])=>{
+    const score=Math.round(v.items/Math.max(v.items,v.attempts)*100);
+    return `<tr><td>${name}</td><td>${v.items}</td><td>${v.attempts}</td><td>${v.errors}</td><td>${score}%</td></tr>`;
+  }).join('');
+
+  const strengths=Object.entries(skills)
+    .sort((a,b)=>a[1].errors-b[1].errors)
+    .slice(0,3)
+    .map(([name])=>name)
+    .join(', ');
+
+  const opportunities=Object.entries(skills)
+    .sort((a,b)=>b[1].errors-a[1].errors)
+    .slice(0,3)
+    .map(([name,v])=>`${name} (${v.errors} errores)`)
+    .join(', ');
+
+  const badges=[];
+  if(first>=28) badges.push('🏅 Gran comprensión');
+  if(storyViews>=3) badges.push('📖 Lector estratégico');
+  if(errors<=5) badges.push('🧠 Detective del cuento');
+  badges.push('🐝 Guardián de las abejas');
+
+  $('result').innerHTML=`
+    <div style="text-align:center;font-size:48px">🏆🐝🌼</div>
+    <h2 style="text-align:center;font-size:38px;color:var(--verde)">Reporte individual</h2>
+
+    <div class="dashboard">
+      <div class="stat">
+        <span>Alumno o alumna</span>
+        <strong>${escapeHtml(student)}</strong>
+        <small>${escapeHtml(grade)}</small>
+      </div>
+      <div class="stat">
+        <span>Eficiencia por intento</span>
+        <strong>${efficiency}%</strong>
+        <small>35 retos completados</small>
+      </div>
+      <div class="stat">
+        <span>Tiempo total</span>
+        <strong>${totalMinutes} min</strong>
+        <small>${avgSeconds} segundos promedio por pregunta</small>
+      </div>
+      <div class="stat">
+        <span>Correctas al primer intento</span>
+        <strong>${first}</strong>
+        <small>${second} corregidas después</small>
+      </div>
+      <div class="stat">
+        <span>Intentos totales</span>
+        <strong>${totalAttempts}</strong>
+        <small>${errors} errores registrados</small>
+      </div>
+      <div class="stat">
+        <span>Consultas del cuento</span>
+        <strong>${storyViews}</strong>
+        <small>veces que volvió a leer</small>
+      </div>
+    </div>
+
+    <div class="stat" style="margin-top:12px">
+      <b>Fortalezas:</b> ${strengths}
+    </div>
+
+    <div class="stat" style="margin-top:12px">
+      <b>Áreas que conviene reforzar:</b> ${opportunities || 'No se detectaron dificultades importantes.'}
+    </div>
+
+    <div class="stat" style="margin-top:12px">
+      <b>Insignias obtenidas</b>
+      <div class="badges">${badges.map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+    </div>
+
+    <div class="stat tablewrap" style="margin-top:12px">
+      <b>Desempeño por habilidad</b>
+      <table>
+        <thead>
+          <tr><th>Habilidad</th><th>Preguntas</th><th>Intentos</th><th>Errores</th><th>Eficiencia</th></tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+
+    <div class="stat" style="margin-top:12px">
+      <b>Interpretación pedagógica:</b>
+      Los aciertos al primer intento muestran comprensión autónoma. Las respuestas corregidas reflejan capacidad para releer y ajustar. Las habilidades con más errores deben practicarse con preguntas cortas, lectura acompañada y explicación oral.
+    </div>
+
+    <div class="actions">
+      <button class="secondary" onclick="window.print()">🖨️ Imprimir o guardar en PDF</button>
+      <button class="primary" onclick="location.reload()">Realizar nuevamente</button>
+    </div>
+  `;
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,m=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[m]));
+}
+</script>
+</body>
+</html>
