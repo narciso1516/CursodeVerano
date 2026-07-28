@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Misión Abejas · lectura visible</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#fff8e8;font-family:system-ui,-apple-system,sans-serif}
+iframe{display:block;width:100%;height:100%;border:0}
+#msg{display:none;margin:16px;padding:16px;border:2px solid #e0b63f;border-radius:16px;background:#fff;color:#3d3010}
+</style>
+</head>
+<body>
+<div id="msg">No fue posible cargar la actividad original.</div>
+<iframe id="actividad" src="mision_abejas_segundo_tercero_primaria.html" title="Misión Abejas"></iframe>
+<script>
+const frame=document.getElementById('actividad');
+frame.addEventListener('load',()=>{
+  try{
+    const doc=frame.contentDocument||frame.contentWindow.document;
+    const aplicar=()=>{
+      const panel=doc.getElementById('storyPanel');
+      const boton=doc.getElementById('storyToggle');
+      const flecha=doc.getElementById('arrow');
+      if(panel){
+        panel.classList.remove('hidden');
+        panel.style.display='block';
+        panel.style.marginTop='10px';
+      }
+      if(boton){
+        boton.disabled=true;
+        boton.style.cursor='default';
+        const texto=boton.querySelector('span');
+        if(texto) texto.textContent='📖 Lectura para consultar antes de responder';
+      }
+      if(flecha) flecha.textContent='▲';
+    };
+    aplicar();
+    new MutationObserver(aplicar).observe(doc.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','style']});
+  }catch(e){document.getElementById('msg').style.display='block'}
+});
+</script>
+</body>
+</html>
