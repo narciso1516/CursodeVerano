@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Misión: ¿Dónde está la fracción?</title>
+<link rel="stylesheet" href="assets/fracciones_4to.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<div class="app">
+<section class="top">
+<h1>🕵️ Misión: ¿Dónde está la fracción?</h1>
+<p class="subtitle">Actividad para 4.º de primaria · 10 misiones · 5 retos por misión</p>
+<div class="student-form">
+<input id="studentName" placeholder="Nombre del alumno o alumna">
+<input id="studentGrade" value="4.º de primaria" readonly aria-label="Grado">
+</div>
+<div class="stats"><span id="status">Misión 1 · Reto 1 de 5</span><span id="score">⭐ 0 de 50</span></div>
+<div class="bar"><div id="progress" class="progress"></div></div>
+<div id="map" class="mission-map"></div>
+</section>
+<details class="reference-sheet">
+<summary>🗺️ Consultar hoja de búsqueda utilizada en la actividad</summary>
+<p>El alumno puede abrir esta sección como apoyo visual durante los retos.</p>
+<div style="text-align:center;padding:18px;font-weight:800;color:#64748b">La hoja de búsqueda se entrega impresa en clase.</div>
+</details>
+<div class="layout">
+<section class="panel">
+<div class="mission-head"><span id="badge" class="badge"></span><span id="skill" class="skill"></span></div>
+<div id="exampleCard" class="example-card">
+<h3>🧠 Ejemplo resuelto antes de comenzar</h3>
+<div class="example-label">Ejercicio de ejemplo</div><div id="examplePrompt" class="example-text"></div>
+<div class="example-label">Así se resuelve</div><div id="exampleSteps" class="example-steps"></div>
+<div id="exampleAnswer" class="example-answer"></div>
+<div class="controls"><button id="startMission" class="start-mission">¡Entendido! Comenzar misión ➜</button></div>
+</div>
+<div class="cool-cat-zone" aria-live="polite"><div id="coolCat" class="cool-cat" aria-label="Gato motivador con lentes"><div id="coolCatFace" class="cool-cat-face">🙀</div><div class="cool-cat-glasses">🕶️</div></div></div>
+<div id="question" class="q"></div><div id="answers" class="answers"></div>
+<textarea id="openbox" class="openbox" placeholder="Escribe aquí tu explicación..." style="display:none"></textarea>
+<div id="model" class="model"></div>
+<div id="self" class="self"><button onclick="selfGrade(true)">Sí, mi explicación incluye la idea principal</button><button onclick="selfGrade(false)">Todavía debo mejorarla</button></div>
+<div id="feedback" class="feedback"></div>
+<div class="controls"><button id="listen" class="listen">🔊 Escuchar</button><button id="checkOpen" class="primary" style="display:none">Ver respuesta modelo</button><button id="next" class="next">Siguiente reto ➜</button><button id="reportBtn" class="report-btn">📄 Descargar informe del profesor</button></div>
+<div id="final" class="final"><div style="font-size:80px">🏆</div><h2>¡Gran maestro de las fracciones!</h2><p id="finalText" style="font-size:24px;font-weight:900"></p></div>
+</section></div></div>
+<section class="author-card"><h2>👨‍🏫 Material educativo elaborado por</h2><h3 style="margin:0;color:#1e3a8a">Ing. Luis Alberto Antonio Narciso</h3><div class="author-grid"><p><b>Ingeniero en Electrónica por la Universidad Autónoma Metropolitana.</b> Diseñador de experiencias educativas digitales apoyadas por tecnología, inteligencia artificial y desarrollo web interactivo.</p><p>Cuenta con experiencia profesional en aseguramiento de calidad de software y resolución de problemas para proyectos vinculados con <b>Ford Motor Company</b> y <b>Google</b>.</p><blockquote style="margin:4px 0;padding:14px 18px;border-left:5px solid #7c3aed;background:white;border-radius:12px;font-weight:800">“Cuando un niño comprende el porqué de las matemáticas, deja de memorizarlas y comienza a utilizarlas para resolver problemas de la vida.”</blockquote></div><div class="author-links"><a href="https://github.com/narciso1516/CursodeVerano" target="_blank" rel="noopener">Repositorio educativo</a><a href="https://narciso1516.github.io/narcisotesting.com/" target="_blank" rel="noopener">Ver mi currículum profesional</a></div><p class="copyright">© 2026 Luis Alberto Antonio Narciso. Recurso desarrollado con fines educativos.</p></section>
+<script src="assets/fracciones_4to_data.js"></script><script src="assets/fracciones_4to_app.js"></script>
+</body></html>
