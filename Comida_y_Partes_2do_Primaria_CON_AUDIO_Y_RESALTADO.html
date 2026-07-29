@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comida y partes — 2.º de primaria</title>
+<style>
+:root{
+  --azul:#2563eb;--verde:#16a34a;--amarillo:#facc15;--rosa:#ec4899;
+  --morado:#7c3aed;--naranja:#f97316;--texto:#17324d;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Trebuchet MS",Arial,sans-serif;
+  color:var(--texto);
+  background:linear-gradient(180deg,#eaf6ff,#fff9e8);
+  min-height:100vh;
+}
+.app{width:min(920px,94%);margin:20px auto}
+.header,.card{
+  background:#fff;border:4px solid #cfe3ff;border-radius:28px;
+  box-shadow:0 14px 34px rgba(37,99,235,.14);
+}
+.header{padding:18px 20px}
+.card{margin-top:18px;padding:24px}
+h1{margin:0;font-size:clamp(30px,5vw,52px);color:#17458a}
+.sub{margin:8px 0 0;font-size:18px;font-weight:800;color:#475569}
+.progress-bg{height:18px;background:#e5e7eb;border-radius:999px;margin-top:16px;overflow:hidden;border:2px solid #cbd5e1}
+.progress{height:100%;background:linear-gradient(90deg,#22c55e,#facc15,#f97316);width:5%;transition:.3s}
+.stats{display:flex;justify-content:space-between;margin-top:8px;font-weight:900}
+.level{
+  display:inline-block;padding:8px 14px;border-radius:999px;color:#fff;
+  background:linear-gradient(135deg,#7c3aed,#ec4899);font-weight:900
+}
+.question{text-align:center;font-size:clamp(26px,4vw,40px);margin:14px 0}
+.visual{min-height:300px;display:flex;justify-content:center;align-items:center;gap:30px;flex-wrap:wrap}
+.food-wrap{text-align:center}
+.food-label{font-size:25px;font-weight:900;margin-top:8px}
+.food-svg{width:230px;height:230px;filter:drop-shadow(0 8px 10px rgba(0,0,0,.1))}
+.choco{display:grid;border:6px solid #2f1b0c;width:300px;height:150px;background:#fff}
+.choco .cell{border:2px solid #2f1b0c;background:#fff}
+.choco .eaten{background:#8b5a2b}
+.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:8px}
+button.answer{
+  border:3px solid #93c5fd;background:#eff6ff;color:#1e3a8a;border-radius:20px;
+  padding:18px;font-size:23px;font-weight:900;cursor:pointer;min-height:72px
+}
+button.answer:hover{transform:translateY(-2px);background:#dbeafe}
+button.correct{background:#dcfce7;border-color:#22c55e;color:#166534}
+button.wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b}
+.feedback{display:none;margin-top:16px;padding:16px;border-radius:18px;text-align:center;font-size:20px;font-weight:900}
+.feedback.ok{display:block;background:#dcfce7;color:#166534;border:3px solid #86efac}
+.feedback.bad{display:block;background:#fff7ed;color:#9a3412;border:3px solid #fdba74}
+.next{
+  display:none;margin:18px auto 0;border:0;border-radius:999px;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;
+  padding:15px 30px;font-size:22px;font-weight:900;cursor:pointer
+}
+.next.show{display:block}
+.final{display:none;text-align:center}
+.final h2{font-size:50px;color:#166534;margin:8px}
+.restart{border:0;border-radius:999px;background:#facc15;padding:16px 28px;font-size:22px;font-weight:900;cursor:pointer}
+.confetti{position:fixed;width:10px;height:10px;border-radius:50%;top:-10px;animation:fall 1.2s linear forwards}
+@keyframes fall{to{transform:translateY(100vh) rotate(540deg);opacity:0}}
+@media(max-width:680px){
+  .answers{grid-template-columns:1fr}
+  .card{padding:18px}
+  .food-svg{width:190px;height:190px}
+  .choco{width:250px;height:125px}
+}
+
+.listen-row{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:8px 0 14px;
+}
+.listen-btn,.stop-btn{
+  border:0;
+  border-radius:999px;
+  padding:13px 22px;
+  font-size:19px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 8px 18px rgba(37,99,235,.18);
+}
+.listen-btn{
+  background:linear-gradient(135deg,#0ea5e9,#2563eb);
+  color:#fff;
+}
+.stop-btn{
+  background:#fff7ed;
+  color:#9a3412;
+  border:3px solid #fdba74;
+}
+.listen-btn:disabled,.stop-btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+.question-reader{
+  text-align:center;
+  font-size:clamp(26px,4vw,40px);
+  font-weight:900;
+  margin:14px 0;
+  line-height:1.35;
+}
+.question-reader .word{
+  display:inline-block;
+  padding:2px 4px;
+  margin:1px;
+  border-radius:8px;
+  transition:.15s;
+}
+.question-reader .word.active{
+  background:#fef08a;
+  color:#7c2d12;
+  transform:scale(1.05);
+  box-shadow:0 3px 8px rgba(250,204,21,.35);
+}
+.read-help{
+  text-align:center;
+  font-size:15px;
+  color:#64748b;
+  font-weight:800;
+  margin-top:-4px;
+  margin-bottom:8px;
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="header">
+    <h1>🍕 Comida y partes</h1>
+    <p class="sub">Observa alimentos divididos correctamente, cuenta las partes y responde.</p>
+    <div class="progress-bg"><div id="progress" class="progress"></div></div>
+    <div class="stats"><span id="counter">Pregunta 1 de 20</span><span id="stars">⭐ 0</span></div>
+  </section>
+
+  <section class="card" id="quizCard">
+    <span class="level" id="level"></span>
+    <div class="listen-row">
+      <button class="listen-btn" id="listenBtn" type="button">🔊 Escuchar pregunta</button>
+      <button class="stop-btn" id="stopBtn" type="button" disabled>⏹ Detener</button>
+    </div>
+    <div class="read-help">La palabra que se escucha se iluminará.</div>
+    <div class="question-reader" id="question" aria-live="polite"></div>
+    <div class="visual" id="visual"></div>
+    <div class="answers" id="answers"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next" id="next">Siguiente ➜</button>
+  </section>
+
+  <section class="card final" id="final">
+    <div style="font-size:80px">🏆</div>
+    <h2>¡Muy bien!</h2>
+    <p id="score" style="font-size:28px;font-weight:900"></p>
+    <p style="font-size:21px;font-weight:800;color:#475569">Ahora cuentas partes con mucha más seguridad.</p>
+    <button class="restart" onclick="location.reload()">Jugar otra vez</button>
+  </section>
+</div>
+
+<script>
+const Q=[
+ {l:"Nivel 1 · Contar partes",q:"¿En cuántas partes está dividida la pizza?",v:{type:"pizza",parts:2,filled:0},o:["1","2","3","4"],a:"2",t:"La pizza tiene 2 partes iguales."},
+ {l:"Nivel 1 · Contar partes",q:"¿En cuántas partes está dividido el pastel?",v:{type:"cake",parts:4,filled:0},o:["2","3","4","5"],a:"4",t:"El pastel tiene 4 partes iguales."},
+ {l:"Nivel 1 · Contar partes",q:"¿En cuántas partes está dividida la galleta?",v:{type:"cookie",parts:3,filled:0},o:["2","3","4","6"],a:"3",t:"La galleta tiene 3 partes exactamente iguales."},
+ {l:"Nivel 1 · Contar partes",q:"¿En cuántas partes está dividido el chocolate?",v:{type:"choco",parts:4,filled:0},o:["2","3","4","5"],a:"4",t:"El chocolate tiene 4 cuadritos iguales."},
+ {l:"Nivel 1 · Contar partes",q:"¿En cuántas rebanadas está dividida la pizza?",v:{type:"pizza",parts:4,filled:0},o:["2","3","4","6"],a:"4",t:"La pizza tiene 4 rebanadas iguales."},
+
+ {l:"Nivel 2 · ¿Cuántas comieron?",q:"Ana comió una parte del pastel. ¿Cuántas partes comió?",v:{type:"cake",parts:2,filled:1},o:["1","2","3","4"],a:"1",t:"Solo una parte está marcada."},
+ {l:"Nivel 2 · ¿Cuántas comieron?",q:"Luis comió dos partes del pastel. ¿Cuántas partes comió?",v:{type:"cake",parts:4,filled:2},o:["1","2","3","4"],a:"2",t:"Se observan 2 partes marcadas."},
+ {l:"Nivel 2 · ¿Cuántas comieron?",q:"Marta comió tres cuadritos de chocolate. ¿Cuántos comió?",v:{type:"choco",parts:4,filled:3},o:["1","2","3","4"],a:"3",t:"Hay 3 cuadritos cafés."},
+ {l:"Nivel 2 · ¿Cuántas comieron?",q:"Pedro comió una rebanada de pizza. ¿Cuántas partes comió?",v:{type:"pizza",parts:4,filled:1},o:["1","2","3","4"],a:"1",t:"Hay una rebanada marcada."},
+ {l:"Nivel 2 · ¿Cuántas comieron?",q:"Sofía comió dos partes de una galleta. ¿Cuántas partes comió?",v:{type:"cookie",parts:3,filled:2},o:["1","2","3","4"],a:"2",t:"Hay 2 partes marcadas."},
+
+ {l:"Nivel 3 · ¿Cuántas quedaron?",q:"Había 2 partes y Ana comió 1. ¿Cuántas quedaron?",v:{type:"cake",parts:2,filled:1},o:["0","1","2","3"],a:"1",t:"De 2 partes, una quedó sin comer."},
+ {l:"Nivel 3 · ¿Cuántas quedaron?",q:"Había 4 rebanadas y se comieron 3. ¿Cuántas quedaron?",v:{type:"pizza",parts:4,filled:3},o:["0","1","2","3"],a:"1",t:"Solo una rebanada quedó."},
+ {l:"Nivel 3 · ¿Cuántas quedaron?",q:"Había 3 partes de galleta y se comieron 1. ¿Cuántas quedaron?",v:{type:"cookie",parts:3,filled:1},o:["1","2","3","4"],a:"2",t:"Quedaron 2 partes sin comer."},
+ {l:"Nivel 3 · ¿Cuántas quedaron?",q:"Había 4 cuadritos de chocolate y se comieron 2. ¿Cuántos quedaron?",v:{type:"choco",parts:4,filled:2},o:["1","2","3","4"],a:"2",t:"Quedaron 2 cuadritos."},
+
+ {l:"Nivel 4 · Comparar",q:"¿Quién comió más pastel?",v:[
+   {type:"cake",parts:4,filled:1,label:"Ana"},
+   {type:"cake",parts:4,filled:2,label:"Luis"}],o:["Ana","Luis"],a:"Luis",t:"Luis comió 2 partes y Ana comió 1."},
+ {l:"Nivel 4 · Comparar",q:"¿Quién comió menos pizza?",v:[
+   {type:"pizza",parts:4,filled:2,label:"Marta"},
+   {type:"pizza",parts:4,filled:1,label:"Sofía"}],o:["Marta","Sofía"],a:"Sofía",t:"Sofía comió una parte y Marta dos."},
+ {l:"Nivel 4 · Comparar",q:"¿Cuál plato tiene más comida?",v:[
+   {type:"cookie",parts:4,filled:3,label:"Plato A"},
+   {type:"cookie",parts:4,filled:1,label:"Plato B"}],o:["Plato A","Plato B"],a:"Plato A",t:"El plato A tiene 3 partes marcadas."},
+
+ {l:"Nivel 5 · Historias fáciles",q:"Una pizza tiene 4 rebanadas. Diego comió 1. ¿Cuántas rebanadas comió?",v:{type:"pizza",parts:4,filled:1},o:["1","2","3","4"],a:"1",t:"Diego comió una sola rebanada."},
+ {l:"Nivel 5 · Historias fáciles",q:"Una barra tiene 4 cuadritos. Elena comió 2. ¿Cuántos cuadritos quedaron?",v:{type:"choco",parts:4,filled:2},o:["1","2","3","4"],a:"2",t:"Si había 4 y comió 2, quedaron 2."},
+ {l:"Nivel 5 · Final",q:"Un pastel tiene 4 partes. Tres niños comen una parte cada uno. ¿Cuántas partes quedan?",v:{type:"cake",parts:4,filled:3},o:["0","1","2","3"],a:"1",t:"Comieron 3 de 4, por eso queda 1."}
+];
+
+let i=0,stars=0,lock=false;
+const el=id=>document.getElementById(id);
+
+let currentUtterance=null;
+let highlightTimer=null;
+let reading=false;
+
+function getSpanishVoice(){
+  const voices=window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+  return voices.find(v => /^es(-|_)/i.test(v.lang) && /mex/i.test(v.name))
+      || voices.find(v => /^es-MX$/i.test(v.lang))
+      || voices.find(v => /^es(-|_)/i.test(v.lang))
+      || null;
+}
+function renderQuestionWords(text){
+  const words=text.trim().split(/\s+/);
+  el("question").innerHTML=words.map((w,idx)=>`<span class="word" data-word="${idx}">${w}</span>`).join(" ");
+}
+function clearHighlight(){
+  document.querySelectorAll("#question .word").forEach(w=>w.classList.remove("active"));
+}
+function stopReading(){
+  if(window.speechSynthesis) window.speechSynthesis.cancel();
+  if(highlightTimer) clearInterval(highlightTimer);
+  highlightTimer=null;
+  currentUtterance=null;
+  reading=false;
+  clearHighlight();
+  el("listenBtn").disabled=false;
+  el("stopBtn").disabled=true;
+}
+function speakQuestion(){
+  stopReading();
+  if(!("speechSynthesis" in window)){
+    alert("Este navegador no permite leer la pregunta en voz alta.");
+    return;
+  }
+  const text=Q[i].q;
+  const words=[...document.querySelectorAll("#question .word")];
+  const utter=new SpeechSynthesisUtterance(text);
+  utter.lang="es-MX";
+  utter.rate=0.72;
+  utter.pitch=1.0;
+  utter.volume=1;
+  const voice=getSpanishVoice();
+  if(voice) utter.voice=voice;
+  currentUtterance=utter;
+  reading=true;
+  el("listenBtn").disabled=true;
+  el("stopBtn").disabled=false;
+
+  let activeIndex=-1;
+  const mark=(idx)=>{
+    words.forEach((w,j)=>w.classList.toggle("active",j===idx));
+    activeIndex=idx;
+  };
+
+  utter.onboundary=(event)=>{
+    if(event.name!=="word") return;
+    const upto=text.slice(0,event.charIndex).trim();
+    const idx=upto ? upto.split(/\s+/).length : 0;
+    mark(Math.min(idx,words.length-1));
+  };
+
+  utter.onstart=()=>{
+    // Fallback visual pacing for browsers without reliable boundary events.
+    let idx=0;
+    mark(0);
+    const ms=Math.max(520, 760/utter.rate);
+    highlightTimer=setInterval(()=>{
+      if(!reading) return;
+      if(activeIndex<idx-1) mark(idx);
+      idx++;
+      if(idx>=words.length && highlightTimer){
+        clearInterval(highlightTimer);
+        highlightTimer=null;
+      }
+    },ms);
+  };
+  utter.onend=()=>{
+    reading=false;
+    if(highlightTimer) clearInterval(highlightTimer);
+    highlightTimer=null;
+    setTimeout(clearHighlight,450);
+    el("listenBtn").disabled=false;
+    el("stopBtn").disabled=true;
+  };
+  utter.onerror=()=>{
+    stopReading();
+  };
+  window.speechSynthesis.speak(utter);
+}
+
+
+function polar(cx,cy,r,deg){
+  const rad=(deg-90)*Math.PI/180;
+  return {x:cx+r*Math.cos(rad),y:cy+r*Math.sin(rad)};
+}
+function sectorPath(cx,cy,r,start,end){
+  const a=polar(cx,cy,r,end), b=polar(cx,cy,r,start);
+  const large=(end-start)<=180?0:1;
+  return `M ${cx} ${cy} L ${b.x} ${b.y} A ${r} ${r} 0 ${large} 1 ${a.x} ${a.y} Z`;
+}
+function foodSVG(type,parts,filled){
+  const cx=120,cy=120,r=92;
+  const palette={
+    pizza:{base:"#f6c453",fill:"#f97316",stroke:"#7c2d12",emoji:"🍕"},
+    cake:{base:"#fde2e2",fill:"#ec4899",stroke:"#7f1d1d",emoji:"🍰"},
+    cookie:{base:"#d6a15c",fill:"#8b5a2b",stroke:"#5b3417",emoji:"🍪"}
+  }[type];
+  let paths="";
+  for(let k=0;k<parts;k++){
+    const start=k*(360/parts), end=(k+1)*(360/parts);
+    const color=k<filled?palette.fill:palette.base;
+    paths+=`<path d="${sectorPath(cx,cy,r,start,end)}" fill="${color}" stroke="${palette.stroke}" stroke-width="5"/>`;
+  }
+  let toppings="";
+  if(type==="pizza"){
+    [[85,80],[145,70],[95,145],[150,145]].forEach(([x,y])=>toppings+=`<circle cx="${x}" cy="${y}" r="8" fill="#dc2626"/>`);
+  }
+  if(type==="cookie"){
+    [[80,75],[145,72],[104,122],[158,142],[70,150]].forEach(([x,y])=>toppings+=`<circle cx="${x}" cy="${y}" r="7" fill="#5b3417"/>`);
+  }
+  if(type==="cake"){
+    toppings+=`<circle cx="120" cy="120" r="18" fill="#fff7ed"/><circle cx="120" cy="120" r="8" fill="#facc15"/>`;
+  }
+  return `<div class="food-wrap">
+    <svg class="food-svg" viewBox="0 0 240 240" aria-label="${type} dividido en ${parts} partes">
+      ${paths}${toppings}
+      <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#1f2937" stroke-width="6"/>
+    </svg>
+    <div class="food-label">${palette.emoji}</div>
+  </div>`;
+}
+function chocoHTML(parts,filled,label=""){
+  let cells="";
+  for(let k=0;k<parts;k++) cells+=`<div class="cell ${k<filled?"eaten":""}"></div>`;
+  return `<div class="food-wrap"><div class="choco" style="grid-template-columns:repeat(${parts},1fr)">${cells}</div>
+  <div class="food-label">🍫 ${label}</div></div>`;
+}
+function oneVisual(v){
+  if(v.type==="choco") return chocoHTML(v.parts,v.filled,v.label||"");
+  const lab=v.label?`<div class="food-label">${v.label}</div>`:"";
+  return `<div class="food-wrap">${foodSVG(v.type,v.parts,v.filled)}${lab}</div>`;
+}
+function visualHTML(v){
+  return Array.isArray(v)?v.map(oneVisual).join(""):oneVisual(v);
+}
+function render(){
+  stopReading();
+  lock=false;
+  const x=Q[i];
+  el("level").textContent=x.l;
+  renderQuestionWords(x.q);
+  el("visual").innerHTML=visualHTML(x.v);
+  el("answers").innerHTML="";
+  el("feedback").className="feedback";
+  el("feedback").textContent="";
+  el("next").className="next";
+  el("counter").textContent=`Pregunta ${i+1} de ${Q.length}`;
+  el("progress").style.width=`${((i+1)/Q.length)*100}%`;
+  el("stars").textContent=`⭐ ${stars}`;
+  x.o.forEach(op=>{
+    const b=document.createElement("button");
+    b.className="answer";b.textContent=op;b.onclick=()=>choose(b,op);
+    el("answers").appendChild(b);
+  });
+}
+function choose(btn,op){
+  if(lock)return;
+  lock=true;
+  const x=Q[i],bs=[...document.querySelectorAll(".answer")];
+  if(op===x.a){
+    btn.classList.add("correct");
+    stars++;
+    el("feedback").className="feedback ok";
+    el("feedback").textContent="¡Muy bien! "+x.t;
+    confetti();
+  }else{
+    btn.classList.add("wrong");
+    const c=bs.find(b=>b.textContent===x.a);
+    if(c)c.classList.add("correct");
+    el("feedback").className="feedback bad";
+    el("feedback").textContent="Mira otra vez: "+x.t;
+  }
+  bs.forEach(b=>b.disabled=true);
+  el("stars").textContent=`⭐ ${stars}`;
+  el("next").className="next show";
+}
+el("next").onclick=()=>{stopReading();i++;if(i<Q.length)render();else finish()}
+function finish(){
+  stopReading();
+  el("quizCard").style.display="none";
+  el("final").style.display="block";
+  el("score").textContent=`Conseguiste ${stars} de ${Q.length} estrellas.`;
+  confetti(40);
+}
+function confetti(n=18){
+  const c=["#facc15","#22c55e","#3b82f6","#ec4899","#7c3aed","#f97316"];
+  for(let k=0;k<n;k++){
+    const d=document.createElement("div");
+    d.className="confetti";
+    d.style.left=Math.random()*100+"vw";
+    d.style.background=c[Math.floor(Math.random()*c.length)];
+    d.style.animationDelay=Math.random()*.3+"s";
+    document.body.appendChild(d);
+    setTimeout(()=>d.remove(),1500);
+  }
+}
+el("listenBtn").addEventListener("click",speakQuestion);
+el("stopBtn").addEventListener("click",stopReading);
+if("speechSynthesis" in window){
+  window.speechSynthesis.onvoiceschanged=()=>getSpanishVoice();
+}
+window.addEventListener("beforeunload",stopReading);
+render();
+</script>
+</body>
+</html>
