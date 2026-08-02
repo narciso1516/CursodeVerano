@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulador NEM · 25 Reactivos</title>
+  <style>
+    :root{
+      --vino:#6E1F3A;
+      --vino-2:#8C2F52;
+      --verde:#2F6F67;
+      --verde-2:#4C8F84;
+      --crema:#F7F1E8;
+      --arena:#E7D7BE;
+      --oro:#C29A52;
+      --tinta:#1F2933;
+      --blanco:#FFFFFF;
+      --gris:#64748B;
+      --error:#B42318;
+      --ok:#1F7A4D;
+      --sombra:0 18px 50px rgba(31,41,51,.14);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--tinta);background:radial-gradient(circle at top right,rgba(194,154,82,.18),transparent 30%),linear-gradient(135deg,#f7f1e8 0%,#efe7db 100%);min-height:100vh}
+    .app{width:min(980px,94vw);margin:0 auto;padding:28px 0 40px}
+    .hero{background:linear-gradient(135deg,var(--vino),var(--vino-2));color:white;border-radius:28px;padding:28px;box-shadow:var(--sombra);position:relative;overflow:hidden}
+    .hero::after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08);right:-70px;top:-70px}
+    .eyebrow{letter-spacing:.12em;text-transform:uppercase;font-size:.76rem;font-weight:800;opacity:.85}
+    h1{margin:.35rem 0 .5rem;font-size:clamp(1.8rem,4vw,3rem);line-height:1.05}
+    .subtitle{margin:0;max-width:720px;color:#f9edf2;line-height:1.55}
+    .meta{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;margin-top:22px}
+    .progress-wrap{background:rgba(255,255,255,.18);border-radius:999px;height:12px;overflow:hidden}
+    #progressBar{height:100%;width:4%;background:linear-gradient(90deg,#F5D28D,#fff0b8);border-radius:999px;transition:width .35s ease}
+    .counter{font-weight:800;white-space:nowrap}
+    .panel{margin-top:22px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border:1px solid rgba(110,31,58,.08);border-radius:26px;box-shadow:var(--sombra);overflow:hidden}
+    .question-top{padding:22px 24px 10px;display:flex;justify-content:space-between;gap:16px;align-items:center}
+    .level{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;font-size:.82rem;font-weight:800;background:#EEF7F4;color:var(--verde)}
+    .attempts{color:var(--gris);font-size:.92rem;font-weight:700}
+    .question{padding:8px 24px 4px;font-size:clamp(1.18rem,2.4vw,1.55rem);font-weight:800;line-height:1.45}
+    .options{display:grid;gap:14px;padding:18px 24px 6px}
+    .option{display:flex;align-items:flex-start;gap:14px;width:100%;text-align:left;border:2px solid #E6E1D9;background:#fff;border-radius:18px;padding:16px 17px;cursor:pointer;font-size:1rem;line-height:1.45;transition:.2s ease}
+    .option:hover{transform:translateY(-1px);border-color:var(--verde-2);box-shadow:0 10px 25px rgba(47,111,103,.09)}
+    .letter{flex:0 0 34px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:900;background:var(--crema);color:var(--vino);border:1px solid var(--arena)}
+    .option.correct{border-color:var(--ok);background:#F0FAF5}
+    .option.correct .letter{background:var(--ok);color:#fff;border-color:var(--ok)}
+    .option.wrong{border-color:var(--error);background:#FFF4F2;animation:shake .28s ease}
+    @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+    .feedback{margin:18px 24px 0;border-radius:18px;padding:17px 18px;display:none;line-height:1.55}
+    .feedback.show{display:block}.feedback.error{background:#FFF3F1;color:#7A271A;border:1px solid #F4C7C3}.feedback.ok{background:#EFF9F4;color:#145A39;border:1px solid #B9E2CE}.feedback strong{display:block;margin-bottom:5px}
+    .actions{padding:22px 24px 26px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    button.nav{border:0;border-radius:15px;padding:13px 18px;font-weight:900;cursor:pointer;font-size:.95rem}
+    #nextBtn{background:linear-gradient(135deg,var(--verde),var(--verde-2));color:white;margin-left:auto}#nextBtn:disabled{opacity:.38;cursor:not-allowed;filter:grayscale(.3)}#restartBtn{background:#F3ECE5;color:var(--vino)}
+    .finish{display:none;padding:36px 26px 34px;text-align:center}.finish.show{display:block}.finish h2{font-size:2rem;margin:.3rem 0}.score{font-size:3rem;font-weight:1000;color:var(--vino);margin:.2rem 0}.small{color:var(--gris);line-height:1.6}
+    .brandline{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;color:#f7dfe8;font-size:.85rem;font-weight:700}.tag{border:1px solid rgba(255,255,255,.24);border-radius:999px;padding:7px 10px;background:rgba(255,255,255,.06)}
+    @media (max-width:640px){.app{width:min(96vw,980px);padding-top:12px}.hero,.panel{border-radius:20px}.hero{padding:22px 18px}.question-top,.question,.options,.actions{padding-left:18px;padding-right:18px}.feedback{margin-left:18px;margin-right:18px}.meta{grid-template-columns:1fr}.counter{justify-self:start}}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="hero">
+      <div class="eyebrow">Simulador magisterial · Nueva Escuela Mexicana</div>
+      <h1>25 reactivos interactivos</h1>
+      <p class="subtitle">Responde correctamente para desbloquear la siguiente pregunta. Si te equivocas, podrás volver a intentarlo; al acertar, recibirás una justificación pedagógica.</p>
+      <div class="brandline"><span class="tag">Plan de Estudio 2022</span><span class="tag">Programa Analítico</span><span class="tag">Inclusión</span><span class="tag">Evaluación formativa</span></div>
+      <div class="meta"><div class="progress-wrap"><div id="progressBar"></div></div><div class="counter" id="counter">Pregunta 1 de 25</div></div>
+    </section>
+    <section class="panel">
+      <div id="quizArea">
+        <div class="question-top"><span class="level" id="levelBadge">Nivel básico</span><span class="attempts" id="attempts">Intentos: 0</span></div>
+        <div class="question" id="questionText"></div>
+        <div class="options" id="options"></div>
+        <div class="feedback" id="feedback"></div>
+        <div class="actions"><button class="nav" id="restartBtn">Reiniciar</button><button class="nav" id="nextBtn" disabled>Siguiente →</button></div>
+      </div>
+      <div class="finish" id="finish"><div class="eyebrow" style="color:var(--verde)">Simulador completado</div><h2>¡Terminaste los 25 reactivos!</h2><div class="score" id="scoreText"></div><p class="small" id="summaryText"></p><button class="nav" id="restartBtn2" style="background:var(--vino);color:white;margin-top:10px">Volver a empezar</button></div>
+    </section>
+  </main>
+  <script>
+    const questions = [
+      {q:"En una escuela primaria, el colectivo docente analiza las características sociales, culturales y económicas de la comunidad antes de elaborar su Programa Analítico. ¿Qué proceso está realizando principalmente?",o:["Evaluación sumativa.","Lectura de la realidad.","Secuenciación de los PDA."],a:1,why:"La lectura de la realidad permite reconocer las condiciones sociales, culturales, económicas y educativas del contexto para orientar la construcción situada del Programa Analítico.",level:"Básico"},
+      {q:"¿Cuál es la función principal del Programa Sintético dentro del Plan de Estudio 2022?",o:["Establecer un referente curricular nacional con contenidos y Procesos de Desarrollo de Aprendizaje.","Determinar exactamente las actividades que cada maestro realizará diariamente.","Sustituir la planeación didáctica elaborada por los docentes."],a:0,why:"El Programa Sintético es un referente curricular nacional. Orienta mediante contenidos y PDA, pero no sustituye la autonomía profesional ni la planeación didáctica del docente.",level:"Básico"},
+      {q:"Un colectivo desea incorporar al Programa Analítico un contenido local que no aparece explícitamente en el Programa Sintético. ¿Qué proceso permite realizarlo?",o:["Codiseño.","Calificación.","Promoción escolar."],a:0,why:"El codiseño permite incorporar contenidos pertinentes al contexto local cuando son necesarios para atender la realidad y las necesidades formativas de la comunidad.",level:"Básico"},
+      {q:"¿Cuál de los siguientes constituye un eje articulador del Plan de Estudio 2022?",o:["Pensamiento crítico.","Matemáticas.","Ciencias Naturales."],a:0,why:"Pensamiento crítico es uno de los siete ejes articuladores. Matemáticas y Ciencias no son ejes articuladores.",level:"Básico"},
+      {q:"¿Cuántos campos formativos establece el Plan de Estudio 2022?",o:["Tres.","Cuatro.","Siete."],a:1,why:"El Plan de Estudio 2022 organiza el currículo en cuatro campos formativos: Lenguajes; Saberes y Pensamiento Científico; Ética, Naturaleza y Sociedades; y De lo Humano y lo Comunitario.",level:"Básico"},
+      {q:"¿Cuál de los siguientes corresponde a un campo formativo?",o:["Interculturalidad crítica.","Saberes y Pensamiento Científico.","Vida saludable."],a:1,why:"Saberes y Pensamiento Científico es un campo formativo. Interculturalidad crítica y Vida saludable son ejes articuladores.",level:"Básico"},
+      {q:"Una maestra modifica materiales y formas de participación para que un estudiante con discapacidad pueda trabajar junto con sus compañeros. ¿Qué principio está favoreciendo?",o:["Inclusión.","Competitividad.","Homogeneización."],a:0,why:"La inclusión implica eliminar barreras para el aprendizaje y la participación, realizando ajustes que permitan al estudiante participar junto con sus pares.",level:"Básico"},
+      {q:"¿Qué caracteriza principalmente a la evaluación formativa?",o:["Obtener información durante el proceso para retroalimentar y mejorar el aprendizaje y la enseñanza.","Asignar una calificación definitiva al finalizar el ciclo.","Comparar permanentemente el desempeño entre estudiantes."],a:0,why:"La evaluación formativa acompaña el proceso: recoge evidencias, retroalimenta y permite ajustar tanto la enseñanza como las estrategias de aprendizaje.",level:"Básico"},
+      {q:"Una escuela investiga las plantas medicinales utilizadas por las familias y las contrasta críticamente con conocimientos científicos. ¿Qué principio se observa principalmente?",o:["Contextualización de los aprendizajes.","Sustitución de los conocimientos comunitarios.","Estandarización curricular."],a:0,why:"La contextualización vincula los saberes locales y comunitarios con los contenidos escolares, sin sustituir unos por otros y favoreciendo su análisis crítico.",level:"Básico"},
+      {q:"Dentro de la NEM, la comunidad se concibe principalmente como:",o:["Un espacio externo que apoya ocasionalmente a la escuela.","Un núcleo integrador de los procesos educativos.","Un recurso utilizado únicamente en proyectos culturales."],a:1,why:"En el Plan de Estudio 2022, la comunidad funciona como referente y núcleo integrador que vincula la formación escolar con la realidad y el territorio.",level:"Básico"},
+      {q:"¿Cuál es un propósito del pensamiento crítico como eje articulador?",o:["Que el alumnado memorice información antes de cuestionarla.","Favorecer el análisis y problematización de la realidad.","Evitar opiniones diferentes dentro del aula."],a:1,why:"El pensamiento crítico busca analizar, cuestionar, argumentar y problematizar la realidad para comprenderla y transformarla.",level:"Básico"},
+      {q:"Cuando estudiantes y docentes reconocen diferentes saberes culturales sin establecer que uno sea naturalmente superior a otro, se favorece principalmente:",o:["Interculturalidad crítica.","Estandarización educativa.","Evaluación sumativa."],a:0,why:"La interculturalidad crítica reconoce la diversidad de saberes, cuestiona jerarquías culturales y promueve relaciones más equitativas entre distintas formas de conocimiento.",level:"Básico"},
+      {q:"¿Cuál de las siguientes acciones corresponde mejor a la autonomía profesional docente?",o:["Adaptar y contextualizar el trabajo pedagógico considerando las características del grupo y la comunidad.","Eliminar los contenidos nacionales que el docente considere innecesarios.","Trabajar sin considerar el Plan de Estudio."],a:0,why:"La autonomía profesional permite tomar decisiones pedagógicas contextualizadas dentro del marco curricular vigente; no implica ignorar ni eliminar arbitrariamente los referentes nacionales.",level:"Básico"},
+      {q:"Un estudiante no cuenta temporalmente con determinada documentación administrativa. ¿Qué principio debe priorizar la escuela?",o:["Impedir su incorporación hasta regularizarla.","Garantizar su derecho a la educación evitando que el trámite constituya una barrera.","Permitirle asistir únicamente como oyente."],a:1,why:"El derecho a la educación debe prevalecer. La falta temporal de documentación no debe transformarse en una barrera de acceso al servicio educativo.",level:"Básico"},
+      {q:"¿Qué campo formativo aborda de manera particularmente relevante identidad, bienestar, convivencia y relación con la comunidad?",o:["De lo Humano y lo Comunitario.","Lenguajes.","Saberes y Pensamiento Científico."],a:0,why:"De lo Humano y lo Comunitario integra aspectos de identidad, bienestar, corporeidad, convivencia, vida colectiva y participación comunitaria.",level:"Básico"},
+      {q:"Durante el diagnóstico socioeducativo, las familias señalan que el desperdicio de agua constituye uno de los principales problemas de la comunidad. ¿Qué debería hacer primero el colectivo?",o:["Diseñar inmediatamente un examen sobre el ciclo del agua.","Problematizar la situación y analizar sus posibles relaciones con contenidos y PDA.","Solicitar al alumnado memorizar recomendaciones ambientales."],a:1,why:"Antes de definir actividades, el colectivo debe problematizar la realidad, comprender causas y relaciones, y después articular la situación con contenidos y PDA pertinentes.",level:"Intermedio"},
+      {q:"Estudiantes entrevistan a adultos mayores acerca de acontecimientos históricos de su localidad y posteriormente contrastan los testimonios con documentos y otras fuentes. ¿Qué práctica se favorece?",o:["Construcción crítica del conocimiento mediante diversas fuentes y saberes.","Sustitución del conocimiento histórico por testimonios orales.","Memorización de acontecimientos comunitarios."],a:0,why:"Contrastar testimonios con otras fuentes permite construir conocimiento histórico de manera crítica, plural y contextualizada.",level:"Intermedio"},
+      {q:"Durante un trabajo en equipo aparecen opiniones contrarias. El docente quiere promover cultura de paz. ¿Cuál es la intervención más pertinente?",o:["Evitar el debate para mantener un ambiente tranquilo.","Reconocer el conflicto como parte de la convivencia y facilitar el diálogo respetuoso para abordarlo.","Determinar inmediatamente quién tiene la razón."],a:1,why:"La cultura de paz no significa ausencia de conflicto. Implica abordarlo de manera constructiva mediante diálogo, respeto, mediación y búsqueda de acuerdos.",level:"Intermedio"},
+      {q:"Una maestra observa que varios estudiantes no comprendieron una actividad. Antes de continuar, pregunta qué les resultó difícil y modifica su estrategia. Esto constituye principalmente:",o:["Evaluación formativa.","Evaluación certificativa.","Evaluación estandarizada."],a:0,why:"La docente obtiene información durante el proceso y ajusta su intervención. Esa retroalimentación y toma de decisiones es característica de la evaluación formativa.",level:"Intermedio"},
+      {q:"Las familias participan en el diagnóstico escolar identificando factores que afectan el aprendizaje y posteriormente colaboran en posibles soluciones. ¿Qué principio se materializa?",o:["Corresponsabilidad educativa.","Transferencia de la responsabilidad docente.","Fiscalización familiar."],a:0,why:"La corresponsabilidad implica que escuela, familias y comunidad participen de manera conjunta en el diagnóstico, las decisiones y las acciones de mejora.",level:"Intermedio"},
+      {q:"Una escuela se encuentra cerca de un río contaminado. Los estudiantes investigan las causas, recopilan información y proponen acciones comunitarias. ¿Qué característica de la NEM resulta más evidente?",o:["Vinculación del aprendizaje con problemas reales del territorio.","Separación entre conocimientos escolares y realidad.","Priorización de contenidos memorísticos."],a:0,why:"La NEM favorece aprendizajes situados y vinculados con problemas del territorio, permitiendo investigar y actuar sobre situaciones reales.",level:"Intermedio"},
+      {q:"Un profesor utiliza el mismo examen, actividades y materiales para todos sus estudiantes a pesar de que algunos presentan diferentes necesidades de aprendizaje. ¿Qué debería hacer prioritariamente?",o:["Mantener las mismas condiciones para garantizar igualdad.","Diversificar estrategias y eliminar barreras para el aprendizaje y la participación.","Separar a quienes presentan dificultades."],a:1,why:"La equidad no significa dar exactamente lo mismo a todos, sino ofrecer apoyos y ajustes pertinentes para garantizar participación y aprendizaje.",level:"Intermedio"},
+      {q:"El alumnado investiga cuánto plástico produce la escuela, clasifica residuos, analiza los datos y desarrolla una campaña de reducción. ¿Qué combinación se observa mejor?",o:["Problematización, investigación y acción sobre la realidad.","Memorización, repetición y certificación.","Evaluación, clasificación y sanción."],a:0,why:"La secuencia parte de un problema real, genera investigación y culmina en una acción transformadora sobre el entorno escolar.",level:"Intermedio"},
+      {q:"Durante el CTE se detecta bajo desempeño en comprensión lectora. ¿Cuál sería la decisión más consistente con un proceso de mejora continua?",o:["Analizar evidencias, identificar causas, establecer acciones y posteriormente dar seguimiento a sus resultados.","Comprar inmediatamente nuevos libros y considerar solucionado el problema.","Aumentar automáticamente las tareas de lectura."],a:0,why:"La mejora continua requiere diagnóstico basado en evidencias, identificación de causas, planeación de acciones, implementación, seguimiento y valoración de resultados.",level:"Intermedio"},
+      {q:"Una comunidad posee conocimientos tradicionales sobre agricultura. ¿Cuál sería el tratamiento pedagógico más pertinente?",o:["Incorporarlos críticamente y ponerlos en diálogo con otros conocimientos.","Sustituirlos por conocimiento científico.","Considerarlos únicamente como actividades culturales extracurriculares."],a:0,why:"La NEM favorece el diálogo de saberes: los conocimientos comunitarios pueden incorporarse críticamente y relacionarse con saberes escolares y científicos sin ser descalificados.",level:"Intermedio"}
+    ];
+    let index=0;let attempts=Array(questions.length).fill(0);let solved=Array(questions.length).fill(false);
+    const qText=document.getElementById("questionText"),optionsEl=document.getElementById("options"),feedback=document.getElementById("feedback"),nextBtn=document.getElementById("nextBtn"),counter=document.getElementById("counter"),progressBar=document.getElementById("progressBar"),attemptsEl=document.getElementById("attempts"),levelBadge=document.getElementById("levelBadge"),quizArea=document.getElementById("quizArea"),finish=document.getElementById("finish"),scoreText=document.getElementById("scoreText"),summaryText=document.getElementById("summaryText");
+    function render(){const item=questions[index];qText.textContent=item.q;counter.textContent=`Pregunta ${index+1} de ${questions.length}`;progressBar.style.width=`${((index+1)/questions.length)*100}%`;attemptsEl.textContent=`Intentos: ${attempts[index]}`;levelBadge.textContent=`Nivel ${item.level.toLowerCase()}`;optionsEl.innerHTML="";feedback.className="feedback";feedback.innerHTML="";nextBtn.disabled=!solved[index];item.o.forEach((opt,i)=>{const btn=document.createElement("button");btn.className="option";btn.innerHTML=`<span class="letter">${String.fromCharCode(65+i)}</span><span>${opt}</span>`;btn.addEventListener("click",()=>choose(i,btn));optionsEl.appendChild(btn)})}
+    function choose(choice,btn){if(solved[index])return;attempts[index]++;attemptsEl.textContent=`Intentos: ${attempts[index]}`;const item=questions[index];document.querySelectorAll(".option").forEach(el=>el.classList.remove("wrong"));if(choice===item.a){solved[index]=true;btn.classList.add("correct");document.querySelectorAll(".option").forEach(el=>el.disabled=true);feedback.className="feedback show ok";feedback.innerHTML=`<strong>✓ Respuesta correcta</strong>${item.why}`;nextBtn.disabled=false;nextBtn.textContent=index===questions.length-1?"Ver resultado →":"Siguiente →"}else{btn.classList.add("wrong");feedback.className="feedback show error";feedback.innerHTML=`<strong>✕ Aún no.</strong>Revisa las opciones y vuelve a intentarlo. No podrás avanzar hasta seleccionar la respuesta correcta.`;nextBtn.disabled=true}}
+    nextBtn.addEventListener("click",()=>{if(!solved[index])return;if(index<questions.length-1){index++;render();window.scrollTo({top:0,behavior:"smooth"})}else{showFinish()}});
+    function showFinish(){quizArea.style.display="none";finish.classList.add("show");const totalAttempts=attempts.reduce((a,b)=>a+b,0),extraAttempts=totalAttempts-questions.length;scoreText.textContent="25 / 25";summaryText.textContent=extraAttempts===0?"Dominaste todos los reactivos al primer intento. Excelente control conceptual.":`Completaste todos los reactivos. Tuviste ${extraAttempts} intento(s) adicional(es) antes de llegar a las respuestas correctas.`}
+    function restart(){index=0;attempts=Array(questions.length).fill(0);solved=Array(questions.length).fill(false);quizArea.style.display="block";finish.classList.remove("show");nextBtn.textContent="Siguiente →";render();window.scrollTo({top:0,behavior:"smooth"})}
+    document.getElementById("restartBtn").addEventListener("click",restart);document.getElementById("restartBtn2").addEventListener("click",restart);render();
+  </script>
+</body>
+</html>
