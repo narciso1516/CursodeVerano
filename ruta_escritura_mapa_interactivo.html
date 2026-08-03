@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B57D0">
+<title>Ruta de Escritura — Mapa Interactivo</title>
+<style>
+:root{
+  --g-blue:#0B57D0;
+  --g-blue-2:#4285F4;
+  --g-red:#EA4335;
+  --g-yellow:#FBBC04;
+  --g-green:#34A853;
+  --gemini-violet:#8E5CFF;
+  --gemini-pink:#D965D9;
+  --gemini-cyan:#4FC3F7;
+  --ink:#202124;
+  --muted:#5f6368;
+  --bg:#f8fafd;
+  --card:#ffffff;
+  --line:#e4e8f0;
+  --soft:#eef4ff;
+  --radius:22px;
+  --shadow:0 14px 34px rgba(32,33,36,.09);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 0 0,rgba(142,92,255,.12),transparent 24%),
+    radial-gradient(circle at 100% 0,rgba(79,195,247,.12),transparent 26%),
+    var(--bg);
+  padding-bottom:calc(92px + env(safe-area-inset-bottom));
+}
+button{font:inherit}
+.container{width:min(980px,94%);margin:auto}
+
+/* HERO */
+.hero{padding:16px 0 8px}
+.hero-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:28px;
+  padding:24px 20px 22px;
+  color:#fff;
+  background:
+    radial-gradient(circle at 85% 10%,rgba(255,255,255,.20),transparent 22%),
+    linear-gradient(135deg,var(--g-blue) 0%,var(--g-blue-2) 35%,var(--gemini-violet) 68%,var(--gemini-pink) 100%);
+  box-shadow:0 18px 40px rgba(11,87,208,.24);
+}
+.hero-card:after{
+  content:"✦";
+  position:absolute;
+  right:18px;top:12px;
+  font-size:54px;
+  opacity:.22;
+  transform:rotate(12deg)
+}
+.hero h1{margin:0;font-size:clamp(2rem,9vw,3.2rem);line-height:.98}
+.hero p{margin:12px 0 0;line-height:1.55;font-size:.98rem;max-width:780px}
+.brand-row{display:flex;gap:7px;align-items:center;margin-top:16px;flex-wrap:wrap}
+.brand-chip{
+  padding:7px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.22);
+  font-size:.8rem;
+  backdrop-filter:blur(6px)
+}
+
+/* MAP */
+.map-card{
+  margin:14px auto 14px;
+  background:rgba(255,255,255,.86);
+  backdrop-filter:blur(12px);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:16px;
+  box-shadow:var(--shadow);
+  position:sticky;
+  top:8px;
+  z-index:20
+}
+.map-top{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.map-top b{font-size:.96rem}
+.map-top span{font-size:.82rem;color:var(--muted)}
+.progress{
+  height:10px;
+  background:#e7ecf4;
+  border-radius:999px;
+  overflow:hidden;
+  margin:10px 0 14px
+}
+.progress>div{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,var(--g-blue-2),var(--gemini-violet),var(--g-green));
+  transition:.35s ease
+}
+.route-scroll{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory;
+  padding-bottom:4px;
+  scrollbar-width:none
+}
+.route-scroll::-webkit-scrollbar{display:none}
+.node{
+  min-width:92px;
+  scroll-snap-align:start;
+  text-align:center;
+  opacity:.62;
+  transition:.25s;
+  cursor:pointer
+}
+.node .circle{
+  width:52px;height:52px;margin:auto;
+  border-radius:50%;
+  display:grid;place-items:center;
+  color:white;font-weight:900;
+  background:#b9c0cc;
+  border:4px solid white;
+  box-shadow:0 8px 18px rgba(32,33,36,.14)
+}
+.node.active{opacity:1;transform:translateY(-2px)}
+.node.active .circle{background:linear-gradient(135deg,var(--g-blue-2),var(--gemini-violet))}
+.node.done{opacity:1}
+.node.done .circle{background:var(--g-green)}
+.node.locked{opacity:.35}
+.node-title{font-size:.74rem;font-weight:800;line-height:1.2;margin-top:7px}
+.node-sub{font-size:.68rem;color:var(--muted);margin-top:2px}
+
+/* STATION */
+.station{display:none}
+.station.active{display:block;animation:fade .28s ease}
+@keyframes fade{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.station-head{
+  display:flex;align-items:center;gap:12px;
+  margin:18px 0 10px
+}
+.station-icon{
+  width:48px;height:48px;border-radius:15px;
+  display:grid;place-items:center;color:white;font-weight:900;
+  background:linear-gradient(135deg,var(--g-blue-2),var(--gemini-violet));
+  box-shadow:0 8px 18px rgba(66,133,244,.18)
+}
+.station-head h2{margin:0;font-size:1.35rem}
+.station-head p{margin:2px 0 0;color:var(--muted);font-size:.85rem}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:18px;
+  margin-bottom:14px
+}
+.lesson{
+  background:linear-gradient(135deg,#f7fbff,#faf7ff);
+  border:1px solid #e2e8ff;
+  border-radius:18px;
+  padding:16px;
+  line-height:1.6
+}
+.lesson strong{color:var(--g-blue)}
+.examples{display:grid;gap:10px;margin-top:12px}
+.example{
+  border-radius:15px;
+  padding:13px 14px;
+  line-height:1.5;
+  border:1px solid var(--line)
+}
+.example.good{border-left:5px solid var(--g-green);background:#f2fbf5}
+.example.bad{border-left:5px solid var(--g-red);background:#fff5f4}
+
+.level-title{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  margin:18px 0 8px
+}
+.level-pill{
+  padding:7px 10px;border-radius:999px;font-size:.78rem;font-weight:900
+}
+.basic{background:#e8f0fe;color:#174ea6}
+.mid{background:#fff4cf;color:#7a5200}
+.adv{background:#f2eaff;color:#6b21a8}
+
+.exercise{
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:15px;
+  margin:10px 0;
+  background:white;
+  box-shadow:0 7px 18px rgba(32,33,36,.04)
+}
+.exercise.done{
+  border-color:#bde7cd;
+  background:#f8fdf9
+}
+.exercise h4{margin:0 0 8px;font-size:1rem;line-height:1.4}
+.notebook{
+  border-radius:14px;
+  padding:13px 14px 13px 46px;
+  min-height:72px;
+  background:
+    linear-gradient(90deg,transparent 0 32px,#f5b4b4 32px 34px,transparent 34px),
+    repeating-linear-gradient(#fff,#fff 27px,#dce5fb 28px);
+  border:1px solid #dde4ef;
+  color:#4b5563;
+  font-size:.9rem
+}
+.action-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:10px
+}
+.btn{
+  border:0;border-radius:13px;padding:12px 13px;font-weight:800;
+  cursor:pointer;transition:.15s;min-height:46px
+}
+.btn:active{transform:scale(.98)}
+.btn-hint{background:#fff4cf;color:#7a5200}
+.btn-check{background:#eaf7f2;color:#07694f}
+.btn-done{background:#e8f0fe;color:#174ea6}
+.btn-primary{background:linear-gradient(135deg,var(--g-blue),var(--gemini-violet));color:#fff}
+.btn-light{background:#eef2f7;color:#30343b}
+.reveal{
+  display:none;
+  margin-top:10px;
+  padding:12px 13px;
+  border-radius:12px;
+  background:#f8fafc;
+  border:1px dashed #cfd7e4;
+  line-height:1.5;
+  font-size:.9rem
+}
+.reveal.show{display:block;animation:fade .2s ease}
+
+.tip{
+  margin-top:12px;
+  padding:13px 14px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#eef4ff,#f6efff);
+  border:1px solid #dfe4ff;
+  font-size:.9rem;line-height:1.5
+}
+.selfcheck{
+  display:grid;
+  gap:9px;
+  margin-top:14px
+}
+.selfcheck label{
+  display:flex;gap:9px;align-items:flex-start;
+  padding:12px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:#fff
+}
+.selfcheck input{transform:scale(1.2);margin-top:2px}
+.station-nav{display:flex;justify-content:space-between;gap:10px;margin-top:14px}
+
+/* BOTTOM NAV */
+.bottom-nav{
+  position:fixed;
+  left:0;right:0;bottom:0;
+  z-index:50;
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(16px);
+  border-top:1px solid var(--line);
+  box-shadow:0 -10px 30px rgba(32,33,36,.08)
+}
+.bottom-inner{
+  width:min(980px,100%);
+  margin:auto;
+  display:grid;
+  grid-template-columns:1fr 1.3fr 1fr;
+  gap:8px
+}
+.bottom-nav button{
+  border:0;border-radius:14px;
+  min-height:50px;
+  font-weight:900;
+  cursor:pointer
+}
+.bottom-prev,.bottom-next{background:#eef2f7;color:#30343b}
+.bottom-main{background:linear-gradient(135deg,var(--g-blue),var(--gemini-violet));color:white}
+
+/* TOAST */
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:calc(102px + env(safe-area-inset-bottom));
+  transform:translateX(-50%) translateY(20px);
+  width:min(92%,420px);
+  background:#202124;color:white;
+  border-radius:14px;
+  padding:12px 14px;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+  z-index:80;
+  text-align:center;
+  font-size:.9rem
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.final{
+  display:none;
+  background:linear-gradient(135deg,#eef5ff,#f7efff,#edf9f3);
+  border:1px solid #dce4ef
+}
+.final.show{display:block}
+.summary{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  margin-top:14px
+}
+.summary-item{
+  display:flex;align-items:center;gap:12px;
+  padding:13px;border-radius:14px;
+  background:white;border:1px solid var(--line)
+}
+.summary-icon{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--g-blue-2),var(--gemini-violet));color:white;font-weight:900
+}
+@media(min-width:760px){
+  .card{padding:22px}
+  .examples{grid-template-columns:1fr 1fr}
+  .selfcheck{grid-template-columns:repeat(3,1fr)}
+  .summary{grid-template-columns:1fr 1fr}
+  .action-row{display:flex}
+  .action-row .btn{flex:1}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-card">
+      <h1>Ruta de Escritura</h1>
+      <p>Aprende con ejemplos, practica en tu libreta y avanza por estaciones. La página está diseñada para usarse cómodamente desde el celular.</p>
+      <div class="brand-row">
+        <span class="brand-chip">Google</span>
+        <span class="brand-chip">Gemini</span>
+        <span class="brand-chip">📱 Mobile-first</span>
+        <span class="brand-chip">✍️ Trabajo en libreta</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="map-card">
+    <div class="map-top">
+      <b>🗺️ Tu mapa</b>
+      <span id="progressLabel">Estación 1 de 5</span>
+    </div>
+    <div class="progress"><div id="progressBar"></div></div>
+    <div class="route-scroll" id="route"></div>
+  </section>
+
+  <section id="stations"></section>
+
+  <section class="card final" id="final">
+    <h2>🎉 Ruta completada</h2>
+    <p>Terminaste las cinco estaciones. Ahora entrega tu libreta para revisar tu nivel real de ortografía, gramática, lectura y redacción.</p>
+    <div class="summary" id="summary"></div>
+    <div class="tip"><b>Reto final:</b> escribe un texto de 12 a 15 renglones sobre un tema que te interese. Revisa mayúsculas, acentos, puntuación, concordancia, conectores y repeticiones.</div>
+  </section>
+</main>
+
+<div class="bottom-nav">
+  <div class="bottom-inner">
+    <button class="bottom-prev" onclick="prevStation()">← Atrás</button>
+    <button class="bottom-main" onclick="completeCurrent()">Completar estación</button>
+    <button class="bottom-next" onclick="nextStation()">Siguiente →</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const data = [
+{
+ title:"Mayúsculas y puntuación", icon:"A",
+ lesson:`<p><strong>Idea clave:</strong> una oración comienza con mayúscula y termina con un signo de puntuación.</p>
+ <p>La <b>coma</b> puede separar elementos de una lista. El <b>punto</b> separa ideas completas.</p>`,
+ examples:[
+  ["bad","ayer fuimos a veracruz compramos libros cuadernos colores y regresamos tarde"],
+  ["good","Ayer fuimos a Veracruz. Compramos libros, cuadernos y colores. Después regresamos tarde."]
+ ],
+ basic:[
+  "Corrige: maria vive en puebla y estudia en la preparatoria benito juarez",
+  "Corrige: hoy traje lapiz libreta regla colores y borrador"
+ ],
+ mid:[
+  "Coloca puntos y mayúsculas: los alumnos llegaron temprano después organizaron el salón finalmente comenzó la clase",
+  "Coloca comas donde sea necesario: Para el proyecto necesitamos cartulina tijeras pegamento marcadores y revistas"
+ ],
+ adv:[
+  "Reescribe usando punto, coma y mayúsculas: ayer tuvimos examen algunos terminaron rápido otros necesitaron más tiempo al final todos entregaron",
+  "Escribe tres oraciones sobre tu escuela. Una debe incluir una enumeración y otra un conector."
+ ]
+},
+{
+ title:"Acentuación", icon:"´",
+ lesson:`<p><strong>Idea clave:</strong> todas las palabras tienen una sílaba que suena con mayor fuerza.</p>
+ <p><b>Agudas:</b> tilde si terminan en n, s o vocal. <b>Graves:</b> tilde si no terminan en n, s o vocal. <b>Esdrújulas:</b> siempre llevan tilde.</p>`,
+ examples:[
+  ["good","canción → aguda · lápiz → grave · teléfono → esdrújula"],
+  ["good","jóvenes · también · difícil · matemática"]
+ ],
+ basic:[
+  "Coloca la tilde donde corresponda: cancion, lapiz, telefono, jovenes",
+  "Escribe una palabra aguda, una grave y una esdrújula."
+ ],
+ mid:[
+  "Corrige: El sabado estudie matematicas y despues escuche musica.",
+  "Explica por qué «teléfono» lleva tilde."
+ ],
+ adv:[
+  "Escribe una oración que incluya al menos tres palabras con tilde.",
+  "Corrige y explica dos errores: El examen de quimica fue dificil pero tambien interesante."
+ ]
+},
+{
+ title:"Palabras que se confunden", icon:"?",
+ lesson:`<p><strong>Hay</strong> = existe · <strong>ahí</strong> = lugar · <strong>ay</strong> = expresión.</p>
+ <p><b>a ver</b> = observar · <b>haber</b> = verbo. <b>hecho</b> = realizado · <b>echo</b> = del verbo echar.</p>`,
+ examples:[
+  ["good","Hay una mochila ahí. ¡Ay!, olvidé mi cuaderno."],
+  ["good","Vamos a ver la exposición. Debe haber mucha gente."]
+ ],
+ basic:[
+  "Completa: ___ muchos libros en la mesa. (hay / ahí / ay)",
+  "Escribe una oración con «a ver»."
+ ],
+ mid:[
+  "Corrige: vamos haber si ay lugares ahi",
+  "Escribe una oración con «hecho» y otra con «echo»."
+ ],
+ adv:[
+  "Crea un diálogo de 4 líneas usando hay, ahí, ay, a ver y haber.",
+  "Explica la diferencia entre «porque» y «por qué» y escribe un ejemplo de cada una."
+ ]
+},
+{
+ title:"Concordancia y oraciones", icon:"↔",
+ lesson:`<p><strong>Idea clave:</strong> sujeto y verbo deben concordar.</p>
+ <p><b>El alumno estudia.</b> / <b>Los alumnos estudian.</b></p>
+ <p>También debe coincidir género y número: <b>las actividades difíciles</b>.</p>`,
+ examples:[
+  ["bad","Los estudiante realiza la actividad."],
+  ["good","Los estudiantes realizan la actividad."]
+ ],
+ basic:[
+  "Corrige: La alumnas participa en el concurso.",
+  "Corrige: Los libro está sobre la mesa."
+ ],
+ mid:[
+  "Reescribe: Los jóvenes de tercer semestre estudia y entrega su proyecto mañana.",
+  "Escribe una oración de al menos 12 palabras con sujeto, verbo y complemento."
+ ],
+ adv:[
+  "Une con un conector: María llegó tarde. Perdió el autobús. Presentó el examen.",
+  "Corrige y mejora: Los alumnos estaba nervioso porque el examen fueron difícil."
+ ]
+},
+{
+ title:"Redacción y párrafos", icon:"✍",
+ lesson:`<p><strong>Idea clave:</strong> un buen párrafo desarrolla una idea central.</p>
+ <p>Los conectores ayudan a organizar: <b>primero, además, sin embargo, por ejemplo, por eso, finalmente, en conclusión</b>.</p>`,
+ examples:[
+  ["bad","El celular es bueno. El celular es malo. El celular distrae. El celular sirve."],
+  ["good","El celular puede ser útil para aprender; sin embargo, también puede distraer. Por ejemplo, permite consultar información rápidamente, pero su uso constante reduce la atención. Por eso, conviene establecer momentos específicos para utilizarlo."]
+ ],
+ basic:[
+  "Escribe 4 oraciones sobre una actividad que te guste. Todas deben hablar del mismo tema.",
+  "Escribe una oración que empiece con «Además»."
+ ],
+ mid:[
+  "Redacta un párrafo de 6 a 8 renglones sobre una regla escolar que consideres importante.",
+  "Redacta un párrafo de 6 a 8 renglones sobre el uso del celular en clase. Incluye dos conectores."
+ ],
+ adv:[
+  "Escribe un texto de 10 a 12 renglones: ¿La inteligencia artificial ayuda a aprender o puede volvernos dependientes? Incluye postura, dos razones y conclusión.",
+  "Revisa tu texto anterior y mejora al menos tres aspectos: puntuación, vocabulario, conectores o repeticiones."
+ ]
+}
+];
+
+let current=0;
+let completed = JSON.parse(localStorage.getItem("ruta_completed")||"null") || Array(data.length).fill(false);
+let exerciseDone = JSON.parse(localStorage.getItem("ruta_exercises")||"{}");
+
+function saveState(){
+  localStorage.setItem("ruta_completed",JSON.stringify(completed));
+  localStorage.setItem("ruta_exercises",JSON.stringify(exerciseDone));
+}
+
+function toast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg;
+  t.classList.add("show");
+  clearTimeout(window.__toast);
+  window.__toast=setTimeout(()=>t.classList.remove("show"),1800);
+}
+
+function renderRoute(){
+  const route=document.getElementById("route");
+  route.innerHTML=data.map((s,i)=>{
+    const unlocked = i===0 || completed[i-1] || completed[i] || i===current;
+    const cls = completed[i] ? "done" : i===current ? "active" : unlocked ? "" : "locked";
+    return `<div class="node ${cls}" onclick="goTo(${i})">
+      <div class="circle">${completed[i]?"✓":s.icon}</div>
+      <div class="node-title">${i+1}. ${s.title}</div>
+      <div class="node-sub">${completed[i]?"Completada":i===current?"En curso":unlocked?"Disponible":"Bloqueada"}</div>
+    </div>`;
+  }).join("");
+}
+
+function exCard(text,level,stationIndex,qIndex){
+  const key=`${stationIndex}-${level}-${qIndex}`;
+  const done=!!exerciseDone[key];
+  return `<div class="exercise ${done?'done':''}" id="ex-${key}">
+    <h4>${text}</h4>
+    <div class="notebook">✍️ Responde en tu libreta.</div>
+    <div class="action-row">
+      <button class="btn btn-hint" onclick="toggleReveal('hint-${key}')">💡 Pista</button>
+      <button class="btn btn-check" onclick="toggleReveal('check-${key}')">✓ Revisar</button>
+      <button class="btn btn-done" onclick="markExercise('${key}')">${done?'✓ Hecho':'Marcar hecho'}</button>
+    </div>
+    <div class="reveal" id="hint-${key}">${level==='basic'?'Busca la regla principal y corrige solo lo necesario.':level==='mid'?'Lee toda la oración antes de escribir y fíjate en sentido, puntuación y concordancia.':'Organiza tus ideas antes de escribir y revisa claridad, conectores y precisión.'}</div>
+    <div class="reveal" id="check-${key}">Revisa mayúscula inicial, ortografía, puntuación, concordancia y que la idea tenga sentido completo.</div>
+  </div>`;
+}
+
+function renderStations(){
+  const wrap=document.getElementById("stations");
+  wrap.innerHTML=data.map((s,i)=>`
+    <section class="station ${i===current?'active':''}" data-station="${i}">
+      <div class="station-head">
+        <div class="station-icon">${s.icon}</div>
+        <div><h2>${s.title}</h2><p>Estación ${i+1} de ${data.length}</p></div>
+      </div>
+
+      <div class="card">
+        <div class="lesson">${s.lesson}</div>
+        <div class="examples">
+          ${s.examples.map(e=>`<div class="example ${e[0]}">${e[0]==='good'?'✅':'❌'} ${e[1]}</div>`).join("")}
+        </div>
+        <div class="tip">📌 Estudia los ejemplos primero. Después resuelve los ejercicios en tu libreta.</div>
+      </div>
+
+      <div class="card">
+        <div class="level-title"><span class="level-pill basic">Básico</span><span>2 ejercicios</span></div>
+        ${s.basic.map((q,j)=>exCard(q,'basic',i,j)).join("")}
+
+        <div class="level-title"><span class="level-pill mid">Intermedio</span><span>2 ejercicios</span></div>
+        ${s.mid.map((q,j)=>exCard(q,'mid',i,j)).join("")}
+
+        <div class="level-title"><span class="level-pill adv">Avanzado</span><span>2 ejercicios</span></div>
+        ${s.adv.map((q,j)=>exCard(q,'adv',i,j)).join("")}
+
+        <div class="selfcheck">
+          <label><input type="checkbox"> Entendí la explicación.</label>
+          <label><input type="checkbox"> Resolví todo en mi libreta.</label>
+          <label><input type="checkbox"> Revisé mis respuestas.</label>
+        </div>
+      </div>
+    </section>
+  `).join("");
+}
+
+function updateProgress(){
+  const count=completed.filter(Boolean).length;
+  document.getElementById("progressBar").style.width=Math.round(count/data.length*100)+"%";
+  document.getElementById("progressLabel").textContent=current<data.length?`Estación ${current+1} de ${data.length}`:"Ruta completada";
+}
+
+function goTo(i){
+  if(i<0 || i>=data.length) return;
+  if(i>0 && !completed[i-1] && !completed[i]){
+    toast("Completa la estación anterior para desbloquear esta.");
+    return;
+  }
+  current=i;
+  document.getElementById("final").classList.remove("show");
+  renderRoute();
+  renderStations();
+  updateProgress();
+  setTimeout(()=>{
+    const active=document.querySelector(".node.active,.node.done");
+    if(active) active.scrollIntoView({behavior:"smooth",inline:"center",block:"nearest"});
+  },50);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function toggleReveal(id){
+  const el=document.getElementById(id);
+  if(el) el.classList.toggle("show");
+}
+
+function markExercise(key){
+  exerciseDone[key]=!exerciseDone[key];
+  saveState();
+  const el=document.getElementById("ex-"+key);
+  if(el) el.classList.toggle("done",exerciseDone[key]);
+  toast(exerciseDone[key]?"Ejercicio marcado como hecho.":"Marca retirada.");
+}
+
+function completeCurrent(){
+  completed[current]=true;
+  saveState();
+  toast("Estación completada ✓");
+  if(current===data.length-1){
+    showFinal();
+  }else{
+    setTimeout(()=>goTo(current+1),250);
+  }
+}
+
+function nextStation(){
+  if(current>=data.length-1){showFinal();return;}
+  if(!completed[current]){
+    toast("Primero completa esta estación.");
+    return;
+  }
+  goTo(current+1);
+}
+
+function prevStation(){
+  if(current>0) goTo(current-1);
+  else toast("Ya estás en la primera estación.");
+}
+
+function showFinal(){
+  completed[data.length-1]=true;
+  saveState();
+  renderRoute();
+  renderStations();
+  updateProgress();
+  document.querySelectorAll(".station").forEach(s=>s.classList.remove("active"));
+  const f=document.getElementById("final");
+  f.classList.add("show");
+  document.getElementById("summary").innerHTML=data.map((s,i)=>`
+    <div class="summary-item">
+      <div class="summary-icon">${completed[i]?"✓":s.icon}</div>
+      <div><b>${s.title}</b><br><span style="color:var(--muted);font-size:.84rem">${completed[i]?"Completada":"Pendiente"}</span></div>
+    </div>`).join("");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+renderRoute();
+renderStations();
+updateProgress();
+</script>
+</body>
+</html>
