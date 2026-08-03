@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Misión Filosófica | 1.º de Secundaria</title>
+<style>
+:root{
+  --bg:#07111f;
+  --card:#0e1c30;
+  --card2:#132844;
+  --text:#eef6ff;
+  --muted:#9fb3c8;
+  --accent:#7c5cff;
+  --accent2:#22d3ee;
+  --ok:#34d399;
+  --warn:#fbbf24;
+  --danger:#fb7185;
+  --shadow:0 20px 50px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 10% 10%, rgba(124,92,255,.22), transparent 30%),
+    radial-gradient(circle at 90% 20%, rgba(34,211,238,.16), transparent 28%),
+    linear-gradient(180deg,#06101d,#081827 55%,#07111f);
+  overflow-x:hidden;
+}
+.stars,.stars:before,.stars:after{
+  position:fixed; inset:0; pointer-events:none; content:"";
+  background-image:radial-gradient(#fff 1px,transparent 1px);
+  background-size:70px 70px; opacity:.13;
+}
+.stars:before{background-size:110px 110px; transform:translate(15px,30px); opacity:.08}
+.stars:after{background-size:150px 150px; transform:translate(40px,10px); opacity:.06}
+.wrap{width:min(960px,92%); margin:0 auto; padding:24px 0 60px; position:relative; z-index:2}
+.hero{padding:28px 4px 18px;text-align:center}
+.badge{display:inline-flex;gap:8px;align-items:center;padding:8px 14px;border-radius:999px;background:rgba(124,92,255,.15);border:1px solid rgba(124,92,255,.35);font-weight:800;font-size:.86rem}
+h1{font-size:clamp(2.1rem,7vw,4.8rem);line-height:.95;margin:18px 0 12px;letter-spacing:-.05em}
+.gradient{background:linear-gradient(90deg,#fff,#a5f3fc,#c4b5fd);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);font-size:1.05rem;max-width:650px;margin:0 auto}
+.panel{background:linear-gradient(180deg,rgba(19,40,68,.95),rgba(14,28,48,.95));border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:22px;box-shadow:var(--shadow);backdrop-filter:blur(10px)}
+.topbar{display:flex;gap:14px;align-items:center;justify-content:space-between;margin-bottom:18px}
+.progressOuter{height:11px;background:#07111f;border-radius:999px;overflow:hidden;flex:1;border:1px solid rgba(255,255,255,.07)}
+.progress{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:.35s ease}
+.counter{font-weight:900;color:#c7d7e8;white-space:nowrap}
+.question{display:none;animation:fadeUp .35s ease}
+.question.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.qnum{font-size:.8rem;color:#8de5f7;font-weight:900;text-transform:uppercase;letter-spacing:.12em}
+h2{font-size:clamp(1.5rem,4.5vw,2.35rem);margin:8px 0 10px;line-height:1.12}
+.prompt{color:var(--muted);margin-bottom:20px}
+.options{display:grid;gap:12px}
+.option{width:100%;text-align:left;border:1px solid rgba(255,255,255,.08);background:#0a1728;color:var(--text);padding:16px;border-radius:18px;font-size:1rem;font-weight:700;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.option:hover,.option.selected{transform:translateY(-2px);border-color:rgba(34,211,238,.6);background:#10243c;box-shadow:0 0 0 3px rgba(34,211,238,.08)}
+.option.selected::after{content:"✓";position:absolute;right:15px;top:50%;transform:translateY(-50%);color:var(--ok);font-size:1.3rem}
+textarea,input[type="text"]{width:100%;border:1px solid rgba(255,255,255,.09);background:#081321;color:white;border-radius:18px;padding:15px;font:inherit;outline:none;resize:vertical;min-height:120px}
+input[type="text"]{min-height:auto}
+textarea:focus,input:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(34,211,238,.08)}
+.sliderBox{padding:12px 0}
+input[type="range"]{width:100%;accent-color:#8b5cf6}
+.scaleLabels{display:flex;justify-content:space-between;color:var(--muted);font-size:.82rem}
+.emojiScale{display:flex;justify-content:center;font-size:3rem;margin:8px 0 2px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.25))}
+.nav{display:flex;gap:12px;justify-content:space-between;margin-top:22px}
+button.navbtn{border:0;border-radius:16px;padding:13px 18px;font-weight:900;cursor:pointer;font-size:1rem}
+.prev{background:#102035;color:#c5d3e3}.next{background:linear-gradient(90deg,var(--accent),#5b8cff);color:white;box-shadow:0 10px 25px rgba(124,92,255,.25)}
+.next:disabled{opacity:.38;cursor:not-allowed;box-shadow:none}
+.tip{margin-top:16px;color:#8ca5bb;font-size:.87rem;text-align:center}
+.result{display:none;text-align:center}
+.result.active{display:block;animation:fadeUp .45s ease}
+.orb{width:120px;height:120px;border-radius:50%;margin:8px auto 18px;background:radial-gradient(circle at 35% 30%,#fff 0 3%,#a5f3fc 7%,#7c5cff 45%,#132844 73%);box-shadow:0 0 55px rgba(124,92,255,.45);animation:float 3s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-8px)}}
+.traits{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:20px 0;text-align:left}
+.trait{background:#091727;border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:14px}.trait b{display:block;margin-bottom:5px}.trait span{color:var(--muted);font-size:.9rem}
+.summaryBox{text-align:left;background:#091727;border-radius:18px;padding:16px;margin-top:14px;border:1px solid rgba(255,255,255,.08)}
+.restart{margin-top:18px;background:#16304f;color:white;border:1px solid rgba(255,255,255,.1);padding:12px 16px;border-radius:14px;font-weight:800;cursor:pointer}
+.spark{position:fixed;width:10px;height:10px;border-radius:50%;pointer-events:none;z-index:99;animation:burst .75s ease-out forwards}
+@keyframes burst{to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}}
+@media (max-width:650px){.panel{padding:17px;border-radius:22px}.traits{grid-template-columns:1fr}.navbtn{flex:1}.hero{padding-top:14px}h1{font-size:2.7rem}.option{padding:15px}}
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<div class="wrap">
+  <section class="hero">
+    <div class="badge">🧠 Misión Filosófica · 1.º de Secundaria</div>
+    <h1 class="gradient">¿Cómo piensas?</h1>
+    <p>No hay respuestas correctas ni incorrectas. Aquí importa lo que piensas, cómo decides y cómo explicas tus ideas.</p>
+  </section>
+
+  <main class="panel">
+    <div id="quizView">
+      <div class="topbar">
+        <div class="progressOuter"><div class="progress" id="progress"></div></div>
+        <div class="counter" id="counter">1 / 15</div>
+      </div>
+      <div id="questions"></div>
+      <div class="nav">
+        <button class="navbtn prev" id="prevBtn">← Atrás</button>
+        <button class="navbtn next" id="nextBtn">Siguiente →</button>
+      </div>
+      <div class="tip">💡 Consejo: responde como realmente piensas, no como crees que “deberías” responder.</div>
+    </div>
+
+    <section class="result" id="resultView">
+      <div class="orb"></div>
+      <div class="qnum">MISIÓN COMPLETADA</div>
+      <h2 id="resultTitle">Tu perfil de pensamiento</h2>
+      <p id="resultText" class="prompt"></p>
+      <div class="traits" id="traits"></div>
+      <div class="summaryBox" id="summaryBox"></div>
+      <button class="restart" onclick="location.reload()">Volver a empezar</button>
+    </section>
+  </main>
+</div>
+
+<script>
+const qs = [
+ {type:'text', q:'Antes de comenzar, ¿cómo quieres que aparezca tu nombre?', p:'Puede ser tu nombre, apodo o iniciales.', key:'nombre'},
+ {type:'choice', q:'Si ves que todos se burlan de un compañero, ¿qué harías?', p:'Elige la opción más parecida a lo que tú harías.', opts:['Me acercaría a defenderlo','Buscaría a un adulto','No me metería','Me reiría para no quedar fuera'], key:'empatia'},
+ {type:'choice', q:'¿Está bien mentir alguna vez?', p:'Piensa en situaciones reales.', opts:['Nunca','Sí, para proteger a alguien','Depende de la situación','Sí, si no descubren la mentira'], key:'verdad'},
+ {type:'textarea', q:'Imagina que una regla de la escuela te parece injusta. ¿Qué harías y por qué?', p:'Explícalo con tus palabras.', key:'justiciaTexto'},
+ {type:'choice', q:'¿Qué hace que alguien sea un buen amigo?', p:'Elige lo más importante para ti.', opts:['Que siempre esté de mi lado','Que me diga la verdad aunque no me guste','Que me haga sentir bien','Que respete mis decisiones'], key:'amistad'},
+ {type:'slider', q:'¿Qué tan importante es para ti ser diferente a los demás?', p:'Mueve la barra según lo que piensas.', key:'individualidad'},
+ {type:'choice', q:'Si todos creen algo, ¿eso significa que es verdad?', p:'No busques una respuesta “de escuela”; piensa.', opts:['Sí, porque la mayoría sabe','No necesariamente','Depende de quién lo diga','Nunca se puede saber'], key:'pensamientoCritico'},
+ {type:'textarea', q:'¿Qué cosa te parece injusta en la vida diaria?', p:'Puede ser algo de la escuela, casa, amigos, redes o comunidad.', key:'injusticia'},
+ {type:'choice', q:'Si encuentras dinero tirado y nadie te vio, ¿qué harías?', p:'Elige lo más cercano a tu reacción real.', opts:['Lo entregaría','Intentaría encontrar al dueño','Me lo quedaría','Dependería de cuánto dinero fuera'], key:'etica'},
+ {type:'slider', q:'¿Qué tanto te importa lo que otras personas piensan de ti?', p:'1 = casi nada · 10 = muchísimo', key:'opinionAjena'},
+ {type:'choice', q:'¿Qué prefieres?', p:'No existe una opción perfecta.', opts:['Una verdad difícil','Una mentira que me haga feliz','Depende de la situación','Prefiero no saber'], key:'verdad2'},
+ {type:'textarea', q:'¿Qué significa para ti ser libre?', p:'Escribe una idea, ejemplo o situación.', key:'libertad'},
+ {type:'choice', q:'Si una inteligencia artificial pudiera pensar y sentir como una persona, ¿cómo deberíamos tratarla?', p:'Imagina que realmente puede sentir.', opts:['Como una persona','Como una máquina','Con ciertos derechos, pero no todos','No estoy seguro'], key:'ia'},
+ {type:'textarea', q:'Si pudieras cambiar una sola cosa del mundo, ¿qué cambiarías?', p:'No tiene que ser algo enorme. Lo importante es por qué.', key:'mundo'},
+ {type:'textarea', q:'Si pudieras conocer la respuesta verdadera a una sola pregunta sobre la vida o el universo, ¿qué preguntarías?', p:'Esta es tu pregunta filosófica final.', key:'preguntaFinal'}
+];
+
+const answers = {};
+let current = 0;
+const wrap = document.getElementById('questions');
+
+function render(){
+ wrap.innerHTML='';
+ qs.forEach((item,i)=>{
+  const sec=document.createElement('section'); sec.className='question'+(i===0?' active':''); sec.dataset.index=i;
+  let html=`<div class="qnum">Pregunta ${i+1} de ${qs.length}</div><h2>${item.q}</h2><div class="prompt">${item.p}</div>`;
+  if(item.type==='choice'){
+    html+='<div class="options">'+item.opts.map((o,idx)=>`<button class="option" data-value="${o.replace(/"/g,'&quot;')}">${['🟣','🔵','🟢','🟡'][idx]} ${o}</button>`).join('')+'</div>';
+  } else if(item.type==='textarea'){
+    html+=`<textarea placeholder="Escribe aquí lo que piensas..."></textarea>`;
+  } else if(item.type==='text'){
+    html+=`<input type="text" placeholder="Tu nombre o apodo">`;
+  } else if(item.type==='slider'){
+    html+=`<div class="sliderBox"><div class="emojiScale">🙂</div><input type="range" min="1" max="10" value="5"><div class="scaleLabels"><span>1 · Poco</span><span>10 · Mucho</span></div></div>`;
+  }
+  sec.innerHTML=html; wrap.appendChild(sec);
+ });
+ bindInputs(); update();
+}
+
+function bindInputs(){
+ document.querySelectorAll('.question').forEach((sec,i)=>{
+   const item=qs[i];
+   sec.querySelectorAll('.option').forEach(btn=>btn.addEventListener('click',()=>{
+      sec.querySelectorAll('.option').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected'); answers[item.key]=btn.dataset.value; sparkle(btn); checkNext();
+   }));
+   const ta=sec.querySelector('textarea'); if(ta) ta.addEventListener('input',()=>{answers[item.key]=ta.value.trim();checkNext();});
+   const inp=sec.querySelector('input[type="text"]'); if(inp) inp.addEventListener('input',()=>{answers[item.key]=inp.value.trim();checkNext();});
+   const range=sec.querySelector('input[type="range"]'); if(range){answers[item.key]=range.value; range.addEventListener('input',()=>{answers[item.key]=range.value; const em=sec.querySelector('.emojiScale'); const v=+range.value; em.textContent=v<4?'😶':v<7?'🙂':'🤩'; checkNext();});}
+ });
+}
+
+function update(){
+ document.querySelectorAll('.question').forEach((q,i)=>q.classList.toggle('active',i===current));
+ document.getElementById('counter').textContent=`${current+1} / ${qs.length}`;
+ document.getElementById('progress').style.width=((current)/qs.length*100)+'%';
+ document.getElementById('prevBtn').style.visibility=current===0?'hidden':'visible';
+ document.getElementById('nextBtn').textContent=current===qs.length-1?'Ver mi perfil ✨':'Siguiente →';
+ checkNext(); window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function checkNext(){
+ const k=qs[current].key; const val=answers[k];
+ document.getElementById('nextBtn').disabled = !(val && String(val).trim().length>0);
+}
+
+document.getElementById('prevBtn').onclick=()=>{if(current>0){current--;update();}};
+document.getElementById('nextBtn').onclick=()=>{if(current<qs.length-1){current++;update();}else finish();};
+
+function sparkle(el){
+ const r=el.getBoundingClientRect();
+ for(let i=0;i<12;i++){
+   const s=document.createElement('i'); s.className='spark';
+   s.style.left=(r.left+r.width/2)+'px';s.style.top=(r.top+r.height/2)+'px';
+   s.style.background=i%2?'#22d3ee':'#a78bfa';
+   s.style.setProperty('--x',(Math.random()*160-80)+'px');s.style.setProperty('--y',(Math.random()*160-80)+'px');
+   document.body.appendChild(s); setTimeout(()=>s.remove(),800);
+ }
+}
+
+function finish(){
+ document.getElementById('quizView').style.display='none';
+ document.getElementById('resultView').classList.add('active');
+ const name=answers.nombre||'Explorador filosófico';
+ let critical=0, empathy=0, independence=0, ethics=0;
+ if(answers.pensamientoCritico==='No necesariamente') critical+=2;
+ if(answers.verdad==='Depende de la situación'||answers.verdad==='Sí, para proteger a alguien') critical++;
+ if(answers.empatia==='Me acercaría a defenderlo'||answers.empatia==='Buscaría a un adulto') empathy+=2;
+ if(answers.amistad==='Que me diga la verdad aunque no me guste'||answers.amistad==='Que respete mis decisiones') empathy++;
+ if(+answers.individualidad>=7) independence+=2; else if(+answers.individualidad>=4) independence++;
+ if(+answers.opinionAjena<=4) independence+=2; else if(+answers.opinionAjena<=7) independence++;
+ if(answers.etica==='Lo entregaría'||answers.etica==='Intentaría encontrar al dueño') ethics+=2;
+ if(answers.verdad2==='Una verdad difícil') ethics++;
+ const dims=[['Pensamiento crítico',critical],['Empatía',empathy],['Independencia',independence],['Sentido ético',ethics]].sort((a,b)=>b[1]-a[1]);
+ const top=dims[0][0];
+ document.getElementById('resultTitle').textContent=`${name}, tu mente destaca por ${top.toLowerCase()}`;
+ document.getElementById('resultText').textContent='Este resultado no es una calificación. Es una fotografía de cómo estás pensando hoy.';
+ document.getElementById('traits').innerHTML=dims.map(d=>`<div class="trait"><b>${d[0]}</b><span>${d[1]>=3?'Muy presente en tus respuestas':d[1]>=2?'Aparece con claridad':'Vale la pena seguir explorándolo'}</span></div>`).join('');
+ document.getElementById('summaryBox').innerHTML=`<b>Tu gran pregunta:</b><br>${escapeHTML(answers.preguntaFinal||'—')}<br><br><b>Algo que cambiarías del mundo:</b><br>${escapeHTML(answers.mundo||'—')}<br><br><b>Tu idea de libertad:</b><br>${escapeHTML(answers.libertad||'—')}`;
+}
+function escapeHTML(str){return String(str).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+render();
+</script>
+</body>
+</html>
