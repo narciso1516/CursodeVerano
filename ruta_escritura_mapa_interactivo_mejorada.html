@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B57D0">
+<title>Ruta de Escritura — Mapa Interactivo Mejorado</title>
+<style>
+:root{
+  --g-blue:#0B57D0;--g-blue2:#4285F4;--g-red:#EA4335;--g-yellow:#FBBC04;--g-green:#34A853;
+  --violet:#8E5CFF;--pink:#D965D9;--cyan:#4FC3F7;--ink:#202124;--muted:#5f6368;
+  --bg:#f8fafd;--card:#fff;--line:#e4e8f0;--shadow:0 14px 34px rgba(32,33,36,.09);
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:radial-gradient(circle at 0 0,rgba(142,92,255,.12),transparent 24%),radial-gradient(circle at 100% 0,rgba(79,195,247,.12),transparent 26%),var(--bg);padding-bottom:100px}
+button{font:inherit}.container{width:min(980px,94%);margin:auto}
+.hero{padding:16px 0 8px}.hero-card{position:relative;overflow:hidden;border-radius:28px;padding:24px 20px;color:#fff;background:linear-gradient(135deg,var(--g-blue),var(--g-blue2) 35%,var(--violet) 68%,var(--pink));box-shadow:0 18px 40px rgba(11,87,208,.24)}
+.hero-card:after{content:"✦";position:absolute;right:18px;top:8px;font-size:64px;opacity:.18}.hero h1{margin:0;font-size:clamp(2rem,9vw,3.1rem);line-height:1}.hero p{margin:12px 0 0;line-height:1.55}.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:15px}.chip{padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);font-size:.8rem}
+.map-card{margin:14px auto;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow);position:sticky;top:6px;z-index:20}.map-top{display:flex;justify-content:space-between;gap:10px;align-items:center}.map-top span{font-size:.82rem;color:var(--muted)}
+.progress{height:10px;background:#e7ecf4;border-radius:999px;overflow:hidden;margin:10px 0 14px}.progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--g-blue2),var(--violet),var(--g-green));transition:.35s}.route{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:3px}.route::-webkit-scrollbar{display:none}.node{min-width:100px;text-align:center;opacity:.45;cursor:pointer;transition:.2s}.node .circle{width:52px;height:52px;margin:auto;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:900;background:#b9c0cc;border:4px solid #fff;box-shadow:0 8px 18px rgba(32,33,36,.14)}.node.active,.node.done{opacity:1}.node.active{transform:translateY(-2px)}.node.active .circle{background:linear-gradient(135deg,var(--g-blue2),var(--violet))}.node.done .circle{background:var(--g-green)}.node-title{font-size:.73rem;font-weight:850;line-height:1.15;margin-top:7px}.node-sub{font-size:.67rem;color:var(--muted);margin-top:3px}
+.station{display:none}.station.active{display:block;animation:fade .28s ease}@keyframes fade{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.station-head{display:flex;gap:12px;align-items:center;margin:18px 0 12px}.station-icon{width:50px;height:50px;border-radius:15px;display:grid;place-items:center;color:#fff;font-weight:900;background:linear-gradient(135deg,var(--g-blue2),var(--violet));box-shadow:0 8px 18px rgba(66,133,244,.18)}.station-head h2{margin:0;font-size:1.35rem}.station-head p{margin:3px 0 0;color:var(--muted);font-size:.85rem}
+.card{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:18px;margin-bottom:18px}.learning{border:2px solid #d8e5ff;background:linear-gradient(180deg,#f9fbff,#fff)}.practice{border:2px solid #f5d987;background:linear-gradient(180deg,#fffdf5,#fff)}
+.phase{display:flex;gap:11px;align-items:center;border-radius:16px;padding:12px 14px;margin:0 0 14px;font-weight:900}.phase span{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:0 0 auto}.phase small{display:block;margin-top:3px;color:var(--muted);font-weight:650}.learn{background:#eaf2ff;color:#174ea6;border:1px solid #cfe0ff}.learn span{background:linear-gradient(135deg,var(--g-blue2),var(--violet));color:#fff}.practice-head{background:#fff4cf;color:#765000;border:1px solid #f4d978}.practice-head span{background:var(--g-yellow)}
+.objective{border-radius:18px;padding:16px;margin-bottom:14px;background:linear-gradient(135deg,#eef4ff,#f5efff);border:1px solid #d9e0ff}.objective h3{margin:0 0 8px;font-size:1rem;color:#174ea6}.objective p{margin:5px 0;line-height:1.55}.why{margin-top:10px;padding:12px;border-radius:14px;background:#fff;border:1px dashed #b8c7f7;line-height:1.5}
+.lesson{background:linear-gradient(135deg,#f7faff,#fbf8ff);border:1px solid #dce5ff;border-left:6px solid var(--g-blue2);border-radius:18px;padding:16px;line-height:1.65}.lesson h3{margin:4px 0 8px;color:#174ea6}.lesson h4{margin:16px 0 7px}.lesson p{margin:7px 0}.student-question{margin:12px 0;padding:12px 14px;border-radius:14px;background:#fff8e6;border:1px solid #f3d27b}.student-question b{color:#7a5200}.big-example{margin:12px 0;padding:14px;border-radius:16px;background:#fff;border:1px solid var(--line);text-align:center;font-weight:800;font-size:1.05rem}.stress{font-size:1.25em;color:var(--g-blue);text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:3px}.arrow{color:var(--muted);font-weight:500}.rule-grid{display:grid;gap:9px;margin:12px 0}.rule{padding:12px;border-radius:14px;border:1px solid var(--line);background:#fff}.rule b{display:block;margin-bottom:4px}.good{border-left:5px solid var(--g-green)}.warn{border-left:5px solid var(--g-yellow)}.bad{border-left:5px solid var(--g-red)}
+.mini-check{margin-top:15px;padding:14px;border-radius:16px;background:#edf9f1;border:1px solid #ccebd7}.mini-check h4{margin:0 0 9px;color:#146c43}.choice-row{display:flex;gap:8px;flex-wrap:wrap}.choice{border:1px solid #b9dfc5;background:#fff;color:#146c43;border-radius:999px;padding:9px 12px;font-weight:800;cursor:pointer}.choice.correct{background:#dff4e6}.choice.wrong{background:#fff0ed;color:#a72b1d;border-color:#f3c3bb}.feedback{margin-top:8px;font-size:.88rem;min-height:20px;color:var(--muted)}
+.examples-title{margin:16px 0 9px;font-weight:900}.examples{display:grid;gap:10px}.example{border-radius:15px;padding:13px 14px;line-height:1.5;border:1px solid var(--line);font-weight:650;background:#fff}.example.good{background:#f1fbf4;border-left:6px solid var(--g-green)}.example.bad{background:#fff4f2;border-left:6px solid var(--g-red)}
+.practice-intro{padding:12px 14px;border-radius:14px;background:#fffaf0;border:1px dashed #e6bd47;color:#654b00;line-height:1.5}.level-title{display:flex;align-items:center;justify-content:space-between;margin:20px 0 8px;padding-top:12px;border-top:1px dashed #dfd7bb}.pill{padding:8px 11px;border-radius:999px;font-size:.78rem;font-weight:900}.basic{background:#e8f0fe;color:#174ea6}.mid{background:#fff4cf;color:#7a5200}.adv{background:#f2eaff;color:#6b21a8}.exercise{border:1px solid #e2dfd3;border-left:5px solid #f0b429;border-radius:18px;padding:15px;margin:10px 0;background:#fff}.exercise.done{border-color:#bde7cd;border-left-color:var(--g-green);background:#f8fdf9}.exercise:before{content:"RETO";font-size:.66rem;font-weight:950;letter-spacing:.12em;color:#8a6200}.exercise.done:before{content:"HECHO ✓";color:#13753a}.exercise h4{margin:8px 0}.notebook{border-radius:14px;padding:13px 14px 13px 46px;min-height:72px;background:linear-gradient(90deg,transparent 0 32px,#f5b4b4 32px 34px,transparent 34px),repeating-linear-gradient(#fff,#fff 27px,#dce5fb 28px);border:1px solid #dde4ef;color:#4b5563;font-size:.9rem}.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.btn{border:0;border-radius:13px;padding:12px 13px;font-weight:800;cursor:pointer;min-height:46px}.hint{background:#fff4cf;color:#7a5200}.done-btn{background:#e8f0fe;color:#174ea6}.reveal{display:none;margin-top:10px;padding:12px;border-radius:12px;background:#f8fafc;border:1px dashed #cfd7e4;line-height:1.5}.reveal.show{display:block}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;z-index:50;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-top:1px solid var(--line)}.bottom-inner{width:min(980px,100%);margin:auto;display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:8px}.bottom-nav button{border:0;border-radius:14px;min-height:50px;font-weight:900;cursor:pointer}.prev,.next{background:#eef2f7}.mainbtn{background:linear-gradient(135deg,var(--g-blue),var(--violet));color:#fff}.toast{position:fixed;left:50%;bottom:105px;transform:translateX(-50%) translateY(20px);width:min(92%,420px);background:#202124;color:#fff;border-radius:14px;padding:12px 14px;opacity:0;pointer-events:none;transition:.25s;z-index:80;text-align:center}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.final{display:none}.final.show{display:block}.summary{display:grid;gap:10px}.summary-item{padding:13px;border-radius:14px;background:#fff;border:1px solid var(--line)}
+@media(min-width:760px){.examples,.rule-grid{grid-template-columns:1fr 1fr}.actions{display:flex}.actions .btn{flex:1}.summary{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.card{padding:14px}.lesson{padding:14px}.map-card{top:4px}.choice{flex:1;text-align:center}.big-example{font-size:1rem}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="container"><div class="hero-card"><h1>Ruta de Escritura</h1><p>Primero entiende. Después practica. Aquí no se trata de memorizar reglas sin saber qué significan.</p><div class="chips"><span class="chip">Google · Gemini</span><span class="chip">📱 Para celular</span><span class="chip">✍️ Trabajo en libreta</span><span class="chip">🧠 Comprender antes de memorizar</span></div></div></div></header>
+<main class="container">
+<section class="map-card"><div class="map-top"><b>🗺️ Tu mapa</b><span id="progressLabel">Estación 1 de 5</span></div><div class="progress"><div id="progressBar"></div></div><div class="route" id="route"></div></section>
+<section id="stations"></section>
+<section class="card final" id="final"><h2>🎉 Ruta completada</h2><p>Terminaste las cinco estaciones. Revisa tu libreta y observa cuánto mejoró tu escritura.</p><div class="summary" id="summary"></div><div class="objective"><h3>Reto final</h3><p>Escribe un texto de 12 a 15 renglones sobre un tema que te interese. Después revisa mayúsculas, tildes, puntuación, concordancia, conectores y repeticiones.</p></div></section>
+</main>
+<div class="bottom-nav"><div class="bottom-inner"><button class="prev" onclick="prevStation()">← Atrás</button><button class="mainbtn" onclick="completeCurrent()">Completar estación</button><button class="next" onclick="nextStation()">Siguiente →</button></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const data=[
+{
+ title:"Mayúsculas y puntuación",icon:"A",
+ objective:"Reconocer dónde empieza y termina una idea, y usar mayúsculas, comas y puntos para que otra persona pueda leerla sin confundirse.",
+ why:"Cuando escribimos sin pausas, el lector tiene que adivinar dónde termina una idea. La puntuación le indica cuándo detenerse, continuar o separar información.",
+ lesson:`<h3>1. Una idea necesita señales</h3><p>Una oración normalmente comienza con <b>mayúscula</b> y termina con un signo de puntuación.</p><p>El <b>punto</b> cierra una idea completa. La <b>coma</b> puede separar elementos de una lista o hacer una pausa breve.</p><div class="big-example">Ayer fui a Veracruz. Compré pan, fruta y leche.</div>`,
+ examples:[["bad","ayer fuimos a veracruz compramos libros cuadernos colores y regresamos tarde"],["good","Ayer fuimos a Veracruz. Compramos libros, cuadernos y colores. Después regresamos tarde."]],
+ basic:["Corrige: maria vive en puebla y estudia en la preparatoria benito juarez","Corrige: hoy traje lapiz libreta regla colores y borrador"],
+ mid:["Coloca puntos y mayúsculas: los alumnos llegaron temprano después organizaron el salón finalmente comenzó la clase","Coloca comas: Para el proyecto necesitamos cartulina tijeras pegamento marcadores y revistas"],
+ adv:["Reescribe usando punto, coma y mayúsculas: ayer tuvimos examen algunos terminaron rápido otros necesitaron más tiempo al final todos entregaron","Escribe tres oraciones sobre tu escuela. Una debe incluir una enumeración."]
+},
+{
+ title:"Acentuación",icon:"´",
+ objective:"Aprender a escuchar una palabra, separarla en sílabas, encontrar la sílaba que suena con más fuerza y decidir si necesita tilde.",
+ why:"No queremos que memorices «aguda, grave y esdrújula» sin entenderlo. Primero vas a descubrir dónde está la fuerza de una palabra. Después aprenderás su nombre y, al final, la regla de la tilde.",
+ lesson:`
+ <div class="student-question"><b>Si yo fuera alumno podría preguntar:</b> “¿Qué es acentuación? ¿Acento y tilde son lo mismo? ¿Cómo sé qué parte de una palabra suena más fuerte?” Vamos por partes.</div>
+ <h3>Paso 1. Las palabras se pueden partir en sílabas</h3>
+ <p>Una <b>sílaba</b> es cada pequeño golpe de voz que escuchamos al pronunciar una palabra.</p>
+ <div class="big-example">CA · MI · NO &nbsp; <span class="arrow">→</span> &nbsp; 3 sílabas</div>
+ <p>Prueba con palmadas: <b>MA – RI – PO – SA</b>. Cada palmada representa una sílaba.</p>
+ <h3>Paso 2. Una sílaba suena más fuerte</h3>
+ <p>No pronunciamos todas las sílabas con exactamente la misma fuerza. En cada palabra hay una que resalta. Esa se llama <b>sílaba tónica</b>.</p>
+ <div class="big-example">ca – <span class="stress">MI</span> – no</div>
+ <p>En <b>camino</b>, la parte que más se escucha es <b>MI</b>. Esa es la sílaba tónica.</p>
+ <div class="rule-grid"><div class="rule good"><b>PE – LO – TA</b><span class="stress">PE</span> suena más fuerte.</div><div class="rule good"><b>CAN – CIÓN</b><span class="stress">CIÓN</span> suena más fuerte.</div><div class="rule good"><b>MÚ – SI – CA</b><span class="stress">MÚ</span> suena más fuerte.</div><div class="rule good"><b>COM – PU – TA – DOR</b><span class="stress">DOR</span> suena más fuerte.</div></div>
+ <h3>Paso 3. Acento y tilde NO son exactamente lo mismo</h3>
+ <p><b>Acento:</b> es la fuerza que escuchamos al pronunciar una sílaba. 👂</p>
+ <p><b>Tilde:</b> es la rayita <b>´</b> que escribimos sobre una vocal cuando la regla lo indica. ✏️</p>
+ <div class="rule-grid"><div class="rule warn"><b>CASA</b> → <span class="stress">CA</span>-sa<br>Tiene sílaba tónica, pero no lleva tilde.</div><div class="rule good"><b>CANCIÓN</b> → can-<span class="stress">CIÓN</span><br>Tiene sílaba tónica y también tilde.</div></div>
+ <p><b>Idea importantísima:</b> todas las palabras tienen una sílaba tónica, pero no todas llevan tilde.</p>
+ <h3>Paso 4. Ahora sí: ¿dónde está la sílaba tónica?</h3>
+ <div class="rule-grid"><div class="rule"><b>AGUDA</b>La fuerza está en la <b>última</b> sílaba.<br>can-CIÓN · com-PÁS · re-LOJ</div><div class="rule"><b>GRAVE o LLANA</b>La fuerza está en la <b>penúltima</b> sílaba.<br>ÁR-bol · CA-sa · LÁ-piz</div><div class="rule"><b>ESDRÚJULA</b>La fuerza está en la <b>antepenúltima</b> sílaba.<br>MÚ-si-ca · TE-lé-fo-no</div></div>
+ <h3>Paso 5. ¿Cuándo escribimos la tilde?</h3>
+ <div class="rule-grid"><div class="rule good"><b>Agudas</b>Llevan tilde si terminan en <b>vocal, n o s</b>.<br>café · canción · compás</div><div class="rule good"><b>Graves</b>Llevan tilde si <b>NO</b> terminan en vocal, n o s.<br>árbol · lápiz · difícil</div><div class="rule good"><b>Esdrújulas</b><b>Siempre</b> llevan tilde.<br>música · teléfono · matemática</div></div>
+ <div class="student-question"><b>Truco mental:</b> no preguntes primero “¿lleva tilde?”. Pregunta: <b>1) ¿cómo se divide?, 2) ¿dónde suena más fuerte?, 3) ¿qué tipo de palabra es?, 4) ahora sí, ¿qué regla le corresponde?</b></div>
+ `,
+ check:{q:"En la palabra CA-MI-NO, ¿qué sílaba suena más fuerte?",options:["CA","MI","NO"],answer:1,ok:"¡Exacto! ca-MI-no. MI es la sílaba tónica.",bad:"Pronúnciala despacio: ca-MI-no. Escucha cuál sobresale."},
+ examples:[["good","canción → can-CIÓN → aguda → termina en n → lleva tilde"],["good","lápiz → LÁ-piz → grave → termina en z → lleva tilde"],["good","teléfono → te-LÉ-fo-no → esdrújula → siempre lleva tilde"]],
+ basic:["Separa en sílabas y subraya la sílaba tónica: camino, pelota, canción, música.","Coloca la tilde donde corresponda: cancion, lapiz, telefono, jovenes."],
+ mid:["Clasifica como aguda, grave o esdrújula: reloj, árbol, matemática, café, joven.","Corrige: El sabado estudie matematicas y despues escuche musica."],
+ adv:["Explica paso a paso por qué «teléfono» lleva tilde.","Corrige y explica dos errores: El examen de quimica fue dificil pero tambien interesante."]
+},
+{
+ title:"Palabras que se confunden",icon:"?",
+ objective:"Distinguir palabras que suenan parecido o igual, pero significan cosas diferentes, usando el sentido de la oración como pista.",
+ why:"Escribir bien no consiste solamente en recordar cómo se ve una palabra. También tienes que preguntarte: «¿qué quiero decir?». El significado te ayuda a escoger la forma correcta.",
+ lesson:`
+ <div class="student-question"><b>Como alumno podría pensar:</b> “Si ‘hay’, ‘ahí’ y ‘ay’ suenan parecido, ¿cómo voy a saber cuál escribir?” La respuesta es: <b>por lo que significa la oración</b>.</div>
+ <h3>1. HAY / AHÍ / AY</h3>
+ <div class="rule-grid"><div class="rule good"><b>HAY = existe / existen</b>Hay tres libros en la mesa.</div><div class="rule good"><b>AHÍ = lugar</b>Deja la mochila ahí.</div><div class="rule good"><b>AY = emoción o reacción</b>¡Ay! Me golpeé el dedo.</div></div>
+ <h3>2. A VER / HABER</h3><p><b>A ver</b> se relaciona con mirar, comprobar u observar: “Vamos <b>a ver</b> la película”. <b>Haber</b> es un verbo: “Debe <b>haber</b> una solución”.</p>
+ <h3>3. HECHO / ECHO</h3><p><b>Hecho</b> puede significar algo realizado: “Ya está <b>hecho</b>”. <b>Echo</b> viene del verbo echar: “Yo <b>echo</b> azúcar al café”.</p>
+ <h3>4. POR QUÉ / PORQUE</h3><p><b>¿Por qué?</b> sirve para preguntar una causa. <b>Porque</b> suele introducir la respuesta.</p><div class="big-example">¿<b>Por qué</b> estudias? <span class="arrow">→</span> Estudio <b>porque</b> quiero aprender.</div>
+ `,
+ check:{q:"Completa: ___ una mochila junto a la puerta.",options:["Ay","Ahí","Hay"],answer:2,ok:"Correcto. 'Hay' indica que algo existe.",bad:"Pregunta: ¿la oración habla de una emoción, de un lugar o de que algo existe?"},
+ examples:[["good","Hay una mochila ahí. ¡Ay!, olvidé mi cuaderno."],["good","Vamos a ver la exposición. Debe haber mucha gente."]],
+ basic:["Completa: ___ muchos libros en la mesa. (hay / ahí / ay)","Escribe una oración con «a ver»."],
+ mid:["Corrige: vamos haber si ay lugares ahi","Escribe una oración con «hecho» y otra con «echo»."],
+ adv:["Crea un diálogo de 4 líneas usando hay, ahí, ay, a ver y haber.","Explica la diferencia entre «porque» y «por qué» y escribe un ejemplo de cada una."]
+},
+{
+ title:"Concordancia y oraciones",icon:"↔",
+ objective:"Lograr que las partes de una oración combinen entre sí: quién realiza la acción, cuántos son y cómo debe cambiar el verbo o las palabras que los acompañan.",
+ why:"Una oración puede tener todas las palabras bien escritas y aun así sonar extraña: «Los alumno estudia». La concordancia hace que las piezas de la oración encajen.",
+ lesson:`
+ <div class="student-question"><b>Como alumno podría preguntarme:</b> “¿Qué significa concordancia?” Piensa en ella como <b>hacer que las palabras estén de acuerdo</b>.</div>
+ <h3>1. Primero descubre quién hace la acción</h3><p>En “<b>El alumno estudia</b>”, ¿quién estudia? <b>El alumno</b>. Ese es el sujeto.</p>
+ <h3>2. Después mira si hablamos de uno o de varios</h3><div class="rule-grid"><div class="rule good"><b>Uno</b>El alumno <b>estudia</b>.</div><div class="rule good"><b>Varios</b>Los alumnos <b>estudian</b>.</div></div>
+ <h3>3. También deben coincidir género y número</h3><p>Decimos <b>la actividad difícil</b>, pero si son varias: <b>las actividades difíciles</b>.</p>
+ <div class="big-example bad">Los estudiante realiza la actividad.</div><div class="big-example good">Los estudiantes realizan la actividad.</div>
+ <p>Para revisar, hazte dos preguntas: <b>¿quién?</b> y <b>¿uno o varios?</b>. Luego comprueba si el verbo coincide.</p>
+ `,
+ check:{q:"Elige la oración que combina correctamente.",options:["Los alumnos estudia.","Los alumnos estudian.","Los alumno estudian."],answer:1,ok:"Correcto. 'Los alumnos' es plural, por eso usamos 'estudian'.",bad:"Fíjate si sujeto y verbo están hablando de uno o de varios."},
+ examples:[["bad","La alumnas participa en el concurso."],["good","Las alumnas participan en el concurso."]],
+ basic:["Corrige: La alumnas participa en el concurso.","Corrige: Los libro está sobre la mesa."],
+ mid:["Reescribe: Los jóvenes de tercer semestre estudia y entrega su proyecto mañana.","Escribe una oración de al menos 12 palabras con sujeto, verbo y complemento."],
+ adv:["Une con un conector: María llegó tarde. Perdió el autobús. Presentó el examen.","Corrige y mejora: Los alumnos estaba nervioso porque el examen fueron difícil."]
+},
+{
+ title:"Redacción y párrafos",icon:"✍",
+ objective:"Construir párrafos que desarrollen una idea central con orden, explicaciones y conectores, evitando oraciones sueltas o repeticiones innecesarias.",
+ why:"Redactar no es llenar renglones. Es lograr que otra persona siga tus ideas sin perderse. Un buen párrafo tiene una idea principal y las demás oraciones la explican, ejemplifican o concluyen.",
+ lesson:`
+ <div class="student-question"><b>Como alumno podría pensar:</b> “¿Cuántas líneas tengo que escribir?” Antes de contar líneas, pregunta: <b>¿qué quiero decir y cómo voy a explicarlo?</b></div>
+ <h3>1. Elige una idea principal</h3><p>Ejemplo: <b>“El celular puede ayudar a aprender.”</b> Esa es la idea que vas a desarrollar.</p>
+ <h3>2. Agrega una explicación</h3><p>¿Por qué? Porque permite buscar información, consultar palabras y ver ejemplos.</p>
+ <h3>3. Agrega un ejemplo</h3><p><b>Por ejemplo</b>, puedes buscar el significado de una palabra que no entiendes.</p>
+ <h3>4. Cierra o conecta</h3><p><b>Por eso</b>, puede ser útil si se usa con un objetivo.</p>
+ <h3>5. Usa conectores como puentes</h3><div class="rule-grid"><div class="rule"><b>Orden</b>primero · después · finalmente</div><div class="rule"><b>Agregar</b>además · también</div><div class="rule"><b>Contrastar</b>sin embargo · aunque</div><div class="rule"><b>Ejemplificar o concluir</b>por ejemplo · por eso · en conclusión</div></div>
+ <div class="big-example">Idea → explicación → ejemplo → cierre</div>
+ <p>Antes de terminar, revisa: <b>¿todas mis oraciones hablan del mismo tema? ¿Se entiende el orden? ¿Repito demasiado una palabra?</b></p>
+ `,
+ check:{q:"¿Cuál opción funciona mejor como idea principal de un párrafo?",options:["Además.","El deporte ayuda a cuidar la salud.","Por ejemplo, fútbol."],answer:1,ok:"Correcto. Es una idea completa que después puedes explicar y ejemplificar.",bad:"Busca una oración completa que pueda desarrollarse con razones y ejemplos."},
+ examples:[["bad","El celular es bueno. El celular es malo. El celular distrae. El celular sirve."],["good","El celular puede ser útil para aprender; sin embargo, también puede distraer. Por ejemplo, permite consultar información rápidamente, pero su uso constante reduce la atención. Por eso, conviene establecer momentos específicos para utilizarlo."]],
+ basic:["Escribe 4 oraciones sobre una actividad que te guste. Todas deben hablar del mismo tema.","Escribe una oración que empiece con «Además»."],
+ mid:["Redacta un párrafo de 6 a 8 renglones sobre una regla escolar que consideres importante.","Redacta un párrafo de 6 a 8 renglones sobre el uso del celular en clase. Incluye dos conectores."],
+ adv:["Escribe un texto de 10 a 12 renglones: ¿La inteligencia artificial ayuda a aprender o puede volvernos dependientes? Incluye postura, dos razones y conclusión.","Revisa tu texto anterior y mejora al menos tres aspectos: puntuación, vocabulario, conectores o repeticiones."]
+}
+];
+let current=0;
+let completed=JSON.parse(localStorage.getItem('ruta_completed_v2')||'null')||Array(data.length).fill(false);
+let exerciseDone=JSON.parse(localStorage.getItem('ruta_exercises_v2')||'{}');
+function save(){localStorage.setItem('ruta_completed_v2',JSON.stringify(completed));localStorage.setItem('ruta_exercises_v2',JSON.stringify(exerciseDone))}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window.__t);window.__t=setTimeout(()=>t.classList.remove('show'),1800)}
+function renderRoute(){document.getElementById('route').innerHTML=data.map((s,i)=>{const unlocked=i===0||completed[i-1]||completed[i]||i===current;const cls=completed[i]?'done':i===current?'active':unlocked?'':'locked';return `<div class="node ${cls}" onclick="goTo(${i})"><div class="circle">${completed[i]?'✓':s.icon}</div><div class="node-title">${i+1}. ${s.title}</div><div class="node-sub">${completed[i]?'Completada':i===current?'En curso':unlocked?'Disponible':'Bloqueada'}</div></div>`}).join('')}
+function checkHTML(s,i){if(!s.check)return'';return `<div class="mini-check"><h4>🧠 Antes de practicar, comprueba si entendiste</h4><p>${s.check.q}</p><div class="choice-row">${s.check.options.map((o,j)=>`<button class="choice" onclick="miniCheck(this,${i},${j})">${o}</button>`).join('')}</div><div class="feedback" id="fb-${i}"></div></div>`}
+function miniCheck(btn,i,j){const c=data[i].check;const box=btn.parentElement;box.querySelectorAll('.choice').forEach(x=>x.classList.remove('correct','wrong'));btn.classList.add(j===c.answer?'correct':'wrong');document.getElementById('fb-'+i).textContent=j===c.answer?c.ok:c.bad}
+function exCard(text,level,i,j){const key=`${i}-${level}-${j}`,done=!!exerciseDone[key];return `<div class="exercise ${done?'done':''}" id="ex-${key}"><h4>${text}</h4><div class="notebook">✍️ Responde en tu libreta. Di en voz baja lo que estás pensando antes de escribir.</div><div class="actions"><button class="btn hint" onclick="toggle('hint-${key}')">💡 Pista</button><button class="btn done-btn" onclick="mark('${key}')">${done?'✓ Hecho':'Marcar hecho'}</button></div><div class="reveal" id="hint-${key}">${level==='basic'?'Ve paso por paso. No intentes resolver todo de una sola vez.':level==='mid'?'Explica mentalmente por qué eliges tu respuesta.':'Organiza primero tu respuesta y después revisa si puedes justificarla.'}</div></div>`}
+function renderStations(){document.getElementById('stations').innerHTML=data.map((s,i)=>`<section class="station ${i===current?'active':''}"><div class="station-head"><div class="station-icon">${s.icon}</div><div><h2>${s.title}</h2><p>Estación ${i+1} de ${data.length}</p></div></div><div class="card learning"><div class="phase learn"><span>🎯</span><div>OBJETIVO<small>Primero entiende qué vas a aprender y para qué.</small></div></div><div class="objective"><h3>Al terminar esta estación podrás…</h3><p>${s.objective}</p><div class="why"><b>¿Para qué me sirve?</b><br>${s.why}</div></div><div class="phase learn"><span>📘</span><div>APRENDE PASO A PASO<small>Lee despacio. Los ejemplos forman parte de la explicación.</small></div></div><div class="lesson">${s.lesson}</div>${checkHTML(s,i)}<div class="examples-title">👀 Mira estos ejemplos completos</div><div class="examples">${s.examples.map(e=>`<div class="example ${e[0]}">${e[0]==='good'?'✅':'❌'} ${e[1]}</div>`).join('')}</div></div><div class="card practice"><div class="phase practice-head"><span>✍️</span><div>AHORA TE TOCA<small>Resuelve en tu libreta y explica cómo pensaste.</small></div></div><div class="practice-intro"><b>No busques rapidez.</b> El objetivo es que puedas explicar por qué escribiste tu respuesta.</div><div class="level-title"><span class="pill basic">Básico</span><span>2 retos</span></div>${s.basic.map((q,j)=>exCard(q,'basic',i,j)).join('')}<div class="level-title"><span class="pill mid">Intermedio</span><span>2 retos</span></div>${s.mid.map((q,j)=>exCard(q,'mid',i,j)).join('')}<div class="level-title"><span class="pill adv">Avanzado</span><span>2 retos</span></div>${s.adv.map((q,j)=>exCard(q,'adv',i,j)).join('')}</div></section>`).join('')}
+function update(){const count=completed.filter(Boolean).length;document.getElementById('progressBar').style.width=Math.round(count/data.length*100)+'%';document.getElementById('progressLabel').textContent=`Estación ${current+1} de ${data.length}`}
+function goTo(i){if(i<0||i>=data.length)return;if(i>0&&!completed[i-1]&&!completed[i]){toast('Completa la estación anterior para desbloquear esta.');return}current=i;document.getElementById('final').classList.remove('show');renderRoute();renderStations();update();window.scrollTo({top:0,behavior:'smooth'})}
+function toggle(id){document.getElementById(id)?.classList.toggle('show')}
+function mark(key){exerciseDone[key]=!exerciseDone[key];save();renderStations();toast(exerciseDone[key]?'Ejercicio marcado como hecho.':'Marca retirada.')}
+function completeCurrent(){completed[current]=true;save();toast('Estación completada ✓');if(current===data.length-1){setTimeout(showFinal,250)}else{setTimeout(()=>goTo(current+1),250)}}
+function nextStation(){if(current>=data.length-1){showFinal();return}if(!completed[current]){toast('Primero completa esta estación.');return}goTo(current+1)}
+function prevStation(){if(current>0)goTo(current-1);else toast('Ya estás en la primera estación.')}
+function showFinal(){completed[data.length-1]=true;save();renderRoute();document.querySelectorAll('.station').forEach(s=>s.classList.remove('active'));const f=document.getElementById('final');f.classList.add('show');document.getElementById('summary').innerHTML=data.map((s,i)=>`<div class="summary-item"><b>${completed[i]?'✓':'○'} ${s.title}</b><br><span style="color:var(--muted)">${completed[i]?'Completada':'Pendiente'}</span></div>`).join('');window.scrollTo({top:0,behavior:'smooth'})}
+renderRoute();renderStations();update();
+</script>
+</body>
+</html>
