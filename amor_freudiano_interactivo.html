@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Understanding Connections — A Freudian View</title>
+<style>
+  :root{
+    --bg:#0b1020;
+    --card:#121a2f;
+    --ink:#eef4ff;
+    --muted:#9fb0cf;
+    --accent:#55d6ff;
+    --accent2:#8b5cf6;
+    --line:#253556;
+    --shadow:0 18px 45px rgba(0,0,0,.28);
+    --radius:24px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  #fxLayer{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}
+  .lightning{position:absolute;top:-10vh;width:4px;height:115vh;background:linear-gradient(180deg,transparent 0%,#fff 18%,#55d6ff 45%,#8b5cf6 70%,transparent 100%);filter:drop-shadow(0 0 8px #55d6ff) drop-shadow(0 0 18px #8b5cf6);opacity:0;transform:rotate(var(--rot));animation:flashBolt .48s ease-out forwards}
+  .lightning:before,.lightning:after{content:"";position:absolute;width:3px;height:30vh;background:inherit;filter:inherit;top:35vh}
+  .lightning:before{left:-30px;transform:rotate(18deg)}
+  .lightning:after{left:28px;top:58vh;transform:rotate(-16deg)}
+  @keyframes flashBolt{0%{opacity:0}8%{opacity:1}18%{opacity:.15}30%{opacity:.9}48%{opacity:.05}100%{opacity:0}}
+  @keyframes pulseCard{0%{transform:scale(1)}50%{transform:scale(1.015);box-shadow:0 0 0 2px rgba(85,214,255,.35),0 0 35px rgba(85,214,255,.22)}100%{transform:scale(1)}}
+  @keyframes energySweep{from{filter:brightness(1)}50%{filter:brightness(1.55)}to{filter:brightness(1)}}
+  body{
+    margin:0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(85,214,255,.16), transparent 30%),
+      radial-gradient(circle at bottom right, rgba(139,92,246,.14), transparent 30%),
+      var(--bg);
+    min-height:100vh;
+  }
+  .wrap{max-width:1050px;margin:auto;padding:28px 18px 64px}
+  .hero{
+    display:grid;
+    grid-template-columns:1.35fr .65fr;
+    gap:22px;
+    align-items:stretch;
+    margin-top:24px;
+  }
+  .hero-card,.side-card,.section{
+    background:rgba(18,26,47,.92);
+    border:1px solid rgba(232,217,207,.9);
+    box-shadow:var(--shadow);
+    border-radius:var(--radius);
+  }
+  .hero-card{padding:36px;position:relative;overflow:hidden}
+  .hero-card:after{content:"YOUTH MODE";position:absolute;right:-28px;top:24px;transform:rotate(12deg);font-weight:900;letter-spacing:.14em;font-size:.72rem;padding:8px 34px;background:rgba(85,214,255,.12);border:1px solid rgba(85,214,255,.3);color:var(--accent)}
+  .eyebrow{font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:800}
+  h1{font-size:clamp(2.2rem,5vw,4.8rem);line-height:.95;margin:.5rem 0 1rem;letter-spacing:-.04em}
+  .lead{font-size:1.1rem;line-height:1.7;color:var(--muted);max-width:680px}
+  .side-card{padding:28px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(160deg,#123a5a,#4c2c86);color:white}
+  .side-card h2{margin-top:0;font-size:1.7rem}
+  .quote{font-size:1.15rem;line-height:1.6;opacity:.95}
+  .tiny{font-size:.82rem;opacity:.8}
+
+  .toolbar{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0}
+  button{
+    border:0;
+    border-radius:999px;
+    padding:11px 16px;
+    background:#18233d;
+    color:var(--ink);
+    font-weight:750;
+    cursor:pointer;
+    box-shadow:0 5px 18px rgba(0,0,0,.07);
+    transition:.2s ease;
+  }
+  button:hover{transform:translateY(-2px)}
+  button.active{background:var(--ink);color:#fff}
+
+  .section{padding:28px;margin-top:22px}
+  .section h2{margin:0 0 8px;font-size:1.8rem}
+  .section p{line-height:1.8;color:var(--muted)}
+
+  .concept-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+  .concept{
+    border:1px solid var(--line);
+    background:#111a2e;
+    border-radius:20px;
+    padding:18px;
+    cursor:pointer;
+    min-height:190px;
+    transition:.25s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .concept:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(0,0,0,.24)}
+  .concept .icon{font-size:2rem;margin-bottom:10px}
+  .concept h3{margin:.2rem 0 .5rem}
+  .concept .detail{max-height:0;opacity:0;overflow:hidden;transition:.35s ease;color:var(--muted);line-height:1.6}
+  .concept.open .detail{max-height:170px;opacity:1;margin-top:10px}
+  .concept.open{border-color:var(--accent2);background:#17213b}
+
+  .reading-box{padding:24px;background:#111a2e;border-radius:20px;border:1px solid var(--line);margin-top:14px}
+  .reading-box p{font-size:1.12rem;color:var(--ink);line-height:1.9;margin:0}
+  .translation{display:none;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);color:var(--muted)}
+  .translation.show{display:block}
+
+  .slider-row{display:grid;grid-template-columns:160px 1fr 70px;gap:14px;align-items:center;margin:16px 0}
+  input[type="range"]{width:100%;accent-color:var(--accent)}
+  .meter{height:12px;background:#1d2945;border-radius:999px;overflow:hidden}
+  .meter span{display:block;height:100%;width:50%;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:.18s ease;box-shadow:0 0 20px rgba(85,214,255,.35)}
+  .slider-row.energy{animation:pulseCard .28s ease}
+  .meter span.energy{animation:energySweep .28s ease}
+  .status-chip{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:.86rem;background:#0f172a}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+
+  .quiz{display:grid;gap:14px;margin-top:18px}
+  .q{padding:18px;border:1px solid var(--line);border-radius:18px;background:#fff}
+  .answers{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .answers button{background:#1d2945;box-shadow:none}
+  .feedback{margin-top:10px;font-weight:750}
+  .good{color:#70e1a1}.bad{color:#ff8d8d}
+
+  .footer{padding:28px 0 0;text-align:center;color:var(--muted);font-size:.9rem}
+
+  body.easy .advanced{display:none}
+  body.large .reading-box p, body.large .concept p{font-size:1.25rem}
+
+  @media(max-width:780px){
+    .hero{grid-template-columns:1fr}
+    .concept-grid{grid-template-columns:1fr}
+    .slider-row{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body class="easy">
+<div id="fxLayer" aria-hidden="true"></div>
+<div class="wrap">
+  <section class="hero">
+    <div class="hero-card">
+      <div class="eyebrow">Beginner English • Youth Psychology Lab</div>
+      <h1>Why Do We Connect?</h1>
+      <p class="lead">Explore how the mind builds trust, identity, friendships, admiration, belonging, and emotional reactions. This is a youth-focused psychology experience inspired by Freud — not a romance lesson.</p>
+      <div class="status-chip"><span class="dot"></span> Interactive mode: cards, sound, energy sliders & surprise lightning</div>
+      <div class="toolbar">
+        <button id="easyBtn" class="active">Beginner Mode</button>
+        <button id="detailBtn">More Detail</button>
+        <button id="fontBtn">Bigger Text</button>
+        <button id="translationBtn">Show Spanish</button>
+      </div>
+    </div>
+    <aside class="side-card">
+      <div>
+        <h2>Freud & The Social Mind</h2>
+        <p class="quote">The way we connect with friends, classmates, family, teams, and people we admire can be shaped by memories, needs, emotions, and unconscious patterns.</p>
+      </div>
+      <div class="tiny">Educational simplification of Freudian ideas.</div>
+    </aside>
+  </section>
+
+  <section class="section">
+    <h2>Simple Reading</h2>
+    <p>Read the text first. Then use the buttons to change how much information you see.</p>
+    <div class="reading-box">
+      <p>
+        From a Freudian perspective, the way we connect with people can be influenced by deep wishes and emotions. Freud believed that we do not always understand why we trust someone, admire a friend, want to belong to a group, copy a person we respect, or feel uncomfortable around somebody. These reactions can be influenced by childhood experiences, emotional needs, memories, and unconscious feelings. We may look for people or groups that make us feel safe, accepted, respected, capable, or important. Social life can create confidence and motivation, but also fear, competition, jealousy, or conflict. In this view, human connection is a mix of memory, identity, motivation, attachment, and unconscious emotion.
+      </p>
+      <div class="translation" id="translation">
+        <strong>Español:</strong> Desde una perspectiva freudiana, la forma en que conectamos con otras personas puede estar influida por deseos y emociones profundas. Freud pensaba que no siempre entendemos por qué confiamos en alguien, admiramos a un amigo, queremos pertenecer a un grupo, imitamos a una persona que respetamos o sentimos incomodidad frente a alguien. Estas reacciones pueden estar influidas por experiencias de la infancia, necesidades emocionales, recuerdos y sentimientos inconscientes. Podemos buscar personas o grupos que nos hagan sentir seguros, aceptados, respetados, capaces o importantes. La vida social puede generar confianza y motivación, pero también miedo, competencia, celos o conflicto. Desde esta visión, la conexión humana mezcla memoria, identidad, motivación, apego y emociones inconscientes.
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Click the Concepts</h2>
+    <p>Each card opens a simple explanation.</p>
+    <div class="concept-grid">
+      <article class="concept" tabindex="0">
+        <div class="icon">🧠</div>
+        <h3>The Unconscious</h3>
+        <p>We do not know every reason behind our feelings.</p>
+        <div class="detail">Freud believed that hidden wishes and memories can influence who attracts us and how we behave with other people.</div>
+      </article>
+      <article class="concept" tabindex="0">
+        <div class="icon">🧸</div>
+        <h3>Childhood</h3>
+        <p>Early relationships can shape later emotional needs.</p>
+        <div class="detail">The way we experienced care, attention, distance, or affection can affect what feels familiar in later relationships.</div>
+      </article>
+      <article class="concept" tabindex="0">
+        <div class="icon">⚡</div>
+        <h3>Motivation & Desire</h3>
+        <p>Desire can influence our choices, but it is only one part of relationships.</p>
+        <div class="detail">Freud used the idea of libido to describe psychic energy connected to motivation, attachment, and pleasure.</div>
+      </article>
+      <article class="concept advanced" tabindex="0">
+        <div class="icon">🪞</div>
+        <h3>Projection</h3>
+        <p>Sometimes we place our own feelings onto another person.</p>
+        <div class="detail">A person may believe the partner feels something that actually comes from their own fear, hope, or conflict.</div>
+      </article>
+      <article class="concept advanced" tabindex="0">
+        <div class="icon">🔁</div>
+        <h3>Repetition</h3>
+        <p>People can repeat old emotional patterns.</p>
+        <div class="detail">Freud thought people may return to familiar kinds of relationships, even when those patterns are difficult.</div>
+      </article>
+      <article class="concept advanced" tabindex="0">
+        <div class="icon">⚖️</div>
+        <h3>Conflict</h3>
+        <p>Love can include opposite feelings at the same time.</p>
+        <div class="detail">A person may want closeness and also fear losing freedom, rejection, or emotional control.</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Build an Emotional Profile</h2>
+    <p>Move the sliders. There is no “correct” answer; this is a visual way to think about how different emotional forces can appear in a relationship.</p>
+    <div class="slider-row">
+      <strong>Trust / Belonging</strong>
+      <input type="range" min="0" max="100" value="70" data-meter="m1">
+      <span id="v1">70%</span>
+    </div>
+    <div class="meter"><span id="m1" style="width:70%"></span></div>
+
+    <div class="slider-row">
+      <strong>Energy / Motivation</strong>
+      <input type="range" min="0" max="100" value="60" data-meter="m2">
+      <span id="v2">60%</span>
+    </div>
+    <div class="meter"><span id="m2" style="width:60%"></span></div>
+
+    <div class="slider-row">
+      <strong>Pressure / Conflict</strong>
+      <input type="range" min="0" max="100" value="30" data-meter="m3">
+      <span id="v3">30%</span>
+    </div>
+    <div class="meter"><span id="m3" style="width:30%"></span></div>
+  </section>
+
+  <section class="section">
+    <h2>Mini Quiz</h2>
+    <p>Test the basic ideas.</p>
+    <div class="quiz">
+      <div class="q" data-answer="b">
+        <strong>1. Freud believed social connections can be influenced by...</strong>
+        <div class="answers">
+          <button data-choice="a">Only logic</button>
+          <button data-choice="b">Childhood and unconscious feelings</button>
+          <button data-choice="c">Only money</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+      <div class="q" data-answer="c">
+        <strong>2. In this view, connections can include...</strong>
+        <div class="answers">
+          <button data-choice="a">Only happiness</button>
+          <button data-choice="b">Only desire</button>
+          <button data-choice="c">Trust, motivation, memory, and conflict</button>
+        </div>
+        <div class="feedback"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">Designed as a beginner-friendly educational resource. Freud’s ideas are presented here in simplified form. The goal is to study psychology, identity, friendship, belonging, motivation, and human behavior — not romance.</div>
+</div>
+
+<script>
+  const body = document.body;
+  const easyBtn = document.getElementById('easyBtn');
+  const detailBtn = document.getElementById('detailBtn');
+  const fontBtn = document.getElementById('fontBtn');
+  const translationBtn = document.getElementById('translationBtn');
+  const translation = document.getElementById('translation');
+
+  easyBtn.onclick = () => {
+    body.classList.add('easy');
+    easyBtn.classList.add('active');
+    detailBtn.classList.remove('active');
+  };
+
+  detailBtn.onclick = () => {
+    body.classList.remove('easy');
+    detailBtn.classList.add('active');
+    easyBtn.classList.remove('active');
+  };
+
+  fontBtn.onclick = () => {
+    body.classList.toggle('large');
+    fontBtn.classList.toggle('active');
+  };
+
+  translationBtn.onclick = () => {
+    translation.classList.toggle('show');
+    translationBtn.classList.toggle('active');
+    translationBtn.textContent = translation.classList.contains('show') ? 'Hide Spanish' : 'Show Spanish';
+  };
+
+  document.querySelectorAll('.concept').forEach(card => {
+    const toggle = () => card.classList.toggle('open');
+    card.addEventListener('click', toggle);
+    card.addEventListener('keydown', e => {
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); }
+    });
+  });
+
+  let audioCtx;
+  const getAudio = () => audioCtx || (audioCtx = new (window.AudioContext || window.webkitAudioContext)());
+  function blip(value=50){
+    try{
+      const ctx=getAudio();
+      const o=ctx.createOscillator(), g=ctx.createGain();
+      o.type='sine';
+      o.frequency.value=180 + Number(value)*5.2;
+      g.gain.setValueAtTime(.0001,ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(.055,ctx.currentTime+.01);
+      g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.08);
+      o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+.09);
+    }catch(e){}
+  }
+  function clickSound(freq=430){
+    try{
+      const ctx=getAudio(), o=ctx.createOscillator(), g=ctx.createGain();
+      o.type='triangle'; o.frequency.value=freq;
+      g.gain.setValueAtTime(.04,ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.07);
+      o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+.08);
+    }catch(e){}
+  }
+
+  document.querySelectorAll('input[type="range"]').forEach((slider, idx) => {
+    let lastTick=-1;
+    slider.addEventListener('input', () => {
+      const meter = document.getElementById(slider.dataset.meter);
+      meter.style.width = slider.value + '%';
+      document.getElementById('v' + (idx+1)).textContent = slider.value + '%';
+      meter.classList.remove('energy'); void meter.offsetWidth; meter.classList.add('energy');
+      const row=slider.closest('.slider-row'); row.classList.remove('energy'); void row.offsetWidth; row.classList.add('energy');
+      const tick=Math.floor(slider.value/4);
+      if(tick!==lastTick){ blip(slider.value); lastTick=tick; }
+      if(navigator.vibrate) navigator.vibrate(8);
+    });
+  });
+
+  const fxLayer=document.getElementById('fxLayer');
+  function lightningBurst(){
+    const bolt=document.createElement('div');
+    bolt.className='lightning';
+    bolt.style.left=(8+Math.random()*84)+'vw';
+    bolt.style.setProperty('--rot',(-9+Math.random()*18)+'deg');
+    fxLayer.appendChild(bolt);
+    setTimeout(()=>bolt.remove(),700);
+    if(Math.random()>.55){
+      setTimeout(()=>{
+        const bolt2=bolt.cloneNode();
+        bolt2.style.left=(8+Math.random()*84)+'vw';
+        fxLayer.appendChild(bolt2);
+        setTimeout(()=>bolt2.remove(),700);
+      },120);
+    }
+  }
+  function scheduleLightning(){
+    const delay=5000+Math.random()*9000;
+    setTimeout(()=>{lightningBurst(); scheduleLightning();},delay);
+  }
+  scheduleLightning();
+
+  document.querySelectorAll('button,.concept').forEach(el=>{
+    el.addEventListener('click',()=>clickSound(el.classList.contains('concept')?330:470));
+  });
+
+  document.querySelectorAll('.q').forEach(q => {
+    const correct = q.dataset.answer;
+    const feedback = q.querySelector('.feedback');
+    q.querySelectorAll('button').forEach(btn => {
+      btn.onclick = () => {
+        if(btn.dataset.choice === correct){
+          feedback.textContent = 'Correct ✓';
+          feedback.className = 'feedback good';
+        } else {
+          feedback.textContent = 'Try again. Think about unconscious feelings and emotional experience.';
+          feedback.className = 'feedback bad';
+        }
+      };
+    });
+  });
+</script>
+</body>
+</html>
