@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Misión Leer · Alina · Etapa 1</title>
+<style>
+:root{--ink:#24304a;--paper:#fffdf8;--lav:#ece6ff;--vio:#6b55c9;--mint:#dff7ed;--green:#32866b;--peach:#ffe3d3;--coral:#e87362;--sun:#ffe79b;--blue:#dff1ff}
+*{box-sizing:border-box} body{margin:0;font-family:ui-rounded,"SF Pro Rounded",system-ui,-apple-system,sans-serif;color:var(--ink);background:linear-gradient(135deg,var(--lav),var(--mint),var(--peach));min-height:100vh}
+.wrap{max-width:900px;margin:auto;padding:22px}.card{background:rgba(255,253,248,.96);border:1px solid rgba(36,48,74,.09);border-radius:28px;box-shadow:0 18px 60px rgba(62,54,109,.13);padding:28px}
+.hero{text-align:center}.badge{display:inline-block;background:var(--sun);padding:8px 14px;border-radius:999px;font-weight:800}.hero h1{font-size:clamp(2rem,7vw,4.4rem);margin:12px 0 4px;letter-spacing:-.04em}.hero p{font-size:1.08rem;max-width:650px;margin:10px auto;line-height:1.55}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}.block{border:0;border-radius:22px;padding:20px;text-align:left;cursor:pointer;color:var(--ink);min-height:150px;font:inherit}.block:nth-child(1){background:var(--blue)}.block:nth-child(2){background:var(--mint)}.block:nth-child(3){background:var(--peach)}.block b{font-size:1.15rem}.block span{display:block;margin-top:8px;line-height:1.35}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:center}.pill{background:var(--lav);padding:8px 12px;border-radius:999px;font-weight:800}.progress{height:12px;background:#eeeaf5;border-radius:99px;overflow:hidden;margin:18px 0}.bar{height:100%;width:0;background:var(--vio);transition:.3s}
+.instruction{font-size:1rem;font-weight:800;color:#68728a;margin-top:18px}
+.karaoke{font-size:clamp(1.55rem,4.5vw,2.35rem);line-height:1.55;margin:16px 0 18px;min-height:82px}
+.word{display:inline-block;margin:2px 3px;padding:1px 4px;border-radius:8px;opacity:.12;transform:translateY(3px);transition:.18s ease}
+.word.revealed{opacity:.52;transform:none}.word.active{opacity:1;background:var(--sun);transform:scale(1.06)}
+.listen{border:0;background:var(--vio);color:white;border-radius:18px;padding:16px 21px;font-weight:900;font-size:1.08rem;cursor:pointer;box-shadow:0 8px 20px rgba(107,85,201,.2)}.listen:active{transform:scale(.98)}
+.options{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}.opt{border:2px solid #e4deef;background:white;border-radius:20px;padding:22px 10px;font-size:1.35rem;font-weight:900;color:var(--ink);cursor:pointer;min-height:82px}.opt:hover{transform:translateY(-2px);border-color:var(--vio)}
+.feedback{margin-top:18px;padding:16px;border-radius:16px;font-weight:800;display:none}.ok{background:var(--mint);color:#205e4d}.try{background:var(--sun);color:#725b14}.next{margin-top:16px;border:0;background:var(--ink);color:white;border-radius:16px;padding:14px 20px;font-weight:900;cursor:pointer;display:none}
+.teacher{margin-top:22px;padding:16px;border-radius:18px;background:#f7f5fb;font-size:.92rem}.results h2{font-size:2rem}.skillrow{display:flex;justify-content:space-between;border-bottom:1px solid #eee;padding:10px 0}.home{border:0;background:transparent;color:var(--vio);font-weight:900;cursor:pointer}.note{font-size:.9rem;color:#5e687c;margin-top:16px}
+.key{margin-top:18px;text-align:left;background:#f7f5fb;padding:16px;border-radius:18px}.key code{white-space:pre-wrap;font-size:.9rem}
+@media(max-width:700px){.grid,.options{grid-template-columns:1fr}.card{padding:20px}.block{min-height:auto}.opt{min-height:64px}}
+
+.fx-layer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:9999}
+.spark{position:absolute;font-size:26px;animation:burst 900ms ease-out forwards}
+@keyframes burst{
+  0%{transform:translate(0,0) scale(.2) rotate(0);opacity:0}
+  15%{opacity:1}
+  100%{transform:translate(var(--dx),var(--dy)) scale(1.25) rotate(360deg);opacity:0}
+}
+.correct-pop{animation:correctPop .55s ease}
+@keyframes correctPop{0%{transform:scale(1)}40%{transform:scale(1.035)}70%{transform:scale(.995)}100%{transform:scale(1)}}
+.report-card{background:white;border:1px solid #ece7f5;border-radius:20px;padding:18px;margin:14px 0}
+.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+.metric{background:#f7f5fb;border-radius:18px;padding:16px;text-align:center}
+.metric strong{display:block;font-size:1.8rem;margin-top:4px}
+.report-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.93rem}
+.report-table th,.report-table td{padding:10px;border-bottom:1px solid #eee;text-align:left}
+.report-table th{background:#faf8fd}
+.report-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.action-btn{border:0;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}
+.print-btn{background:var(--vio);color:white}
+.home-btn{background:var(--ink);color:white}
+@media print{
+  body{background:white}
+  .wrap{max-width:none;padding:0}
+  .card{box-shadow:none;border:0}
+  .report-actions,.home{display:none!important}
+}
+@media(max-width:700px){.metric-grid{grid-template-columns:1fr}}
+</style>
+
+</head>
+<body><div id="fx" class="fx-layer"></div><div class="wrap"><main class="card" id="app"></main></div>
+<script>
+// Respuestas balanceadas y mezcladas sin secuencia visible: 10 A, 10 B, 10 C por bloque.
+const blocks=[{"title": "Bloque 1 · Oídos de detective", "subtitle": "Escucho, comparo y separo sonidos.", "questions": [{"prompt": "Escucha: casa. ¿Cuál palabra rima con casa?", "options": ["mesa", "taza", "luna"], "answer": 1, "skill": "rima"}, {"prompt": "Escucha: gato. ¿Cuál palabra rima con gato?", "options": ["sol", "mesa", "pato"], "answer": 2, "skill": "rima"}, {"prompt": "Escucha: ratón. ¿Cuál palabra rima con ratón?", "options": ["rana", "camión", "mano"], "answer": 1, "skill": "rima"}, {"prompt": "Escucha: foca. ¿Cuál palabra rima con foca?", "options": ["casa", "foco", "boca"], "answer": 2, "skill": "rima"}, {"prompt": "Escucha: rana. ¿Cuál palabra rima con rana?", "options": ["lana", "luna", "rosa"], "answer": 0, "skill": "rima"}, {"prompt": "Escucha: sol. ¿Cuál palabra empieza con el mismo sonido que sol?", "options": ["mesa", "sopa", "luna"], "answer": 1, "skill": "sonido inicial"}, {"prompt": "Escucha: mano. ¿Cuál empieza como mano?", "options": ["pato", "mapa", "sapo"], "answer": 1, "skill": "sonido inicial"}, {"prompt": "Escucha: luna. ¿Cuál empieza como luna?", "options": ["lupa", "mesa", "sopa"], "answer": 0, "skill": "sonido inicial"}, {"prompt": "Escucha: pato. ¿Cuál empieza como pato?", "options": ["pala", "taza", "mano"], "answer": 0, "skill": "sonido inicial"}, {"prompt": "Escucha: taza. ¿Cuál empieza como taza?", "options": ["luna", "sapo", "tapa"], "answer": 2, "skill": "sonido inicial"}, {"prompt": "Escucha: mesa. ¿Qué sonido escuchas al inicio?", "options": ["/p/", "/m/", "/s/"], "answer": 1, "skill": "sonido inicial"}, {"prompt": "Escucha: sapo. ¿Qué sonido escuchas al inicio?", "options": ["/m/", "/s/", "/l/"], "answer": 1, "skill": "sonido inicial"}, {"prompt": "Escucha: luna. ¿Qué sonido escuchas al inicio?", "options": ["/p/", "/t/", "/l/"], "answer": 2, "skill": "sonido inicial"}, {"prompt": "Escucha: pato. ¿Qué sonido escuchas al inicio?", "options": ["/m/", "/p/", "/s/"], "answer": 1, "skill": "sonido inicial"}, {"prompt": "Escucha: tomate. ¿Qué sonido escuchas al inicio?", "options": ["/t/", "/l/", "/m/"], "answer": 0, "skill": "sonido inicial"}, {"prompt": "Da palmadas: casa. ¿Cuántas partes escuchas?", "options": ["3", "1", "2"], "answer": 2, "skill": "sílabas"}, {"prompt": "Da palmadas: mariposa. ¿Cuántas partes escuchas?", "options": ["3", "2", "4"], "answer": 2, "skill": "sílabas"}, {"prompt": "Da palmadas: sol. ¿Cuántas partes escuchas?", "options": ["1", "3", "2"], "answer": 0, "skill": "sílabas"}, {"prompt": "Da palmadas: pelota. ¿Cuántas partes escuchas?", "options": ["3", "2", "4"], "answer": 0, "skill": "sílabas"}, {"prompt": "Da palmadas: mesa. ¿Cuántas partes escuchas?", "options": ["3", "2", "1"], "answer": 1, "skill": "sílabas"}, {"prompt": "Escucha: mesa. ¿Cuál es la primera parte?", "options": ["sa", "ma", "me"], "answer": 2, "skill": "segmentación"}, {"prompt": "Escucha: pato. ¿Cuál es la primera parte?", "options": ["po", "to", "pa"], "answer": 2, "skill": "segmentación"}, {"prompt": "Escucha: luna. ¿Cuál es la primera parte?", "options": ["lu", "la", "na"], "answer": 0, "skill": "segmentación"}, {"prompt": "Escucha: sopa. ¿Cuál es la primera parte?", "options": ["so", "sa", "pa"], "answer": 0, "skill": "segmentación"}, {"prompt": "Escucha: tomate. ¿Cuál es la primera parte?", "options": ["te", "to", "ma"], "answer": 1, "skill": "segmentación"}, {"prompt": "Escucha: mapa. ¿Cuál es la última parte?", "options": ["mo", "ma", "pa"], "answer": 2, "skill": "segmentación"}, {"prompt": "Escucha: mesa. ¿Cuál es la última parte?", "options": ["me", "sa", "se"], "answer": 1, "skill": "segmentación"}, {"prompt": "Escucha: luna. ¿Cuál es la última parte?", "options": ["na", "lu", "la"], "answer": 0, "skill": "segmentación"}, {"prompt": "Escucha: pato. ¿Cuál es la última parte?", "options": ["to", "pa", "ta"], "answer": 0, "skill": "segmentación"}, {"prompt": "Escucha: sopa. ¿Cuál es la última parte?", "options": ["so", "po", "pa"], "answer": 2, "skill": "segmentación"}]}, {"title": "Bloque 2 · Código de letras", "subtitle": "Relaciono sonidos con vocales y consonantes.", "questions": [{"prompt": "Escucha el sonido /a/. ¿Qué letra lo representa?", "options": ["O", "E", "A"], "answer": 2, "skill": "vocales"}, {"prompt": "Escucha el sonido /e/. ¿Qué letra lo representa?", "options": ["E", "A", "I"], "answer": 0, "skill": "vocales"}, {"prompt": "Escucha el sonido /i/. ¿Qué letra lo representa?", "options": ["E", "U", "I"], "answer": 2, "skill": "vocales"}, {"prompt": "Escucha el sonido /o/. ¿Qué letra lo representa?", "options": ["O", "U", "A"], "answer": 0, "skill": "vocales"}, {"prompt": "Escucha el sonido /u/. ¿Qué letra lo representa?", "options": ["U", "I", "O"], "answer": 0, "skill": "vocales"}, {"prompt": "¿Qué vocal escuchas al inicio de ala?", "options": ["I", "E", "A"], "answer": 2, "skill": "vocales"}, {"prompt": "¿Qué vocal escuchas al inicio de elefante?", "options": ["O", "E", "A"], "answer": 1, "skill": "vocales"}, {"prompt": "¿Qué vocal escuchas al inicio de isla?", "options": ["I", "U", "E"], "answer": 0, "skill": "vocales"}, {"prompt": "¿Qué vocal escuchas al inicio de oso?", "options": ["O", "U", "A"], "answer": 0, "skill": "vocales"}, {"prompt": "¿Qué vocal escuchas al inicio de uva?", "options": ["I", "U", "O"], "answer": 1, "skill": "vocales"}, {"prompt": "Escucha /mmmm/. ¿Qué letra corresponde?", "options": ["L", "M", "S"], "answer": 1, "skill": "sonido-letra"}, {"prompt": "Escucha /ssss/. ¿Qué letra corresponde?", "options": ["M", "P", "S"], "answer": 2, "skill": "sonido-letra"}, {"prompt": "Escucha /llll/. ¿Qué letra corresponde?", "options": ["M", "L", "T"], "answer": 1, "skill": "sonido-letra"}, {"prompt": "Escucha /p/. ¿Qué letra corresponde?", "options": ["P", "S", "T"], "answer": 0, "skill": "sonido-letra"}, {"prompt": "Escucha /t/. ¿Qué letra corresponde?", "options": ["P", "T", "L"], "answer": 1, "skill": "sonido-letra"}, {"prompt": "¿Con qué letra empieza mano?", "options": ["P", "S", "M"], "answer": 2, "skill": "sonido-letra"}, {"prompt": "¿Con qué letra empieza sol?", "options": ["T", "S", "L"], "answer": 1, "skill": "sonido-letra"}, {"prompt": "¿Con qué letra empieza luna?", "options": ["M", "L", "P"], "answer": 1, "skill": "sonido-letra"}, {"prompt": "¿Con qué letra empieza pato?", "options": ["T", "M", "P"], "answer": 2, "skill": "sonido-letra"}, {"prompt": "¿Con qué letra empieza taza?", "options": ["T", "P", "S"], "answer": 0, "skill": "sonido-letra"}, {"prompt": "Busca la misma letra: M", "options": ["N", "M", "S"], "answer": 1, "skill": "discriminación visual"}, {"prompt": "Busca la misma letra: S", "options": ["M", "S", "C"], "answer": 1, "skill": "discriminación visual"}, {"prompt": "Busca la misma letra: L", "options": ["T", "I", "L"], "answer": 2, "skill": "discriminación visual"}, {"prompt": "Busca la misma letra: P", "options": ["T", "R", "P"], "answer": 2, "skill": "discriminación visual"}, {"prompt": "Busca la misma letra: T", "options": ["T", "P", "L"], "answer": 0, "skill": "discriminación visual"}, {"prompt": "¿Qué sonido hace la M?", "options": ["/m/", "/l/", "/s/"], "answer": 0, "skill": "producción de sonido"}, {"prompt": "¿Qué sonido hace la S?", "options": ["/t/", "/s/", "/p/"], "answer": 1, "skill": "producción de sonido"}, {"prompt": "¿Qué sonido hace la L?", "options": ["/l/", "/m/", "/p/"], "answer": 0, "skill": "producción de sonido"}, {"prompt": "¿Qué sonido hace la P?", "options": ["/s/", "/l/", "/p/"], "answer": 2, "skill": "producción de sonido"}, {"prompt": "¿Qué sonido hace la T?", "options": ["/l/", "/m/", "/t/"], "answer": 2, "skill": "producción de sonido"}]}, {"title": "Bloque 3 · Construyo y leo", "subtitle": "Uno sonidos, leo sílabas y formo mis primeras palabras.", "questions": [{"prompt": "Junta los sonidos: /m/ + /a/. ¿Qué forman?", "options": ["me", "sa", "ma"], "answer": 2, "skill": "fusión"}, {"prompt": "Junta: /m/ + /e/.", "options": ["me", "mi", "ma"], "answer": 0, "skill": "fusión"}, {"prompt": "Junta: /m/ + /i/.", "options": ["mi", "mu", "me"], "answer": 0, "skill": "fusión"}, {"prompt": "Junta: /m/ + /o/.", "options": ["mu", "ma", "mo"], "answer": 2, "skill": "fusión"}, {"prompt": "Junta: /m/ + /u/.", "options": ["mi", "mu", "mo"], "answer": 1, "skill": "fusión"}, {"prompt": "Junta: /s/ + /a/.", "options": ["se", "sa", "ma"], "answer": 1, "skill": "fusión"}, {"prompt": "Junta: /s/ + /e/.", "options": ["se", "si", "sa"], "answer": 0, "skill": "fusión"}, {"prompt": "Junta: /s/ + /i/.", "options": ["se", "si", "su"], "answer": 1, "skill": "fusión"}, {"prompt": "Junta: /s/ + /o/.", "options": ["so", "sa", "su"], "answer": 0, "skill": "fusión"}, {"prompt": "Junta: /s/ + /u/.", "options": ["si", "so", "su"], "answer": 2, "skill": "fusión"}, {"prompt": "Junta: /l/ + /a/.", "options": ["le", "la", "ma"], "answer": 1, "skill": "fusión"}, {"prompt": "Junta: /l/ + /e/.", "options": ["la", "le", "li"], "answer": 1, "skill": "fusión"}, {"prompt": "Junta: /l/ + /i/.", "options": ["li", "le", "lu"], "answer": 0, "skill": "fusión"}, {"prompt": "Junta: /l/ + /o/.", "options": ["lu", "la", "lo"], "answer": 2, "skill": "fusión"}, {"prompt": "Junta: /l/ + /u/.", "options": ["lo", "li", "lu"], "answer": 2, "skill": "fusión"}, {"prompt": "Junta: /p/ + /a/.", "options": ["ta", "pa", "pe"], "answer": 1, "skill": "fusión"}, {"prompt": "Junta: /p/ + /e/.", "options": ["pa", "pe", "pi"], "answer": 1, "skill": "fusión"}, {"prompt": "Junta: /p/ + /i/.", "options": ["pi", "pu", "pe"], "answer": 0, "skill": "fusión"}, {"prompt": "Junta: /p/ + /o/.", "options": ["po", "pu", "pa"], "answer": 0, "skill": "fusión"}, {"prompt": "Junta: /p/ + /u/.", "options": ["pi", "po", "pu"], "answer": 2, "skill": "fusión"}, {"prompt": "Junta: /t/ + /a/.", "options": ["ta", "pa", "te"], "answer": 0, "skill": "fusión"}, {"prompt": "Junta: /t/ + /e/.", "options": ["ti", "ta", "te"], "answer": 2, "skill": "fusión"}, {"prompt": "Junta: /t/ + /i/.", "options": ["tu", "ti", "te"], "answer": 1, "skill": "fusión"}, {"prompt": "Junta: /t/ + /o/.", "options": ["tu", "ta", "to"], "answer": 2, "skill": "fusión"}, {"prompt": "Junta: /t/ + /u/.", "options": ["tu", "ti", "to"], "answer": 0, "skill": "fusión"}, {"prompt": "Lee despacio: ma-pa. ¿Qué palabra formas?", "options": ["pama", "mapa", "mopa"], "answer": 1, "skill": "palabras"}, {"prompt": "Lee despacio: me-sa. ¿Qué palabra formas?", "options": ["suma", "mesa", "masa"], "answer": 1, "skill": "palabras"}, {"prompt": "Lee despacio: sa-po. ¿Qué palabra formas?", "options": ["sopa", "pasa", "sapo"], "answer": 2, "skill": "palabras"}, {"prompt": "Lee despacio: lu-pa. ¿Qué palabra formas?", "options": ["lupa", "pula", "loma"], "answer": 0, "skill": "palabras"}, {"prompt": "Lee despacio: pa-lo. ¿Qué palabra formas?", "options": ["pelo", "lupa", "palo"], "answer": 2, "skill": "palabras"}]}];
+let bi=0,qi=0,attempts=0,errors=0,log=[],locked=false,blockStart=Date.now();
+const app=document.getElementById('app');
+
+function tokenize(text){
+  return text.match(/\S+\s*/g) || [];
+}
+function renderWords(text){
+  const words=tokenize(text);
+  return words.map((w,i)=>`<span class="word" data-i="${i}">${escapeHTML(w)}</span>`).join('');
+}
+function escapeHTML(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+
+function speakKaraoke(text){
+ speechSynthesis.cancel();
+ const spans=[...document.querySelectorAll('.word')];
+ spans.forEach(s=>s.className='word');
+ const u=new SpeechSynthesisUtterance(text.replaceAll('/',''));
+ u.lang='es-MX';u.rate=.70;u.pitch=1.02;
+ let charStarts=[], acc=0;
+ tokenize(text).forEach((w,i)=>{charStarts.push(acc);acc+=w.length});
+ function activate(idx){
+   spans.forEach((s,j)=>{
+     if(j<idx) s.className='word revealed';
+     else if(j===idx) s.className='word active';
+     else s.className='word';
+   });
+ }
+ u.onboundary=(e)=>{
+   if(e.name!=='word') return;
+   let idx=0;
+   for(let i=0;i<charStarts.length;i++){ if(charStarts[i] <= e.charIndex) idx=i; else break; }
+   activate(idx);
+ };
+ u.onend=()=>spans.forEach(s=>s.className='word revealed');
+ speechSynthesis.speak(u);
+}
+
+
+function playSuccessSound(){
+  try{
+    const AC=window.AudioContext||window.webkitAudioContext;
+    const ctx=new AC();
+    const notes=[523.25,659.25,783.99,1046.5];
+    notes.forEach((f,i)=>{
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.type='sine';o.frequency.value=f;
+      g.gain.setValueAtTime(0.0001,ctx.currentTime+i*.08);
+      g.gain.exponentialRampToValueAtTime(.12,ctx.currentTime+i*.08+.02);
+      g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+i*.08+.22);
+      o.connect(g);g.connect(ctx.destination);
+      o.start(ctx.currentTime+i*.08);o.stop(ctx.currentTime+i*.08+.24);
+    });
+  }catch(e){}
+}
+function celebrate(){
+  playSuccessSound();
+  const fx=document.getElementById('fx');
+  const icons=['✨','⭐','🌟','💫','🎉','📚'];
+  for(let i=0;i<20;i++){
+    const s=document.createElement('span');
+    s.className='spark';s.textContent=icons[Math.floor(Math.random()*icons.length)];
+    s.style.left=(50+(Math.random()*14-7))+'vw';
+    s.style.top=(45+(Math.random()*10-5))+'vh';
+    s.style.setProperty('--dx',(Math.random()*420-210)+'px');
+    s.style.setProperty('--dy',(Math.random()*360-240)+'px');
+    fx.appendChild(s);setTimeout(()=>s.remove(),950);
+  }
+  document.querySelector('.card')?.classList.add('correct-pop');
+  setTimeout(()=>document.querySelector('.card')?.classList.remove('correct-pop'),600);
+}
+
+function home(){
+ app.innerHTML=`<section class="hero"><span class="badge">ETAPA 1 · RUTA PERSONAL</span><h1>Misión Leer, Alina ✨</h1>
+ <p>Vamos a escuchar, descubrir sonidos y construir palabras paso a paso. <b>Las instrucciones no se leen solas:</b> Alina toca el botón 🔊 y las palabras se van iluminando mientras la voz las dice.</p>
+ <div class="grid">${blocks.map((b,i)=>`<button class="block" onclick="start(${i})"><b>${b.title}</b><span>${b.subtitle}</span><span>30 retos · sin cronómetro</span></button>`).join('')}</div>
+ <p class="note">Para el adulto: no leer la respuesta por Alina. Puede repetir el audio cuantas veces sea necesario.</p></section>`}
+function start(i){bi=i;qi=0;attempts=0;errors=0;log=[];blockStart=Date.now();render()}
+function render(){
+ locked=false; let b=blocks[bi],q=b.questions[qi],pct=(qi/b.questions.length)*100;
+ app.innerHTML=`<div class="top"><button class="home" onclick="home()">← Inicio</button><span class="pill">${qi+1} / ${b.questions.length}</span></div>
+ <div class="progress"><div class="bar" style="width:${pct}%"></div></div>
+ <div><b>${b.title}</b><div class="instruction">Toca el botón para escuchar:</div>
+ <div class="karaoke" aria-live="polite">${renderWords(q.prompt)}</div>
+ <button class="listen" onclick='speakKaraoke(${JSON.stringify(q.prompt)})'>🔊 Escuchar el reto</button>
+ <div class="options">${q.options.map((o,i)=>`<button class="opt" onclick="answer(${i})"><small>${String.fromCharCode(65+i)})</small><br>${o}</button>`).join('')}</div>
+ <div id="fb" class="feedback"></div><button id="next" class="next" onclick="next()">Siguiente reto →</button>
+ <div class="teacher"><b>Habilidad:</b> ${q.skill}. <span id="attemptLabel">Intentos en este reto: 0</span></div></div>`;
+}
+function answer(i){
+ if(locked)return; let q=blocks[bi].questions[qi],fb=document.getElementById('fb'); attempts++;
+ document.getElementById('attemptLabel').textContent='Intentos en este reto: '+attempts;
+ if(i===q.answer){
+   locked=true; celebrate();
+   fb.className='feedback ok';fb.style.display='block';
+   const cheers=['¡Excelente, Alina! ✨','¡Lo descubriste! 🌟','¡Muy bien! 🎉','¡Cada vez lees mejor! 📚','¡Gran trabajo! ⭐'];
+   fb.textContent=cheers[Math.floor(Math.random()*cheers.length)] + (attempts>1?' Lo lograste después de intentarlo.':'');
+   document.getElementById('next').style.display='inline-block';
+   log.push({number:qi+1,skill:q.skill,prompt:q.prompt,correct:true,attempts,firstTry:attempts===1});
+ } else {
+   errors++; fb.className='feedback try';fb.style.display='block';
+   fb.textContent=attempts===1?'Escucha otra vez. Busca el sonido con calma.':'Vamos por partes. Escucha de nuevo y compara cada opción.';
+ }
+}
+function next(){qi++;attempts=0;if(qi>=blocks[bi].questions.length)results();else render()}
+function results(){
+ let by={};log.forEach(x=>{by[x.skill]??={n:0,first:0,tries:0};by[x.skill].n++;by[x.skill].first+=x.attempts===1?1:0;by[x.skill].tries+=x.attempts});
+ app.innerHTML=`<section class="results"><span class="badge">BLOQUE TERMINADO</span><h2>Reporte de aprendizaje de Alina</h2>
+ <p>Este reporte prioriza habilidades, no velocidad. “Dominio inicial” se calcula con respuestas logradas al primer intento.</p>
+ ${Object.entries(by).map(([k,v])=>{let p=Math.round(v.first/v.n*100);return `<div class="skillrow"><span>${k}</span><b>${p}%</b></div>`}).join('')}
+ <div class="teacher"><b>Interpretación docente:</b> 85–100% = dominio inicial; 70–84% = consolidar; menos de 70% = volver a enseñar con modelado y ejemplos nuevos.</div>
+ <button class="next" style="display:inline-block" onclick="home()">Volver a las misiones</button></section>`}
+home();
+</script></body></html>
