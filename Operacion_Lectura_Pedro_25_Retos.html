@@ -166,6 +166,105 @@
     .result-grid{grid-template-columns:1fr 1fr}
     .skill-row{grid-template-columns:105px 1fr 45px}
   }
+
+  .reveal-wrap{
+    margin-top:16px;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+  .reveal-card{
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--line);
+    border-radius:22px;
+    min-height:360px;
+    background:#0c1714;
+  }
+  .reveal-art{
+    position:absolute; inset:0;
+    display:grid; place-items:center;
+    background:
+      radial-gradient(circle at 72% 20%, rgba(255,159,28,.30), transparent 18rem),
+      linear-gradient(180deg,#152822 0%,#0e1c18 55%,#09110f 100%);
+  }
+  .scene{
+    position:absolute; inset:0;
+    overflow:hidden;
+  }
+  .moon{
+    position:absolute; width:130px;height:130px;border-radius:50%;
+    right:8%;top:8%;
+    background:radial-gradient(circle at 35% 35%, #ffe7b0 0 18%, #ffb347 55%, #e78317 100%);
+    box-shadow:0 0 70px rgba(255,159,28,.35);
+  }
+  .mountain{
+    position:absolute; bottom:0;
+    width:0;height:0;border-style:solid;
+    filter:drop-shadow(0 10px 20px rgba(0,0,0,.35));
+  }
+  .mountain.m1{left:-6%;border-width:0 230px 185px 230px;border-color:transparent transparent #19332a transparent}
+  .mountain.m2{left:22%;border-width:0 250px 210px 250px;border-color:transparent transparent #10271f transparent}
+  .mountain.m3{right:-10%;border-width:0 260px 225px 260px;border-color:transparent transparent #173229 transparent}
+  .ground{position:absolute;left:0;right:0;bottom:0;height:32%;background:linear-gradient(#18362b,#0a1512)}
+  .hero-figure{
+    position:absolute;left:50%;bottom:13%;transform:translateX(-50%);
+    width:145px;height:230px;
+  }
+  .head{position:absolute;left:50%;top:0;transform:translateX(-50%);width:62px;height:62px;border-radius:50%;background:#c7895c}
+  .hair{position:absolute;left:41px;top:-5px;width:67px;height:32px;border-radius:50% 55% 25% 25%;background:#151515;transform:rotate(-7deg)}
+  .body{position:absolute;left:31px;top:55px;width:84px;height:110px;border-radius:26px 26px 16px 16px;background:linear-gradient(180deg,#ff9f1c,#b95d05)}
+  .vest{position:absolute;left:43px;top:65px;width:60px;height:92px;border-radius:14px;background:#263b35;border:3px solid #314e45}
+  .arm{position:absolute;top:70px;width:24px;height:98px;border-radius:20px;background:#b87850}
+  .arm.a1{left:10px;transform:rotate(16deg)} .arm.a2{right:10px;transform:rotate(-16deg)}
+  .leg{position:absolute;top:155px;width:30px;height:82px;border-radius:12px;background:#27302d}
+  .leg.l1{left:40px}.leg.l2{right:40px}
+  .bag{position:absolute;left:23px;top:72px;width:28px;height:65px;border-radius:11px;background:#3d564e;border:2px solid #638274}
+  .victory-text{
+    position:absolute;left:50%;top:16%;transform:translateX(-50%);
+    text-align:center;font-weight:1000;letter-spacing:.08em;
+    text-shadow:0 8px 24px rgba(0,0,0,.6);
+  }
+  .victory-text b{display:block;font-size:clamp(1.6rem,5vw,3.6rem);color:#ffd166}
+  .victory-text span{font-size:.78rem;color:#d9e8e2}
+  .tile-grid{
+    position:absolute;inset:0;
+    display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);
+  }
+  .cover-tile{
+    position:relative;
+    border:1px solid rgba(255,255,255,.05);
+    background:
+      linear-gradient(135deg,rgba(20,35,30,.98),rgba(7,16,13,.98));
+    display:grid;place-items:center;
+    color:#71827b;font-weight:900;
+    transition:transform .75s cubic-bezier(.2,.8,.2,1), opacity .75s ease, filter .75s ease;
+    transform-origin:center;
+  }
+  .cover-tile::after{
+    content:"?";
+    width:30px;height:30px;border-radius:9px;display:grid;place-items:center;
+    border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03)
+  }
+  .cover-tile.revealed{
+    opacity:0;
+    transform:scale(.2) rotate(12deg);
+    filter:blur(6px);
+    pointer-events:none;
+  }
+  .reveal-head{
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+    margin-bottom:8px
+  }
+  .reveal-head h3{margin:0}
+  .reveal-counter{font-size:.82rem;color:var(--accent);font-weight:900}
+  .final-flash{animation:finalFlash 1.2s ease}
+  @keyframes finalFlash{
+    0%{box-shadow:0 0 0 rgba(255,209,102,0)}
+    35%{box-shadow:0 0 80px rgba(255,209,102,.85)}
+    100%{box-shadow:var(--shadow)}
+  }
+
 </style>
 </head>
 <body>
@@ -242,6 +341,35 @@
     <section class="card" style="margin-top:16px">
       <div class="reading-title"><h3>🗺️ Ruta de misión</h3><span class="micro">Cada casilla = 1 reto</span></div>
       <div class="map" id="map"></div>
+    </section>
+    <section class="card reveal-wrap">
+      <div class="reveal-head">
+        <h3>🧩 Imagen secreta de Pedro</h3>
+        <div class="reveal-counter" id="revealCounter">0/25 piezas</div>
+      </div>
+      <div class="micro">Cada respuesta correcta descubre una parte. Completa las 25 para revelar la escena final.</div>
+      <div class="reveal-card" id="revealCard">
+        <div class="reveal-art">
+          <div class="scene">
+            <div class="moon"></div>
+            <div class="mountain m1"></div>
+            <div class="mountain m2"></div>
+            <div class="mountain m3"></div>
+            <div class="ground"></div>
+            <div class="victory-text"><span>MISIÓN DE LECTURA</span><b>¡VICTORIA, PEDRO!</b></div>
+            <div class="hero-figure">
+              <div class="head"></div>
+              <div class="hair"></div>
+              <div class="body"></div>
+              <div class="vest"></div>
+              <div class="bag"></div>
+              <div class="arm a1"></div><div class="arm a2"></div>
+              <div class="leg l1"></div><div class="leg l2"></div>
+            </div>
+          </div>
+        </div>
+        <div class="tile-grid" id="tileGrid"></div>
+      </div>
     </section>
   </main>
 
@@ -336,6 +464,7 @@ const questions = [
 ];
 
 let current=0, xp=0, streak=0, bestStreak=0, retries=0, firstCorrect=0, soundOn=true;
+let revealedCount=0;
 let attempts=Array(questions.length).fill(0);
 let skillStats={};
 
@@ -359,8 +488,37 @@ function startGame(){
  document.getElementById("intro").style.display="none";
  document.getElementById("game").style.display="block";
  window.scrollTo({top:0,behavior:"smooth"});
- renderMap(); renderQuestion();
+ buildRevealGrid(); renderMap(); renderQuestion();
 }
+
+function buildRevealGrid(){
+ const grid=document.getElementById("tileGrid");
+ if(!grid) return;
+ grid.innerHTML="";
+ for(let i=0;i<25;i++){
+   const t=document.createElement("div");
+   t.className="cover-tile"+(i<revealedCount?" revealed":"");
+   t.dataset.tile=i;
+   grid.appendChild(t);
+ }
+ document.getElementById("revealCounter").textContent=`${revealedCount}/25 piezas`;
+}
+function revealNextTile(){
+ if(revealedCount>=25) return;
+ const tile=document.querySelector(`.cover-tile[data-tile="${revealedCount}"]`);
+ if(tile){
+   tile.classList.add("revealed");
+   revealedCount++;
+   document.getElementById("revealCounter").textContent=`${revealedCount}/25 piezas`;
+   beep(540 + revealedCount*9,.08,"triangle");
+   if(revealedCount===25){
+     const card=document.getElementById("revealCard");
+     card.classList.add("final-flash");
+     setTimeout(()=>card.classList.remove("final-flash"),1300);
+   }
+ }
+}
+
 function renderMap(){
  const map=document.getElementById("map"); map.innerHTML="";
  questions.forEach((_,i)=>{
@@ -412,6 +570,7 @@ function answer(choice,btn){
       fb.innerHTML=`<strong>✅ +60 XP · Relectura completada</strong><br>${item.e}`;
    }
    bestStreak=Math.max(bestStreak,streak);
+   revealNextTile();
    fb.className="feedback good";
    document.getElementById("hint").style.display="none";
    document.getElementById("nextBtn").style.display="block";
@@ -464,10 +623,10 @@ function finish(){
  window.scrollTo({top:0,behavior:"smooth"});
 }
 function restartGame(){
- current=0;xp=0;streak=0;bestStreak=0;retries=0;firstCorrect=0;attempts=Array(questions.length).fill(0);skillStats={};
+ current=0;xp=0;streak=0;bestStreak=0;retries=0;firstCorrect=0;revealedCount=0;attempts=Array(questions.length).fill(0);skillStats={};
  document.getElementById("results").style.display="none";
  document.getElementById("game").style.display="block";
- renderQuestion();window.scrollTo({top:0,behavior:"smooth"});
+ buildRevealGrid();renderQuestion();window.scrollTo({top:0,behavior:"smooth"});
 }
 </script>
 </body>
