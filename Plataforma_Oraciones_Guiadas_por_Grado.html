@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#f5f8ff">
+<title>Escribe, Fotografía y Aprende • Primaria</title>
+<style>
+:root{
+ --ink:#22324a;--muted:#6b7a8f;--blue:#5d7cf6;--sky:#9fdcff;--mint:#8fdec4;
+ --sun:#ffd96b;--peach:#ffb99f;--lav:#c9bcf8;--rose:#f4afc3;--green:#2ca77e;
+ --danger:#df6b6b;--paper:#fff;--line:#e0e9f2;--soft:#f5f9ff;
+ --shadow:0 18px 44px rgba(38,62,96,.13)
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;touch-action:manipulation}
+body{
+ margin:0;min-height:100vh;font-family:ui-rounded,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);
+ background:
+  radial-gradient(circle at 5% 5%,rgba(255,217,107,.36),transparent 18%),
+  radial-gradient(circle at 95% 8%,rgba(159,220,255,.30),transparent 18%),
+  linear-gradient(180deg,#fbfdff,#f3f8ff 68%,#fffaf1)
+}
+.app{max-width:980px;margin:auto;padding:12px}
+.hero{text-align:center;padding:10px 0}
+.badge{display:inline-flex;gap:6px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 11px;font-size:.78rem;font-weight:950;color:#57718e;box-shadow:0 8px 18px #35516d10}
+h1{font-size:clamp(2rem,8vw,3.7rem);line-height:1;margin:10px 0 5px;letter-spacing:-.045em}
+.hero p{max-width:780px;margin:7px auto;color:var(--muted);font-weight:760;line-height:1.5}
+.card{background:#fffffff3;border:1px solid var(--line);border-radius:28px;padding:17px;box-shadow:var(--shadow);margin:13px 0}
+.field{margin:12px 0}.field label{display:block;font-weight:950;margin-bottom:6px}
+input,select,button{font:inherit;border-radius:16px;font-weight:900}
+input,select{width:100%;padding:14px;border:2px solid #dce6ef;background:#fff;color:var(--ink);font-size:16px}
+button{border:0;min-height:50px;padding:12px 15px;background:linear-gradient(135deg,var(--blue),#7996ff);color:#fff;box-shadow:0 8px 18px #4568e426;cursor:pointer}
+button.green{background:linear-gradient(135deg,var(--green),#49be98)}
+button.red{background:linear-gradient(135deg,var(--danger),#f18c83)}
+button.white{background:#fff;color:var(--ink);border:2px solid var(--line)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.grades{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.g{background:#fff;color:var(--ink);border:2px solid transparent;box-shadow:0 8px 18px #35516d12;padding:9px;min-height:80px}
+.g.active{border-color:var(--blue);transform:translateY(-2px)}
+.g b{display:block;font-size:1.35rem}.g small{color:var(--muted)}
+.intro{background:linear-gradient(135deg,#fff9df,#fff);border:2px solid #f0df97;line-height:1.5;font-weight:780}
+.topbar{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:7px 10px;background:#eef5fb;border:1px solid #dfe8f1;font-size:.82rem;font-weight:950}
+.progress{height:12px;background:#e9eff5;border-radius:999px;overflow:hidden;margin:12px 0}
+.progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--mint),var(--blue));transition:.3s}
+.word{text-align:center;padding:12px}.word .icon{font-size:3rem}.word h2{font-size:clamp(2rem,10vw,4rem);margin:5px 0;overflow-wrap:anywhere}
+.syl{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}.syl span{padding:8px 10px;background:#eef6ff;border:1px solid #dce9f5;border-radius:12px;font-weight:950}
+.steps{display:grid;gap:12px}
+.step{padding:15px;border-radius:22px;border:1px solid var(--line);background:#fff}
+.rule{background:linear-gradient(135deg,#eef8ff,#fff)}
+.example{background:linear-gradient(135deg,#f0fff8,#fff)}
+.mission{background:linear-gradient(135deg,#fff8df,#fff)}
+.st{font-size:.8rem;text-transform:uppercase;letter-spacing:.07em;font-weight:1000;color:#60748b;margin-bottom:6px}
+.txt{font-size:1.06rem;line-height:1.55;font-weight:760}
+.cameraCard{background:linear-gradient(135deg,#f7f3ff,#fff);border:2px solid #dfd7f7}
+.cameraZone{border:2px dashed #b8c8db;border-radius:18px;padding:15px;text-align:center;background:#fbfdff;margin-top:10px}
+.cameraZone input{display:block;width:100%;margin-top:10px}
+#preview{display:none;max-width:100%;max-height:320px;margin:12px auto 0;border-radius:16px;box-shadow:0 10px 22px #0002}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.feedback{display:none;margin-top:12px;border-radius:18px;padding:14px;line-height:1.5;font-weight:760}
+.feedback.good{display:block;background:#effbf6;border:2px solid #cceadd}
+.feedback.warn{display:block;background:#fff8df;border:2px solid #efdc93}
+.feedback.bad{display:block;background:#fff0ef;border:2px solid #efc4c0}
+.feedback h3{margin:0 0 6px}
+.feedback ul{margin:8px 0 0 20px;padding:0}
+.status{font-size:.9rem;color:var(--muted);font-weight:760;margin-top:7px}
+.aiNote{font-size:.84rem;color:#60748a;background:#f4f8fc;border:1px solid #e1eaf1;border-radius:14px;padding:10px;margin-top:10px}
+.hidden{display:none!important}
+.finish{text-align:center}.finish h2{font-size:2rem}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}.stat{background:#f3f8fc;border:1px solid var(--line);border-radius:15px;padding:11px;font-weight:900}
+.report{text-align:left}.reportItem{background:#f7fafc;border:1px solid var(--line);border-radius:15px;padding:11px;margin:7px 0}
+@media(max-width:700px){.grades{grid-template-columns:repeat(3,1fr)}.actions{grid-template-columns:1fr}.card{padding:14px;border-radius:22px}}
+@media(max-width:390px){.grades{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:1fr}}
+</style>
+
+<style>
+/* ===== Rediseño editorial infantil / móvil ===== */
+:root{
+  --deep:#1f2f49;--muted2:#68788e;--brand:#5d7cf6;--brand2:#8db8ff;
+  --aqua:#8fdcc3;--yellow:#ffd86b;--coral:#ffb392;--purple:#c8b9f8;--pink:#f1aec3;
+  --cream:#fff9e7;--surface:#fff;--line2:#dfe8f2;
+}
+body{background:
+  radial-gradient(circle at 7% 2%,rgba(255,216,107,.38),transparent 17%),
+  radial-gradient(circle at 94% 6%,rgba(141,184,255,.28),transparent 18%),
+  radial-gradient(circle at 50% 100%,rgba(143,220,195,.20),transparent 24%),
+  linear-gradient(180deg,#fbfdff,#f4f8ff 62%,#fffaf0)}
+.hero{padding:18px 5px 10px}
+.hero .badge{font-size:.74rem;letter-spacing:.09em;padding:8px 12px}
+.hero h1{font-size:clamp(2.15rem,9vw,4.2rem);max-width:820px;margin:12px auto 7px}
+.hero p{font-size:clamp(.95rem,3.5vw,1.1rem);max-width:760px}
+.card{border-radius:30px;padding:20px;box-shadow:0 20px 46px rgba(35,56,90,.12)}
+#startCard{background:linear-gradient(180deg,#fff,#fbfdff)}
+#startCard h2{font-size:clamp(1.6rem,6vw,2.1rem)}
+.field label{font-size:.9rem;letter-spacing:.015em}
+.grades{gap:10px}
+.g{min-height:88px;border-radius:20px;background:linear-gradient(180deg,#fff,#f8fbff)}
+.g:nth-child(1){box-shadow:inset 0 5px 0 #9bd7ff,0 8px 18px #35516d12}
+.g:nth-child(2){box-shadow:inset 0 5px 0 #8fdec4,0 8px 18px #35516d12}
+.g:nth-child(3){box-shadow:inset 0 5px 0 #ffd86b,0 8px 18px #35516d12}
+.g:nth-child(4){box-shadow:inset 0 5px 0 #ffb89c,0 8px 18px #35516d12}
+.g:nth-child(5){box-shadow:inset 0 5px 0 #c8baf7,0 8px 18px #35516d12}
+.g:nth-child(6){box-shadow:inset 0 5px 0 #f2abc0,0 8px 18px #35516d12}
+.g.active{transform:translateY(-3px) scale(1.02);border-color:var(--brand);box-shadow:0 14px 26px rgba(93,124,246,.22)}
+.intro{position:relative;padding-left:55px!important}
+.intro:before{content:"📓";position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:2rem}
+.topbar{margin-bottom:4px}
+.progress{height:10px;margin:14px 0 8px}
+.word{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#eef7ff,#fff 48%,#fffaf0);
+  border:1px solid var(--line2);border-radius:26px;padding:20px 14px;margin-top:12px
+}
+.word:before,.word:after{content:"";position:absolute;border-radius:50%;opacity:.5}
+.word:before{width:95px;height:95px;background:#dff3ff;left:-38px;top:-35px}
+.word:after{width:80px;height:80px;background:#fff0b9;right:-25px;bottom:-30px}
+.word .icon{font-size:2.7rem;position:relative}
+.word h2{font-size:clamp(2.2rem,11vw,4.4rem);letter-spacing:-.05em;position:relative}
+.syl span{background:#fff;border:2px solid #dce8f3;box-shadow:0 5px 12px rgba(40,60,90,.06)}
+.steps{gap:16px}
+.step{
+  position:relative;overflow:hidden;border-radius:25px;padding:18px 18px 18px 20px;
+  box-shadow:0 10px 24px rgba(38,60,90,.07)
+}
+.step:before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:7px;background:var(--brand)
+}
+.rule:before{background:#76b9ff}.example:before{background:#58c89d}.mission:before{background:#f3bd42}.cameraCard:before{background:#a98ceb}
+.st{
+  display:inline-flex;align-items:center;background:#ffffffc9;border:1px solid #e1e9f2;
+  border-radius:999px;padding:6px 9px;margin-bottom:10px;font-size:.73rem;letter-spacing:.08em
+}
+.txt{font-size:clamp(1rem,3.6vw,1.12rem);line-height:1.62}
+.txt b{font-weight:1000}
+.exampleTextVisual{
+  margin-top:10px;background:#fff;border:2px solid #cfeadf;border-radius:20px;
+  padding:16px 17px;font-size:clamp(1.18rem,4.3vw,1.48rem);line-height:1.5;
+  font-weight:850;box-shadow:0 8px 18px rgba(44,167,126,.08)
+}
+.exampleTextVisual:before{content:"“";font-size:2rem;color:#54b993;vertical-align:-.2em;margin-right:3px}
+.exampleTextVisual:after{content:"”";font-size:2rem;color:#54b993;vertical-align:-.2em;margin-left:3px}
+.exampleWord{
+  display:inline-block;padding:1px 7px;border-radius:8px;background:#dcf6ea;color:#186f54;
+  font-weight:1000
+}
+.practiceBanner{
+  display:flex;align-items:flex-start;gap:11px;margin-top:11px;padding:13px 14px;
+  background:#fff;border:2px dashed #efd77c;border-radius:18px
+}
+.practiceBanner .emoji{font-size:1.8rem;line-height:1}
+.practiceBanner strong{font-size:1.05rem}
+.cameraZone{padding:18px;border-radius:20px;background:linear-gradient(180deg,#fff,#fbfcff)}
+.cameraZone b{font-size:1.05rem}
+#preview{border:4px solid #fff;box-shadow:0 12px 26px rgba(0,0,0,.15)}
+.feedback{border-radius:20px;padding:16px}
+.aiNote{font-size:.8rem;line-height:1.45}
+.actions button{font-size:.98rem}
+.finish{background:linear-gradient(180deg,#fff,#fbfdff)}
+.stat{border-radius:18px;padding:14px;background:linear-gradient(180deg,#f8fbff,#fff)}
+@media(max-width:700px){
+  .app{padding:9px}.card{padding:14px;border-radius:23px}.hero{padding-top:10px}
+  .grades{grid-template-columns:repeat(3,1fr)}.g{min-height:80px}
+  .word{padding:16px 10px}.step{padding:15px 14px 15px 18px}
+  .exampleTextVisual{padding:14px;font-size:1.12rem}.intro{padding-left:50px!important}
+}
+@media(max-width:390px){.grades{grid-template-columns:repeat(2,1fr)}}
+</style>
+
+
+<style>
+.guideBox{
+  margin-top:13px;padding:15px;border-radius:20px;
+  background:linear-gradient(135deg,#fff,#fffaf0);
+  border:2px solid #f0d77d;box-shadow:0 8px 18px rgba(118,89,15,.07)
+}
+.guideLabel{font-size:.73rem;letter-spacing:.08em;text-transform:uppercase;font-weight:1000;color:#876f2d;margin-bottom:7px}
+.guideQuestion{font-size:clamp(1.12rem,4.4vw,1.38rem);font-weight:950;line-height:1.45}
+.wordChips{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+.wordChip{display:inline-flex;align-items:center;padding:8px 11px;border-radius:999px;background:#fff;border:2px solid #e7dcae;font-weight:1000}
+.sentenceFrame{margin-top:10px;padding:11px 12px;border-radius:14px;background:#f5f8fc;border:1px solid #dfe8f1;font-size:.94rem;line-height:1.5}
+.sentenceFrame b{color:#3f62c0}
+.levelTip{display:flex;gap:9px;align-items:flex-start;margin-top:10px;color:#596b80;font-size:.88rem;font-weight:760}
+.levelTip .ico{font-size:1.25rem}
+</style>
+
+</head>
+<body>
+<main class="app">
+<section class="hero">
+ <div class="badge">📚 PRIMARIA • ESCRIBE • FOTOGRAFÍA • CORRIGE</div>
+ <h1>Escribe, Fotografía y Aprende 🦉</h1>
+ <p>Aprende la regla, crea tu propia oración en la libreta, toma una foto y recibe una revisión antes de continuar.</p>
+</section>
+
+<section id="startCard" class="card">
+ <h2 style="text-align:center;margin-top:0">🎒 Antes de comenzar</h2>
+ <div class="field"><label>✍️ Nombre</label><input id="name" placeholder="Escribe tu nombre"></div>
+ <div class="field"><label>📘 Grado</label><select id="grade">
+  <option value="">Selecciona tu grado</option><option value="1">1.º de primaria</option><option value="2">2.º de primaria</option>
+  <option value="3">3.º de primaria</option><option value="4">4.º de primaria</option><option value="5">5.º de primaria</option><option value="6">6.º de primaria</option>
+ </select></div>
+ <div class="grades">
+  <button class="g" data-g="1"><b>🌱 1.º</b><small>comienzo</small></button>
+  <button class="g" data-g="2"><b>🐣 2.º</b><small>avanzo</small></button>
+  <button class="g" data-g="3"><b>🧩 3.º</b><small>descubro</small></button>
+  <button class="g" data-g="4"><b>🚀 4.º</b><small>practico</small></button>
+  <button class="g" data-g="5"><b>🔎 5.º</b><small>analizo</small></button>
+  <button class="g" data-g="6"><b>🏆 6.º</b><small>desafío</small></button>
+ </div>
+ <div class="card intro" style="box-shadow:none">
+  📓 <b>Todo se escribe en tu libreta.</b> Después de crear cada oración, toma una foto clara. La plataforma preparará la imagen para revisión y te dirá si debes corregir algo antes de seguir.
+ </div>
+ <button id="startBtn" style="width:100%" disabled>🚀 Comenzar</button>
+</section>
+
+<section id="lesson" class="hidden">
+ <div class="card">
+  <div class="topbar">
+   <span id="student" class="pill">👤 Alumno</span><span id="gp" class="pill">📘 Grado</span><span id="cp" class="pill">🎯 1/20</span>
+  </div>
+  <div class="progress"><div id="bar"></div></div>
+  <div class="word">
+   <div class="icon">🔤</div><h2 id="focus">—</h2>
+   <div id="syllables" class="syl"></div>
+   <button id="listen" class="white" style="margin-top:11px">🔊 Escuchar palabra</button>
+  </div>
+ </div>
+
+ <div class="steps">
+  <section class="step rule"><div class="st">🔎 Paso 1 • Aprende la regla</div><div id="ruleText" class="txt"></div></section>
+  <section class="step example">
+      <div class="st">💡 Paso 2 • Mira una oración real</div>
+      <div class="txt"><b>Observa cómo se usa la palabra dentro de una oración completa:</b></div>
+      <div id="exampleText" class="exampleTextVisual"></div>
+    </section>
+  <section class="step mission">
+      <div class="st">✍️ Paso 3 • Te ayudo a construirla</div>
+      <div id="missionText" class="txt"></div>
+      <div class="guideBox">
+        <div class="guideLabel">💬 Responde con una oración completa</div>
+        <div id="guideQuestion" class="guideQuestion"></div>
+        <div id="wordChips" class="wordChips"></div>
+        <div id="sentenceFrame" class="sentenceFrame"></div>
+        <div class="levelTip"><div class="ico">🧠</div><div id="levelTip"></div></div>
+      </div>
+      <div class="practiceBanner"><div class="emoji">📓</div><div><strong>Escríbela en tu libreta.</strong><br><span>No respondas con una sola palabra. La respuesta debe ser una oración completa que tenga sentido.</span></div></div>
+    </section>
+
+  <section class="step cameraCard">
+   <div class="st">📷 Paso 4 • Fotografía tu oración</div>
+   <div class="txt">Asegúrate de que se vea <b>solo la oración que acabas de escribir</b>, con buena luz y letra legible.</div>
+   <div class="cameraZone">
+    <b>📸 Toma o selecciona una foto</b>
+    <input id="photo" type="file" accept="image/*" capture="environment">
+    <img id="preview" alt="Vista previa">
+   </div>
+   <div class="actions">
+    <button id="verify" class="green" disabled>✨ Verificar mi oración</button>
+    <button id="retake" class="white" disabled>🔁 Cambiar foto</button>
+   </div>
+   <div id="status" class="status"></div>
+   <div id="feedback" class="feedback"></div>
+   <div class="aiNote"><b>Importante:</b> este HTML está listo para conectarse a un servicio de IA con visión. En GitHub Pages no debes guardar una clave de API dentro del archivo. Si no hay backend conectado, la página entra en modo demostración y te muestra el flujo, pero no puede leer de forma fiable la escritura manuscrita.</div>
+  </section>
+ </div>
+
+ <div class="actions">
+  <button id="listenAgain" class="white">🔊 Escuchar otra vez</button>
+  <button id="next" disabled>➡️ Siguiente reto</button>
+ </div>
+</section>
+
+<section id="finish" class="card finish hidden">
+ <div style="font-size:4rem">🏆</div><h2>¡Terminaste!</h2><p id="doneMsg"></p>
+ <div class="stats">
+  <div class="stat">⏱️ Tiempo<br><span id="time">00:00</span></div>
+  <div class="stat">🎯 Retos<br><span id="doneCount">0</span></div>
+  <div class="stat">✅ Correctas al primer intento<br><span id="firstTry">0</span></div>
+  <div class="stat">✏️ Corregidas<br><span id="corrected">0</span></div>
+ </div>
+ <div id="report" class="report"></div>
+ <button id="restart" style="margin-top:12px">🔁 Practicar de nuevo</button>
+</section>
+</main>
+
+<script>
+const g1=[
+{t:"Palabra",x:"mesa",skill:"Correspondencia sonido-letra y sílabas simples",errors:["Omití una letra","Cambié una letra","Invertí letras"]},
+{t:"Palabra",x:"gato",skill:"Sílabas directas y sonido g",errors:["Omití una letra","Cambié g por otra letra","Invertí letras"]},
+{t:"Palabra",x:"luna",skill:"Sílabas simples",errors:["Omití una letra","Cambié una vocal","Invertí letras"]},
+{t:"Palabra",x:"pato",skill:"Correspondencia sonido-letra",errors:["Omití una letra","Cambié una consonante","Invertí letras"]},
+{t:"Palabra",x:"mano",skill:"Segmentación silábica",errors:["Omití una letra","Cambié una vocal","Invertí letras"]},
+{t:"Palabra",x:"sopa",skill:"Sílabas simples",errors:["Omití una letra","Cambié s por otra letra","Invertí letras"]},
+{t:"Palabra",x:"dedo",skill:"Repetición de sílabas y correspondencia fonema-grafema",errors:["Omití una letra","Cambié una letra","Invertí letras"]},
+{t:"Palabra",x:"pelota",skill:"Palabra trisílaba",errors:["Omití una sílaba","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"niña",skill:"Uso de ñ",errors:["Escribí n en lugar de ñ","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"leche",skill:"Dígrafo ch",errors:["Tuve dificultad con ch","Omití una letra","Cambié una vocal"]},
+{t:"Oración",x:"Mi gato corre.",skill:"Mayúscula inicial + punto final + separación de palabras",errors:["Olvidé la mayúscula","Olvidé el punto","Junté palabras","Omití una palabra"]},
+{t:"Oración",x:"Ana toma agua.",skill:"Nombre propio + mayúscula + punto",errors:["Ana sin mayúscula","Olvidé el punto","Junté palabras","Omití una palabra"]},
+{t:"Oración",x:"El sol brilla.",skill:"Separación entre palabras + punto final",errors:["Junté palabras","Olvidé el punto","Omití una palabra","Cambié una letra"]},
+{t:"Oración",x:"La rana salta.",skill:"Artículo + sustantivo + verbo",errors:["Junté palabras","Olvidé el punto","Omití una palabra","Cambié una letra"]},
+{t:"Oración",x:"Mi mamá cocina.",skill:"Acento en mamá + punto final",errors:["Olvidé el acento","Olvidé el punto","Junté palabras","Omití una palabra"]},
+{t:"Oración",x:"El perro corre.",skill:"Uso de rr + punto final",errors:["Escribí una sola r","Olvidé el punto","Junté palabras","Omití una palabra"]},
+{t:"Oración",x:"La niña lee.",skill:"Uso de ñ + separación de palabras",errors:["Escribí n en lugar de ñ","Junté palabras","Olvidé el punto","Omití una palabra"]},
+{t:"Oración",x:"Paco come sopa.",skill:"Nombre propio + estructura simple",errors:["Paco sin mayúscula","Olvidé el punto","Junté palabras","Omití una palabra"]},
+{t:"Oración",x:"Mi casa es roja.",skill:"Oración de cuatro palabras y separación",errors:["Junté palabras","Omití una palabra","Olvidé el punto","Cambié una letra"]},
+{t:"Oración",x:"Lola tiene pan.",skill:"Nombre propio + oración breve",errors:["Lola sin mayúscula","Junté palabras","Olvidé el punto","Omití una palabra"]}
+];
+
+const g2=[
+{t:"Palabra",x:"ventana",skill:"Contraste b/v en vocabulario frecuente",errors:["Escribí b en lugar de v","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"zapato",skill:"Uso de z",errors:["Escribí s en lugar de z","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"jirafa",skill:"Uso de j",errors:["Escribí g en lugar de j","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"queso",skill:"Uso de qu",errors:["Tuve dificultad con qu","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"huevo",skill:"Uso de h inicial",errors:["Olvidé la h","Escribí b/v diferente","Omití una letra"]},
+{t:"Palabra",x:"lluvia",skill:"Uso de ll",errors:["Escribí y en lugar de ll","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"perro",skill:"Uso de rr",errors:["Escribí una sola r","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"corazón",skill:"Acentuación básica",errors:["Olvidé el acento","Escribí s por z","Omití una letra"]},
+{t:"Palabra",x:"guitarra",skill:"gui + rr",errors:["Tuve dificultad con gui","Escribí una sola r","Omití una letra"]},
+{t:"Palabra",x:"hormiga",skill:"h inicial",errors:["Olvidé la h","Omití una letra","Cambié una vocal"]},
+
+{t:"Oración",x:"Mi perro corre.",skill:"rr + mayúscula + punto",errors:["Escribí una sola r","Olvidé la mayúscula","Olvidé el punto","Junté palabras"]},
+{t:"Oración",x:"La lluvia cayó.",skill:"ll + acento + punto",errors:["Escribí y por ll","Olvidé el acento","Olvidé el punto","Omití una palabra"]},
+{t:"Oración",x:"Hoy comí arroz.",skill:"h inicial + acento + rr",errors:["Olvidé la h","Olvidé el acento","Escribí una sola r","Olvidé el punto"]},
+{t:"Oración",x:"Ana llevó queso.",skill:"Nombre propio + acento + qu",errors:["Ana sin mayúscula","Olvidé el acento","Tuve dificultad con qu","Olvidé el punto"]},
+{t:"Oración",x:"El gato duerme.",skill:"Separación de palabras + punto",errors:["Junté palabras","Omití una palabra","Olvidé el punto","Cambié una letra"]},
+{t:"Oración",x:"Mi hermano juega.",skill:"h inicial + estructura simple",errors:["Olvidé la h","Junté palabras","Olvidé el punto","Omití una palabra"]},
+{t:"Oración",x:"La jirafa camina.",skill:"j + estructura simple",errors:["Escribí g por j","Junté palabras","Olvidé el punto","Omití una palabra"]},
+{t:"Oración",x:"Pedro abrió la caja.",skill:"Nombre propio + acento + segmentación",errors:["Pedro sin mayúscula","Olvidé el acento","Junté palabras","Omití una palabra"]},
+{t:"Oración",x:"La vaca bebe agua.",skill:"b/v + oración de cuatro palabras",errors:["Confundí b y v","Junté palabras","Olvidé el punto","Omití una palabra"]},
+{t:"Oración",x:"Mi mamá hizo sopa.",skill:"Acento + h inicial",errors:["Olvidé el acento","Olvidé la h","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"El cielo está azul.",skill:"c + acento + oración breve",errors:["Cambié c por s","Olvidé el acento","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"La niña llevó pan.",skill:"ñ + acento",errors:["Escribí n por ñ","Olvidé el acento","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"Mi abuelo lee cuentos.",skill:"Estructura de cuatro palabras",errors:["Junté palabras","Omití una palabra","Olvidé el punto","Cambié una letra"]},
+{t:"Oración",x:"El viento mueve hojas.",skill:"v + h inicial",errors:["Escribí b por v","Olvidé la h","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"Sara juega con Lola.",skill:"Nombres propios + segmentación",errors:["Sara sin mayúscula","Lola sin mayúscula","Junté palabras","Olvidé el punto"]}
+];
+
+const g3=[
+{t:"Palabra",x:"ventana",skill:"Uso de v",errors:["Escribí b en lugar de v","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"zapato",skill:"Uso de z",errors:["Escribí s en lugar de z","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"jirafa",skill:"Uso de j",errors:["Escribí g en lugar de j","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"hormiga",skill:"Uso de h inicial",errors:["Olvidé la h","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"lluvia",skill:"Uso de ll",errors:["Escribí y en lugar de ll","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"guitarra",skill:"Uso de gui + rr",errors:["Tuve dificultad con gui","Escribí una sola r","Omití una letra"]},
+{t:"Palabra",x:"corazón",skill:"Acentuación de palabra aguda",errors:["Olvidé el acento","Escribí s por z","Omití una letra"]},
+{t:"Palabra",x:"árbol",skill:"Acentuación de palabra grave",errors:["Olvidé el acento","Omití una letra","Cambié una consonante"]},
+{t:"Palabra",x:"queso",skill:"Uso de qu",errors:["Tuve dificultad con qu","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"guerra",skill:"Uso de gue + rr",errors:["Tuve dificultad con gue","Escribí una sola r","Omití una letra"]},
+{t:"Palabra",x:"cielo",skill:"Uso de c antes de e/i",errors:["Escribí s en lugar de c","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"viaje",skill:"Contraste v + j",errors:["Escribí b en lugar de v","Escribí g en lugar de j","Omití una letra"]},
+
+{t:"Oración",x:"Mi perro corre rápido.",skill:"rr + acento + mayúscula + punto",errors:["Escribí una sola r","Olvidé el acento","Olvidé la mayúscula","Olvidé el punto"]},
+{t:"Oración",x:"La lluvia cayó ayer.",skill:"ll + acento + orden de la oración",errors:["Escribí y por ll","Olvidé el acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Hoy comí arroz.",skill:"h inicial + acento + rr",errors:["Olvidé la h","Olvidé el acento","Escribí una sola r","Olvidé el punto"]},
+{t:"Oración",x:"Ana llevó queso.",skill:"Nombre propio + acento + qu",errors:["Ana sin mayúscula","Olvidé el acento","Tuve dificultad con qu","Olvidé el punto"]},
+{t:"Oración",x:"Mi hermano juega afuera.",skill:"h inicial + estructura simple",errors:["Olvidé la h","Junté palabras","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"La jirafa camina despacio.",skill:"j + adverbio sencillo",errors:["Escribí g por j","Omití una palabra","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"Pedro abrió la caja.",skill:"Nombre propio + acento + segmentación",errors:["Pedro sin mayúscula","Olvidé el acento","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"El viento mueve hojas.",skill:"v + h inicial",errors:["Escribí b por v","Olvidé la h","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Sara juega con Lola.",skill:"Nombres propios + mayúsculas",errors:["Sara sin mayúscula","Lola sin mayúscula","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"Mi mamá compró pan.",skill:"Acentos + estructura de cuatro palabras",errors:["Olvidé un acento","Junté palabras","Omití una palabra","Olvidé el punto"]},
+
+{t:"Oración",x:"El gato duerme en la silla.",skill:"Oración de seis palabras + segmentación",errors:["Junté palabras","Omití una palabra","Olvidé el punto","Cambié una letra"]},
+{t:"Oración",x:"Ayer visitamos el mercado.",skill:"Uso de mayúscula inicial + verbo en pasado",errors:["Olvidé la mayúscula","Omití una palabra","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"La niña llevó su mochila.",skill:"ñ + acento + posesivo",errors:["Escribí n por ñ","Olvidé el acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"El árbol tiene hojas verdes.",skill:"Acento + concordancia sustantivo-adjetivo",errors:["Olvidé el acento","Omití una palabra","Cambió la concordancia","Olvidé el punto"]},
+{t:"Oración",x:"Mi abuelo riega el jardín.",skill:"Acento en palabra aguda + estructura simple",errors:["Olvidé el acento","Omití una palabra","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"En casa leemos cuentos juntos.",skill:"Orden lógico + oración de cinco palabras",errors:["Omití una palabra","Junté palabras","Cambié el orden","Olvidé el punto"]},
+{t:"Oración",x:"Mañana iremos a la escuela.",skill:"ñ + expresión temporal + oración de cinco palabras",errors:["Escribí n por ñ","Omití una palabra","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"Traje lápiz, goma y colores.",skill:"Uso de coma en enumeración + acento",errors:["Olvidé la coma","Olvidé el acento","Omití una palabra","Olvidé el punto"]}
+];
+
+const g4=[
+{t:"Palabra",x:"biblioteca",skill:"Uso de b en palabra frecuente",errors:["Escribí v en lugar de b","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"vegetación",skill:"Uso de v + acento",errors:["Escribí b por v","Olvidé el acento","Omití una letra"]},
+{t:"Palabra",x:"jirafa",skill:"Uso de j",errors:["Escribí g por j","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"geografía",skill:"Uso de g + acento",errors:["Escribí j por g","Olvidé el acento","Omití una letra"]},
+{t:"Palabra",x:"héroe",skill:"h inicial + acento",errors:["Olvidé la h","Olvidé el acento","Omití una letra"]},
+{t:"Palabra",x:"lluvioso",skill:"Uso de ll",errors:["Escribí y por ll","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"carretera",skill:"Uso de rr",errors:["Escribí una sola r","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"rápido",skill:"Acentuación esdrújula",errors:["Olvidé el acento","Omití una letra","Cambié una consonante"]},
+{t:"Palabra",x:"química",skill:"Uso de qu + acento",errors:["Tuve dificultad con qu","Olvidé el acento","Omití una letra"]},
+{t:"Palabra",x:"guitarra",skill:"Uso de gui + rr",errors:["Tuve dificultad con gui","Escribí una sola r","Omití una letra"]},
+{t:"Palabra",x:"excursión",skill:"x + acento",errors:["Omití la x","Olvidé el acento","Cambié una letra"]},
+{t:"Palabra",x:"ambiente",skill:"Uso de m antes de b",errors:["Escribí n antes de b","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"invierno",skill:"Uso de n antes de v",errors:["Escribí m antes de v","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"también",skill:"m antes de b + acento",errors:["Escribí n antes de b","Olvidé el acento","Omití una letra"]},
+
+{t:"Oración",x:"El perro corrió por el patio.",skill:"rr + verbo en pasado + punto final",errors:["Escribí una sola r","Olvidé el acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Ayer visitamos una biblioteca.",skill:"Mayúscula inicial + b + oración completa",errors:["Olvidé la mayúscula","Escribí v por b","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"La lluvia cayó durante la tarde.",skill:"ll + acento + complemento temporal",errors:["Escribí y por ll","Olvidé el acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Mi hermana preparó una ensalada.",skill:"h + acento + estructura verbal",errors:["Olvidé la h","Olvidé el acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Pedro llevó libros y colores.",skill:"Nombre propio + acento + conjunción",errors:["Pedro sin mayúscula","Olvidé el acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"El árbol tiene hojas verdes.",skill:"Acento + concordancia",errors:["Olvidé el acento","Cambió la concordancia","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Mañana iremos al museo.",skill:"ñ + expresión temporal",errors:["Escribí n por ñ","Omití una palabra","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"Mi abuelo cultiva varias verduras.",skill:"b/v + concordancia",errors:["Confundí b y v","Cambió la concordancia","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Traje lápiz, goma y regla.",skill:"Coma en enumeración + acento",errors:["Olvidé la coma","Olvidé el acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"El cielo estaba completamente gris.",skill:"Adverbio + concordancia",errors:["Omití una palabra","Cambió la concordancia","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"La maestra explicó el ejercicio.",skill:"Acento en verbo pasado",errors:["Olvidé el acento","Omití una palabra","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"¿Dónde guardaste mi cuaderno?",skill:"Signos de interrogación + acento",errors:["Olvidé signos de interrogación","Olvidé el acento","Omití una palabra","Junté palabras"]},
+{t:"Oración",x:"¡Qué bonito está el jardín!",skill:"Signos de exclamación + acentos",errors:["Olvidé signos de exclamación","Olvidé un acento","Omití una palabra","Junté palabras"]},
+{t:"Oración",x:"Cuando terminó la lluvia, salimos.",skill:"Coma tras oración inicial + acento",errors:["Olvidé la coma","Olvidé el acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Aunque estaba cansado, terminó su tarea.",skill:"Conector + coma + acento",errors:["Olvidé la coma","Olvidé el acento","Omití una palabra","Junté palabras"]},
+{t:"Oración",x:"El equipo resolvió el problema.",skill:"Acento + concordancia sujeto-verbo",errors:["Olvidé el acento","Cambió la concordancia","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Mis amigos visitaron el zoológico.",skill:"Concordancia plural + acento",errors:["Cambió la concordancia","Olvidé el acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"La bicicleta quedó junto al árbol.",skill:"b/v + acento + ubicación",errors:["Confundí b y v","Olvidé el acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Hoy escribimos una historia breve.",skill:"h inicial + b/v + redacción breve",errors:["Olvidé la h","Confundí b y v","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Primero leímos; después, comentamos el texto.",skill:"Punto y coma + coma + acento",errors:["Olvidé el punto y coma","Olvidé la coma","Olvidé el acento","Omití una palabra"]},
+{t:"Oración",x:"La excursión fue divertida y educativa.",skill:"x + acento + adjetivos coordinados",errors:["Omití la x","Olvidé el acento","Cambió la concordancia","Olvidé el punto"]}
+];
+
+const g5=[
+{t:"Palabra",x:"investigación",skill:"Acentuación aguda + uso de v",errors:["Olvidé el acento","Escribí b por v","Omití una letra"]},
+{t:"Palabra",x:"responsabilidad",skill:"b/v y terminación -dad",errors:["Confundí b y v","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"geografía",skill:"g + acento",errors:["Escribí j por g","Olvidé el acento","Omití una letra"]},
+{t:"Palabra",x:"científico",skill:"c + acentuación esdrújula",errors:["Escribí s por c","Olvidé el acento","Omití una letra"]},
+{t:"Palabra",x:"hábito",skill:"h inicial + esdrújula",errors:["Olvidé la h","Olvidé el acento","Omití una letra"]},
+{t:"Palabra",x:"convivencia",skill:"b/v y terminación -encia",errors:["Confundí b y v","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"exposición",skill:"x + acento",errors:["Omití la x","Olvidé el acento","Cambié una letra"]},
+{t:"Palabra",x:"ambiente",skill:"m antes de b",errors:["Escribí n antes de b","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"subrayar",skill:"b + y",errors:["Omití la b","Escribí ll por y","Omití una letra"]},
+{t:"Palabra",x:"conclusión",skill:"s + acento",errors:["Escribí c por s","Olvidé el acento","Omití una letra"]},
+{t:"Palabra",x:"democracia",skill:"c + terminación -cia",errors:["Escribí s por c","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"extraordinario",skill:"x + secuencia vocálica",errors:["Omití la x","Omití una letra","Cambié una vocal"]},
+
+{t:"Oración",x:"El científico registró todos los resultados.",skill:"Acento + concordancia + punto",errors:["Olvidé el acento","Cambió la concordancia","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Durante la investigación, consultamos varios libros.",skill:"Coma tras complemento inicial",errors:["Olvidé la coma","Olvidé el acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"La tecnología facilita algunas tareas escolares.",skill:"g + concordancia",errors:["Escribí j por g","Cambió la concordancia","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Mi equipo presentó una exposición interesante.",skill:"Acentos + concordancia",errors:["Olvidé un acento","Cambió la concordancia","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Aunque llovía, continuamos con la actividad.",skill:"Conector + coma + acento",errors:["Olvidé la coma","Olvidé el acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Antes de responder, revisa toda la pregunta.",skill:"Coma + imperativo + coherencia",errors:["Olvidé la coma","Omití una palabra","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"El agua es indispensable para la vida.",skill:"b/v + estructura explicativa",errors:["Confundí b y v","Omití una palabra","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"Los estudiantes organizaron cuidadosamente sus materiales.",skill:"Adverbio + concordancia plural",errors:["Cambió la concordancia","Omití una palabra","Escribí mal el adverbio","Olvidé el punto"]},
+{t:"Oración",x:"¿Por qué debemos cuidar nuestros recursos?",skill:"Interrogación + por qué",errors:["Olvidé signos de interrogación","Escribí porque junto","Olvidé el acento","Omití una palabra"]},
+{t:"Oración",x:"¡Qué interesante resultó el experimento!",skill:"Exclamación + qué + acento verbal",errors:["Olvidé signos de exclamación","Olvidé un acento","Omití una palabra","Junté palabras"]},
+{t:"Oración",x:"Pedro dijo: «Mañana terminaré el proyecto».",skill:"Dos puntos + cita + acentos",errors:["Olvidé los dos puntos","Olvidé signos de cita","Olvidé un acento","Omití una palabra"]},
+{t:"Oración",x:"Primero observamos; después, escribimos la conclusión.",skill:"Punto y coma + coma + acentos",errors:["Olvidé el punto y coma","Olvidé la coma","Olvidé un acento","Omití una palabra"]},
+{t:"Oración",x:"El reciclaje reduce residuos y protege el ambiente.",skill:"j + cohesión con y",errors:["Escribí g por j","Omití una palabra","Cambió la concordancia","Olvidé el punto"]},
+{t:"Oración",x:"Si organizamos el tiempo, trabajaremos con calma.",skill:"Condicional + coma",errors:["Olvidé la coma","Omití una palabra","Cambió el tiempo verbal","Olvidé el punto"]},
+{t:"Oración",x:"La lectura fortalece la imaginación y el vocabulario.",skill:"c/z + coordinación",errors:["Confundí c/s/z","Omití una palabra","Cambió la concordancia","Olvidé el punto"]},
+{t:"Oración",x:"Después de analizar los datos, escribimos una conclusión.",skill:"Coma + acentos + secuencia lógica",errors:["Olvidé la coma","Olvidé un acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"La naturaleza cambia cuando varían las estaciones.",skill:"Conector temporal + acento",errors:["Olvidé el acento","Omití una palabra","Cambió la concordancia","Olvidé el punto"]},
+{t:"Oración",x:"Mi hermana explicó claramente su opinión.",skill:"h + acento + adverbio",errors:["Olvidé la h","Olvidé el acento","Escribí mal el adverbio","Olvidé el punto"]},
+{t:"Oración",x:"Los árboles producen oxígeno y ofrecen sombra.",skill:"Acentos + concordancia plural",errors:["Olvidé un acento","Cambió la concordancia","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Debemos verificar la información antes de compartirla.",skill:"b/v + infinitivos + claridad",errors:["Confundí b y v","Omití una palabra","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"La noticia parecía verdadera, pero era falsa.",skill:"Coma antes de pero + b/v",errors:["Olvidé la coma","Confundí b y v","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Cada equipo eligió un representante para exponer.",skill:"g/j + acento + propósito",errors:["Confundí g y j","Olvidé el acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"El problema tenía varias soluciones posibles.",skill:"b/v + concordancia",errors:["Confundí b y v","Cambió la concordancia","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"A pesar del cansancio, terminamos la actividad.",skill:"Conector + coma + secuencia",errors:["Olvidé la coma","Omití una palabra","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"Nuestra comunidad organizó una campaña de limpieza.",skill:"Acento + redacción informativa",errors:["Olvidé el acento","Omití una palabra","Cambió la concordancia","Olvidé el punto"]},
+{t:"Oración",x:"Leímos, analizamos y comentamos el mismo texto.",skill:"Comas en serie verbal",errors:["Olvidé una coma","Omití una palabra","Cambió el orden","Olvidé el punto"]},
+{t:"Oración",x:"El planeta necesita acciones responsables y constantes.",skill:"b/v + concordancia adjetiva",errors:["Confundí b y v","Cambió la concordancia","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"La maestra preguntó si comprendimos la explicación.",skill:"Acentos + subordinación",errors:["Olvidé un acento","Omití una palabra","Junté palabras","Olvidé el punto"]}
+];
+
+const g6=[
+{t:"Palabra",x:"argumentación",skill:"Acentuación + terminación -ción",errors:["Olvidé el acento","Escribí s por c","Omití una letra"]},
+{t:"Palabra",x:"hipótesis",skill:"h inicial + acento",errors:["Olvidé la h","Olvidé el acento","Omití una letra"]},
+{t:"Palabra",x:"consecuencia",skill:"c/s + terminación -encia",errors:["Confundí c y s","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"biodiversidad",skill:"b/v + palabra compuesta",errors:["Confundí b y v","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"sostenibilidad",skill:"s + terminación -dad",errors:["Escribí c por s","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"tecnología",skill:"g + acento",errors:["Escribí j por g","Olvidé el acento","Omití una letra"]},
+{t:"Palabra",x:"geográfico",skill:"g + esdrújula",errors:["Escribí j por g","Olvidé el acento","Omití una letra"]},
+{t:"Palabra",x:"extraordinario",skill:"x + secuencia vocálica",errors:["Omití la x","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"responsabilidad",skill:"b/v + sufijo -dad",errors:["Confundí b y v","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"convivencia",skill:"b/v + terminación -encia",errors:["Confundí b y v","Omití una letra","Cambié una vocal"]},
+{t:"Palabra",x:"investigación",skill:"v + acento + -ción",errors:["Escribí b por v","Olvidé el acento","Omití una letra"]},
+{t:"Palabra",x:"conclusión",skill:"s + acento",errors:["Escribí c por s","Olvidé el acento","Omití una letra"]},
+
+{t:"Oración",x:"La investigación permitió comprobar nuestra hipótesis.",skill:"Acentos + h + concordancia",errors:["Olvidé un acento","Olvidé la h","Cambió la concordancia","Olvidé el punto"]},
+{t:"Oración",x:"Aunque la información parecía confiable, verificamos la fuente.",skill:"Conector + coma + b/v",errors:["Olvidé la coma","Confundí b y v","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"El cambio climático afecta diversos ecosistemas.",skill:"Acento + concordancia",errors:["Olvidé el acento","Cambió la concordancia","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Debemos analizar los datos antes de obtener conclusiones.",skill:"b/v + secuencia lógica",errors:["Confundí b y v","Omití una palabra","Cambió el orden","Olvidé el punto"]},
+{t:"Oración",x:"La tecnología puede facilitar el aprendizaje responsable.",skill:"g + b/v + concordancia",errors:["Confundí g y j","Confundí b y v","Cambió la concordancia","Olvidé el punto"]},
+{t:"Oración",x:"¿Por qué es importante comprobar una noticia?",skill:"Interrogación + por qué + b/v",errors:["Olvidé signos de interrogación","Escribí porque junto","Confundí b y v","Olvidé el acento"]},
+{t:"Oración",x:"¡Qué sorprendente fue observar aquel fenómeno!",skill:"Exclamación + qué + acentos",errors:["Olvidé signos de exclamación","Olvidé un acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"La maestra afirmó: «Revisen sus argumentos».",skill:"Dos puntos + cita + puntuación",errors:["Olvidé los dos puntos","Olvidé signos de cita","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Primero planteamos una hipótesis; después, reunimos evidencias.",skill:"Punto y coma + coma + acentos",errors:["Olvidé el punto y coma","Olvidé la coma","Olvidé un acento","Omití una palabra"]},
+{t:"Oración",x:"Si contrastamos varias fuentes, obtendremos una visión más completa.",skill:"Condicional + coma + acentos",errors:["Olvidé la coma","Olvidé un acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"El reciclaje reduce residuos, pero requiere participación constante.",skill:"Coma antes de pero + j",errors:["Olvidé la coma","Confundí g y j","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"La biodiversidad es esencial para mantener los ecosistemas.",skill:"b/v + claridad informativa",errors:["Confundí b y v","Omití una palabra","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"Después de revisar los resultados, redactamos una conclusión.",skill:"Coma + acentos + secuencia",errors:["Olvidé la coma","Olvidé un acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"La convivencia mejora cuando escuchamos opiniones diferentes.",skill:"b/v + subordinación",errors:["Confundí b y v","Omití una palabra","Cambió la concordancia","Olvidé el punto"]},
+{t:"Oración",x:"Los argumentos deben apoyarse en evidencias verificables.",skill:"b/v + concordancia plural",errors:["Confundí b y v","Cambió la concordancia","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"A pesar de las dificultades, el equipo terminó el proyecto.",skill:"Conector + coma + cohesión",errors:["Olvidé la coma","Omití una palabra","Cambió el orden","Olvidé el punto"]},
+{t:"Oración",x:"La energía renovable puede disminuir algunos efectos ambientales.",skill:"g/j + b/v + concordancia",errors:["Confundí g y j","Confundí b y v","Cambió la concordancia","Olvidé el punto"]},
+{t:"Oración",x:"Cada integrante explicó claramente su punto de vista.",skill:"Adverbio + expresión argumentativa",errors:["Escribí mal el adverbio","Omití una palabra","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"La información falsa puede difundirse rápidamente en internet.",skill:"Acento + adverbio + claridad",errors:["Olvidé el acento","Escribí mal el adverbio","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Debemos respetar las ideas ajenas, aunque no coincidamos.",skill:"Coma + conector concesivo",errors:["Olvidé la coma","Omití una palabra","Cambió el orden","Olvidé el punto"]},
+{t:"Oración",x:"Los resultados fueron distintos; sin embargo, ambos eran válidos.",skill:"Punto y coma + conector + acento",errors:["Olvidé el punto y coma","Olvidé la coma","Olvidé el acento","Omití una palabra"]},
+{t:"Oración",x:"La ciencia avanza mediante preguntas, pruebas y explicaciones.",skill:"Comas en enumeración + c/s",errors:["Olvidé una coma","Confundí c y s","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Antes de publicar, debemos revisar ortografía, fuentes y datos.",skill:"Coma inicial + enumeración + b/v",errors:["Olvidé una coma","Confundí b y v","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Una conclusión clara resume las ideas principales sin repetirlas.",skill:"Redacción de conclusión + concordancia",errors:["Omití una palabra","Cambió la concordancia","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"Nuestra comunidad propuso acciones para reducir la contaminación.",skill:"c/s + acento + propósito",errors:["Confundí c y s","Olvidé el acento","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"El debate fue respetuoso porque todos escucharon con atención.",skill:"porque causal + cohesión",errors:["Escribí por qué separado","Omití una palabra","Cambió la concordancia","Olvidé el punto"]},
+{t:"Oración",x:"No compartas información si desconoces su origen.",skill:"Imperativo negativo + subordinación",errors:["Omití una palabra","Cambió el tiempo verbal","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"La gráfica muestra una tendencia; debemos interpretarla con cuidado.",skill:"Punto y coma + acento + b/v",errors:["Olvidé el punto y coma","Olvidé el acento","Confundí b y v","Omití una palabra"]},
+{t:"Oración",x:"Cuando cambia una variable, también puede cambiar el resultado.",skill:"Coma + b/v + acento",errors:["Olvidé la coma","Confundí b y v","Olvidé el acento","Olvidé el punto"]},
+{t:"Oración",x:"El informe debe ser preciso, ordenado y comprensible.",skill:"Coma en enumeración adjetiva + b/v",errors:["Olvidé una coma","Confundí b y v","Cambió la concordancia","Olvidé el punto"]},
+{t:"Oración",x:"La evidencia apoya una afirmación cuando puede comprobarse.",skill:"b/v + subordinación causal",errors:["Confundí b y v","Omití una palabra","Junté palabras","Olvidé el punto"]},
+{t:"Oración",x:"El respeto favorece una convivencia democrática y saludable.",skill:"b/v + concordancia adjetiva",errors:["Confundí b y v","Cambió la concordancia","Omití una palabra","Olvidé el punto"]},
+{t:"Oración",x:"Revisamos el texto, corregimos errores y mejoramos la redacción.",skill:"Comas en serie verbal + acento",errors:["Olvidé una coma","Olvidé el acento","Omití una palabra","Olvidé el punto"]}
+];
+const DATA={1:g1,2:g2,3:g3,4:g4,5:g5,6:g6};
+const LIMIT={1:20,2:25,3:30,4:35,5:40,6:45};
+const API_ENDPOINT="/api/revisar-oracion"; // Conecta aquí tu backend seguro.
+const $=id=>document.getElementById(id);
+let grade=0, lessons=[], idx=0, startTime=0, file=null, extraListens=0;
+let attempts=0, firstTry=0, corrected=0, results=[], verified=false;
+
+const SPECIAL={
+ "biodiversidad":{
+  rule:"<b>Biodiversidad</b> se forma con <b>bio-</b> (“vida”) y <b>diversidad</b> (“variedad”). Puedes recordarla como <b>bio + diversidad</b>. Se escribe con <b>b</b> al inicio.",
+  ex:"México tiene una gran <b>biodiversidad</b>.", syl:["bio","di","ver","si","dad"]
+ },
+ "también":{
+  rule:"En <b>también</b>, antes de <b>b</b> escribimos <b>m</b>: tam-bién. También lleva tilde en la <b>é</b>.",
+  ex:"Mi hermana <b>también</b> disfruta leer.", syl:["tam","bién"]
+ },
+ "investigación":{
+  rule:"<b>Investigación</b> termina en <b>-ción</b> y lleva tilde en la <b>ó</b>. Es aguda terminada en <b>n</b>.",
+  ex:"La <b>investigación</b> explicó lo ocurrido.", syl:["in","ves","ti","ga","ción"]
+ },
+ "biodiversidad":{
+  rule:"<b>Biodiversidad</b> se forma con <b>bio-</b>, que significa vida, y <b>diversidad</b>, que significa variedad. Se escribe con <b>b</b> al inicio.",
+  ex:"La selva posee una enorme <b>biodiversidad</b>.", syl:["bio","di","ver","si","dad"]
+ }
+};
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function focusOf(x){
+ let s=x.trim().replace(/[¿?¡!.,;:«»"]/g,"");
+ let a=s.split(/\s+/); if(a.length===1)return s;
+ return [...a].sort((x,y)=>y.length-x.length)[0];
+}
+function syllables(w){
+ let f=w.toLowerCase();if(SPECIAL[f]?.syl)return SPECIAL[f].syl;
+ let m=f.match(/[^aeiouáéíóúü]*[aeiouáéíóúü]+(?:[nsrldx]|ch|ll|rr)?/gi);
+ return m&&m.join("").length>=f.length-1?m:[f];
+}
+function ruleFor(item,f){
+ let k=f.toLowerCase(),full=item.x.toLowerCase();if(SPECIAL[k])return SPECIAL[k].rule;
+ if(full.includes("¿"))return "Las preguntas llevan <b>¿</b> al inicio y <b>?</b> al final. La primera palabra comienza con mayúscula.";
+ if(full.includes("¡"))return "Las exclamaciones llevan <b>¡</b> al inicio y <b>!</b> al final.";
+ if(/[áéíóú]/i.test(k))return "Observa la <b>tilde</b> de <b>"+esc(f)+"</b>. La tilde indica la sílaba que recibe la mayor fuerza según las reglas de acentuación.";
+ if(/mb/i.test(k))return "Antes de la letra <b>b</b> normalmente escribimos <b>m</b>. Observa esa combinación dentro de <b>"+esc(f)+"</b>.";
+ if(/h/i.test(k))return "<b>"+esc(f)+"</b> contiene <b>h</b>. Como la h no tiene sonido propio, debemos recordar visualmente dónde se escribe.";
+ if(/rr/i.test(k))return "La combinación <b>rr</b> representa un sonido fuerte entre vocales. Fíjate en su posición dentro de <b>"+esc(f)+"</b>.";
+ if(/qu/i.test(k))return "La combinación <b>qu</b> representa el sonido /k/ antes de e o i. En estos casos la u normalmente no se pronuncia.";
+ if(/gue|gui/i.test(k))return "En <b>gue</b> y <b>gui</b>, la u ayuda a conservar el sonido fuerte de la g.";
+ if(/ción$/i.test(k))return "Las palabras terminadas en <b>-ción</b> se escriben con c y llevan tilde en la ó.";
+ return "Este reto trabaja <b>"+esc(item.skill||"escritura correcta")+"</b>. Observa la forma escrita de <b>"+esc(f)+"</b> y localiza la parte que podría confundirte.";
+}
+function exampleFor(item,f){
+ let k=f.toLowerCase();if(SPECIAL[k])return SPECIAL[k].ex;
+ if(item.t==="oración") return item.x;
+ const w="<span class='exampleWord'>"+esc(f)+"</span>";
+ const lower=f.toLowerCase();
+ const examples={
+  "mesa":"El libro está sobre la "+w+".",
+  "gato":"El "+w+" duerme junto a la ventana.",
+  "pelota":"La "+w+" roja cayó en el jardín.",
+  "mochila":"Guardé mis colores dentro de la "+w+".",
+  "queso":"Mi hermano preparó un sándwich con "+w+".",
+  "perro":"El "+w+" corre detrás de la pelota.",
+  "lluvia":"La "+w+" refrescó las plantas del patio.",
+  "familia":"Mi "+w+" se reúne los domingos.",
+  "escuela":"Cada mañana camino hacia la "+w+".",
+  "ventana":"Abrí la "+w+" para que entrara aire.",
+  "zapato":"Encontré mi "+w+" debajo de la cama.",
+  "jirafa":"La "+w+" alcanzó las hojas más altas.",
+  "hormiga":"Una "+w+" cargaba una pequeña hoja.",
+  "guitarra":"Mi prima toca la "+w+" en el festival.",
+  "corazón":"Mi "+w+" late más rápido cuando corro.",
+  "estrella":"Una "+w+" brillante apareció en el cielo.",
+  "biblioteca":"Busqué un libro de animales en la "+w+".",
+  "vegetación":"La "+w+" creció después de las lluvias.",
+  "geografía":"En "+w+" aprendimos a localizar los continentes.",
+  "excursión":"La "+w+" al museo fue muy interesante.",
+  "ambiente":"Debemos cuidar el "+w+" de nuestra comunidad.",
+  "investigación":"La "+w+" ayudó a resolver nuestra pregunta.",
+  "responsabilidad":"Cuidar mis materiales es mi "+w+".",
+  "científico":"El "+w+" observó cuidadosamente el experimento.",
+  "convivencia":"El respeto mejora la "+w+" en el salón.",
+  "exposición":"Nuestra "+w+" explicó cómo cuidar el agua.",
+  "democracia":"En una "+w+", las personas pueden participar en las decisiones.",
+  "argumentación":"Una buena "+w+" necesita razones y evidencias.",
+  "hipótesis":"Nuestra "+w+" decía que la planta crecería más con luz.",
+  "consecuencia":"Una "+w+" de tirar basura es contaminar el río.",
+  "biodiversidad":"México posee una enorme "+w+" de plantas y animales.",
+  "sostenibilidad":"La "+w+" busca usar los recursos sin agotarlos.",
+  "tecnología":"La "+w+" puede ayudarnos a investigar y aprender.",
+  "conclusión":"La "+w+" resume lo que descubrimos en el experimento."
+ };
+ if(examples[lower])return examples[lower];
+ if(grade<=2)return "El dibujo muestra la palabra "+w+" en una situación cotidiana.";
+ if(grade<=4)return "Durante la clase usamos "+w+" para explicar una idea.";
+ return "En nuestro proyecto empleamos "+w+" para comunicar una idea con precisión.";
+}
+
+function sentenceGuide(item,f){
+ const w=f.toLowerCase();
+ const banks={
+  1:[
+   ["¿Qué hace "+f+"? ",["hoy",f],"Empieza así: <b>“Hoy…”</b> y cuenta una idea completa."],
+   ["¿Dónde puedes ver "+f+"?",[f,"casa"],"Puedes comenzar: <b>“En mi…”</b>"],
+   ["¿Cómo es "+f+"?",[f,"es"],"Usa: <b>“"+f.charAt(0).toUpperCase()+f.slice(1)+" es…”</b>"]
+  ],
+  2:[
+   ["¿Qué sucede con "+f+"?",[f,"porque"],"Escribe quién o qué + qué sucede. Ejemplo de estructura: <b>“El/La ___ ___.”</b>"],
+   ["¿Dónde usarías o encontrarías "+f+"?",[f,"en"],"Tu oración debe decir <b>qué</b> y <b>dónde</b>."],
+   ["¿Qué puedes decir sobre "+f+"?",[f,"tiene"],"Agrega un detalle para que la idea quede completa."]
+  ],
+  3:[
+   ["¿Qué podrías contarle a alguien sobre "+f+"?",[f,"porque"],"Incluye una idea principal y un detalle."],
+   ["¿Cómo usarías "+f+" en una situación de la vida diaria?",[f,"cuando"],"Puedes unir dos ideas usando <b>cuando</b>."],
+   ["¿Por qué es importante "+f+"?",[f,"importante"],"Responde explicando una razón sencilla."]
+  ],
+  4:[
+   ["¿Qué relación tiene "+f+" con algo que has aprendido?",[f,"porque"],"Escribe una afirmación y después explica <b>por qué</b>."],
+   ["¿Qué pasaría si no existiera o no ocurriera "+f+"?",[f,"entonces"],"Relaciona una causa con una consecuencia."],
+   ["Explica "+f+" con una situación concreta.",[f,"por ejemplo"],"Construye una idea y agrega un ejemplo breve."]
+  ],
+  5:[
+   ["¿Por qué "+f+" puede ser importante en la vida diaria?",[f,"porque"],"Formula una idea completa y susténtala con una razón."],
+   ["¿Qué causa o consecuencia puedes relacionar con "+f+"?",[f,"por eso"],"Une dos ideas de manera lógica usando un conector."],
+   ["¿Cómo explicarías "+f+" a un compañero?",[f,"significa"],"Escribe una explicación clara con tus propias palabras."]
+  ],
+  6:[
+   ["¿Qué postura o explicación puedes formular sobre "+f+"?",[f,"porque"],"Escribe una afirmación y agrega una razón que la justifique."],
+   ["Relaciona "+f+" con un problema o situación real. ¿Qué puedes afirmar?",[f,"sin embargo"],"Construye una oración compleja con dos ideas relacionadas."],
+   ["¿Qué conclusión puedes expresar utilizando "+f+"?",[f,"por lo tanto"],"Usa un conector para mostrar la relación lógica entre tus ideas."]
+  ]
+ };
+ // Specific, natural prompts for common target words
+ const specific={
+  "biodiversidad":{
+   4:["¿Por qué debemos cuidar la biodiversidad?",["biodiversidad","porque"],"Responde: <b>qué debemos hacer + por qué</b>."],
+   5:["¿Por qué la biodiversidad es importante para un ecosistema?",["biodiversidad","porque"],"Expresa una idea y justifícala con una razón."],
+   6:["¿Qué consecuencia puede tener la pérdida de biodiversidad?",["biodiversidad","por lo tanto"],"Relaciona una causa con una consecuencia."]
+  },
+  "investigación":{
+   4:["¿Para qué sirve una investigación?",["investigación","sirve"],"Explica su utilidad con una idea completa."],
+   5:["¿Cómo puede una investigación ayudarnos a resolver una pregunta?",["investigación","porque"],"Incluye una explicación o razón."],
+   6:["¿Por qué una investigación necesita evidencias?",["investigación","evidencias"],"Formula una explicación precisa."]
+  },
+  "familia":{
+   1:["¿Qué haces con tu familia?",["familia","juega"],"Puedes empezar: <b>“Mi familia…”</b>"],
+   2:["¿Qué actividad disfrutas con tu familia?",["familia","juntos"],"Cuenta <b>quiénes + qué hacen</b>."]
+  },
+  "escuela":{
+   1:["¿Qué haces en la escuela?",["escuela","aprendo"],"Puedes empezar: <b>“En la escuela…”</b>"],
+   2:["¿Qué te gusta hacer en la escuela?",["escuela","porque"],"Responde con una idea completa."]
+  }
+ };
+ let choices=banks[grade]||banks[3];
+ let pick=choices[(idx)%choices.length];
+ if(specific[w]&&specific[w][grade])pick=specific[w][grade];
+ return {question:pick[0],words:pick[1],frame:pick[2]};
+}
+
+function speak(t){
+ speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang="es-MX";u.rate=grade<=2?.72:grade<=4?.78:.82;
+ let v=speechSynthesis.getVoices().find(x=>/es[-_]MX/i.test(x.lang))||speechSynthesis.getVoices().find(x=>/^es/i.test(x.lang));if(v)u.voice=v;speechSynthesis.speak(u)
+}
+function validateStart(){$("startBtn").disabled=!($("name").value.trim().length>=2&&$("grade").value)}
+$("name").oninput=validateStart;$("grade").onchange=()=>{grade=+$("grade").value;document.querySelectorAll(".g").forEach(b=>b.classList.toggle("active",+b.dataset.g===grade));validateStart()};
+document.querySelectorAll(".g").forEach(b=>b.onclick=()=>{$("grade").value=b.dataset.g;$("grade").dispatchEvent(new Event("change"))});
+$("startBtn").onclick=()=>{
+ grade=+$("grade").value;lessons=[...DATA[grade]].sort(()=>Math.random()-.5).slice(0,Math.min(LIMIT[grade],DATA[grade].length));
+ idx=0;startTime=Date.now();results=[];firstTry=corrected=extraListens=0;
+ $("startCard").classList.add("hidden");$("lesson").classList.remove("hidden");render()
+};
+function render(){
+ let it=lessons[idx],f=focusOf(it.x);verified=false;attempts=0;file=null;
+ $("student").textContent="👤 "+$("name").value.trim();$("gp").textContent="📘 "+grade+".º";$("cp").textContent="🎯 "+(idx+1)+"/"+lessons.length;
+ $("bar").style.width=((idx/lessons.length)*100)+"%";$("focus").textContent=f;
+ $("syllables").innerHTML=syllables(f).map(x=>"<span>"+esc(x)+"</span>").join("");
+ $("ruleText").innerHTML=ruleFor(it,f);$("exampleText").innerHTML=exampleFor(it,f);
+ $("missionText").innerHTML="Ahora vas a usar <span class='exampleWord'>"+esc(f)+"</span> en una oración adecuada para <b>"+grade+".º de primaria</b>.";
+ const guide=sentenceGuide(it,f);
+ $("guideQuestion").textContent=guide.question;
+ $("wordChips").innerHTML=guide.words.map(x=>"<span class='wordChip'>"+esc(x)+"</span>").join("");
+ $("sentenceFrame").innerHTML="<b>Pista para construirla:</b> "+guide.frame;
+ $("levelTip").innerHTML=grade<=2?"Escribe una idea corta: <b>quién o qué + qué hace o cómo es</b>.":grade<=4?"Agrega un detalle que explique <b>dónde, cuándo, cómo o por qué</b>.":"Haz que tus ideas estén relacionadas y usa conectores cuando sean necesarios.";
+ $("preview").style.display="none";$("preview").src="";$("photo").value="";$("verify").disabled=true;$("retake").disabled=true;$("next").disabled=true;
+ $("feedback").className="feedback";$("feedback").innerHTML="";$("status").textContent="";speak(f)
+}
+$("listen").onclick=()=>speak($("focus").textContent);
+$("listenAgain").onclick=()=>{extraListens++;speak($("focus").textContent)};
+$("photo").onchange=e=>{
+ file=e.target.files?.[0]||null;if(!file)return;
+ $("preview").src=URL.createObjectURL(file);$("preview").style.display="block";$("verify").disabled=false;$("retake").disabled=false;
+ $("status").textContent="Foto lista para revisión."
+};
+$("retake").onclick=()=>{$("photo").value="";file=null;$("preview").style.display="none";$("verify").disabled=true;$("status").textContent="Toma una nueva foto."};
+
+async function verifyWithAI(){
+ attempts++;
+ $("verify").disabled=true;$("status").textContent="✨ Revisando tu oración...";
+ const it=lessons[idx], target=focusOf(it.x);
+ try{
+   const fd=new FormData();
+   fd.append("image",file);
+   fd.append("grade",String(grade));
+   fd.append("target_word",target);
+   fd.append("rule",ruleFor(it,target).replace(/<[^>]+>/g,""));
+   const res=await fetch(API_ENDPOINT,{method:"POST",body:fd});
+   if(!res.ok)throw new Error("backend unavailable");
+   const data=await res.json();
+   showFeedback(data, target);
+ }catch(err){
+   demoFeedback(target);
+ }
+}
+$("verify").onclick=verifyWithAI;
+
+function showFeedback(d,target){
+ const ok=!!d.correct;
+ let issues=Array.isArray(d.issues)?d.issues:[];
+ let msg=d.message|| (ok?"Muy bien. Tu oración está correcta.":"Hay algo que puedes mejorar.");
+ $("feedback").className="feedback "+(ok?"good":"warn");
+ $("feedback").innerHTML="<h3>"+(ok?"🌟 ¡Muy bien!":"🔎 Revisa una vez más")+"</h3><div>"+esc(msg)+"</div>"+(issues.length?"<ul>"+issues.map(x=>"<li>"+esc(x)+"</li>").join("")+"</ul>":"");
+ if(ok){
+   if(attempts===1)firstTry++;else corrected++;
+   results.push({word:target,attempts,correct:true,issues});
+   verified=true;$("next").disabled=false;$("status").textContent="Puedes continuar al siguiente reto.";
+ }else{
+   $("verify").disabled=false;$("status").textContent="Corrige tu oración en la libreta y toma otra foto.";
+ }
+}
+function demoFeedback(target){
+ $("feedback").className="feedback warn";
+ $("feedback").innerHTML="<h3>🧪 Modo demostración</h3><div>La foto quedó preparada, pero este archivo todavía no tiene conectado el backend de visión que puede leer la escritura manuscrita. Cuando se conecte, revisará si usaste <b>"+esc(target)+"</b>, mayúscula, puntuación, ortografía, sentido y concordancia.</div>";
+ $("verify").disabled=false;$("next").disabled=false;
+ results.push({word:target,attempts,correct:null,issues:["Modo demostración: revisión visual no conectada"]});
+}
+$("next").onclick=()=>{idx++;if(idx>=lessons.length)finish();else render()};
+function finish(){
+ $("lesson").classList.add("hidden");$("finish").classList.remove("hidden");
+ const sec=Math.floor((Date.now()-startTime)/1000),m=Math.floor(sec/60),s=sec%60;
+ $("time").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+ $("doneCount").textContent=lessons.length;$("firstTry").textContent=firstTry;$("corrected").textContent=corrected;
+ $("doneMsg").textContent=$("name").value.trim()+", terminaste la práctica de "+grade+".º de primaria.";
+ $("report").innerHTML=results.slice(0,10).map(r=>"<div class='reportItem'><b>"+esc(r.word)+"</b> — "+(r.correct===true?(r.attempts===1?"Correcta al primer intento":"Corregida en "+r.attempts+" intentos"):"Revisión en modo demostración")+"</div>").join("");
+}
+$("restart").onclick=()=>location.reload();
+</script>
+</body>
+</html>
