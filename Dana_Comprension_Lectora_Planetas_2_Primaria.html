@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dana y el Viaje por los Planetas</title>
+  <style>
+    :root{
+      --rosa:#ff5fa2;
+      --rosa2:#ff8fbd;
+      --rosa-suave:#ffe4f0;
+      --lila:#caa8ff;
+      --lila2:#eee3ff;
+      --azul:#7ac7ff;
+      --azul-osc:#23395d;
+      --blanco:#fff;
+      --texto:#43243a;
+      --verde:#2fbf71;
+      --rojo:#e6536f;
+      --sombra:0 14px 36px rgba(74,43,79,.14);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 15% 12%, rgba(255,255,255,.8) 0 2px, transparent 3px),
+        radial-gradient(circle at 70% 18%, rgba(255,255,255,.7) 0 2px, transparent 3px),
+        radial-gradient(circle at 85% 62%, rgba(255,255,255,.7) 0 2px, transparent 3px),
+        linear-gradient(180deg,#fff2f8 0%, #f4eaff 50%, #e7f6ff 100%);
+      min-height:100vh;
+      color:var(--texto);
+      overflow-x:hidden;
+    }
+
+    .stars{
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.9) 1px, transparent 1.6px),
+        radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 1.6px);
+      background-size:70px 70px, 110px 110px;
+      background-position:10px 20px, 40px 10px;
+      opacity:.8;
+    }
+
+    .wrap{
+      width:min(920px,94%);
+      margin:auto;
+      padding:20px 0 60px;
+      position:relative;
+      z-index:1;
+    }
+
+    .hero{
+      background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(255,239,248,.92));
+      border:2px solid rgba(255,95,162,.2);
+      border-radius:28px;
+      padding:26px 20px;
+      box-shadow:var(--sombra);
+      text-align:center;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .hero .planet{
+      position:absolute;
+      width:78px;height:78px;border-radius:50%;
+      right:-16px; top:-18px;
+      background:linear-gradient(135deg,var(--rosa2),var(--lila));
+      box-shadow:inset -12px -12px 0 rgba(255,255,255,.2);
+      animation:float 4s ease-in-out infinite;
+    }
+    .hero .ring{
+      position:absolute;
+      width:116px;height:30px;
+      border:8px solid rgba(122,199,255,.75);
+      border-radius:50%;
+      right:-34px; top:12px;
+      transform:rotate(-15deg);
+    }
+    @keyframes float{50%{transform:translateY(8px)}}
+
+    h1{margin:0 0 8px;font-size:clamp(30px,6vw,52px);color:#ce3d7e}
+    .subtitle{font-size:18px;margin:0 auto 16px;max-width:680px;line-height:1.5}
+    .tag{
+      display:inline-block;
+      background:var(--rosa-suave);
+      color:#a12b61;
+      border-radius:999px;
+      padding:8px 14px;
+      font-weight:700;
+      font-size:14px;
+      margin:4px;
+    }
+
+    .card{
+      margin-top:18px;
+      background:rgba(255,255,255,.96);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:var(--sombra);
+      border:1px solid rgba(202,168,255,.28);
+    }
+
+    .intro-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:16px;
+    }
+
+    .instructions{
+      background:linear-gradient(135deg,var(--rosa-suave),var(--lila2));
+      padding:16px;
+      border-radius:18px;
+      line-height:1.55;
+      font-size:17px;
+    }
+
+    button{
+      border:0;
+      border-radius:16px;
+      padding:14px 18px;
+      font-size:17px;
+      font-weight:800;
+      cursor:pointer;
+      transition:.2s;
+      box-shadow:0 8px 18px rgba(82,44,92,.12);
+    }
+    button:active{transform:scale(.97)}
+    .primary{
+      background:linear-gradient(135deg,var(--rosa),#e84c99);
+      color:white;
+    }
+    .secondary{
+      background:linear-gradient(135deg,#f2e9ff,#dfcaff);
+      color:#613c85;
+    }
+
+    .story{
+      font-size:20px;
+      line-height:1.75;
+      background:linear-gradient(180deg,#fff,#fff7fb);
+      border-left:6px solid var(--rosa2);
+      padding:18px 20px;
+      border-radius:18px;
+      margin-bottom:18px;
+    }
+
+    .story strong{color:#b93975}
+    .fragment-title{
+      color:#8c3d77;
+      font-size:24px;
+      margin:0 0 12px;
+    }
+
+    .question-box{
+      margin-top:18px;
+      padding:18px;
+      border-radius:20px;
+      background:#fffafb;
+      border:2px solid #ffe0ee;
+    }
+    .q-number{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:38px;height:38px;
+      background:var(--rosa);
+      color:white;
+      border-radius:50%;
+      font-weight:900;
+      margin-right:8px;
+    }
+    .question{
+      font-size:21px;
+      font-weight:800;
+      line-height:1.4;
+      margin-bottom:14px;
+    }
+    .options{
+      display:grid;
+      gap:10px;
+    }
+    .option{
+      width:100%;
+      text-align:left;
+      background:#fff;
+      color:var(--texto);
+      border:2px solid #f1d8e4;
+      box-shadow:none;
+      font-weight:700;
+    }
+    .option:hover{border-color:var(--rosa2);background:#fff6fa}
+    .option.correct{
+      background:#e9fff3;
+      border-color:#54c889;
+      color:#155d39;
+    }
+    .option.wrong{
+      background:#fff0f2;
+      border-color:#ec6f87;
+      color:#8e263c;
+    }
+
+    .feedback{
+      min-height:30px;
+      margin-top:12px;
+      font-size:16px;
+      font-weight:800;
+    }
+    .good{color:#198f55}
+    .bad{color:#c43e59}
+
+    .progress-wrap{
+      position:sticky;
+      top:8px;
+      z-index:4;
+      margin:14px 0;
+      background:rgba(255,255,255,.94);
+      border-radius:16px;
+      padding:10px;
+      box-shadow:0 8px 20px rgba(45,28,61,.08);
+      backdrop-filter: blur(7px);
+    }
+    .progress{
+      height:13px;
+      border-radius:999px;
+      background:#f5dfea;
+      overflow:hidden;
+    }
+    .bar{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg,var(--rosa),var(--lila));
+      transition:.3s;
+    }
+    .progress-text{
+      text-align:center;
+      font-size:13px;
+      font-weight:800;
+      color:#7c5372;
+      margin-top:6px;
+    }
+
+    .hidden{display:none !important}
+
+    .stars-pop{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:10;
+      overflow:hidden;
+    }
+    .spark{
+      position:absolute;
+      font-size:28px;
+      animation:burst 1s ease-out forwards;
+    }
+    @keyframes burst{
+      0%{transform:translate(0,0) scale(.4);opacity:1}
+      100%{transform:translate(var(--x),var(--y)) rotate(260deg) scale(1.3);opacity:0}
+    }
+
+    .result{
+      text-align:center;
+      background:linear-gradient(145deg,#fff,#fff0f7);
+    }
+    .score{
+      font-size:64px;
+      font-weight:900;
+      color:#cf3f7f;
+      margin:4px 0;
+    }
+    .meter{
+      display:grid;
+      gap:12px;
+      margin:20px auto;
+      max-width:620px;
+      text-align:left;
+    }
+    .skill{
+      background:#fff;
+      border-radius:16px;
+      padding:14px;
+      border:1px solid #f1dce7;
+    }
+    .skill-name{font-weight:900;margin-bottom:6px}
+    .mini{
+      height:11px;background:#f2e4ec;border-radius:999px;overflow:hidden;
+    }
+    .mini span{display:block;height:100%;background:linear-gradient(90deg,var(--rosa2),var(--lila));}
+    .teacher-note{
+      background:#f5efff;
+      border-radius:18px;
+      padding:16px;
+      text-align:left;
+      line-height:1.55;
+      margin-top:16px;
+    }
+    .small{font-size:14px;color:#6d5a68}
+    .footer{text-align:center;margin-top:22px;color:#76586e;font-size:13px}
+
+    @media(min-width:760px){
+      .intro-grid{grid-template-columns:1.1fr .9fr}
+    }
+  </style>
+</head>
+<body>
+<div class="stars"></div>
+<div class="stars-pop" id="starsPop"></div>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="planet"></div><div class="ring"></div>
+    <h1>🌸 Dana y el viaje por los planetas 🚀</h1>
+    <p class="subtitle">Actividad de comprensión lectora para segundo de primaria. Lee con calma, piensa y responde.</p>
+    <span class="tag">15 preguntas</span>
+    <span class="tag">Lectura + comprensión</span>
+    <span class="tag">Nivel: 2.º de primaria</span>
+  </section>
+
+  <section class="card" id="startCard">
+    <div class="intro-grid">
+      <div>
+        <h2>Hola, Dana 👋</h2>
+        <div class="instructions">
+          Hoy viajarás por el espacio. 🌎✨<br><br>
+          1. Lee cada parte del cuento.<br>
+          2. Contesta las preguntas.<br>
+          3. Si te equivocas, vuelve a leer y busca una pista.<br>
+          4. No importa hacerlo rápido. Lo importante es <strong>entender</strong>.
+        </div>
+      </div>
+      <div>
+        <h3>Tu misión espacial</h3>
+        <p>Ayuda a Dana a recordar qué vio, qué pasó primero, por qué ocurrieron algunas cosas y qué aprendió.</p>
+        <button class="primary" onclick="startActivity()">🚀 Comenzar misión</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="activity" class="hidden">
+    <div class="progress-wrap">
+      <div class="progress"><div class="bar" id="progressBar"></div></div>
+      <div class="progress-text" id="progressText">Pregunta 1 de 15</div>
+    </div>
+    <section class="card" id="stage"></section>
+  </div>
+
+  <section class="card result hidden" id="result"></section>
+
+  <div class="footer">Actividad educativa · Comprensión lectora · Dana</div>
+</div>
+
+<script>
+const sections = [
+{
+  title:"Parte 1 · Una sorpresa en el jardín",
+  text:`Una tarde, <strong>Dana</strong> salió al jardín de su casa. Cerca de una maceta vio una luz rosa que brillaba mucho. Al acercarse, descubrió una nave espacial pequeñita. La puerta se abrió y una voz dijo: “¡Bienvenida, Dana!”. Dana respiró profundo y subió a la nave.`,
+  questions:[
+    {q:"¿Dónde estaba Dana al inicio del cuento?", opts:["En el jardín","En la escuela","En una tienda"], a:0, skill:"literal"},
+    {q:"¿Qué encontró Dana cerca de una maceta?", opts:["Una bicicleta","Una nave espacial","Un libro"], a:1, skill:"literal"},
+    {q:"¿De qué color era la luz que vio Dana?", opts:["Rosa","Verde","Negra"], a:0, skill:"literal"}
+  ]
+},
+{
+  title:"Parte 2 · La Tierra desde el espacio",
+  text:`La nave subió muy alto. Dana miró por la ventana y vio a la <strong>Tierra</strong>. Desde lejos parecía una gran pelota azul con algunas partes verdes y blancas. Dana pensó en su casa, en los árboles y en todas las personas que viven en nuestro planeta.`,
+  questions:[
+    {q:"¿Cómo se veía la Tierra desde lejos?", opts:["Como una pelota azul","Como una caja roja","Como una estrella pequeña"], a:0, skill:"descripcion"},
+    {q:"¿En qué pensó Dana cuando vio la Tierra?", opts:["En su casa y en las personas","En comprar dulces","En dormir"], a:0, skill:"inferencia"},
+    {q:"¿Por qué crees que la Tierra tenía partes verdes?", opts:["Por las plantas y los campos","Porque estaba pintada","Por los anillos"], a:0, skill:"inferencia"}
+  ]
+},
+{
+  title:"Parte 3 · Marte, el planeta rojo",
+  text:`Después, la nave llegó cerca de <strong>Marte</strong>. Dana vio montañas, rocas y mucho polvo. El planeta tenía un color rojizo. “Parece un enorme desierto”, dijo Dana. No bajó de la nave porque quería continuar su recorrido.`,
+  questions:[
+    {q:"¿Qué planeta visitó Dana después de ver la Tierra?", opts:["Marte","Saturno","Venus"], a:0, skill:"secuencia"},
+    {q:"¿Cómo era Marte en el cuento?", opts:["Rojizo y con polvo","Azul y con mares","Verde y lleno de árboles"], a:0, skill:"descripcion"},
+    {q:"¿Por qué Dana no bajó de la nave?", opts:["Porque quería continuar el viaje","Porque se quedó dormida","Porque perdió sus zapatos"], a:0, skill:"causa"}
+  ]
+},
+{
+  title:"Parte 4 · Los anillos de Saturno",
+  text:`Más tarde apareció <strong>Saturno</strong>. Dana abrió mucho los ojos. Alrededor del planeta había grandes anillos formados por hielo, piedras y polvo. Cerca de Saturno apareció una lucecita llamada <strong>Luma</strong>. Luma le dijo: “El espacio es enorme, pero tu hogar es la Tierra. Cuídala siempre”.`,
+  questions:[
+    {q:"¿Qué tenía Saturno a su alrededor?", opts:["Grandes anillos","Casas","Árboles"], a:0, skill:"literal"},
+    {q:"¿Cómo se llamaba la lucecita que conoció Dana?", opts:["Luma","Luna","Lola"], a:0, skill:"literal"},
+    {q:"¿Qué consejo le dio Luma a Dana?", opts:["Cuidar la Tierra","Vivir en Marte","No volver a casa"], a:0, skill:"mensaje"}
+  ]
+},
+{
+  title:"Parte 5 · El regreso a casa",
+  text:`Dana regresó a la Tierra antes de que anocheciera. Corrió a su cuarto, tomó hojas y colores y dibujó todo lo que había visto. Dibujó la Tierra azul, Marte rojo y los anillos de Saturno. Luego escribió: “Nuestro planeta es especial y debemos cuidarlo”. Esa noche, Dana miró las estrellas y sonrió.`,
+  questions:[
+    {q:"¿Qué hizo Dana al regresar a casa?", opts:["Dibujó lo que había visto","Se fue a comprar","Escondió la nave en la escuela"], a:0, skill:"secuencia"},
+    {q:"¿Cuál ocurrió primero?", opts:["Dana encontró una nave","Dana dibujó los planetas","Dana regresó a casa"], a:0, skill:"secuencia"},
+    {q:"¿Cuál es la idea más importante del cuento?", opts:["Debemos cuidar nuestro planeta","Marte tiene muchas tiendas","Saturno es una casa"], a:0, skill:"mensaje"}
+  ]
+}
+];
+
+let sec=0, qIndex=0, correct=0, attempts=0;
+let answered = [];
+let startTime = null;
+let skillStats = {};
+
+function startActivity(){
+  startTime = Date.now();
+  document.getElementById("startCard").classList.add("hidden");
+  document.getElementById("activity").classList.remove("hidden");
+  renderStage();
+}
+
+function renderStage(){
+  const s=sections[sec];
+  const q=s.questions[qIndex];
+  const globalIndex = sections.slice(0,sec).reduce((a,x)=>a+x.questions.length,0)+qIndex;
+  document.getElementById("progressBar").style.width=((globalIndex)/15*100)+"%";
+  document.getElementById("progressText").textContent=`Pregunta ${globalIndex+1} de 15`;
+
+  const opts=q.opts.map((o,i)=>`<button class="option" onclick="answer(${i},this)">${String.fromCharCode(65+i)}. ${o}</button>`).join("");
+  document.getElementById("stage").innerHTML=`
+    <h2 class="fragment-title">${s.title}</h2>
+    <div class="story">${s.text}</div>
+    <div class="question-box">
+      <div class="question"><span class="q-number">${globalIndex+1}</span>${q.q}</div>
+      <div class="options">${opts}</div>
+      <div class="feedback" id="feedback"></div>
+    </div>`;
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function answer(i,btn){
+  const q=sections[sec].questions[qIndex];
+  attempts++;
+  if(!skillStats[q.skill]) skillStats[q.skill]={ok:0,total:0,tries:0};
+  skillStats[q.skill].tries++;
+
+  const feedback=document.getElementById("feedback");
+  if(i===q.a){
+    const firstTry = !btn.parentElement.dataset.missed;
+    btn.classList.add("correct");
+    Array.from(btn.parentElement.children).forEach(b=>b.disabled=true);
+    feedback.innerHTML=`<span class="good">⭐ ¡Muy bien! Encontraste la respuesta.</span>`;
+    if(firstTry) correct++;
+    skillStats[q.skill].ok += firstTry ? 1 : 0;
+    skillStats[q.skill].total++;
+    answered.push({question:q.q, correct:firstTry, skill:q.skill, tries:skillStats[q.skill].tries});
+    celebrate(btn);
+    setTimeout(nextQuestion,900);
+  }else{
+    btn.classList.add("wrong");
+    btn.disabled=true;
+    btn.parentElement.dataset.missed="1";
+    feedback.innerHTML=`<span class="bad">🔎 Busca una pista en el cuento y vuelve a intentarlo.</span>`;
+  }
+}
+
+function nextQuestion(){
+  qIndex++;
+  if(qIndex>=sections[sec].questions.length){
+    sec++; qIndex=0;
+  }
+  if(sec>=sections.length){
+    finish();
+  }else{
+    renderStage();
+  }
+}
+
+function celebrate(el){
+  const rect=el.getBoundingClientRect();
+  const pop=document.getElementById("starsPop");
+  for(let i=0;i<12;i++){
+    const s=document.createElement("span");
+    s.className="spark";
+    s.textContent=["⭐","✨","🌸","🪐"][Math.floor(Math.random()*4)];
+    s.style.left=(rect.left+rect.width/2)+"px";
+    s.style.top=(rect.top+rect.height/2)+"px";
+    s.style.setProperty("--x",(Math.random()*180-90)+"px");
+    s.style.setProperty("--y",(Math.random()*-180-20)+"px");
+    pop.appendChild(s);
+    setTimeout(()=>s.remove(),1100);
+  }
+}
+
+function finish(){
+  const elapsed=Math.max(1,Math.round((Date.now()-startTime)/60000));
+  document.getElementById("activity").classList.add("hidden");
+  document.getElementById("progressBar").style.width="100%";
+
+  const percent=Math.round(correct/15*100);
+  let level="";
+  if(percent>=87) level="Comprensión muy sólida";
+  else if(percent>=67) level="Comprensión adecuada";
+  else if(percent>=47) level="Comprensión en desarrollo";
+  else level="Necesita acompañamiento y lectura guiada";
+
+  const names={
+    literal:"Información directa",
+    descripcion:"Descripción",
+    inferencia:"Inferencias sencillas",
+    secuencia:"Orden y secuencia",
+    causa:"Causa y efecto",
+    mensaje:"Idea principal"
+  };
+
+  const grouped={};
+  sections.flatMap(s=>s.questions).forEach(q=>{
+    if(!grouped[q.skill]) grouped[q.skill]={total:0,ok:0};
+    grouped[q.skill].total++;
+  });
+  answered.forEach(a=>{ if(a.correct) grouped[a.skill].ok++; });
+
+  let skillHtml="";
+  Object.entries(grouped).forEach(([k,v])=>{
+    const p=Math.round(v.ok/v.total*100);
+    skillHtml += `
+    <div class="skill">
+      <div class="skill-name">${names[k]||k}: ${v.ok}/${v.total}</div>
+      <div class="mini"><span style="width:${p}%"></span></div>
+    </div>`;
+  });
+
+  const needs = answered.filter(x=>!x.correct);
+  const note = needs.length
+    ? `Conviene volver a trabajar ${[...new Set(needs.map(x=>names[x.skill]||x.skill))].join(", ")} con lecturas cortas y preguntas guiadas.`
+    : "Dana respondió correctamente al primer intento en todas las preguntas. Puede avanzar a textos un poco más largos.";
+
+  const result=document.getElementById("result");
+  result.classList.remove("hidden");
+  result.innerHTML=`
+    <h2>🌟 Misión terminada</h2>
+    <p>Dana completó su viaje por los planetas.</p>
+    <div class="score">${correct}/15</div>
+    <h3>${level}</h3>
+    <p>Tiempo aproximado: <strong>${elapsed} min</strong> · Intentos totales: <strong>${attempts}</strong></p>
+
+    <div class="meter">${skillHtml}</div>
+
+    <div class="teacher-note">
+      <strong>Informe breve para el profesor</strong><br>
+      Resultado: ${correct} respuestas correctas al primer intento de 15 (${percent}%).<br>
+      ${note}<br><br>
+      <span class="small">Nota: este resultado es orientativo. Conviene observar también si Dana lee sola, si necesita ayuda para entender vocabulario y si puede explicar el cuento con sus propias palabras.</span>
+    </div>
+
+    <br>
+    <button class="primary" onclick="location.reload()">🔁 Repetir actividad</button>
+  `;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
+</body>
+</html>
