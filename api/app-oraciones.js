@@ -6,107 +6,53 @@ export default async function handler(req, res) {
 
     let html = await r.text();
 
-    // The UI is served by Vercel, so use a same-origin backend path.
-    html = html.replace(
-      'const API_ENDPOINT="/api/revisar-oracion"; // Conecta aquí tu backend seguro.',
-      'const API_ENDPOINT="/api/revisar-oracion";'
-    );
-    html = html.replace(
-      'const API_ENDPOINT=window.DICTADO_BACKEND_URL || "https://TU-BACKEND.vercel.app/api/revisar-oracion";',
-      'const API_ENDPOINT="/api/revisar-oracion";'
-    );
-    html = html.replace(
-      'const API_ENDPOINT=window.DICTADO_BACKEND_URL || "https://cursode-verano.vercel.app/api/revisar-oracion";',
-      'const API_ENDPOINT="/api/revisar-oracion";'
-    );
+    // Esta versión es 100% pedagógica: el alumno trabaja en su libreta.
+    // Se elimina la comprobación por fotografía/IA y se conserva teoría,
+    // ejemplo, guía para formular la oración y avance al siguiente reto.
+    html = html.replace(/<div class="step cameraCard">[\s\S]*?<\/div>\s*<div class="actions">/, `<div class="step mission" id="writeReminder">
+      <div class="st">✍️ Ahora tú</div>
+      <div class="txt"><b>Escribe tu oración completa en tu libreta.</b> Usa la palabra del reto, comienza con mayúscula, separa bien las palabras y termina con el signo de puntuación adecuado.</div>
+      <div class="practiceBanner"><div class="emoji">🧠</div><div><strong>Antes de continuar</strong><br>Lee tu oración una vez y pregúntate: ¿se entiende lo que quiero decir?</div></div>
+    </div>
+    <div class="actions">`);
 
-    // Replace the old multipart demo request with the live JSON/image-data request
-    // expected by /api/revisar-oracion.
-    const oldVerify = `async function verifyWithAI(){
- attempts++;
- $("verify").disabled=true;$("status").textContent="✨ Revisando tu oración...";
- const it=lessons[idx], target=focusOf(it.x);
- try{
-   const fd=new FormData();
-   fd.append("image",file);
-   fd.append("grade",String(grade));
-   fd.append("target_word",target);
-   fd.append("rule",ruleFor(it,target).replace(/<[^>]+>/g,""));
-   const res=await fetch(API_ENDPOINT,{method:"POST",body:fd});
-   if(!res.ok)throw new Error("backend unavailable");
-   const data=await res.json();
-   showFeedback(data, target);
- }catch(err){
-   demoFeedback(target);
- }
-}`;
+    // Quitar botones/controles de cámara que pudieran quedar en variantes del HTML.
+    html = html.replace(/<button[^>]*id="verify"[\s\S]*?<\/button>/g, "");
+    html = html.replace(/<button[^>]*id="photoBtn"[\s\S]*?<\/button>/g, "");
+    html = html.replace(/<input[^>]*id="photo"[^>]*>/g, "");
+    html = html.replace(/<img[^>]*id="preview"[^>]*>/g, "");
+    html = html.replace(/<div[^>]*id="feedback"[\s\S]*?<\/div>/g, "");
+    html = html.replace(/<div[^>]*class="aiNote"[\s\S]*?<\/div>/g, "");
 
-    const newVerify = `async function imageFileToDataURL(file){
- const bitmap=await createImageBitmap(file);
- const maxSide=1600;
- const scale=Math.min(1,maxSide/Math.max(bitmap.width,bitmap.height));
- const w=Math.max(1,Math.round(bitmap.width*scale));
- const h=Math.max(1,Math.round(bitmap.height*scale));
- const c=document.createElement("canvas");
- c.width=w;c.height=h;
- const cx=c.getContext("2d",{alpha:false});
- cx.fillStyle="#ffffff";cx.fillRect(0,0,w,h);
- cx.drawImage(bitmap,0,0,w,h);
- if(bitmap.close)bitmap.close();
- return c.toDataURL("image/jpeg",0.84);
-}
-async function verifyWithAI(){
- attempts++;
- $("verify").disabled=true;
- $("status").textContent="✨ Revisando tu oración con IA...";
- const it=lessons[idx], target=focusOf(it.x);
- try{
-   const imageData=await imageFileToDataURL(file);
-   const payload={
-     image_data_url:imageData,
-     grade:Number(grade),
-     target_word:target,
-     rule:ruleFor(it,target).replace(/<[^>]+>/g,""),
-     example:exampleFor(it,target).replace(/<[^>]+>/g,"")
-   };
-   const res=await fetch(API_ENDPOINT,{
-     method:"POST",
-     headers:{"Content-Type":"application/json"},
-     body:JSON.stringify(payload)
-   });
-   const data=await res.json().catch(()=>({}));
-   if(!res.ok)throw new Error(data.error||"No fue posible revisar la fotografía.");
-   showFeedback(data,target);
- }catch(err){
-   $("feedback").className="feedback bad";
-   $("feedback").innerHTML="<h3>⚠️ No pudimos revisar la foto</h3><div>"+esc(err.message||"Error de conexión")+"</div>";
-   $("status").textContent="Intenta de nuevo con la misma foto o toma otra.";
-   $("verify").disabled=false;
-   $("next").disabled=true;
- }
-}`;
+    // El siguiente reto ya no depende de una revisión de imagen.
+    html = html.replace(/id="next" disabled/g, 'id="next"');
+    html = html.replace(/\$\("next"\)\.disabled=true;/g, '$(' + '"next"' + ').disabled=false;');
 
-    html = html.replace(oldVerify, newVerify);
+    // Si el HTML original habilitaba el botón solo después de una foto,
+    // forzamos su disponibilidad al renderizar cada reto.
+    html = html.replace(/function renderLesson\(\)\{/,
+      'function renderLesson(){ setTimeout(()=>{const n=document.getElementById("next");if(n)n.disabled=false;},0);');
 
-    // Never silently fall back to a fake/demo success state.
-    html = html.replace(
-      `function demoFeedback(target){
- $("feedback").className="feedback warn";
- $("feedback").innerHTML="<h3>🧪 Modo demostración</h3><div>La foto quedó preparada, pero este archivo todavía no tiene conectado el backend de visión que puede leer la escritura manuscrita. Cuando se conecte, revisará si usaste <b>"+esc(target)+"</b>, mayúscula, puntuación, ortografía, sentido y concordancia.</div>";
- $("verify").disabled=false;$("next").disabled=false;
- results.push({word:target,attempts,correct:null,issues:["Modo demostración: revisión visual no conectada"]});
-}`,
-      `function demoFeedback(target){
- $("feedback").className="feedback bad";
- $("feedback").innerHTML="<h3>⚠️ Revisión no disponible</h3><div>No se pudo conectar con el servicio de revisión. Intenta nuevamente.</div>";
- $("verify").disabled=false;$("next").disabled=true;
-}`
-    );
+    // Mensajes finales: entregar las oraciones hechas en la libreta.
+    html = html.replace(/sube una foto[^<.]*(?:\.|<)/gi, 'entrega tus oraciones escritas en la libreta.<');
+    html = html.replace(/manda una foto[^<.]*(?:\.|<)/gi, 'entrega tus oraciones escritas en la libreta.<');
+    html = html.replace(/fotograf[ií]a[^<.]*(?:\.|<)/gi, 'actividad escrita.<');
 
-    html = html.replace(
-      '<div class="aiNote"><b>Importante:</b> este HTML está listo para conectarse a un servicio de IA con visión. En GitHub Pages no debes guardar una clave de API dentro del archivo. Si no hay backend conectado, la página entra en modo demostración y te muestra el flujo, pero no puede leer de forma fiable la escritura manuscrita.</div>',
-      '<div class="aiNote"><b>🔐 Revisión segura:</b> la fotografía se procesa mediante un backend protegido para revisar únicamente la oración. La clave de OpenAI no está dentro de esta página.</div>'
-    );
+    // Ocultar cualquier resto visual relacionado con cámara/verificación.
+    html += `<style>
+      .cameraCard,.cameraZone,#preview,#verify,#photoBtn,#feedback,.aiNote{display:none!important}
+      #writeReminder{display:block!important}
+      #next{opacity:1!important;pointer-events:auto!important}
+    </style>
+    <script>
+      document.addEventListener('DOMContentLoaded',()=>{
+        const clean=()=>{
+          const n=document.getElementById('next'); if(n)n.disabled=false;
+          document.querySelectorAll('.cameraCard,.cameraZone,#preview,#verify,#photoBtn,#feedback,.aiNote').forEach(e=>e.remove());
+        };
+        clean(); new MutationObserver(clean).observe(document.body,{childList:true,subtree:true});
+      });
+    </script>`;
 
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
