@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/revisar-oracion.js": {
+      "maxDuration": 30
+    }
+  }
+}
