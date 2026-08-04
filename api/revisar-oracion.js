@@ -1,8 +1,14 @@
-const ALLOWED_ORIGIN = "https://narciso1516.github.io";
+const ALLOWED_ORIGINS = new Set([
+  "https://narciso1516.github.io",
+  "https://cursode-verano.vercel.app"
+]);
 const OPENAI_URL = "https://api.openai.com/v1/responses";
 
-function cors(res) {
-  res.setHeader("Access-Control-Allow-Origin", ALLOWED_ORIGIN);
+function cors(req, res) {
+  const origin = req.headers.origin;
+  if (origin && ALLOWED_ORIGINS.has(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
   res.setHeader("Vary", "Origin");
   res.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -29,17 +35,18 @@ function parseJsonLoose(text) {
 }
 
 export default async function handler(req, res) {
-  cors(res);
+  cors(req, res);
+
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).json({ error: "Método no permitido." });
 
-  if (!process.env.OPENAI_API_KEY) {
-    return res.status(500).json({ error: "El backend no tiene configurada OPENAI_API_KEY." });
+  const origin = req.headers.origin;
+  if (origin && !ALLOWED_ORIGINS.has(origin)) {
+    return res.status(403).json({ error: "Origen no permitido." });
   }
 
-  const origin = req.headers.origin;
-  if (origin && origin !== ALLOWED_ORIGIN) {
-    return res.status(403).json({ error: "Origen no permitido." });
+  if (!process.env.OPENAI_API_KEY) {
+    return res.status(500).json({ error: "El backend no tiene configurada OPENAI_API_KEY." });
   }
 
   const { image_data_url, grade, target_word, rule, example } = req.body || {};
@@ -54,7 +61,27 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Imagen inválida o demasiado grande." });
   }
 
-  const prompt = `Eres un docente de primaria experto en alfabetización, ortografía y redacción.\nAnaliza UNA fotografía de una oración manuscrita por un alumno de ${grade}.º de primaria en México.\n\nPALABRA OBJETIVO: "${target_word}"\nREGLA EXPLICADA AL ALUMNO: ${String(rule || "").slice(0,1200)}\nEJEMPLO MOSTRADO: ${String(example || "").slice(0,800)}\n\nLee únicamente la oración manuscrita principal. Ignora nombre, fecha, márgenes y otras anotaciones. Comprueba si usa correctamente la palabra objetivo. Evalúa con exigencia apropiada al grado: mayúscula inicial, ortografía de palabras legibles, separación, puntuación final, sentido completo y concordancia básica. Comprueba también que no sea una copia literal del ejemplo cuando sea posible. Si la foto no es suficientemente legible, no inventes: marca image_clear=false. No castigues estilo o tamaño de letra si es legible. La retroalimentación debe ser breve, clara y accionable para un niño.\n\nDevuelve SOLO JSON válido con esta estructura exacta:\n{\n  "correct": true,\n  "image_clear": true,\n  "transcription": "texto que logras leer",\n  "message": "retroalimentación breve",\n  "issues": ["problema concreto"],\n  "strengths": ["acierto concreto"],\n  "suggested_correction": "oración corregida, solo si hace falta; de lo contrario cadena vacía"\n}\n\nCriterio de correct=true: la oración es legible, contiene la palabra objetivo correctamente, expresa una idea completa y no tiene un error ortográfico o de puntuación relevante para el nivel.`;
+  const prompt = `Eres un docente de primaria experto en alfabetización, ortografía y redacción.
+Analiza UNA fotografía de una oración manuscrita por un alumno de ${grade}.º de primaria en México.
+
+PALABRA OBJETIVO: "${target_word}"
+REGLA EXPLICADA AL ALUMNO: ${String(rule || "").slice(0,1200)}
+EJEMPLO MOSTRADO: ${String(example || "").slice(0,800)}
+
+Lee únicamente la oración manuscrita principal. Ignora nombre, fecha, márgenes y otras anotaciones. Comprueba si usa correctamente la palabra objetivo. Evalúa con exigencia apropiada al grado: mayúscula inicial, ortografía de palabras legibles, separación, puntuación final, sentido completo y concordancia básica. Comprueba también que no sea una copia literal del ejemplo cuando sea posible. Si la foto no es suficientemente legible, no inventes: marca image_clear=false. No castigues estilo o tamaño de letra si es legible. La retroalimentación debe ser breve, clara y accionable para un niño.
+
+Devuelve SOLO JSON válido con esta estructura exacta:
+{
+  "correct": true,
+  "image_clear": true,
+  "transcription": "texto que logras leer",
+  "message": "retroalimentación breve",
+  "issues": ["problema concreto"],
+  "strengths": ["acierto concreto"],
+  "suggested_correction": "oración corregida, solo si hace falta; de lo contrario cadena vacía"
+}
+
+Criterio de correct=true: la oración es legible, contiene la palabra objetivo correctamente, expresa una idea completa y no tiene un error ortográfico o de puntuación relevante para el nivel.`;
 
   try {
     const openaiRes = await fetch(OPENAI_URL, {
