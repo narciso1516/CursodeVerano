@@ -6,13 +6,50 @@ export default async function handler(req, res) {
 
     let html = await r.text();
 
+    // Ejemplos contextualizados: el modelo debe ser una oración real y comprensible,
+    // no una frase artificial sobre "usar la palabra".
+    html = html.replace(
+      'if(item.t==="oración") return item.x;',
+      `if(k==="cansado") return "Luis llegó <span class='exampleWord'>cansado</span> a casa porque estuvo trabajando todo el día.";\n if(item.t==="oración") return item.x;`
+    );
+
+    // Evitar ejemplos genéricos que no aportan significado real.
+    html = html.replace(
+      'if(grade<=2)return "El dibujo muestra la palabra "+w+" en una situación cotidiana.";',
+      'if(grade<=2)return "En casa podemos encontrar "+w+" durante nuestras actividades de todos los días.";'
+    );
+    html = html.replace(
+      'if(grade<=4)return "Durante la clase usamos "+w+" para explicar una idea.";',
+      'if(grade<=4)return "Ayer hablamos de "+w+" porque apareció en una situación que vivimos o estudiamos.";'
+    );
+    html = html.replace(
+      'return "En nuestro proyecto empleamos "+w+" para comunicar una idea con precisión.";',
+      'return "Comprendimos mejor "+w+" cuando la relacionamos con una situación real y explicamos por qué era importante.";'
+    );
+
+    // Guía especial para "cansado": primero ve un ejemplo natural y luego inventa otro distinto.
+    html = html.replace(
+      'const specific={',
+      `const specific={\n  "cansado":{\n   1:["¿Quién puede estar cansado y por qué?",["cansado","porque"],"Escribe <b>quién + cómo está</b>."],\n   2:["¿Cuándo puede una persona estar cansada?",["cansado","después"],"Cuenta <b>quién + qué hizo + cómo terminó</b>."],\n   3:["Inventa una situación en la que alguien termine cansado.",["cansado","porque"],"Escribe una causa sencilla: <b>qué ocurrió + por qué quedó cansado</b>."],\n   4:["Piensa en otra persona y otra situación. ¿Por qué terminó cansada?",["cansado","porque"],"No copies el ejemplo. Cambia la persona, la actividad o el lugar."],\n   5:["Explica una situación cotidiana en la que alguien pueda terminar cansado.",["cansado","debido a"],"Relaciona la situación con una causa concreta."],\n   6:["Describe una causa y una consecuencia usando la palabra cansado.",["cansado","porque"],"Construye una oración clara con una relación lógica entre las ideas."]\n  },`
+    );
+
+    // Reforzar que el ejemplo sirve como modelo, no para copiarse.
+    html = html.replace(
+      '<div class="txt"><b>Observa cómo se usa la palabra dentro de una oración completa:</b></div>',
+      '<div class="txt"><b>Lee este ejemplo real y fíjate en cómo la palabra tiene sentido dentro de la situación:</b></div>'
+    );
+    html = html.replace(
+      '<span>No respondas con una sola palabra. La respuesta debe ser una oración completa que tenga sentido.</span>',
+      '<span>No copies el ejemplo. Inventa una situación diferente y escribe una oración completa que tenga sentido.</span>'
+    );
+
     // Esta versión es 100% pedagógica: el alumno trabaja en su libreta.
     // Se elimina la comprobación por fotografía/IA y se conserva teoría,
     // ejemplo, guía para formular la oración y avance al siguiente reto.
     html = html.replace(/<div class="step cameraCard">[\s\S]*?<\/div>\s*<div class="actions">/, `<div class="step mission" id="writeReminder">
       <div class="st">✍️ Ahora tú</div>
       <div class="txt"><b>Escribe tu oración completa en tu libreta.</b> Usa la palabra del reto, comienza con mayúscula, separa bien las palabras y termina con el signo de puntuación adecuado.</div>
-      <div class="practiceBanner"><div class="emoji">🧠</div><div><strong>Antes de continuar</strong><br>Lee tu oración una vez y pregúntate: ¿se entiende lo que quiero decir?</div></div>
+      <div class="practiceBanner"><div class="emoji">🧠</div><div><strong>Antes de continuar</strong><br>Lee tu oración una vez y pregúntate: ¿se entiende lo que quiero decir? ¿Es diferente al ejemplo?</div></div>
     </div>
     <div class="actions">`);
 
