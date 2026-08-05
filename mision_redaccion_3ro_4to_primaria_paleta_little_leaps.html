@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Misión Redacción — 3.º y 4.º de Primaria</title>
+<style>
+:root{
+  --navy:#003865;
+  --orange:#E87722;
+  --yellow:#FED141;
+  --pink:#E56DB1;
+  --seafoam:#9CDBD9;
+  --cream:#FFF8E8;
+  --white:#FFFFFF;
+  --ink:#17324d;
+  --muted:#607386;
+  --line:#d8e2ea;
+  --green:#2e9d67;
+  --red:#d6534d;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 0 0,rgba(156,219,217,.38),transparent 26%),
+    radial-gradient(circle at 100% 0,rgba(229,109,177,.18),transparent 26%),
+    linear-gradient(180deg,var(--cream),#fff 70%);
+}
+.app{width:min(980px,94%);margin:auto;padding:24px 0 60px}
+.hero{
+  background:var(--white);
+  border:4px solid var(--navy);
+  border-radius:28px;
+  overflow:hidden;
+  box-shadow:0 18px 45px rgba(0,56,101,.12);
+}
+.heroTop{
+  padding:28px;
+  background:
+    linear-gradient(90deg,var(--navy) 0 24%,var(--pink) 24% 48%,var(--orange) 48% 72%,var(--yellow) 72% 86%,var(--seafoam) 86% 100%);
+  height:18px;
+}
+.heroBody{padding:28px}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--seafoam);color:var(--navy);
+  padding:8px 12px;border-radius:999px;font-weight:900;font-size:.82rem
+}
+h1{
+  color:var(--navy);
+  font-size:clamp(2.2rem,6vw,4rem);
+  line-height:.98;margin:14px 0 10px
+}
+.hero p{color:var(--muted);line-height:1.65;max-width:820px}
+.setup{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+input,select{
+  width:100%;padding:14px 15px;border:2px solid var(--seafoam);
+  border-radius:14px;background:#fff;font:inherit;color:var(--ink);outline:none
+}
+.start{
+  width:100%;margin-top:14px;padding:15px 18px;border:0;border-radius:16px;
+  background:var(--navy);color:white;font:inherit;font-weight:900;cursor:pointer;
+  box-shadow:0 10px 25px rgba(0,56,101,.22)
+}
+
+.dashboard{display:none;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
+.stat{
+  background:#fff;border:2px solid var(--seafoam);border-radius:16px;padding:12px;text-align:center
+}
+.stat b{display:block;font-size:1.4rem;color:var(--navy)}
+.stat span{font-size:.74rem;color:var(--muted);font-weight:900}
+.progressShell{
+  display:none;height:12px;background:#e8edf1;border-radius:999px;overflow:hidden;margin-bottom:18px
+}
+.progress{
+  height:100%;width:0;
+  background:linear-gradient(90deg,var(--navy),var(--pink),var(--orange),var(--yellow),var(--seafoam))
+}
+
+.blockIntro{
+  display:none;
+  border-radius:28px;
+  padding:0;
+  overflow:hidden;
+  background:#fff;
+  border:3px solid var(--navy);
+  box-shadow:0 16px 36px rgba(0,56,101,.10);
+  margin-top:18px
+}
+.blockIntro.show{display:block}
+.blockHeader{
+  padding:18px 22px;color:#fff;
+  background:var(--navy);
+  display:flex;justify-content:space-between;gap:12px;align-items:center
+}
+.blockHeader h2{margin:0;font-size:1.5rem}
+.blockBody{padding:22px}
+.lesson{
+  background:linear-gradient(135deg,#f8ffff,#fff8fb);
+  border:2px solid var(--seafoam);
+  border-radius:18px;padding:16px;line-height:1.65
+}
+.exampleGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.example{
+  border-radius:16px;padding:14px;border:2px solid var(--yellow);background:#fffdf3
+}
+.example strong{color:var(--navy)}
+.blockStart{
+  width:100%;margin-top:16px;padding:14px;border:0;border-radius:14px;
+  background:var(--orange);color:#fff;font:inherit;font-weight:900;cursor:pointer
+}
+
+.questionCard{
+  display:none;
+  background:#fff;
+  border:4px solid var(--orange);
+  border-radius:28px;
+  padding:22px;
+  box-shadow:0 18px 42px rgba(232,119,34,.14);
+  margin-top:18px;
+}
+.questionCard.active{display:block}
+.questionRibbon{
+  display:flex;justify-content:space-between;gap:12px;
+  margin:-22px -22px 18px;
+  padding:13px 18px;
+  background:var(--yellow);
+  color:var(--navy);
+  font-weight:900;
+  border-radius:22px 22px 0 0
+}
+.art{
+  min-height:130px;
+  display:grid;place-items:center;
+  border-radius:18px;
+  background:linear-gradient(135deg,var(--seafoam),#eefafa);
+  border:2px solid var(--navy);
+  font-size:66px;margin-bottom:14px
+}
+.questionCard h3{
+  font-size:1.5rem;
+  color:var(--navy);
+  margin:8px 0
+}
+.context{
+  background:var(--cream);
+  border:3px solid var(--pink);
+  border-radius:16px;
+  padding:15px;
+  line-height:1.7;
+  font-size:1.08rem;
+  margin:12px 0
+}
+.ruleBox{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:14px;
+  background:#eefafa;
+  border:2px solid var(--seafoam);
+  border-radius:16px;
+  margin:12px 0
+}
+.ruleIcon{
+  min-width:42px;height:42px;border-radius:13px;
+  display:grid;place-items:center;background:var(--navy);color:white;font-size:20px
+}
+.ruleBox strong{display:block;color:var(--navy);margin-bottom:3px}
+.ruleBox p{margin:0;color:#4e6679;line-height:1.5}
+
+.options{display:grid;gap:10px;margin-top:12px}
+.option{
+  display:flex;gap:10px;
+  padding:14px;
+  border:3px solid var(--navy);
+  border-radius:15px;
+  cursor:pointer;background:#fff;
+  font-size:1.04rem
+}
+.option:hover{background:#f6fbff}
+.option.good{background:#e9f8f0;border-color:var(--green)}
+.option.bad{background:#fff1ef;border-color:var(--red)}
+
+.work{
+  background:#fff8d7;
+  border:3px solid var(--yellow);
+  border-radius:16px;
+  padding:15px;
+  line-height:1.6;
+  margin:12px 0
+}
+.btn{
+  border:0;border-radius:13px;padding:12px 15px;font:inherit;font-weight:900;cursor:pointer
+}
+.btnNavy{background:var(--navy);color:#fff}
+.btnOrange{background:var(--orange);color:#fff}
+.btnPink{background:var(--pink);color:#fff}
+.btnSea{background:var(--seafoam);color:var(--navy)}
+
+.feedback{
+  display:none;margin-top:12px;padding:14px;border-radius:15px;font-weight:800;line-height:1.55
+}
+.feedback.show{display:block}
+.feedback.ok{background:#e9f8f0;color:#175b3c;border:2px solid #a9ddc1}
+.feedback.no{background:#fff1ef;color:#8b3028;border:2px solid #f0b1aa}
+.nav{display:flex;justify-content:flex-end;margin-top:16px}
+
+.final{
+  display:none;
+  margin-top:18px;
+  background:var(--navy);
+  color:white;
+  border-radius:28px;
+  padding:26px;
+  text-align:center
+}
+.final.show{display:block}
+.final h2{font-size:2rem;margin:8px 0}
+.final .score{font-size:4rem;font-weight:1000;color:var(--yellow)}
+.finalCopy{
+  text-align:left;background:#fff;color:var(--ink);
+  border-radius:18px;padding:18px;margin-top:18px;border:4px solid var(--seafoam)
+}
+.wordList{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px
+}
+.wordItem{
+  background:var(--cream);border:2px solid var(--pink);border-radius:14px;padding:11px
+}
+
+@media(max-width:700px){
+  .setup,.dashboard,.exampleGrid,.wordList{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<section class="hero">
+  <div class="heroTop"></div>
+  <div class="heroBody">
+    <span class="badge">✏️ REDACCIÓN · 3.º Y 4.º DE PRIMARIA</span>
+    <h1>Misión: escribir ideas que se entienden</h1>
+    <p>Esta ruta tiene 3 bloques. Antes de responder cada bloque, aprenderás el tema con ejemplos. Después resolverás preguntas grandes y visibles para demostrar que entendiste.</p>
+
+    <div class="setup">
+      <input id="student" placeholder="Nombre del alumno">
+      <select id="grade">
+        <option value="3">3.º de primaria</option>
+        <option value="4">4.º de primaria</option>
+      </select>
+    </div>
+    <button class="start" onclick="startCourse()">🚀 Comenzar actividad</button>
+  </div>
+</section>
+
+<section class="dashboard" id="dashboard">
+  <div class="stat"><b id="qCount">0/50</b><span>RETO</span></div>
+  <div class="stat"><b id="scoreBox">0</b><span>ACIERTOS</span></div>
+  <div class="stat"><b id="blockBox">1</b><span>BLOQUE</span></div>
+  <div class="stat"><b id="gradeBox">3.º</b><span>GRADO</span></div>
+</section>
+
+<div class="progressShell" id="progressShell"><div class="progress" id="progress"></div></div>
+
+<section class="blockIntro" id="blockIntro">
+  <div class="blockHeader">
+    <h2 id="blockTitle">Bloque</h2>
+    <span id="blockRange">Retos</span>
+  </div>
+  <div class="blockBody">
+    <div class="lesson" id="lessonText"></div>
+    <div class="exampleGrid" id="examples"></div>
+    <button class="blockStart" onclick="beginBlock()">Empezar este bloque →</button>
+  </div>
+</section>
+
+<div id="questionHost"></div>
+
+<section class="final" id="final">
+  <div style="font-size:70px">🏆</div>
+  <div class="score">50/50</div>
+  <h2>¡Misión terminada!</h2>
+  <p id="finalText"></p>
+
+  <div class="finalCopy">
+    <h3 style="color:var(--navy);margin-top:0">📚 Actividad final — Copia y conoce palabras nuevas</h3>
+    <p>Copia este texto en tu libreta con letra clara:</p>
+    <div class="context">
+      <strong>El sendero secreto</strong><br><br>
+      Julia caminó por un sendero cerca de la escuela. Mientras avanzaba, observó unas huellas pequeñas junto a un árbol. Sintió curiosidad y decidió seguirlas. Al final encontró un nido escondido entre las ramas. Julia regresó al salón sorprendida y contó su descubrimiento.
+    </div>
+
+    <div class="wordList">
+      <div class="wordItem"><strong>sendero:</strong> camino pequeño por donde se puede caminar.</div>
+      <div class="wordItem"><strong>observó:</strong> miró con mucha atención.</div>
+      <div class="wordItem"><strong>curiosidad:</strong> ganas de saber o descubrir algo.</div>
+      <div class="wordItem"><strong>descubrimiento:</strong> algo nuevo que se encuentra o conoce.</div>
+    </div>
+
+    <p><strong>Después revisa:</strong> mayúsculas, puntos, palabras completas y si copiaste todas las oraciones.</p>
+  </div>
+</section>
+
+</div>
+
+<script>
+var grade=3;
+var questions=[];
+var current=0;
+var score=0;
+var answered=false;
+var currentBlock=1;
+
+var RULES={
+  complete:"Una oración completa debe decir una idea que se entienda. Pregúntate: ¿quién? ¿qué hace?",
+  capital:"Toda oración empieza con mayúscula. Los nombres propios también comienzan con mayúscula.",
+  point:"El punto nos ayuda a cerrar una idea. Después de un punto, la siguiente oración empieza con mayúscula.",
+  related:"Las oraciones de un mismo párrafo deben hablar del mismo tema.",
+  order:"Las ideas deben aparecer en un orden que permita entender lo que ocurrió.",
+  paragraph:"Un párrafo es un grupo de oraciones relacionadas que desarrollan un mismo tema.",
+  detail:"Podemos ampliar una oración respondiendo: ¿quién?, ¿qué hace?, ¿dónde?, ¿cuándo? o ¿cómo?",
+  review:"Antes de terminar, debemos leer otra vez y comprobar mayúsculas, puntos y claridad."
+};
+
+var BLOCKS={
+  1:{
+    title:"Bloque 1 — Construyo una idea completa",
+    range:"Retos 1–17",
+    lesson3:"Una oración completa expresa una idea que otra persona puede entender. Para revisarla, pregunta: ¿quién aparece? y ¿qué hace? También recuerda que toda oración comienza con mayúscula y termina con punto.",
+    lesson4:"Una oración completa expresa una idea clara. En 4.º vamos a agregar información para precisar quién, qué hace, dónde, cuándo o cómo, sin perder claridad.",
+    examples3:[
+      ["❌ No completa","Mi hermana en la escuela."],
+      ["✅ Completa","Mi hermana estudia en la escuela."]
+    ],
+    examples4:[
+      ["Oración básica","Sofía lee."],
+      ["Oración ampliada","Sofía lee un cuento en la biblioteca después del recreo."]
+    ]
+  },
+  2:{
+    title:"Bloque 2 — Organizo y relaciono oraciones",
+    range:"Retos 18–34",
+    lesson3:"Dos o más oraciones pueden hablar del mismo tema. Cuando las ideas están relacionadas, el lector puede seguir lo que sucede sin confundirse.",
+    lesson4:"En 4.º empezamos a pensar en párrafos. Un párrafo reúne oraciones relacionadas. El punto y seguido permite cerrar una idea y continuar hablando del mismo tema.",
+    examples3:[
+      ["Mismo tema","Luis tiene un perro. El perro se llama Max."],
+      ["Tema distinto","Luis tiene un perro. Mi mochila es azul."]
+    ],
+    examples4:[
+      ["Párrafo claro","Ayer fuimos al museo. Observamos pinturas antiguas. Después escribimos una nota sobre la visita."],
+      ["Problema","Ayer fuimos al museo. Mi zapato es rojo. Después escribimos una nota."]
+    ]
+  },
+  3:{
+    title:"Bloque 3 — Escribo y reviso",
+    range:"Retos 35–50",
+    lesson3:"Ahora usarás lo aprendido para escribir varias oraciones. Antes de terminar, revisa: mayúscula, idea completa, palabras separadas y punto final.",
+    lesson4:"Ahora construirás pequeños textos de 3 o 4 oraciones. Debes mantener un mismo tema, ordenar las ideas y revisar que cada oración tenga sentido.",
+    examples3:[
+      ["Primera idea","El recreo comenzó."],
+      ["Continuación","Salí al patio. Jugué con mis amigos."]
+    ],
+    examples4:[
+      ["Inicio","El sábado fui al parque con mi familia."],
+      ["Desarrollo","Jugamos, caminamos y observamos aves. Después descansamos bajo un árbol."]
+    ]
+  }
+};
+
+function Q(type,title,context,options,correct,rule,why,extra){
+  var q={type:type,title:title,context:context,options:options,correct:correct,rule:rule,why:why};
+  if(extra){for(var k in extra)q[k]=extra[k]}
+  return q;
+}
+
+function buildQuestions(g){
+  var is4=g===4;
+  return [
+    Q("mc","¿Cuál es una idea completa?","Elige la mejor opción.",["Mi hermana en la escuela.","Mi hermana estudia en la escuela.","La mochila azul."],1,"complete","La segunda explica claramente quién aparece y qué hace."),
+    Q("mc","¿Cuál empieza correctamente?","Busca la mayúscula.",["pedro juega fútbol.","Pedro juega fútbol.","PEDRO juega fútbol."],1,"capital","Pedro es nombre propio y comienza con mayúscula."),
+    Q("tf","Una oración debe poder entenderse","Marca verdadero o falso.",["Verdadero","Falso"],0,"complete","Sí. Una oración debe comunicar una idea."),
+    Q("mc","¿Cuál termina correctamente?","Busca el punto.",["Ana canta","Ana canta.","ana canta."],1,"point","La correcta tiene mayúscula inicial y punto final."),
+    Q("mc","¿Cuál oración está incompleta?","Elige.",["Mi perro corre.","Mi perro en el parque.","Carlos lee un cuento."],1,"complete","La segunda no dice qué hace el perro."),
+    Q("manual","Escribe una oración","Escribe una oración sobre tu escuela.",null,null,"review","Recuerda revisar mayúscula y punto.",{instruction:"Hazlo en tu libreta."}),
+    Q("mc","Completa la acción","El niño ___ en el patio.",["juega","azul","porque"],0,"complete","'Juega' completa la acción."),
+    Q("mc","¿Cuál se entiende mejor?","Elige.",["Laura estudia en casa.","Laura en casa.","Casa Laura porque."],0,"complete","La primera expresa una idea completa."),
+    Q("tf","Un nombre de persona empieza con mayúscula","Marca.",["Verdadero","Falso"],0,"capital","Sí. Los nombres propios llevan mayúscula."),
+    Q("mc","Revisa esta oración","mañana iremos al parque.",["Falta mayúscula inicial","Falta borrar una palabra","Está correcta"],0,"capital","La oración debe empezar con mayúscula."),
+    Q("manual","Hazla más completa",is4?"Amplía: 'Mario corre.' Agrega dónde o cuándo.":"Escribe una oración que diga quién hace algo y qué hace.",null,null,is4?"detail":"complete","Agregar información puede hacer la idea más precisa.",{instruction:"Hazlo en tu libreta."}),
+    Q("mc","¿Cuál está bien escrita?","Elige.",["Mi amiga canta.","mi amiga canta.","Mi amiga canta"],0,"review","Tiene mayúscula, idea completa y punto."),
+    Q("mc","¿Qué falta?","Mi gato duerme",["Un punto al final","Una coma al inicio","Nada"],0,"point","La idea necesita un signo final."),
+    Q("tf","Después de un punto empieza otra oración con mayúscula","Marca.",["Verdadero","Falso"],0,"point","Sí. El punto cierra una oración."),
+    Q("mc","¿Cuál tiene más información sin perder claridad?","Elige.",is4?["Sofía lee.","Sofía lee un cuento en la biblioteca.","Sofía biblioteca porque cuento."]:["Sofía lee un cuento.","Sofía cuento.","Lee porque Sofía."],1,"detail","La segunda agrega información y sigue siendo clara."),
+    Q("manual","Construye una idea completa",is4?"Escribe una oración que responda: ¿quién?, ¿qué hace? y ¿dónde?":"Escribe una oración sobre algo que hiciste hoy.",null,null,"complete","Debe entenderse sin adivinar lo que falta.",{instruction:"Hazlo en tu libreta."}),
+    Q("mc","Último reto del bloque","¿Cuál oración está perfecta?",["el perro corre.","El perro corre","El perro corre."],2,"review","La tercera cumple mayúscula, idea completa y punto."),
+
+    Q("mc","¿Qué oraciones hablan del mismo tema?","A) Luis tiene un perro. B) El perro se llama Max. C) Mi mochila es roja.",["A y B","A y C","B y C"],0,"related","A y B hablan del perro de Luis."),
+    Q("tf","Varias oraciones pueden hablar de un mismo tema","Marca.",["Verdadero","Falso"],0,"related","Sí. Eso permite desarrollar una idea."),
+    Q("mc","¿Cuál oración NO pertenece?","El recreo comenzó. Salimos al patio. Mi casa tiene una cocina.",["El recreo comenzó.","Salimos al patio.","Mi casa tiene una cocina."],2,"related","La tercera cambia de tema."),
+    Q("manual","Une dos ideas","Escribe dos oraciones sobre tu recreo.",null,null,"related","Las dos deben hablar del mismo tema.",{instruction:"Hazlo en tu libreta."}),
+    Q("mc","Ordena los hechos","¿Qué orden tiene más sentido?",["Me levanté. Desayuné. Fui a la escuela.","Fui a la escuela. Me levanté. Desayuné.","Desayuné. Dormí. Me levanté."],0,"order","El primer orden sigue una secuencia lógica."),
+    Q("tf",is4?"Un párrafo reúne oraciones relacionadas.":"Dos oraciones relacionadas pueden formar un pequeño texto.",["Verdadero","Falso"],0,is4?"paragraph":"related","Las ideas deben guardar relación."),
+    Q("mc","¿Cuál texto se entiende mejor?","Elige.",["Fui al parque. Jugué con mis amigos. Después regresé a casa.","Fui al parque. Mi cuaderno es azul. Después regresé.","Parque amigos casa porque."],0,"order","La primera opción mantiene el tema y el orden."),
+    Q("mc","¿Cuál idea continúa mejor?","Ana tiene una bicicleta.",["La usa para ir al parque.","Mi perro duerme.","La sopa está caliente."],0,"related","La primera continúa hablando de la bicicleta."),
+    Q("manual","Construye un pequeño texto",is4?"Escribe 3 oraciones sobre una visita al parque.":"Escribe 2 oraciones relacionadas sobre tu mascota o un animal.",null,null,"paragraph","Todas deben hablar del mismo tema.",{instruction:"Hazlo en tu libreta."}),
+    Q("mc","¿Cuál oración debe ir después?","Primero terminé mi tarea.",["Después guardé mis útiles.","Ayer llovió.","Mi camisa es azul."],0,"order","La primera continúa la secuencia."),
+    Q("tf","Un texto claro puede tener oraciones relacionadas","Marca.",["Verdadero","Falso"],0,"related","Sí. Eso ayuda a que el lector siga la idea."),
+    Q("mc","Detecta el cambio de tema","Carlos fue a la biblioteca. Eligió un cuento. Mi gato come croquetas.",["Primera oración","Segunda oración","Tercera oración"],2,"related","La tercera ya no habla de Carlos ni de la biblioteca."),
+    Q("manual","Ordena tus ideas",is4?"Escribe qué hiciste primero, después y al final ayer.":"Escribe qué hiciste primero y después esta mañana.",null,null,"order","Ordenar ayuda a comprender lo ocurrido.",{instruction:"Hazlo en tu libreta."}),
+    Q("mc","¿Cuál conjunto forma un pequeño párrafo?","Elige.",["Mi perro se llama Max. Juega conmigo. Duerme en su cama.","Mi perro se llama Max. La luna brilla. Tengo un lápiz.","Perro Max porque cama."],0,"paragraph","Las tres oraciones de la primera opción hablan del mismo tema."),
+    Q("tf","Si una oración cambia completamente de tema, puede romper la claridad","Marca.",["Verdadero","Falso"],0,"related","Sí. El lector puede confundirse."),
+    Q("mc","Último reto del bloque","¿Cuál texto mantiene mejor un solo tema?",["María dibuja. Usa colores. Después guarda su dibujo.","María dibuja. Mi perro corre. La sopa está caliente.","María porque colores dibujo."],0,"related","La primera opción mantiene el mismo tema."),
+
+    Q("mc","Antes de entregar, ¿qué revisas?","Elige.",["Mayúsculas, puntos y si se entiende","Solo el color del lápiz","Nada"],0,"review","Revisar ayuda a mejorar."),
+    Q("manual","Escribe y revisa",is4?"Escribe 3 oraciones sobre tu salón.":"Escribe 2 oraciones sobre tu salón.",null,null,"review","Después de escribir, relee.",{instruction:"Hazlo en tu libreta."}),
+    Q("tf","Corregir también es parte de escribir","Marca.",["Verdadero","Falso"],0,"review","Sí. Releer y corregir mejora el texto."),
+    Q("mc","¿Cuál necesita corrección?","Elige.",["Mi amigo juega.","mi amigo juega.","Mi amiga canta."],1,"capital","La segunda debe comenzar con mayúscula."),
+    Q("mc","¿Cuál necesita un punto?","Elige.",["Hoy fui al mercado","Hoy fui al mercado.","Ayer jugué."],0,"point","La primera no tiene punto final."),
+    Q("manual","Observa tu entorno","Escribe una oración sobre algo que ves ahora.",null,null,"review","Debe tener mayúscula, idea completa y punto.",{instruction:"Hazlo en tu libreta."}),
+    Q("mc","¿Cuál versión está mejor revisada?","Elige.",["ayer fui al parque jugué con Ana","Ayer fui al parque. Jugué con Ana.","Ayer fui al parque jugué con ana."],1,"review","La segunda separa ideas y usa mayúsculas."),
+    Q("tf","Releer puede ayudarte a encontrar un error","Marca.",["Verdadero","Falso"],0,"review","Sí. Por eso revisamos."),
+    Q("manual","Pequeño escritor",is4?"Escribe un pequeño texto de 4 oraciones sobre un día especial.":"Escribe 3 oraciones sobre un día divertido.",null,null,"paragraph","Mantén el mismo tema y revisa cada oración.",{instruction:"Hazlo en tu libreta."}),
+    Q("mc","¿Cuál oración final está mejor escrita?","Elige.",["Finalmente regresamos a casa.","finalmente regresamos a casa.","Finalmente regresamos a casa"],0,"review","Tiene mayúscula y punto."),
+    Q("mc","¿Qué texto se entiende mejor?","Elige.",["Fui al zoológico. Vi un elefante. Después observé a los monos.","Fui al zoológico. Mi mesa es azul. Después monos.","Zoológico elefante porque monos."],0,"paragraph","La primera mantiene el tema."),
+    Q("manual","Revisión final","Relee una de tus respuestas anteriores y corrige algo si hace falta.",null,null,"review","Un buen escritor revisa y mejora.",{instruction:"Marca en tu libreta la corrección que hiciste."}),
+    Q("tf","Una oración debe empezar con mayúscula y terminar con un signo final","Marca.",["Verdadero","Falso"],0,"review","Es una regla básica que ya practicaste."),
+    Q("mc","Última práctica","¿Cuál está mejor escrita?",["Mi hermana estudia en casa.","mi hermana estudia en casa.","Mi hermana estudia en casa"],0,"review","La primera está completa y bien puntuada."),
+    Q("manual","Cierre de aprendizaje","Escribe: Hoy aprendí que...",null,null,"review","Explicar lo aprendido ayuda a recordarlo.",{instruction:"Completa la frase en tu libreta."}),
+    Q("mc","Reto final","¿Qué hace que un texto sea claro?",["Ideas relacionadas, orden y revisión","Muchas palabras sin relación","No usar puntos"],0,"review","La claridad depende de ideas relacionadas y buena revisión.")
+  ];
+}
+
+function startCourse(){
+  grade=parseInt(document.getElementById("grade").value,10);
+  questions=buildQuestions(grade);
+  current=0;score=0;answered=false;currentBlock=1;
+
+  document.getElementById("dashboard").style.display="grid";
+  document.getElementById("progressShell").style.display="block";
+  document.getElementById("gradeBox").textContent=grade+".º";
+  document.getElementById("final").className="final";
+  showBlockIntro(1);
+}
+
+function showBlockIntro(block){
+  currentBlock=block;
+  document.getElementById("blockBox").textContent=block;
+  document.getElementById("questionHost").innerHTML="";
+  var b=BLOCKS[block];
+  document.getElementById("blockTitle").textContent=b.title;
+  document.getElementById("blockRange").textContent=b.range;
+  document.getElementById("lessonText").innerHTML="<strong>¿Qué aprenderemos?</strong><br>"+(grade===3?b.lesson3:b.lesson4);
+
+  var ex=grade===3?b.examples3:b.examples4;
+  var html="";
+  for(var i=0;i<ex.length;i++){
+    html+='<div class="example"><strong>'+ex[i][0]+'</strong><br>'+ex[i][1]+'</div>';
+  }
+  document.getElementById("examples").innerHTML=html;
+  document.getElementById("blockIntro").className="blockIntro show";
+  document.getElementById("blockIntro").scrollIntoView({behavior:"smooth"});
+}
+
+function beginBlock(){
+  document.getElementById("blockIntro").className="blockIntro";
+  renderQuestion();
+}
+
+function renderQuestion(){
+  var q=questions[current];
+  document.getElementById("qCount").textContent=(current+1)+"/50";
+  document.getElementById("scoreBox").textContent=score;
+  document.getElementById("progress").style.width=((current/50)*100)+"%";
+
+  var host=document.getElementById("questionHost");
+  host.innerHTML="";
+
+  var arts=["🧠✏️","📚🔎","📝✨","🏫💭","🐶📖","🎯✍️","🌳📓","🔤🌟","🧩📚","🚀✏️"];
+  var card=document.createElement("section");
+  card.className="questionCard active";
+
+  card.innerHTML=
+    '<div class="questionRibbon"><span>PREGUNTA '+(current+1)+' DE 50</span><span>'+typeLabel(q.type)+'</span></div>'+
+    '<div class="art">'+arts[current%arts.length]+'</div>'+
+    '<h3>'+q.title+'</h3>'+
+    (q.context?'<div class="context">'+q.context+'</div>':'')+
+    '<div class="ruleBox"><div class="ruleIcon">💡</div><div><strong>Regla para responder</strong><p>'+RULES[q.rule]+'</p></div></div>';
+
+  if(q.type==="mc" || q.type==="tf"){
+    var opts=document.createElement("div");
+    opts.className="options";
+    for(let i=0;i<q.options.length;i++){
+      let op=document.createElement("div");
+      op.className="option";
+      op.innerHTML="<strong>"+String.fromCharCode(65+i)+".</strong><span>"+q.options[i]+"</span>";
+      op.onclick=function(){answerOption(i,op,q)};
+      opts.appendChild(op);
+    }
+    card.appendChild(opts);
+  }else if(q.type==="manual"){
+    var work=document.createElement("div");
+    work.className="work";
+    work.innerHTML="📓 <strong>En tu libreta:</strong> "+q.instruction;
+    card.appendChild(work);
+
+    var done=document.createElement("button");
+    done.className="btn btnOrange";
+    done.textContent="✓ Ya lo hice y lo revisé";
+    done.onclick=function(){completeManual(q)};
+    card.appendChild(done);
+  }
+
+  var fb=document.createElement("div");
+  fb.id="feedback";
+  fb.className="feedback";
+  card.appendChild(fb);
+
+  var nav=document.createElement("div");
+  nav.className="nav";
+  nav.innerHTML='<button id="nextBtn" class="btn btnNavy" disabled onclick="nextQuestion()">Siguiente →</button>';
+  card.appendChild(nav);
+
+  host.appendChild(card);
+  answered=false;
+  document.getElementById("dashboard").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function typeLabel(t){
+  if(t==="mc")return"OPCIÓN MÚLTIPLE";
+  if(t==="tf")return"VERDADERO / FALSO";
+  if(t==="manual")return"TRABAJO EN LIBRETA";
+  return"RETO";
+}
+
+function answerOption(choice,el,q){
+  if(answered)return;
+  answered=true;
+  var fb=document.getElementById("feedback");
+
+  if(choice===q.correct){
+    score++;
+    el.classList.add("good");
+    fb.className="feedback show ok";
+    fb.innerHTML="✅ Correcto. <strong>Por qué:</strong> "+q.why;
+    document.getElementById("nextBtn").disabled=false;
+    document.getElementById("scoreBox").textContent=score;
+  }else{
+    el.classList.add("bad");
+    fb.className="feedback show no";
+    fb.innerHTML="❌ Revisa la regla. <strong>Pista:</strong> "+q.why+" Intenta de nuevo.";
+    answered=false;
+  }
+}
+
+function completeManual(q){
+  if(answered)return;
+  answered=true;
+  score++;
+  document.getElementById("scoreBox").textContent=score;
+
+  var fb=document.getElementById("feedback");
+  fb.className="feedback show ok";
+  fb.innerHTML="📓 Actividad registrada. <strong>Recuerda:</strong> "+q.why;
+  document.getElementById("nextBtn").disabled=false;
+}
+
+function nextQuestion(){
+  if(current===16){
+    current++;
+    showBlockIntro(2);
+    return;
+  }
+  if(current===33){
+    current++;
+    showBlockIntro(3);
+    return;
+  }
+  if(current<49){
+    current++;
+    renderQuestion();
+  }else{
+    document.getElementById("questionHost").innerHTML="";
+    document.getElementById("progress").style.width="100%";
+    document.getElementById("qCount").textContent="50/50";
+    document.getElementById("final").className="final show";
+    var name=document.getElementById("student").value||"Alumno";
+    document.getElementById("finalText").textContent=
+      name+", terminaste la ruta de redacción para "+grade+".º de primaria. Ahora realiza la actividad final de copia y revisa tu libreta.";
+    document.getElementById("final").scrollIntoView({behavior:"smooth"});
+  }
+}
+</script>
+</body>
+</html>
