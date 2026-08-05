@@ -329,10 +329,46 @@
     .guide p { margin: 0; color: var(--muted); line-height: 1.55; }
 
     footer {
-      padding: 1.5rem 0 2.2rem;
+      padding: 1.8rem 0 2.4rem;
       border-top: 1px solid rgba(23, 50, 77, .12);
       color: var(--muted);
       text-align: center;
+      background: rgba(255, 255, 255, .38);
+    }
+
+    .footer-credit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: .45rem .75rem;
+      line-height: 1.6;
+    }
+
+    .footer-credit strong { color: var(--ink); }
+
+    .footer-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .35rem .7rem;
+      border: 1px solid rgba(23, 50, 77, .18);
+      border-radius: 999px;
+      color: var(--blue-dark);
+      font-weight: 800;
+      text-decoration: none;
+      background: rgba(255, 255, 255, .82);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .footer-link:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(23, 50, 77, .1);
+    }
+
+    .footer-link:focus-visible {
+      outline: 3px solid #ffd15c;
+      outline-offset: 3px;
     }
 
     @media (max-width: 850px) {
@@ -352,7 +388,7 @@
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      .open-link { transition: none; }
+      .open-link, .footer-link { transition: none; }
     }
   </style>
 </head>
@@ -607,7 +643,13 @@
   </main>
 
   <footer>
-    <div class="shell">Materiales de matemáticas para aprender jugando y pensando.</div>
+    <div class="shell footer-credit">
+      <span>Creado por <strong>Luis Alberto Antonio Narciso</strong></span>
+      <span aria-hidden="true">·</span>
+      <a class="footer-link" href="https://github.com/narciso1516" target="_blank" rel="noopener noreferrer" aria-label="Ver el perfil profesional y CV de Luis Alberto Antonio Narciso en GitHub">
+        <span aria-hidden="true">💻</span> Ver mi CV en GitHub
+      </a>
+    </div>
   </footer>
 </body>
 </html>
