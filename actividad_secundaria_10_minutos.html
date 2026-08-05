@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Actividad de Redacción — Secundaria | 10 minutos</title>
+<style>
+:root{
+  --bg:#f7f8fc; --card:#fff; --ink:#172033; --muted:#667085;
+  --blue:#3b82f6; --green:#16a34a; --purple:#7c3aed; --orange:#ea580c;
+  --line:#e5e7eb; --dark:#111827;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:linear-gradient(180deg,#fbfcff,#f2f5fb);color:var(--ink)
+}
+.wrap{width:min(900px,92%);margin:auto;padding:24px 0 44px}
+.hero,.card,.finish{
+  background:var(--card);border:1px solid var(--line);border-radius:24px;
+  box-shadow:0 14px 36px rgba(31,41,55,.08)
+}
+.hero{padding:24px;background:linear-gradient(135deg,#fff,#f4f1ff)}
+.tag{
+  display:inline-block;background:#eef2ff;color:#4338ca;border-radius:999px;
+  padding:7px 11px;font-weight:800;font-size:.82rem
+}
+h1{font-size:clamp(2rem,6vw,3.3rem);margin:12px 0 8px;line-height:1}
+.hero p{color:var(--muted);margin:0 0 18px}
+.timerbox{
+  display:flex;justify-content:space-between;gap:14px;align-items:center;
+  background:var(--dark);color:white;border-radius:18px;padding:16px
+}
+.timer{font-size:2.35rem;font-weight:900}
+.buttons{display:flex;gap:8px;flex-wrap:wrap}
+button{
+  border:0;border-radius:13px;padding:11px 14px;font:inherit;font-weight:800;cursor:pointer
+}
+.primary{background:var(--blue);color:#fff}.secondary{background:#26324a;color:white}.ghost{background:#eef2f7}
+.progress{height:9px;background:#e8ebf1;border-radius:999px;overflow:hidden;margin:18px 0}
+.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--purple));transition:.3s}
+.card{padding:20px;margin:16px 0}
+.card.locked{opacity:.45;filter:grayscale(.2)}
+.head{display:flex;gap:12px;align-items:center}
+.n{
+  width:46px;height:46px;border-radius:15px;color:white;display:grid;place-items:center;
+  font-weight:900;font-size:1.25rem
+}
+.c1 .n{background:var(--blue)} .c2 .n{background:var(--green)}
+.c3 .n{background:var(--orange)} .c4 .n{background:var(--purple)}
+h2{margin:0;font-size:1.35rem}
+.time{color:var(--muted);font-size:.83rem;font-weight:800}
+.box{
+  margin:14px 0;padding:16px;border-radius:16px;background:#f8fafc;border:1px dashed #cbd5e1;
+  line-height:1.65
+}
+.note{
+  background:#fff7d6;border:1px solid #fde68a;border-radius:15px;padding:12px 14px;margin:12px 0
+}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0}
+.item{background:#f8fafc;border:1px solid var(--line);border-radius:13px;padding:11px;font-weight:750}
+.connectors{display:flex;gap:7px;flex-wrap:wrap}
+.chip{background:#eef2ff;color:#4338ca;border-radius:999px;padding:8px 10px;font-weight:800}
+.next{width:100%;background:var(--dark);color:white;margin-top:10px}
+.checks{display:grid;gap:8px}
+.check{display:flex;gap:10px;background:#f8fafc;border:1px solid var(--line);border-radius:13px;padding:11px}
+.finish{padding:22px;text-align:center;background:linear-gradient(135deg,#181b2c,#312e81);color:white;margin-top:18px}
+.score{font-size:2.7rem;font-weight:900}
+.small{font-size:.87rem;color:#d6daf0}
+@media(max-width:620px){
+ .grid{grid-template-columns:1fr}
+ .timerbox{align-items:flex-start;flex-direction:column}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <span class="tag">NIVEL 4 · SECUNDARIA</span>
+    <h1>Reto exprés de redacción</h1>
+    <p>Actividad basada en las 4 láminas de secundaria: estructura, cohesión, argumentación y revisión.</p>
+    <div class="timerbox">
+      <div>
+        <div style="font-size:.8rem;color:#aab3c5;font-weight:800">TIEMPO RESTANTE</div>
+        <div class="timer" id="timer">10:00</div>
+      </div>
+      <div class="buttons">
+        <button class="primary" id="start">▶ Iniciar</button>
+        <button class="secondary" id="pause">⏸ Pausar</button>
+        <button class="ghost" id="reset">↻ Reiniciar</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="progress"><span id="bar"></span></div>
+
+  <section class="card c1" id="p1">
+    <div class="head"><div class="n">1</div><div><h2>Estructura tu idea</h2><div class="time">Minutos 0–2</div></div></div>
+    <div class="box"><strong>Tema:</strong> ¿Debería limitarse el uso del celular durante las clases?</div>
+    <div class="note"><strong>En tu libreta:</strong> escribe una postura en una sola oración.</div>
+    <div class="grid">
+      <div class="item">Introducción: presenta el tema</div>
+      <div class="item">Desarrollo: explica tu postura</div>
+      <div class="item">Conclusión: cierra la idea</div>
+      <div class="item">Meta: que otro alumno entienda tu posición</div>
+    </div>
+    <button class="next" data-next="p2">✓ Ya tengo mi postura</button>
+  </section>
+
+  <section class="card c2 locked" id="p2">
+    <div class="head"><div class="n">2</div><div><h2>Une tus ideas</h2><div class="time">Minutos 2–4</div></div></div>
+    <p>Agrega dos oraciones que expliquen tu postura y usa por lo menos <strong>2 conectores</strong>.</p>
+    <div class="connectors">
+      <span class="chip">además</span><span class="chip">porque</span>
+      <span class="chip">sin embargo</span><span class="chip">por ejemplo</span>
+      <span class="chip">por eso</span><span class="chip">en cambio</span>
+    </div>
+    <div class="note"><strong>Evita repetir:</strong> “celular… celular… celular…”. Usa pronombres, sinónimos o reformula la oración.</div>
+    <button class="next" data-next="p3">✓ Ya conecté mis ideas</button>
+  </section>
+
+  <section class="card c3 locked" id="p3">
+    <div class="head"><div class="n">3</div><div><h2>Argumenta</h2><div class="time">Minutos 4–8</div></div></div>
+    <p>Convierte tu opinión en un argumento. Tu párrafo debe tener:</p>
+    <div class="grid">
+      <div class="item">1 postura clara</div>
+      <div class="item">1 razón</div>
+      <div class="item">1 ejemplo</div>
+      <div class="item">1 conclusión breve</div>
+    </div>
+    <div class="note"><strong>Reto:</strong> escribe un párrafo de 4 a 5 oraciones en tu libreta. No importa si estás a favor o en contra; importa que expliques por qué.</div>
+    <button class="next" data-next="p4">✓ Terminé mi párrafo</button>
+  </section>
+
+  <section class="card c4 locked" id="p4">
+    <div class="head"><div class="n">4</div><div><h2>Revisa como editor</h2><div class="time">Minutos 8–10</div></div></div>
+    <p>Antes de entregar, marca lo que ya revisaste:</p>
+    <div class="checks">
+      <label class="check"><input type="checkbox" class="ck"> <span>Mi texto tiene una postura clara.</span></label>
+      <label class="check"><input type="checkbox" class="ck"> <span>Usé al menos 2 conectores.</span></label>
+      <label class="check"><input type="checkbox" class="ck"> <span>Incluí una razón y un ejemplo.</span></label>
+      <label class="check"><input type="checkbox" class="ck"> <span>Revisé mayúsculas, puntos, comas y tildes.</span></label>
+      <label class="check"><input type="checkbox" class="ck"> <span>Evité repeticiones innecesarias.</span></label>
+      <label class="check"><input type="checkbox" class="ck"> <span>Corregí al menos una parte de mi borrador.</span></label>
+    </div>
+  </section>
+
+  <section class="finish">
+    <div>AUTOEVALUACIÓN</div>
+    <div class="score" id="score">0/6</div>
+    <h3 id="msg">Revisa tu texto antes de terminar.</h3>
+    <div class="small">Escribir bien también significa revisar y mejorar.</div>
+  </section>
+</div>
+
+<script>
+let total=600, remaining=total, id=null;
+const timer=document.getElementById('timer'), bar=document.getElementById('bar');
+function render(){
+  let m=Math.floor(remaining/60), s=remaining%60;
+  timer.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  bar.style.width=`${((total-remaining)/total)*100}%`;
+  timer.style.color=remaining<=120 ? '#facc15' : 'white';
+}
+document.getElementById('start').onclick=()=>{
+  if(id) return;
+  id=setInterval(()=>{
+    if(remaining>0){remaining--;render()}
+    else{clearInterval(id);id=null;alert("⏰ Tiempo terminado. Haz tu última corrección y entrega.");}
+  },1000);
+};
+document.getElementById('pause').onclick=()=>{clearInterval(id);id=null};
+document.getElementById('reset').onclick=()=>{clearInterval(id);id=null;remaining=total;render()};
+document.querySelectorAll('.next').forEach(b=>{
+  b.onclick=()=>{
+    const el=document.getElementById(b.dataset.next);
+    el.classList.remove('locked');
+    el.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+});
+const checks=[...document.querySelectorAll('.ck')], score=document.getElementById('score'), msg=document.getElementById('msg');
+checks.forEach(c=>c.onchange=()=>{
+  const n=checks.filter(x=>x.checked).length;
+  score.textContent=`${n}/6`;
+  msg.textContent=n<4 ? "Todavía hay detalles por revisar." : n<6 ? "Vas bien. Revisa un último detalle." : "✅ Misión cumplida.";
+});
+render();
+</script>
+</body>
+</html>
