@@ -132,7 +132,7 @@ button{border:0;border-radius:14px;padding:13px 16px;font:inherit;font-weight:90
     <div class="labProgress"><div id="lab_mainBar"></div></div>
   </div>
   <div class="labBody">
-    
+
 <section class="section active" id="lab_startSection">
   <div class="card">
     <h2>Antes de comenzar</h2>
@@ -150,11 +150,9 @@ button{border:0;border-radius:14px;padding:13px 16px;font:inherit;font-weight:90
   <div class="card">
     <h2>1. Elige qué tema quieres defender</h2>
     <p class="intro">No hay una postura “correcta”. Lo importante será que puedas defender lo que piensas con razones claras.</p>
-
     <div class="theme-grid" id="lab_themeGrid"></div>
-
     <div class="success" id="lab_themeStatus" style="display:none;margin-top:16px"></div>
-    <div class="nav"><button class="btn light" onclick="lab_showSection('startSection')">← Regresar</button><button class="btn orange" id="lab_beginRouteBtn" onclick="lab_beginRoute()" disabled>Comenzar mis 15 pasos →</button></div>
+    <div class="nav"><button class="btn light" onclick="lab_showSection('lab_startSection')">← Regresar</button><button class="btn orange" id="lab_beginRouteBtn" onclick="lab_beginRoute()" disabled>Comenzar mis 15 pasos →</button></div>
   </div>
 </section>
 
@@ -228,6 +226,29 @@ function drawPage(){$('viewerImg').src=PAGES[pageIndex];$('pageLabel').textConte
 $('startBtn').addEventListener('click',startCourse);$('beginBtn').addEventListener('click',beginSection);$('nextBtn').addEventListener('click',nextQuestion);$('prevPage').addEventListener('click',()=>{if(pageIndex>0){pageIndex--;drawPage()}});$('nextPage').addEventListener('click',()=>{if(pageIndex<3){pageIndex++;drawPage()}});drawPage();
 
 // ===== LABORATORIO ARGUMENTATIVO INTEGRADO =====
+const labDom=id=>document.getElementById(id);
+const lab_topText=labDom('lab_topText');
+const lab_topPct=labDom('lab_topPct');
+const lab_mainBar=labDom('lab_mainBar');
+const lab_ready1=labDom('lab_ready1');
+const lab_ready2=labDom('lab_ready2');
+const lab_themeGrid=labDom('lab_themeGrid');
+const lab_themeStatus=labDom('lab_themeStatus');
+const lab_beginRouteBtn=labDom('lab_beginRouteBtn');
+const lab_stepTitle=labDom('lab_stepTitle');
+const lab_stepSubtitle=labDom('lab_stepSubtitle');
+const lab_stepBadge=labDom('lab_stepBadge');
+const lab_routeBar=labDom('lab_routeBar');
+const lab_currentTopic=labDom('lab_currentTopic');
+const lab_stepGoal=labDom('lab_stepGoal');
+const lab_stepContent=labDom('lab_stepContent');
+const lab_stepDone=labDom('lab_stepDone');
+const lab_prevStepBtn=labDom('lab_prevStepBtn');
+const lab_reportTheme=labDom('lab_reportTheme');
+const lab_reportPosition=labDom('lab_reportPosition');
+const lab_reportSteps=labDom('lab_reportSteps');
+const lab_reportTime=labDom('lab_reportTime');
+const lab_reportBody=labDom('lab_reportBody');
 
 const lab_themes=[
   {
@@ -328,21 +349,23 @@ function lab_renderThemes(){
 }
 
 function lab_showSection(id){
-  document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.getElementById('argumentLab').scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('#argumentLab .section').forEach(x=>x.classList.remove('active'));
+  const target=labDom(id);
+  if(!target)return;
+  target.classList.add('active');
+  labDom('argumentLab').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function lab_updateTop(){
-  if(document.getElementById('lab_startSection').classList.contains('active')){
-    topText.textContent='Preparación';topPct.textContent='0%';mainBar.style.width='0%';
-  } else if(document.getElementById('lab_themesSection').classList.contains('active')){
-    topText.textContent='Elección de tema';topPct.textContent='5%';mainBar.style.width='5%';
-  } else if(document.getElementById('lab_routeSection').classList.contains('active')){
+  if(labDom('lab_startSection').classList.contains('active')){
+    lab_topText.textContent='Preparación';lab_topPct.textContent='0%';lab_mainBar.style.width='0%';
+  } else if(labDom('lab_themesSection').classList.contains('active')){
+    lab_topText.textContent='Elección de tema';lab_topPct.textContent='5%';lab_mainBar.style.width='5%';
+  } else if(labDom('lab_routeSection').classList.contains('active')){
     const p=Math.round(((lab_stepIndex+1)/15)*90)+5;
-    topText.textContent=`Paso ${lab_stepIndex+1} de 15`;topPct.textContent=p+'%';mainBar.style.width=p+'%';
+    lab_topText.textContent=`Paso ${lab_stepIndex+1} de 15`;lab_topPct.textContent=p+'%';lab_mainBar.style.width=p+'%';
   } else {
-    topText.textContent='Actividad terminada';topPct.textContent='100%';mainBar.style.width='100%';
+    lab_topText.textContent='Actividad terminada';lab_topPct.textContent='100%';lab_mainBar.style.width='100%';
   }
 }
 
@@ -380,7 +403,7 @@ function lab_renderStep(){
   lab_stepContent.innerHTML=s.html();
   lab_stepDone.checked=lab_done[lab_stepIndex];
   lab_prevStepBtn.style.visibility=lab_stepIndex===0?'hidden':'visible';
-  lab_updateTop();document.getElementById('argumentLab').scrollIntoView({behavior:'smooth',block:'start'});
+  lab_updateTop();labDom('argumentLab').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function lab_nextStep(){
@@ -405,7 +428,7 @@ function lab_finish(){
   lab_reportBody.innerHTML=lab_steps.map((s,i)=>`<tr><td>${i+1}. ${s.title}</td><td>${s.goal}</td><td>${lab_done[i]?'Sí':'No'}</td></tr>`).join('');
 }
 function lab_restart(){
-  lab_selectedTheme=null;lab_selectedPosition='';lab_stepIndex=0;lab_done.fill(false);
+  lab_selectedTheme=null;lab_selectedPosition='';lab_stepIndex=0;lab_done.fill(false);lab_startTime=Date.now();
   lab_themeStatus.style.display='none';lab_beginRouteBtn.disabled=true;
   lab_showSection('lab_themesSection');lab_renderThemes();lab_updateTop();
 }
