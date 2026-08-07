@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
-<meta content="#0c1333" name="theme-color"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="theme-color" content="#0c1333"/>
 <title>La Gran Expedición del Tesoro Perdido</title>
 <link href="style.css" rel="stylesheet"/>
 </head>
@@ -16,34 +15,39 @@
 <div class="hero">
 <div class="hero-orb">💎</div>
 <h1><span class="gradient-text">El Tesoro Perdido</span></h1>
-<p class="lead">Una aventura de memoria, historia, cultura general y lógica. Cada respuesta mueve tu ficha. Solo tienes <b>una oportunidad</b> por reto.</p>
+<p class="lead">Una aventura de memoria, historia, cultura general y lógica. <b>Si fallas, retrocedes; si vuelves a fallar, el castigo aumenta.</b> El reto solo termina cuando encuentras la respuesta correcta.</p>
 </div>
 <div class="panel">
 <div class="field"><label for="playerName">Tu nombre o apodo</label><input autocomplete="off" id="playerName" maxlength="16" placeholder="Ej. María"/></div>
 <div class="field"><label>Elige tu explorador</label><div class="avatars" id="avatars"></div></div>
 <div class="field"><label for="level">Nivel de retos</label><select id="level"><option value="small">1.º–2.º de primaria</option><option selected value="medium">3.º–4.º de primaria</option><option value="big">5.º–6.º de primaria</option></select></div>
 <button class="primary" id="startBtn">Entrar al mapa secreto →</button>
-<p class="tiny-note">🔒 Usa solo nombre o apodo. El juego guarda el avance en este dispositivo para evitar repetir respuestas.</p>
+<p class="tiny-note">🎯 Las preguntas no se repiten durante la expedición. Si retrocedes más allá de la salida, acumulas deuda de casillas que tendrás que recuperar.</p>
 </div>
 </section>
 <section class="screen" id="gameScreen">
-<div class="topbar"><div class="player-pill"><span id="topAvatar">🦊</span><b id="topName">Explorador</b></div><div class="stat-pill"><small>Puntos</small><strong id="scoreLabel">0</strong></div><div class="stat-pill"><small>Casilla</small><strong><span id="posLabel">1</span>/40</strong></div></div>
-<div class="world-title"><div><h2 id="worldName">🌿 Selva del Inicio</h2><p id="missionLabel">Reto 1 de 24</p></div><div style="text-align:right;color:var(--gold);font-weight:900;font-size:.8rem">🏆 <span id="streakLabel">0</span> racha</div></div>
+<div class="topbar">
+<div class="player-pill"><span id="topAvatar">🦊</span><b id="topName">Explorador</b></div>
+<div class="stat-pill"><small>Puntos</small><strong id="scoreLabel">0</strong></div>
+<div class="stat-pill"><small>Casilla</small><strong><span id="posLabel">1</span>/40</strong></div>
+<div class="stat-pill"><small>Deuda</small><strong id="debtLabel">0</strong></div>
+</div>
+<div class="world-title"><div><h2 id="worldName">🌿 Selva del Inicio</h2><p id="missionLabel">Reto 1</p></div><div style="text-align:right;color:var(--gold);font-weight:900;font-size:.8rem">🏆 <span id="streakLabel">0</span> racha</div></div>
 <div class="progress"><i id="progressBar"></i></div>
-<div class="live-preview" id="livePreview"><div class="live-chip">🟢 <b id="miniPlayerName">Tú</b> · en juego</div></div>
+<div class="live-preview"><div class="live-chip">🟢 <b id="miniPlayerName">Tú</b> · en juego</div></div>
 <div class="board" id="board"></div>
-<div class="legend"><span>🪜 atajo</span><span>🐍 trampa</span><span>🏆 tesoro</span></div>
-<div class="action-card"><div class="eyebrow" id="cardEyebrow">Siguiente misión</div><h3 id="cardTitle">La puerta está cerrada</h3><p id="cardText">Resuelve el reto para descubrir cuántas casillas puedes avanzar.</p><button class="challenge-btn" id="challengeBtn">Abrir reto 🔐</button></div>
-<div class="room-note">⚡ Esta versión funciona individualmente y conserva tu avance. La estructura de sala queda preparada para activar sincronización entre varios celulares cuando se conecte un servicio en tiempo real.</div>
+<div class="legend"><span>🪜 atajo</span><span>🐍 trampa</span><span>💸 deuda</span><span>🏆 tesoro</span></div>
+<div class="action-card"><div class="eyebrow" id="cardEyebrow">Siguiente misión</div><h3 id="cardTitle">La puerta está cerrada</h3><p id="cardText">Encuentra la respuesta correcta. Cada error te hará retroceder más.</p><button class="challenge-btn" id="challengeBtn">Abrir reto 🔐</button></div>
+<div class="room-note">⚡ Regla del viaje: primer error −2 casillas, segundo error −4, tercero −6. La pregunta permanece abierta hasta acertar. La deuda pendiente se descuenta de tus avances futuros.</div>
 </section>
 <section class="screen result" id="resultScreen">
 <div class="brand"><div class="brand-mark">🏆</div> Expedición completada</div><div class="trophy">🏆</div><h2>¡Tesoro encontrado!</h2><p class="lead" id="resultMessage">Terminaste la expedición.</p><div class="score-big" id="finalScore">0</div><div style="color:var(--muted);font-weight:800">puntos</div>
-<div class="result-grid"><div class="result-box"><small>Aciertos</small><strong id="finalCorrect">0</strong></div><div class="result-box"><small>Memoria</small><strong id="finalMemory">0%</strong></div><div class="result-box"><small>Mejor racha</small><strong id="finalStreak">0</strong></div><div class="result-box"><small>Casilla final</small><strong id="finalPos">40</strong></div></div>
+<div class="result-grid"><div class="result-box"><small>Aciertos</small><strong id="finalCorrect">0</strong></div><div class="result-box"><small>Memoria</small><strong id="finalMemory">0%</strong></div><div class="result-box"><small>Mejor racha</small><strong id="finalStreak">0</strong></div><div class="result-box"><small>Errores</small><strong id="finalErrors">0</strong></div></div>
 <div class="secret"><div style="font-size:.78rem;color:#c7b36d;font-weight:850;margin-bottom:6px">CÓDIGO SECRETO</div><code id="secretCode">JAGUAR-000</code><div style="font-size:.76rem;color:#9fb0cf;margin-top:7px">Compártelo con tu maestro para demostrar que completaste la misión.</div></div>
 <button class="primary" id="copyBtn">Copiar mi resultado</button><button class="ghost" id="restartBtn">Jugar una nueva expedición</button>
 </section>
 </main>
 <div aria-labelledby="questionTitle" aria-modal="true" class="modal" id="challengeModal" role="dialog"><div class="sheet" id="sheet"></div></div><div class="toast" id="toast"></div>
-<script src="game.js"></script>
+<script src="game.js?v=3"></script>
 </body>
 </html>
