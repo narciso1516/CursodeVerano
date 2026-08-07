@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#312e81" />
+<title>Misión Acentuación · 50 retos | Secundaria</title>
+<style>
+  :root{
+    --bg:#f5f7ff; --surface:#ffffff; --ink:#18223b; --muted:#64708b;
+    --primary:#4f46e5; --primary2:#312e81; --cyan:#0891b2; --amber:#f59e0b;
+    --green:#15803d; --red:#b91c1c; --line:#dfe5f2; --soft:#eef2ff;
+    --shadow:0 18px 50px rgba(49,46,129,.14); --radius:24px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:
+    radial-gradient(circle at top left,#e0e7ff 0,transparent 34%),
+    radial-gradient(circle at top right,#cffafe 0,transparent 28%),var(--bg);color:var(--ink);min-height:100vh}
+  button{font:inherit}
+  .shell{width:min(980px,100%);margin:auto;padding:18px 16px 90px}
+  .hero{background:linear-gradient(135deg,var(--primary2),var(--primary) 58%,#06b6d4);color:white;border-radius:30px;padding:26px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .hero:after{content:"á é í ó ú";position:absolute;right:-20px;top:-26px;font-size:76px;font-weight:900;opacity:.08;transform:rotate(-7deg)}
+  .kicker{display:inline-flex;gap:8px;align-items:center;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);padding:7px 11px;border-radius:999px;font-size:.82rem;font-weight:800;letter-spacing:.03em}
+  h1{font-size:clamp(2rem,7vw,4.3rem);line-height:.96;margin:16px 0 12px;letter-spacing:-.05em;max-width:760px}
+  .hero p{max-width:720px;margin:0;color:#e9eaff;font-size:1.04rem;line-height:1.55}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  .hero button{border:0;border-radius:14px;padding:12px 16px;font-weight:850;cursor:pointer}
+  .btn-light{background:white;color:var(--primary2)} .btn-ghost{background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.2)!important}
+
+  .status{margin:18px 0 0;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:20px;padding:14px 16px;box-shadow:0 10px 28px rgba(27,37,65,.07);position:sticky;top:8px;z-index:20}
+  .status-top{display:flex;justify-content:space-between;gap:12px;align-items:center;font-weight:850;font-size:.92rem}
+  .status small{color:var(--muted);font-weight:700}
+  .bar{height:10px;border-radius:999px;background:#e9edf7;overflow:hidden;margin-top:10px}.bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--primary),#06b6d4);border-radius:inherit;transition:width .35s ease}
+
+  .learn-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
+  .mini{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:13px;box-shadow:0 8px 22px rgba(27,37,65,.05)}
+  .mini strong{display:block;font-size:.92rem}.mini span{display:block;color:var(--muted);font-size:.76rem;margin-top:3px;line-height:1.3}
+  .mini b{color:var(--primary)}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+  .card-head{padding:18px 20px;background:linear-gradient(180deg,#fff,#f8f9ff);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .level{font-size:.8rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:var(--primary)}
+  .num{font-weight:900;color:var(--muted);font-size:.88rem}
+  .body{padding:22px}
+  .lesson{display:grid;grid-template-columns:38px 1fr;gap:12px;background:#f5f7ff;border:1px solid #e0e7ff;border-radius:18px;padding:16px;margin-bottom:18px}
+  .lesson-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--primary);color:white;font-size:1.12rem;font-weight:900}
+  .eyebrow{font-size:.74rem;font-weight:900;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+  .lesson h2{font-size:1.23rem;margin:0 0 7px;line-height:1.25}.lesson p{margin:0;color:#4c5874;line-height:1.55}
+  .example{margin-top:11px;display:inline-block;background:white;border:1px solid #d8def1;padding:8px 11px;border-radius:12px;font-weight:900;letter-spacing:.02em}
+  .example .hit{color:var(--primary);text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:4px}
+
+  .question-label{font-size:.78rem;font-weight:950;text-transform:uppercase;letter-spacing:.08em;color:var(--cyan);margin-bottom:7px}
+  .question{font-size:clamp(1.25rem,4.5vw,1.8rem);font-weight:900;line-height:1.2;margin:0 0 18px;letter-spacing:-.02em}
+  .answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+  .answer{min-height:58px;border:2px solid #e2e7f2;background:white;border-radius:16px;padding:12px 14px;font-weight:850;color:var(--ink);cursor:pointer;text-align:left;transition:.18s ease;display:flex;align-items:center;gap:10px}
+  .answer:hover{border-color:#a5b4fc;transform:translateY(-1px);box-shadow:0 6px 16px rgba(79,70,229,.08)}
+  .answer:disabled{cursor:default;transform:none}.answer.correct{border-color:#86efac;background:#f0fdf4;color:#166534}.answer.wrong{border-color:#fecaca;background:#fff1f2;color:#991b1b}
+  .choice-key{width:28px;height:28px;border-radius:9px;background:#eef2ff;color:var(--primary);display:grid;place-items:center;font-size:.78rem;font-weight:950;flex:0 0 auto}
+  .answer.correct .choice-key{background:#dcfce7;color:#166534}.answer.wrong .choice-key{background:#fee2e2;color:#991b1b}
+  .feedback{display:none;margin-top:16px;border-radius:16px;padding:14px 15px;line-height:1.45;font-weight:700}.feedback.show{display:block}.feedback.ok{background:#ecfdf3;border:1px solid #bbf7d0;color:#166534}.feedback.no{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412}
+  .feedback strong{font-weight:950}
+  .nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+  .nav button{border:0;border-radius:15px;padding:12px 15px;font-weight:900;cursor:pointer}.prev{background:#eef1f7;color:#46516b}.next{background:linear-gradient(135deg,var(--primary2),var(--primary));color:white;min-width:160px}.next:disabled{opacity:.45;cursor:not-allowed}
+
+  .final{display:none;background:white;border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);padding:26px;text-align:center}.final.show{display:block}.score-ring{width:150px;height:150px;border-radius:50%;margin:8px auto 18px;display:grid;place-items:center;background:conic-gradient(var(--primary) var(--score,0%),#e8ebf4 0);position:relative}.score-ring:after{content:"";position:absolute;inset:13px;background:white;border-radius:50%}.score-ring span{z-index:1;font-size:2rem;font-weight:950;color:var(--primary2)}
+  .summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px auto;max-width:620px}.summary-grid div{background:#f6f7fb;border:1px solid var(--line);border-radius:16px;padding:13px}.summary-grid strong{display:block;font-size:1.35rem}.summary-grid span{font-size:.78rem;color:var(--muted);font-weight:750}
+  .final-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:18px}.final button{border:0;border-radius:14px;padding:12px 16px;font-weight:900;cursor:pointer}.primary{background:var(--primary);color:#fff}.secondary{background:#eef1f7;color:#34405c}
+
+  .footer{text-align:center;color:var(--muted);font-size:.8rem;padding:28px 12px 0}.footer strong{color:var(--primary2)}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  @media(max-width:700px){.shell{padding:10px 10px 70px}.hero{padding:20px;border-radius:24px}.learn-strip{grid-template-columns:repeat(2,1fr)}.answers{grid-template-columns:1fr}.body{padding:16px}.card-head{padding:14px 16px}.status{top:5px}.summary-grid{grid-template-columns:1fr}.nav{position:sticky;bottom:8px;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);padding:8px;border-radius:16px;border:1px solid var(--line)}.next{min-width:0;flex:1}.prev{flex:0 0 auto}}
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <section class="hero" id="inicio">
+    <span class="kicker">✦ Secundaria · Lengua y ortografía</span>
+    <h1>Misión<br>Acentuación</h1>
+    <p>50 retos para dominar palabras <b>agudas, graves, esdrújulas y sobresdrújulas</b>. Cada reto enseña primero con un ejemplo sencillo y después te pide resolver uno.</p>
+    <div class="hero-actions">
+      <button class="btn-light" id="startBtn">Comenzar los 50 retos</button>
+      <button class="btn-ghost" id="rulesBtn">Ver regla rápida</button>
+    </div>
+  </section>
+
+  <section class="status" aria-label="Progreso">
+    <div class="status-top"><span id="progressLabel">Reto 1 de 50</span><small id="scoreLabel">Aciertos: 0</small></div>
+    <div class="bar"><div id="progressBar"></div></div>
+  </section>
+
+  <section class="learn-strip" id="rules">
+    <div class="mini"><strong>Aguda</strong><span>Fuerza en la <b>última</b>: can-CIÓN</span></div>
+    <div class="mini"><strong>Grave</strong><span>Fuerza en la <b>penúltima</b>: ME-sa</span></div>
+    <div class="mini"><strong>Esdrújula</strong><span>Fuerza en la <b>antepenúltima</b>: MÚ-si-ca</span></div>
+    <div class="mini"><strong>Sobresdrújula</strong><span>Fuerza <b>antes</b> de la antepenúltima: CUÉN-ta-me-lo</span></div>
+  </section>
+
+  <section class="card" id="gameCard" aria-live="polite">
+    <div class="card-head"><span class="level" id="levelName">Nivel 1</span><span class="num" id="challengeNo">Reto 1 / 50</span></div>
+    <div class="body">
+      <div class="lesson">
+        <div class="lesson-icon">A</div>
+        <div>
+          <div class="eyebrow">Primero aprende</div>
+          <h2 id="lessonTitle"></h2>
+          <p id="lessonText"></p>
+          <div class="example" id="lessonExample"></div>
+        </div>
+      </div>
+      <div class="question-label">Ahora tú</div>
+      <p class="question" id="questionText"></p>
+      <div class="answers" id="answers"></div>
+      <div class="feedback" id="feedback" role="status"></div>
+      <div class="nav">
+        <button class="prev" id="prevBtn" type="button">← Anterior</button>
+        <button class="next" id="nextBtn" type="button" disabled>Siguiente reto →</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="final" id="finalCard">
+    <div class="eyebrow">Misión completada</div>
+    <h2 style="font-size:clamp(1.7rem,6vw,3rem);margin:8px 0">Terminaste los 50 retos</h2>
+    <div class="score-ring" id="scoreRing"><span id="finalPct">0%</span></div>
+    <p id="finalMessage" style="color:var(--muted);font-weight:750;max-width:640px;margin:auto"></p>
+    <div class="summary-grid">
+      <div><strong id="finalCorrect">0</strong><span>Aciertos</span></div>
+      <div><strong id="finalWrong">0</strong><span>Por repasar</span></div>
+      <div><strong>50</strong><span>Retos completados</span></div>
+    </div>
+    <div class="final-actions"><button class="primary" id="retryBtn">Repetir misión</button><button class="secondary" onclick="window.print()">Imprimir / guardar resultado</button></div>
+  </section>
+
+  <footer class="footer">Material educativo interactivo · <strong>Misión Acentuación</strong> · Diseñado para práctica gradual en secundaria.</footer>
+</main>
+<script>
+const R = (level,title,text,example,q,opts,answer,explain) => ({level,title,text,example,q,opts,answer,explain});
+const retos = [
+R('Nivel 1 · Escucha la fuerza','La sílaba tónica es la que suena más fuerte.','Di la palabra despacio. En “camión”, la segunda parte suena con más fuerza.','ca – <span class="hit">MIÓN</span>','¿Qué parte suena más fuerte en “ratón”?',['RA','TÓN'],'TÓN','ra–TÓN. La fuerza está en TÓN.'),
+R('Nivel 1 · Escucha la fuerza','No necesitas ver una tilde para escuchar la fuerza.','En “papel”, la voz cae con más fuerza al final.','pa – <span class="hit">PEL</span>','¿Qué parte suena más fuerte en “reloj”?',['RE','LOJ'],'LOJ','re–LOJ. LOJ es la sílaba tónica.'),
+R('Nivel 1 · Escucha la fuerza','A veces la fuerza está antes del final.','En “mesa”, ME suena más fuerte que SA.','<span class="hit">ME</span> – sa','¿Qué parte suena más fuerte en “casa”?',['CA','SA'],'CA','CA–sa. La sílaba tónica es CA.'),
+R('Nivel 1 · Escucha la fuerza','Escuchar primero hace más fácil clasificar después.','En “libro”, la fuerza está en LI.','<span class="hit">LI</span> – bro','¿Dónde está la fuerza en “perro”?',['PE','RRO'],'PE','PE–rro. La fuerza está en PE.'),
+R('Nivel 1 · Escucha la fuerza','Una palabra puede tener tres o más sílabas.','En “música”, MÚ es la sílaba tónica.','<span class="hit">MÚ</span> – si – ca','¿Dónde está la fuerza en “médico”?',['MÉ','DI','CO'],'MÉ','MÉ–di–co. La fuerza está en MÉ.'),
+
+R('Nivel 2 · Agudas','Una palabra aguda tiene la fuerza en la última sílaba.','Si la fuerza queda al final, la palabra es aguda.','ca – <span class="hit">FÉ</span>','“café” es una palabra…',['Aguda','Grave','Esdrújula'],'Aguda','ca–FÉ: la última sílaba es la fuerte, por eso es aguda.'),
+R('Nivel 2 · Agudas','Mira siempre la posición de la sílaba tónica.','En “reloj”, LOJ es la última sílaba y recibe la fuerza.','re – <span class="hit">LOJ</span>','“papel” es una palabra…',['Aguda','Grave','Esdrújula'],'Aguda','pa–PEL: la fuerza está en la última sílaba.'),
+R('Nivel 2 · Agudas','Las palabras largas también pueden ser agudas.','En “animal”, MAL es la sílaba tónica.','a – ni – <span class="hit">MAL</span>','¿Cuál es la sílaba tónica de “corazón”?',['CO','RA','ZÓN'],'ZÓN','co–ra–ZÓN. ZÓN es la última y la más fuerte.'),
+R('Nivel 2 · Agudas','Una tilde puede ayudarte a ver la sílaba fuerte.','En “limón”, la tilde marca la fuerza en MÓN.','li – <span class="hit">MÓN</span>','¿Cuál palabra es aguda?',['mesa','sofá','árbol'],'sofá','so–FÁ. La fuerza está al final.'),
+R('Nivel 2 · Agudas','Aguda no significa “con tilde”; significa fuerza al final.','“doctor” no lleva tilde y aun así es aguda.','doc – <span class="hit">TOR</span>','¿Cuál palabra también es aguda aunque no lleve tilde?',['reloj','casa','lápiz'],'reloj','re–LOJ: fuerza al final, por eso es aguda.'),
+
+R('Nivel 3 · Tilde en agudas','Las agudas llevan tilde si terminan en vocal, N o S.','“café” es aguda y termina en vocal: lleva tilde.','ca – <span class="hit">FÉ</span>','¿Cuál escritura es correcta?',['sofa','sofá'],'sofá','so–FÁ es aguda y termina en vocal, por eso lleva tilde.'),
+R('Nivel 3 · Tilde en agudas','Aguda + final en N = normalmente lleva tilde.','“canción” termina en N y su fuerza está al final.','can – <span class="hit">CIÓN</span>','Elige la forma correcta.',['camion','camión'],'camión','ca–MIÓN es aguda y termina en N.'),
+R('Nivel 3 · Tilde en agudas','Aguda + final en S = normalmente lleva tilde.','“compás” es aguda y termina en S.','com – <span class="hit">PÁS</span>','Elige la forma correcta.',['además','ademas'],'además','a–de–MÁS es aguda y termina en S.'),
+R('Nivel 3 · Tilde en agudas','Si una aguda termina en otra consonante, normalmente no lleva tilde.','“reloj” termina en J, por eso no se acentúa gráficamente.','re – <span class="hit">LOJ</span>','¿Cuál está escrita correctamente?',['papél','papel'],'papel','pa–PEL es aguda, pero termina en L; no lleva tilde.'),
+R('Nivel 3 · Tilde en agudas','Primero clasifica; después aplica la regla de la tilde.','“corazón” es aguda y termina en N.','co – ra – <span class="hit">ZÓN</span>','¿Cuál de estas agudas debe llevar tilde?',['doctor','reloj','limón'],'limón','li–MÓN termina en N, por eso lleva tilde.'),
+
+R('Nivel 4 · Graves','Una palabra grave tiene la fuerza en la penúltima sílaba.','En “casa”, CA es la penúltima sílaba.','<span class="hit">CA</span> – sa','“mesa” es una palabra…',['Aguda','Grave','Esdrújula'],'Grave','ME–sa: la fuerza está en la penúltima sílaba.'),
+R('Nivel 4 · Graves','Las graves también se llaman llanas.','“libro” tiene la fuerza en LI.','<span class="hit">LI</span> – bro','¿Cuál palabra es grave?',['perro','reloj','canción'],'perro','PE–rro tiene la fuerza en la penúltima sílaba.'),
+R('Nivel 4 · Graves','En tres sílabas, la penúltima es la del centro.','En “ventana”, TA recibe la fuerza.','ven – <span class="hit">TA</span> – na','¿Cuál es la sílaba tónica de “camino”?',['CA','MI','NO'],'MI','ca–MI–no: MI es la penúltima sílaba.'),
+R('Nivel 4 · Graves','La tilde no cambia la categoría: la posición de la fuerza manda.','“árbol” es grave porque ÁR es la penúltima.','<span class="hit">ÁR</span> – bol','¿Cuál palabra es grave?',['papel','lápiz','canción'],'lápiz','LÁ–piz: la fuerza está en la penúltima.'),
+R('Nivel 4 · Graves','Cuenta desde el final.','Última: LA. Penúltima: CUE. Allí está la fuerza.','es – <span class="hit">CUE</span> – la','“escuela” es…',['Aguda','Grave','Esdrújula'],'Grave','es–CUE–la: la fuerza está en la penúltima.'),
+
+R('Nivel 5 · Tilde en graves','Las graves llevan tilde si NO terminan en vocal, N o S.','“lápiz” termina en Z, por eso lleva tilde.','<span class="hit">LÁ</span> – piz','Elige la forma correcta.',['lapiz','lápiz'],'lápiz','LÁ–piz es grave y termina en Z.'),
+R('Nivel 5 · Tilde en graves','Una grave terminada en vocal normalmente no lleva tilde.','“mesa” es grave y termina en A.','<span class="hit">ME</span> – sa','¿Cuál está correctamente escrita?',['cása','casa'],'casa','CA–sa es grave y termina en vocal: no lleva tilde.'),
+R('Nivel 5 · Tilde en graves','Grave terminada en L: normalmente lleva tilde.','“fácil” es grave y termina en L.','<span class="hit">FÁ</span> – cil','Corrige “dificil”.',['difícil','dificíl'],'difícil','di–FÍ–cil es grave y termina en L.'),
+R('Nivel 5 · Tilde en graves','No todas las graves llevan tilde.','“joven” es grave y termina en N; no lleva tilde.','<span class="hit">JO</span> – ven','¿Cuál palabra grave necesita tilde?',['libro','joven','árbol'],'árbol','ÁR–bol termina en L, por eso lleva tilde.'),
+R('Nivel 5 · Tilde en graves','Compara la fuerza, no solo la tilde.','“mesa” y “lápiz” son graves; “papel” es aguda.','<span class="hit">ME</span>-sa · <span class="hit">LÁ</span>-piz','¿Cuál pareja contiene solo palabras graves?',['mesa y lápiz','papel y reloj','café y sofá'],'mesa y lápiz','ME–sa y LÁ–piz tienen la fuerza en la penúltima sílaba.'),
+
+R('Nivel 6 · Esdrújulas','Una esdrújula tiene la fuerza en la antepenúltima sílaba.','En “música”, MÚ queda tres posiciones desde el final.','<span class="hit">MÚ</span> – si – ca','“médico” es una palabra…',['Aguda','Grave','Esdrújula'],'Esdrújula','MÉ–di–co: la fuerza está en la antepenúltima.'),
+R('Nivel 6 · Esdrújulas','Todas las esdrújulas llevan tilde.','“pájaro” siempre lleva tilde en PÁ.','<span class="hit">PÁ</span> – ja – ro','¿Dónde está la fuerza en “sábado”?',['SÁ','BA','DO'],'SÁ','SÁ–ba–do: SÁ es la antepenúltima.'),
+R('Nivel 6 · Esdrújulas','Cuenta sílabas desde el final.','En “máquina”: na = última, qui = penúltima, MÁ = antepenúltima.','<span class="hit">MÁ</span> – qui – na','“máquina” es…',['Aguda','Grave','Esdrújula'],'Esdrújula','MÁ–qui–na tiene la fuerza en la antepenúltima.'),
+R('Nivel 6 · Esdrújulas','La categoría depende de dónde está la fuerza.','“teléfono” tiene la fuerza en LÉ.','te – <span class="hit">LÉ</span> – fo – no','¿Cuál palabra es esdrújula?',['canción','teléfono','ventana'],'teléfono','te–LÉ–fo–no: LÉ es la antepenúltima.'),
+R('Nivel 6 · Esdrújulas','Las esdrújulas se escriben siempre con tilde.','“música” necesita tilde en MÚ.','<span class="hit">MÚ</span> – si – ca','Corrige “brujula”.',['brújula','brujúla'],'brújula','BRÚ–ju–la es esdrújula y lleva tilde en BRÚ.'),
+
+R('Nivel 7 · Compara','Aguda: fuerza al final. Grave: una antes. Esdrújula: dos antes.','Compara: ca-FÉ / ME-sa / MÚ-si-ca.','ca-<span class="hit">FÉ</span> · <span class="hit">ME</span>-sa · <span class="hit">MÚ</span>-si-ca','Clasifica “café”.',['Aguda','Grave','Esdrújula'],'Aguda','ca–FÉ: fuerza en la última.'),
+R('Nivel 7 · Compara','Busca la sílaba fuerte y cuenta desde el final.','En “ventana”, TA es la penúltima.','ven – <span class="hit">TA</span> – na','Clasifica “ventana”.',['Aguda','Grave','Esdrújula'],'Grave','ven–TA–na: fuerza en la penúltima.'),
+R('Nivel 7 · Compara','Si la fuerza está en la antepenúltima, es esdrújula.','En “teléfono”, LÉ es la antepenúltima.','te – <span class="hit">LÉ</span> – fo – no','Clasifica “teléfono”.',['Aguda','Grave','Esdrújula'],'Esdrújula','te–LÉ–fo–no: fuerza en la antepenúltima.'),
+R('Nivel 7 · Compara','Tres palabras pueden pertenecer a tres familias distintas.','canción = aguda; mesa = grave; médico = esdrújula.','can-<span class="hit">CIÓN</span> · <span class="hit">ME</span>-sa · <span class="hit">MÉ</span>-di-co','¿Cuál relación es correcta?',['canción–aguda / mesa–grave / médico–esdrújula','canción–grave / mesa–aguda / médico–grave','todas son agudas'],'canción–aguda / mesa–grave / médico–esdrújula','La posición de la sílaba tónica cambia en cada palabra.'),
+R('Nivel 7 · Compara','No confundas tener tilde con ser aguda.','“árbol” tiene tilde pero es grave.','<span class="hit">ÁR</span> – bol','¿Qué clasificación tiene “árbol”?',['Aguda','Grave','Esdrújula'],'Grave','ÁR es la penúltima sílaba.'),
+
+R('Nivel 8 · Sobresdrújulas','Una sobresdrújula tiene la fuerza antes de la antepenúltima.','En “cuéntamelo”, CUÉN queda muy lejos del final.','<span class="hit">CUÉN</span> – ta – me – lo','“dígamelo” es…',['Grave','Esdrújula','Sobresdrújula'],'Sobresdrújula','DÍ–ga–me–lo: DÍ está antes de la antepenúltima.'),
+R('Nivel 8 · Sobresdrújulas','Muchas se forman con un verbo y pronombres: me, te, se, lo, la…','“explícamelo” mantiene la fuerza en PLÍ.','ex – <span class="hit">PLÍ</span> – ca – me – lo','¿Dónde está la fuerza en “explícamelo”?',['EX','PLÍ','CA','LO'],'PLÍ','ex–PLÍ–ca–me–lo. PLÍ es la sílaba tónica.'),
+R('Nivel 8 · Sobresdrújulas','Las sobresdrújulas de este tipo llevan tilde.','“cuéntamelo” lleva tilde en CUÉN.','<span class="hit">CUÉN</span> – ta – me – lo','¿Cuál escritura es correcta?',['cuentamelo','cuéntamelo'],'cuéntamelo','La fuerza está antes de la antepenúltima y se marca con tilde.'),
+R('Nivel 8 · Sobresdrújulas','Si hay muchas sílabas después de la fuerte, revisa si es sobresdrújula.','“devuélvemelo” tiene la fuerza en VUÉL.','de – <span class="hit">VUÉL</span> – ve – me – lo','Clasifica “devuélvemelo”.',['Aguda','Grave','Esdrújula','Sobresdrújula'],'Sobresdrújula','VUÉL queda antes de la antepenúltima.'),
+R('Nivel 8 · Sobresdrújulas','Distingue esdrújula de sobresdrújula contando desde el final.','“médico” = esdrújula; “explícamelo” = sobresdrújula.','<span class="hit">MÉ</span>-di-co · ex-<span class="hit">PLÍ</span>-ca-me-lo','¿Cuál es sobresdrújula?',['médico','canción','explícamelo','mesa'],'explícamelo','La sílaba PLÍ queda antes de la antepenúltima.'),
+
+R('Nivel 9 · Detectives','Ahora mezcla las cuatro familias.','Pregunta clave: ¿dónde está la sílaba tónica?','última · penúltima · antepenúltima · antes','Clasifica “camión”.',['Aguda','Grave','Esdrújula','Sobresdrújula'],'Aguda','ca–MIÓN: fuerza en la última.'),
+R('Nivel 9 · Detectives','Una tilde no significa automáticamente esdrújula.','“árbol” tiene dos sílabas y la fuerza está en ÁR.','<span class="hit">ÁR</span> – bol','Clasifica “árbol”.',['Aguda','Grave','Esdrújula','Sobresdrújula'],'Grave','ÁR es la penúltima.'),
+R('Nivel 9 · Detectives','En palabras largas, cuenta desde el final.','En “matemáticas”, MÁ es la antepenúltima.','ma – te – <span class="hit">MÁ</span> – ti – cas','Clasifica “matemáticas”.',['Aguda','Grave','Esdrújula','Sobresdrújula'],'Esdrújula','La fuerza está en MÁ, la antepenúltima.'),
+R('Nivel 9 · Detectives','Los pronombres pegados al verbo pueden alejar la sílaba tónica del final.','“cuéntaselo” tiene fuerza en CUÉN.','<span class="hit">CUÉN</span> – ta – se – lo','Clasifica “cuéntaselo”.',['Aguda','Grave','Esdrújula','Sobresdrújula'],'Sobresdrújula','CUÉN está antes de la antepenúltima.'),
+R('Nivel 9 · Detectives','Resuelve por posición, no por memoria.','Ejemplo: PÁ-ja-ro = esdrújula.','<span class="hit">PÁ</span> – ja – ro','¿Cuál clasificación corresponde a “computadora”?',['Aguda','Grave','Esdrújula','Sobresdrújula'],'Grave','com–pu–ta–DO–ra: DO es la penúltima.'),
+
+R('Nivel 10 · Misión final','Haz el proceso completo: separa, escucha y clasifica.','corazón → co–ra–ZÓN → fuerza al final → aguda.','co – ra – <span class="hit">ZÓN</span>','¿Qué clasificación tiene “corazón”?',['Aguda','Grave','Esdrújula','Sobresdrújula'],'Aguda','co–ra–ZÓN: fuerza en la última.'),
+R('Nivel 10 · Misión final','Primero localiza la fuerza y luego aplica la regla.','difícil → di–FÍ–cil → fuerza en la penúltima → grave.','di – <span class="hit">FÍ</span> – cil','¿Qué clasificación tiene “difícil”?',['Aguda','Grave','Esdrújula','Sobresdrújula'],'Grave','di–FÍ–cil: fuerza en la penúltima.'),
+R('Nivel 10 · Misión final','Las esdrújulas siempre llevan tilde.','brújula → BRÚ–ju–la → antepenúltima.','<span class="hit">BRÚ</span> – ju – la','¿Qué clasificación tiene “brújula”?',['Aguda','Grave','Esdrújula','Sobresdrújula'],'Esdrújula','BRÚ es la antepenúltima.'),
+R('Nivel 10 · Misión final','Una sobresdrújula tiene la fuerza todavía más atrás.','dígamelo → DÍ–ga–me–lo.','<span class="hit">DÍ</span> – ga – me – lo','¿Qué clasificación tiene “dígamelo”?',['Aguda','Grave','Esdrújula','Sobresdrújula'],'Sobresdrújula','DÍ está antes de la antepenúltima.'),
+R('Nivel 10 · Misión final','Último reto: usa todo lo aprendido.','Recuerda: última = aguda; penúltima = grave; antepenúltima = esdrújula; antes = sobresdrújula.','can-<span class="hit">CIÓN</span> · <span class="hit">ME</span>-sa · <span class="hit">MÚ</span>-si-ca · <span class="hit">CUÉN</span>-ta-me-lo','¿Cuál serie está clasificada correctamente?',['canción–aguda / mesa–grave / teléfono–esdrújula / cuéntamelo–sobresdrújula','canción–grave / mesa–aguda / teléfono–grave / cuéntamelo–esdrújula','canción–aguda / mesa–esdrújula / teléfono–grave / cuéntamelo–aguda'],'canción–aguda / mesa–grave / teléfono–esdrújula / cuéntamelo–sobresdrújula','¡Correcto! Identificaste las cuatro familias usando la posición de la sílaba tónica.')
+];
+
+let idx = 0;
+let attempts = Array(retos.length).fill(null);
+
+const $ = s => document.querySelector(s);
+const el = {
+  card:$('#gameCard'), final:$('#finalCard'), level:$('#levelName'), no:$('#challengeNo'),
+  title:$('#lessonTitle'), text:$('#lessonText'), ex:$('#lessonExample'), q:$('#questionText'),
+  answers:$('#answers'), feedback:$('#feedback'), prev:$('#prevBtn'), next:$('#nextBtn'),
+  pLabel:$('#progressLabel'), scoreLabel:$('#scoreLabel'), bar:$('#progressBar')
+};
+
+function correctCount(){ return attempts.filter(a=>a?.correct).length; }
+function answeredCount(){ return attempts.filter(Boolean).length; }
+function render(){
+  if(idx >= retos.length){ showFinal(); return; }
+  el.card.style.display='block'; el.final.classList.remove('show');
+  const r = retos[idx];
+  el.level.textContent=r.level; el.no.textContent=`Reto ${idx+1} / ${retos.length}`;
+  el.title.textContent=r.title; el.text.textContent=r.text; el.ex.innerHTML=r.example; el.q.textContent=r.q;
+  el.answers.innerHTML='';
+  r.opts.forEach((o,i)=>{
+    const b=document.createElement('button'); b.className='answer'; b.type='button';
+    b.innerHTML=`<span class="choice-key">${String.fromCharCode(65+i)}</span><span>${o}</span>`;
+    b.addEventListener('click',()=>answer(o,b));
+    el.answers.appendChild(b);
+  });
+  const saved=attempts[idx];
+  if(saved){
+    [...el.answers.children].forEach(b=>{b.disabled=true; const label=b.lastElementChild.textContent; if(label===r.answer)b.classList.add('correct'); if(label===saved.selected && !saved.correct)b.classList.add('wrong');});
+    showFeedback(saved.correct,r.explain,r.answer);
+  } else { el.feedback.className='feedback'; el.feedback.innerHTML=''; }
+  el.prev.disabled=idx===0; el.next.disabled=!saved;
+  el.next.textContent=idx===retos.length-1?'Ver resultado →':'Siguiente reto →';
+  updateStatus();
+  window.scrollTo({top:Math.max(0,el.card.offsetTop-90),behavior:'smooth'});
+}
+
+function answer(selected,button){
+  if(attempts[idx]) return;
+  const r=retos[idx], ok=selected===r.answer;
+  attempts[idx]={selected,correct:ok};
+  [...el.answers.children].forEach(b=>{b.disabled=true; const label=b.lastElementChild.textContent; if(label===r.answer)b.classList.add('correct');});
+  if(!ok) button.classList.add('wrong');
+  showFeedback(ok,r.explain,r.answer); el.next.disabled=false; updateStatus();
+}
+function showFeedback(ok,explain,answer){
+  el.feedback.className=`feedback show ${ok?'ok':'no'}`;
+  el.feedback.innerHTML=ok?`<strong>✓ ¡Correcto!</strong> ${explain}`:`<strong>Vamos a revisarlo.</strong> La respuesta correcta es <b>${answer}</b>. ${explain}`;
+}
+function updateStatus(){
+  const c=correctCount(), a=answeredCount();
+  el.pLabel.textContent=`Reto ${Math.min(idx+1,50)} de 50 · ${a} respondidos`;
+  el.scoreLabel.textContent=`Aciertos: ${c}`;
+  el.bar.style.width=`${(a/retos.length)*100}%`;
+}
+function showFinal(){
+  el.card.style.display='none'; el.final.classList.add('show');
+  const c=correctCount(), w=retos.length-c, pct=Math.round(c/retos.length*100);
+  $('#finalCorrect').textContent=c; $('#finalWrong').textContent=w; $('#finalPct').textContent=`${pct}%`;
+  $('#scoreRing').style.setProperty('--score',`${pct}%`);
+  let msg='Buen inicio. Repasa la posición de la sílaba tónica y vuelve a intentarlo.';
+  if(pct>=60) msg='Vas avanzando bien. Revisa especialmente las palabras que confundiste y repite la misión.';
+  if(pct>=80) msg='Muy buen dominio. Ya diferencias las cuatro familias con bastante seguridad.';
+  if(pct>=94) msg='Excelente dominio. Identificas la sílaba tónica y aplicas las reglas con gran precisión.';
+  $('#finalMessage').textContent=msg;
+  el.pLabel.textContent='Misión completada · 50 de 50'; el.scoreLabel.textContent=`Aciertos: ${c}`; el.bar.style.width='100%';
+  window.scrollTo({top:el.final.offsetTop-90,behavior:'smooth'});
+}
+
+el.prev.addEventListener('click',()=>{ if(idx>0){idx--;render();} });
+el.next.addEventListener('click',()=>{ if(!attempts[idx]) return; idx++; render(); });
+$('#startBtn').addEventListener('click',()=>{ idx=0; render(); });
+$('#rulesBtn').addEventListener('click',()=>$('#rules').scrollIntoView({behavior:'smooth',block:'center'}));
+$('#retryBtn').addEventListener('click',()=>{ attempts=Array(retos.length).fill(null);idx=0;render(); });
+render();
+</script>
+</body>
+</html>
