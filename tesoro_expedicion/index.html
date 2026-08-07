@@ -26,23 +26,24 @@
 </div>
 </section>
 <section class="screen" id="gameScreen">
-<div class="topbar"><div class="player-pill"><span id="topAvatar">🦊</span><b id="topName">Explorador</b></div><div class="stat-pill"><small>Puntos</small><strong id="scoreLabel">0</strong></div><div class="stat-pill"><small>Casilla</small><strong><span id="posLabel">1</span>/40</strong></div></div>
+<div class="topbar"><div class="player-pill"><span id="topAvatar">🦊</span><b id="topName">Explorador</b></div><div class="stat-pill"><small>Puntos</small><strong id="scoreLabel">0</strong></div><div class="stat-pill"><small>Casilla</small><strong><span id="posLabel">1</span>/40</strong></div><div class="stat-pill"><small>Deuda</small><strong id="debtLabel">0</strong></div></div>
 <div class="world-title"><div><h2 id="worldName">🌿 Selva del Inicio</h2><p id="missionLabel">Misión 1</p></div><div style="text-align:right;color:var(--gold);font-weight:900;font-size:.8rem">🏆 <span id="streakLabel">0</span> racha</div></div>
 <div class="progress"><i id="progressBar"></i></div>
 <div class="live-preview" id="livePreview"><div class="live-chip">🟢 <b id="miniPlayerName">Tú</b> · en juego</div></div>
 <div class="board" id="board"></div>
 <div class="legend"><span>🪜 atajo</span><span>🐍 trampa</span><span>⛓️ deuda posible</span><span>🏆 tesoro</span></div>
 <div class="action-card"><div class="eyebrow" id="cardEyebrow">Siguiente misión</div><h3 id="cardTitle">La puerta está cerrada</h3><p id="cardText">Debes acertar para salir del reto. Cada error consecutivo aumenta el retroceso.</p><button class="challenge-btn" id="challengeBtn">Abrir reto 🔐</button></div>
-<div class="room-note">⚡ Las preguntas se seleccionan sin repetirse dentro de la misma expedición. El avance se guarda en este dispositivo.</div>
+<div class="room-note">⚡ Las preguntas se seleccionan sin repetirse dentro de la misma expedición. Si tu deuda es mayor que tu avance, primero tendrás que recuperarla.</div>
 </section>
 <section class="screen result" id="resultScreen">
 <div class="brand"><div class="brand-mark">🏆</div> Expedición completada</div><div class="trophy">🏆</div><h2>¡Tesoro encontrado!</h2><p class="lead" id="resultMessage">Terminaste la expedición.</p><div class="score-big" id="finalScore">0</div><div style="color:var(--muted);font-weight:800">puntos</div>
-<div class="result-grid"><div class="result-box"><small>Aciertos / intentos</small><strong id="finalCorrect">0</strong></div><div class="result-box"><small>Memoria</small><strong id="finalMemory">0%</strong></div><div class="result-box"><small>Mejor racha</small><strong id="finalStreak">0</strong></div><div class="result-box"><small>Casilla final</small><strong id="finalPos">40</strong></div></div>
+<div class="result-grid"><div class="result-box"><small>Aciertos / intentos</small><strong id="finalCorrect">0</strong></div><div class="result-box"><small>Memoria</small><strong id="finalMemory">0%</strong></div><div class="result-box"><small>Mejor racha</small><strong id="finalStreak">0</strong></div><div class="result-box"><small>Errores</small><strong id="finalErrors">0</strong></div></div>
 <div class="secret"><div style="font-size:.78rem;color:#c7b36d;font-weight:850;margin-bottom:6px">CÓDIGO SECRETO</div><code id="secretCode">JAGUAR-000</code><div style="font-size:.76rem;color:#9fb0cf;margin-top:7px">Compártelo con tu maestro para demostrar que completaste la misión.</div></div>
 <button class="primary" id="copyBtn">Copiar mi resultado</button><button class="ghost" id="restartBtn">Jugar una nueva expedición</button>
 </section>
 </main>
 <div aria-labelledby="questionTitle" aria-modal="true" class="modal" id="challengeModal" role="dialog"><div class="sheet" id="sheet"></div></div><div class="toast" id="toast"></div>
 <script src="game.js?v=4"></script>
+<script src="rules-v3.js?v=1"></script>
 </body>
 </html>
