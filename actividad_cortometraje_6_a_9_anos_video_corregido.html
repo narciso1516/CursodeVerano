@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pequeños Directores 🎬 | Descubrimos los cortometrajes</title>
+<meta name="description" content="Actividad interactiva para niños de 6 a 9 años para descubrir qué es un cortometraje, ver SOAR y crear una idea propia.">
+
+<style>
+:root{
+  --bg:#f7fbff;
+  --paper:#ffffff;
+  --ink:#24324a;
+  --muted:#63708a;
+  --blue:#4b7bec;
+  --sky:#7ed6df;
+  --yellow:#ffd166;
+  --pink:#ff7aa2;
+  --green:#58c79b;
+  --purple:#8e7dff;
+  --shadow:0 16px 40px rgba(43,66,109,.13);
+  --radius:26px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(126,214,223,.24), transparent 24rem),
+    radial-gradient(circle at 90% 10%, rgba(255,209,102,.20), transparent 26rem),
+    var(--bg);
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.wrap{width:min(100% - 24px,980px);margin:auto}
+.hero{
+  min-height:88vh;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  padding:54px 0 36px;
+}
+.hero-card{
+  width:100%;
+  background:linear-gradient(145deg,#fff,#f8fdff);
+  border:1px solid rgba(75,123,236,.12);
+  border-radius:36px;
+  box-shadow:var(--shadow);
+  padding:clamp(28px,6vw,66px) 20px;
+  position:relative;
+  overflow:hidden;
+}
+.hero-card:before,.hero-card:after{
+  content:"";
+  position:absolute;
+  width:180px;height:180px;border-radius:50%;
+  filter:blur(1px);opacity:.18
+}
+.hero-card:before{background:var(--yellow);left:-70px;top:-70px}
+.hero-card:after{background:var(--pink);right:-60px;bottom:-80px}
+.kicker{
+  display:inline-flex;gap:8px;align-items:center;
+  background:#eef5ff;color:#2e5dc4;border-radius:999px;
+  padding:9px 14px;font-weight:800;font-size:.9rem;
+}
+h1{
+  font-size:clamp(2.4rem,9vw,5.7rem);
+  line-height:.94;margin:22px auto 18px;letter-spacing:-.055em;
+  max-width:820px
+}
+.gradient{
+  background:linear-gradient(90deg,var(--blue),var(--purple),var(--pink));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero p{font-size:clamp(1.03rem,2.7vw,1.28rem);max-width:670px;margin:0 auto 28px;color:var(--muted);line-height:1.55}
+.cta{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  border:0;border-radius:18px;padding:15px 22px;
+  color:#fff;background:var(--blue);font-weight:900;
+  box-shadow:0 10px 24px rgba(75,123,236,.27);
+}
+.progress-shell{
+  position:sticky;top:0;z-index:20;
+  padding:8px 0;background:rgba(247,251,255,.82);
+  backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,.04)
+}
+.progress{height:10px;background:#e7eef8;border-radius:999px;overflow:hidden}
+.progress > span{display:block;width:0%;height:100%;background:linear-gradient(90deg,var(--blue),var(--purple),var(--pink));transition:.35s}
+section{padding:42px 0}
+.card{
+  background:var(--paper);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:clamp(22px,5vw,42px);
+  border:1px solid rgba(36,50,74,.06)
+}
+.step{
+  width:46px;height:46px;border-radius:15px;
+  display:grid;place-items:center;font-weight:1000;
+  color:#fff;background:var(--blue);margin-bottom:14px
+}
+h2{font-size:clamp(1.7rem,5vw,2.65rem);margin:0 0 12px;letter-spacing:-.035em}
+.lead{font-size:1.09rem;color:var(--muted);line-height:1.6;margin-top:0}
+.idea-grid,.choice-grid,.answers{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:22px
+}
+.idea{
+  border-radius:20px;padding:20px;background:#f6f9ff;border:1px solid #e4ecfa;
+  min-height:145px
+}
+.idea .emoji{font-size:2.1rem}
+.idea b{display:block;font-size:1.08rem;margin:9px 0 5px}
+.video{
+  margin-top:20px;border-radius:24px;overflow:hidden;
+  aspect-ratio:16/9;background:#172033;box-shadow:0 15px 35px rgba(20,29,48,.18)
+}
+.video iframe{width:100%;height:100%;border:0}
+.notice{
+  margin-top:16px;padding:14px 16px;border-radius:17px;
+  background:#fff7db;border:1px solid #f6df90;line-height:1.5
+}
+.question{
+  margin-top:22px;padding:21px;border-radius:22px;background:#fbfcff;border:1px solid #e7edf6
+}
+.question h3{margin:0 0 14px;font-size:1.13rem;line-height:1.4}
+.answers{margin-top:0}
+.answer,.choice{
+  border:2px solid #e5ebf4;background:#fff;color:var(--ink);
+  border-radius:18px;padding:14px 12px;font-weight:800;
+  min-height:54px;transition:.18s
+}
+.answer:hover,.choice:hover{transform:translateY(-2px);border-color:#bfcdf0}
+.answer.good{background:#eafbf3;border-color:var(--green)}
+.answer.bad{background:#fff0f4;border-color:var(--pink)}
+.feedback{min-height:28px;margin:12px 0 0;font-weight:800}
+.stars{font-size:1.55rem;letter-spacing:3px}
+.builder-block{margin-top:26px}
+.builder-block h3{margin-bottom:8px}
+.choice-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.choice.selected{border-color:var(--purple);background:#f3f0ff;box-shadow:0 8px 18px rgba(142,125,255,.12)}
+.result{
+  margin-top:26px;padding:24px;border-radius:22px;
+  background:linear-gradient(135deg,#eef8ff,#fff2f7);
+  border:2px dashed rgba(75,123,236,.34)
+}
+.result h3{margin-top:0}
+.resultText{font-size:1.15rem;line-height:1.6;font-weight:800}
+textarea{
+  width:100%;min-height:105px;border:2px solid #e3eaf5;border-radius:18px;
+  padding:14px;margin-top:12px;resize:vertical;color:var(--ink);background:#fff
+}
+.final{
+  text-align:center;background:linear-gradient(135deg,#273c75,#4b7bec);
+  color:#fff;border-radius:30px;padding:42px 22px;box-shadow:var(--shadow)
+}
+.final p{max-width:650px;margin:12px auto 20px;line-height:1.6;color:#edf3ff}
+.badge{
+  display:inline-block;background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.24);
+  padding:10px 14px;border-radius:999px;font-weight:900
+}
+.small{font-size:.88rem;color:var(--muted);line-height:1.5}
+footer{padding:30px 0 50px;text-align:center;color:var(--muted);font-size:.9rem}
+@media(max-width:720px){
+  .idea-grid,.answers{grid-template-columns:1fr}
+  .choice-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  section{padding:28px 0}
+  .hero{min-height:auto;padding-top:28px}
+  .hero-card{border-radius:28px}
+}
+</style>
+</head>
+
+<body>
+<div class="progress-shell">
+  <div class="wrap"><div class="progress"><span id="bar"></span></div></div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-card">
+      <span class="kicker">🎬 ACTIVIDAD · 6 A 9 AÑOS</span>
+      <h1>Hoy seremos <span class="gradient">pequeños directores</span></h1>
+      <p>
+        Vamos a descubrir qué es un cortometraje, veremos una historia muy especial
+        y después tú inventarás tu propia película.
+      </p>
+      <button class="cta" onclick="go('que-es')">¡Comenzar! 🍿</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="que-es">
+  <div class="wrap">
+    <div class="card">
+      <div class="step">1</div>
+      <h2>¿Qué es un cortometraje?</h2>
+      <p class="lead">
+        Un <strong>cortometraje</strong> es como una película… pero más cortita.
+        Puede contarnos una aventura, hacernos reír, sorprendernos o enseñarnos algo
+        en pocos minutos.
+      </p>
+
+      <div class="idea-grid">
+        <div class="idea"><div class="emoji">⏱️</div><b>Dura poquito</b><span>No necesitamos una hora para conocer la historia.</span></div>
+        <div class="idea"><div class="emoji">🧑‍🚀</div><b>Tiene personajes</b><span>Pueden ser personas, animales, objetos o seres imaginarios.</span></div>
+        <div class="idea"><div class="emoji">🌈</div><b>Puede hacernos sentir</b><span>Alegría, sorpresa, nervios, ternura o emoción.</span></div>
+        <div class="idea"><div class="emoji">💡</div><b>Nos deja una idea</b><span>A veces nos hace pensar incluso cuando ya terminó.</span></div>
+      </div>
+
+      <div class="notice">
+        🎥 <strong>Reto de director:</strong> mientras veas el corto, fíjate en los personajes,
+        el problema y cómo cambia la historia.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="video">
+  <div class="wrap">
+    <div class="card">
+      <div class="step">2</div>
+      <h2>Veamos un cortometraje</h2>
+      <p class="lead">
+        Se llama <strong>SOAR</strong>. No necesitas entender otro idioma:
+        observa con atención los gestos, las acciones y las imágenes.
+      </p>
+
+      <div class="video">
+        <iframe
+          src="https://www.youtube.com/embed/UUlaseGrkLc?si=nz355_UVd9-1sBX6"
+          title="SOAR - cortometraje animado de Alyce Tzue"
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+
+      <div class="notice">
+        👀 Cuando termine, no corras a las preguntas. Primero piensa:
+        <strong>¿qué fue lo que más te sorprendió?</strong>
+      </div>
+      <p class="small">Video: “SOAR”, escrito y dirigido por Alyce Tzue. Reproducción mediante YouTube.</p>
+    </div>
+  </div>
+</section>
+
+<section id="preguntas">
+  <div class="wrap">
+    <div class="card">
+      <div class="step">3</div>
+      <h2>¿Qué descubriste?</h2>
+      <p class="lead">No es un examen. Queremos saber qué observaste y qué pensaste. ⭐</p>
+      <div class="stars" id="stars">☆☆☆☆☆</div>
+
+      <div class="question" data-correct="1">
+        <h3>1. ¿Qué sucede cuando la niña encuentra al pequeño viajero?</h3>
+        <div class="answers">
+          <button class="answer">Lo ignora y se va.</button>
+          <button class="answer">Decide ayudarlo.</button>
+          <button class="answer">Le quita su máquina.</button>
+        </div>
+        <p class="feedback"></p>
+      </div>
+
+      <div class="question" data-correct="2">
+        <h3>2. ¿Qué necesita hacer el pequeño personaje?</h3>
+        <div class="answers">
+          <button class="answer">Construir una casa.</button>
+          <button class="answer">Encontrar comida.</button>
+          <button class="answer">Volver con los suyos.</button>
+        </div>
+        <p class="feedback"></p>
+      </div>
+
+      <div class="question" data-correct="0">
+        <h3>3. Cuando algo no funciona al primer intento, ¿qué hacen los personajes?</h3>
+        <div class="answers">
+          <button class="answer">Siguen buscando una solución.</button>
+          <button class="answer">Se olvidan del problema.</button>
+          <button class="answer">Se quedan esperando sin hacer nada.</button>
+        </div>
+        <p class="feedback"></p>
+      </div>
+
+      <div class="question" data-correct="1">
+        <h3>4. ¿Qué idea aparece mucho en esta historia?</h3>
+        <div class="answers">
+          <button class="answer">Ganar siempre es lo más importante.</button>
+          <button class="answer">Ayudar y no rendirse puede cambiar las cosas.</button>
+          <button class="answer">Es mejor hacer todo solo.</button>
+        </div>
+        <p class="feedback"></p>
+      </div>
+
+      <div class="question" data-correct="2">
+        <h3>5. Esta pregunta es diferente: ¿qué parte te pareció más importante?</h3>
+        <div class="answers open-answer">
+          <button class="answer">Cuando aparece el pequeño viajero.</button>
+          <button class="answer">Cuando intentan resolver el problema.</button>
+          <button class="answer">La parte que yo elija, si puedo explicar por qué.</button>
+        </div>
+        <p class="feedback"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="crear">
+  <div class="wrap">
+    <div class="card">
+      <div class="step">4</div>
+      <h2>Ahora tú eres el director 🎬</h2>
+      <p class="lead">
+        No necesitas una cámara todavía. Primero vamos a crear la <strong>idea</strong>.
+        Elige una opción de cada grupo.
+      </p>
+
+      <div class="builder-block" data-group="personaje">
+        <h3>🧑 ¿Quién será el personaje?</h3>
+        <div class="choice-grid">
+          <button class="choice" data-value="una niña inventora">👧 Niña inventora</button>
+          <button class="choice" data-value="un perro aventurero">🐶 Perro</button>
+          <button class="choice" data-value="un pequeño robot">🤖 Robot</button>
+          <button class="choice" data-value="un personaje imaginado por mí">✨ Otro</button>
+        </div>
+      </div>
+
+      <div class="builder-block" data-group="lugar">
+        <h3>🌍 ¿Dónde ocurre?</h3>
+        <div class="choice-grid">
+          <button class="choice" data-value="en una escuela">🏫 Escuela</button>
+          <button class="choice" data-value="en un bosque">🌳 Bosque</button>
+          <button class="choice" data-value="en el espacio">🚀 Espacio</button>
+          <button class="choice" data-value="en mi comunidad">🏡 Comunidad</button>
+        </div>
+      </div>
+
+      <div class="builder-block" data-group="problema">
+        <h3>🧩 ¿Qué sucede?</h3>
+        <div class="choice-grid">
+          <button class="choice" data-value="encuentra algo misterioso">🔎 Misterio</button>
+          <button class="choice" data-value="tiene que ayudar a alguien">🤝 Ayuda</button>
+          <button class="choice" data-value="pierde algo importante">🗺️ Algo perdido</button>
+          <button class="choice" data-value="debe superar un miedo">💪 Un reto</button>
+        </div>
+      </div>
+
+      <div class="builder-block" data-group="emocion">
+        <h3>💛 ¿Cómo quieres que se sienta quien lo vea?</h3>
+        <div class="choice-grid">
+          <button class="choice" data-value="mucha alegría">😄 Alegría</button>
+          <button class="choice" data-value="sorpresa">😮 Sorpresa</button>
+          <button class="choice" data-value="ternura">🥰 Ternura</button>
+          <button class="choice" data-value="emoción y curiosidad">🤩 Emoción</button>
+        </div>
+      </div>
+
+      <div class="result">
+        <h3>🎞️ La idea de mi cortometraje</h3>
+        <div class="resultText" id="resultText">Elige una opción de cada grupo y aquí aparecerá tu historia.</div>
+        <textarea id="titleBox" placeholder="Escribe aquí el título de tu cortometraje..."></textarea>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cierre">
+  <div class="wrap">
+    <div class="final">
+      <span class="badge">🏆 MISIÓN COMPLETADA</span>
+      <h2 style="margin-top:18px">¡Ya pensaste como un director!</h2>
+      <p>
+        Hoy aprendiste que una historia no necesita ser larga para ser importante.
+        Un cortometraje puede comenzar con una sola idea, un personaje y algo que queremos contar.
+      </p>
+      <button class="cta" style="background:#fff;color:#3157b7" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        Volver al inicio ↟
+      </button>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  Actividad educativa · Pequeños Directores 🎬 · Recomendada para 6–9 años
+</footer>
+
+<script>
+const qs=(s,p=document)=>p.querySelector(s);
+const qsa=(s,p=document)=>[...p.querySelectorAll(s)];
+
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+
+function updateProgress(){
+  const h=document.documentElement;
+  const max=h.scrollHeight-h.clientHeight;
+  const pct=max ? (h.scrollTop/max)*100 : 0;
+  qs('#bar').style.width=pct+'%';
+}
+addEventListener('scroll',updateProgress,{passive:true});
+updateProgress();
+
+let score=0;
+let answered=0;
+
+qsa('.question').forEach((q)=>{
+  const answers=qsa('.answer',q);
+  answers.forEach((btn,i)=>{
+    btn.addEventListener('click',()=>{
+      if(q.dataset.done==='1') return;
+      q.dataset.done='1';
+      answered++;
+
+      const correct=Number(q.dataset.correct);
+      if(i===correct){
+        btn.classList.add('good');
+        qs('.feedback',q).textContent='⭐ ¡Muy bien! Observaste con atención.';
+        score++;
+      }else{
+        btn.classList.add('bad');
+        answers[correct].classList.add('good');
+        qs('.feedback',q).textContent='💡 Mira la opción marcada. Lo importante es pensar en lo que ocurrió.';
+      }
+      qs('#stars').textContent='★'.repeat(score)+'☆'.repeat(5-score);
+    });
+  });
+});
+
+const selections={};
+qsa('.builder-block').forEach(block=>{
+  const group=block.dataset.group;
+  qsa('.choice',block).forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      qsa('.choice',block).forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selections[group]=btn.dataset.value;
+      buildStory();
+    });
+  });
+});
+
+function buildStory(){
+  const {personaje,lugar,problema,emocion}=selections;
+  if(personaje && lugar && problema && emocion){
+    qs('#resultText').textContent =
+      `Mi cortometraje será sobre ${personaje} que ${problema} ${lugar}. `+
+      `Quiero que cuando las personas lo vean sientan ${emocion}.`;
+    setTimeout(()=>qs('.result').scrollIntoView({behavior:'smooth',block:'center'}),150);
+  }else{
+    const left=4-Object.keys(selections).length;
+    qs('#resultText').textContent=`¡Muy bien! Te falt${left===1?'a':'an'} ${left} elección${left===1?'':'es'} para crear tu historia.`;
+  }
+}
+</script>
+</body>
+</html>
