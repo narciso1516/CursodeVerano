@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nivel 1 Completo · Radar de Palabras</title>
+<style>
+:root{
+  --blue:#4B63B6; --indigo:#A88AED; --pear:#CBD83B; --sea:#7CB8C0;
+  --ivory:#FFFFEC; --butter:#FBEDB0; --ink:#26324A; --muted:#68738A;
+  --white:#fff; --line:#E4E8F0; --bad:#B65A66; --shadow:0 14px 34px rgba(38,50,74,.11);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ink);
+  background:linear-gradient(180deg,var(--ivory),#F7F8FC 46%,#EDF3F4);
+}
+button,input{font:inherit}
+.wrap{max-width:1040px;margin:auto;padding:16px 14px 60px}
+.hero{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#303C70,#4B63B6);
+  color:white;border-radius:28px;padding:clamp(24px,5vw,44px);box-shadow:var(--shadow)
+}
+.hero:after{
+  content:"";position:absolute;width:270px;height:270px;border-radius:50%;
+  background:rgba(203,216,59,.13);right:-90px;top:-100px
+}
+.badge{display:inline-block;background:var(--indigo);color:#261E45;padding:8px 12px;border-radius:999px;font-size:.8rem;font-weight:950;letter-spacing:.08em}
+.hero h1{font-size:clamp(2.2rem,7vw,4rem);margin:14px 0 6px;line-height:.98}
+.hero p{max-width:760px;color:#E7EBFC;line-height:1.6;font-size:1.05rem}
+.hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.hero-mini{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);padding:13px;border-radius:15px}
+.hero-mini strong{display:block;color:var(--butter);font-size:.8rem;letter-spacing:.04em}
+.profile,.panel{background:var(--white);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);margin-top:18px;padding:clamp(18px,4vw,30px)}
+.profile-head{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+.identity{display:flex;align-items:center;gap:14px}
+.avatar-box{width:66px;height:66px;display:grid;place-items:center;border-radius:20px;font-size:2rem;background:linear-gradient(135deg,rgba(168,138,237,.26),rgba(124,184,192,.28));border:2px solid rgba(75,99,182,.16)}
+.student-name{font-size:1.2rem;font-weight:950}
+.muted{color:var(--muted)}
+.profile-form{display:grid;grid-template-columns:minmax(190px,1fr) auto;gap:10px;margin-top:15px}
+.profile-form input{padding:13px 14px;border:2px solid var(--line);border-radius:14px;outline:none}
+.profile-form input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(75,99,182,.08)}
+.avatar-picker{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.avatar-btn{width:48px;height:48px;border:2px solid var(--line);background:#fff;border-radius:14px;font-size:1.45rem;cursor:pointer}
+.avatar-btn.selected{border-color:var(--indigo);background:rgba(168,138,237,.16)}
+.route{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.route-step{padding:14px;border:1px solid var(--line);border-radius:16px;background:#F8F9FC;font-weight:850}
+.route-step.active{background:rgba(124,184,192,.17);border-color:var(--sea)}
+.route-step.done{background:rgba(203,216,59,.18);border-color:var(--pear)}
+.progress-label{display:flex;justify-content:space-between;gap:12px;font-size:.85rem;color:var(--muted);font-weight:850;margin-bottom:7px}
+.progress{height:12px;border-radius:999px;background:#EDF0F5;overflow:hidden}
+.progress div{height:100%;width:0;background:linear-gradient(90deg,var(--sea),var(--pear));transition:.35s}
+.stage{display:inline-flex;background:rgba(124,184,192,.18);color:#2D5A61;padding:8px 12px;border-radius:12px;font-size:.82rem;font-weight:950;letter-spacing:.04em}
+h2{font-size:clamp(1.5rem,4vw,2.2rem);margin:14px 0 8px}
+.explain{padding:14px 16px;background:rgba(124,184,192,.16);border-left:5px solid var(--sea);border-radius:14px;line-height:1.55}
+.instruction{margin:14px 0;padding:14px 16px;border-radius:16px;background:rgba(75,99,182,.08);border:2px solid rgba(75,99,182,.20);font-weight:900}
+.hint{background:var(--butter);padding:12px 14px;border-radius:14px;color:#5A4F23;margin-top:12px}
+.word{text-align:center;font-weight:950;font-size:clamp(2.2rem,8vw,4.5rem);margin:22px 0}
+.syllables{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:20px 0}
+.syl{
+  min-width:90px;padding:18px 18px;border:2px solid var(--line);border-radius:18px;background:#fff;
+  font-size:clamp(1.3rem,5vw,2rem);font-weight:950;cursor:pointer;transition:.18s
+}
+.syl:hover{transform:translateY(-2px);border-color:var(--blue)}
+.syl.wrong{opacity:.38;text-decoration:line-through;pointer-events:none}
+.syl.correct{background:rgba(203,216,59,.24);border-color:var(--pear);animation:pop .35s ease}
+@keyframes pop{50%{transform:scale(1.12)}}
+.actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:15px}
+.btn{border:0;border-radius:14px;padding:13px 17px;font-weight:950;cursor:pointer}
+.primary{background:var(--blue);color:white}
+.listen{background:var(--sea);color:#17383D}
+.secondary{background:#EEF0F5;color:var(--ink)}
+.next{background:var(--pear);color:#2A3200}
+.feedback{min-height:56px;margin-top:15px;padding:13px 15px;border-radius:14px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:850}
+.feedback.ok{background:rgba(203,216,59,.23);color:#42551F}
+.feedback.no{background:#FBECEE;color:#813B46}
+.feedback.info{background:var(--butter);color:#5C5124}
+.choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}
+.choice{padding:20px;border:2px solid var(--line);background:white;border-radius:18px;font-weight:950;cursor:pointer}
+.choice:hover{border-color:var(--blue)}
+.detector{background:#F8F9FC;border:1px solid var(--line);border-radius:18px;padding:18px}
+.detector-labels{display:flex;justify-content:space-around;align-items:flex-end;min-height:88px;gap:12px;margin-bottom:6px}
+.detector-label{
+  flex:1;text-align:center;font-weight:950;font-size:1.25rem;
+  transition:font-size .12s ease, transform .12s ease, opacity .12s ease
+}
+input[type=range]{width:100%;accent-color:var(--blue)}
+.wave{
+  height:110px;display:flex;justify-content:center;align-items:flex-end;gap:10px;
+  padding:14px;background:#F8F9FC;border-radius:18px;border:1px solid var(--line);margin:15px 0
+}
+.wave-group{display:flex;align-items:flex-end;gap:4px;flex:1;justify-content:center}
+.wave-bar{width:10px;border-radius:6px 6px 2px 2px;background:var(--sea);transition:height .35s ease}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.stat{padding:15px;border-radius:16px;background:#F8F9FC;border:1px solid var(--line);text-align:center}
+.stat strong{display:block;font-size:1.45rem}
+.author-footer{margin-top:30px;background:#303C70;color:#F7F8FF;border-top:5px solid var(--indigo);border-radius:24px;padding:26px;box-shadow:var(--shadow)}
+.author-footer .eyebrow{color:var(--butter);font-size:.78rem;font-weight:950;letter-spacing:.12em}
+.author-footer h3{margin:7px 0 8px}
+.author-footer p{color:#E5E9FB;line-height:1.55;max-width:820px}
+.author-footer a{display:inline-block;background:var(--pear);color:#273000;text-decoration:none;font-weight:950;padding:11px 15px;border-radius:12px}
+.copy{color:#CBD3EF;font-size:.82rem;margin-top:12px}
+@media(max-width:680px){
+  .hero-grid,.route,.stats{grid-template-columns:1fr}
+  .profile-form,.choice-grid{grid-template-columns:1fr}
+  .wrap{padding:10px 10px 40px}
+  .syl{min-width:74px;padding:16px 12px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="hero">
+  <span class="badge">NIVEL 1 · ESCUCHAR</span>
+  <h1>RADAR DE PALABRAS</h1>
+  <p>Entrena el oído para detectar la sílaba con mayor intensidad prosódica. Después trabajarás con palabras de mayor longitud y menor apoyo visual.</p>
+  <div class="hero-grid">
+    <div class="hero-mini"><strong>GUÍA</strong>Descubre y practica con ayuda.</div>
+    <div class="hero-mini"><strong>ENTRENAMIENTO</strong>Afina tu oído con distintas interacciones.</div>
+    <div class="hero-mini"><strong>COMPROBACIÓN</strong>Demuestra lo aprendido sin pistas.</div>
+  </div>
+</section>
+
+<section class="profile">
+  <div class="profile-head">
+    <div class="identity">
+      <div id="avatarBox" class="avatar-box">🦊</div>
+      <div><div id="nameDisplay" class="student-name">Explorador/a</div><div class="muted">Tu perfil en Radar de Palabras</div></div>
+    </div>
+    <span class="stage">TU IDENTIDAD</span>
+  </div>
+  <div class="profile-form">
+    <input id="nameInput" maxlength="24" placeholder="Escribe tu nombre">
+    <button class="btn primary" onclick="saveProfile()">Guardar nombre</button>
+  </div>
+  <div class="avatar-picker">
+    <button class="avatar-btn selected" data-avatar="🦊" onclick="selectAvatar('🦊',this)">🦊</button>
+    <button class="avatar-btn" data-avatar="🐼" onclick="selectAvatar('🐼',this)">🐼</button>
+    <button class="avatar-btn" data-avatar="🦉" onclick="selectAvatar('🦉',this)">🦉</button>
+    <button class="avatar-btn" data-avatar="🐯" onclick="selectAvatar('🐯',this)">🐯</button>
+    <button class="avatar-btn" data-avatar="🚀" onclick="selectAvatar('🚀',this)">🚀</button>
+    <button class="avatar-btn" data-avatar="🎧" onclick="selectAvatar('🎧',this)">🎧</button>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="route">
+    <div id="r0" class="route-step active">1 · GUÍA</div>
+    <div id="r1" class="route-step">2 · PRÁCTICA</div>
+    <div id="r2" class="route-step">3 · COMPROBACIÓN</div>
+  </div>
+  <div style="margin-top:16px">
+    <div class="progress-label"><span id="phaseLabel">Guía</span><span id="progressText">0%</span></div>
+    <div class="progress"><div id="progressBar"></div></div>
+  </div>
+</section>
+
+<main id="app"></main>
+
+<footer class="author-footer">
+  <div class="eyebrow">AUTOR</div>
+  <h3>Luis Alberto Antonio Narciso</h3>
+  <p>Ingeniero en Electrónica por la UAM y con estudios de Maestría en Ciencias en la UNA. Profesional de Quality Assurance, automatización de pruebas y tecnología educativa, con experiencia como tester en proyectos vinculados con Google y Ford. Su trabajo busca acercar herramientas digitales y experiencias educativas útiles a otras personas mediante tecnología, diseño y aprendizaje.</p>
+  <p><em>“Recurso diseñado y desarrollado por Luis Alberto Antonio Narciso”.</em></p>
+  <a href="https://narciso1516.github.io/narcisotesting.com/" target="_blank" rel="noopener noreferrer">Conocer al autor</a>
+  <div class="copy">© <span id="year"></span> Luis Alberto Antonio Narciso</div>
+</footer>
+</div>
+
+<script>
+document.getElementById("year").textContent=new Date().getFullYear();
+
+const app=document.getElementById("app");
+const progressBar=document.getElementById("progressBar");
+const progressText=document.getElementById("progressText");
+const phaseLabel=document.getElementById("phaseLabel");
+
+let studentName=localStorage.getItem("radarStudentName") || "";
+let avatar=localStorage.getItem("radarStudentAvatar") || "🦊";
+function studentLabel(){return studentName.trim() || "Explorador/a"}
+function syncProfile(){
+  document.getElementById("nameDisplay").textContent=studentLabel();
+  document.getElementById("avatarBox").textContent=avatar;
+  document.getElementById("nameInput").value=studentName;
+  document.querySelectorAll(".avatar-btn").forEach(b=>b.classList.toggle("selected",b.dataset.avatar===avatar));
+}
+function saveProfile(){
+  studentName=document.getElementById("nameInput").value.trim().slice(0,24);
+  localStorage.setItem("radarStudentName",studentName);syncProfile()
+}
+function selectAvatar(a,btn){avatar=a;localStorage.setItem("radarStudentAvatar",a);syncProfile()}
+
+function speak(t){
+ if(!("speechSynthesis" in window))return;
+ speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="es-MX";u.rate=.74;speechSynthesis.speak(u)
+}
+function shell(stage,title,explain,instruction,body){
+ app.innerHTML=`<section class="panel"><span class="stage">${stage}</span><h2>${title}</h2>
+ ${explain?`<div class="explain">${explain}</div>`:""}${instruction?`<div class="instruction">${instruction}</div>`:""}${body}</section>`
+}
+function setProgress(p,label,route){
+ progressBar.style.width=p+"%";progressText.textContent=p+"%";phaseLabel.textContent=label;
+ [0,1,2].forEach(i=>{const el=document.getElementById("r"+i);el.className="route-step";if(i<route)el.classList.add("done");if(i===route)el.classList.add("active")})
+}
+
+const guide=[
+{w:"análisis",s:["a","ná","li","sis"],a:1},
+{w:"social",s:["so","cial"],a:1},
+{w:"fenómeno",s:["fe","nó","me","no"],a:1},
+{w:"investigar",s:["in","ves","ti","gar"],a:3},
+{w:"matemática",s:["ma","te","má","ti","ca"],a:2}
+];
+const practice=[
+{w:"proyecto",s:["pro","yec","to"],a:1},{w:"argumento",s:["ar","gu","men","to"],a:2},
+{w:"tecnología",s:["tec","no","lo","gí","a"],a:3},{w:"historia",s:["his","to","ria"],a:1},
+{w:"científico",s:["cien","tí","fi","co"],a:1},{w:"educación",s:["e","du","ca","ción"],a:3},
+{w:"problema",s:["pro","ble","ma"],a:1},{w:"sociedad",s:["so","cie","dad"],a:2},
+{w:"literatura",s:["li","te","ra","tu","ra"],a:3},{w:"computadora",s:["com","pu","ta","do","ra"],a:3},
+{w:"rápidamente",s:["rá","pi","da","men","te"],a:3},{w:"información",s:["in","for","ma","ción"],a:3},
+{w:"ética",s:["é","ti","ca"],a:0},{w:"conclusión",s:["con","clu","sión"],a:2}
+];
+const check=[
+{w:"universidad",s:["u","ni","ver","si","dad"],a:4},{w:"economía",s:["e","co","no","mí","a"],a:3},
+{w:"política",s:["po","lí","ti","ca"],a:1},{w:"democracia",s:["de","mo","cra","cia"],a:2},
+{w:"geografía",s:["ge","o","gra","fí","a"],a:3},{w:"comunicación",s:["co","mu","ni","ca","ción"],a:4},
+{w:"natural",s:["na","tu","ral"],a:2},{w:"responsable",s:["res","pon","sa","ble"],a:2},
+{w:"académico",s:["a","ca","dé","mi","co"],a:2},{w:"investigación",s:["in","ves","ti","ga","ción"],a:4}
+];
+
+let phase=0,index=0,attempts=0,firstTry=0,errors=[],checkScore=0,tryCountForItem=0;
+
+function render(){
+ if(phase===0)return intro();
+ if(phase===1)return guideStep();
+ if(phase===2)return practiceStep();
+ if(phase===3)return checkStep();
+ finish();
+}
+function intro(){
+ setProgress(3,"Guía · Descubre",0);
+ shell("DESCUBRE","¿Dónde golpea la voz?",
+ "Cuando pronunciamos una palabra, una parte suele escucharse con más fuerza. En este nivel no aprenderemos todavía nombres como aguda o grave. Solo vamos a entrenar el oído.",
+ "Escucha, repite y fíjate en cuál parte de la palabra destaca.",
+ `<div class="word">ca — MIÓN</div>
+ <div class="wave"><div class="wave-group"><div class="wave-bar" style="height:25px"></div><div class="wave-bar" style="height:38px"></div><div class="wave-bar" style="height:28px"></div></div>
+ <div class="wave-group"><div class="wave-bar" style="height:50px"></div><div class="wave-bar" style="height:82px"></div><div class="wave-bar" style="height:67px"></div></div></div>
+ <div class="hint">💡 La gráfica es una ayuda visual: la segunda parte alcanza un pico mayor.</div>
+ <div class="actions"><button class="btn listen" onclick="speak('camión')">🔊 Escuchar</button><button class="btn next" onclick="phase=1;index=0;render()">Empezar guía →</button></div>`)
+}
+function guideStep(){
+ if(index>=guide.length){phase=2;index=0;tryCountForItem=0;return render()}
+ const q=guide[index];setProgress(8+index*5,"Guía · Practica con ayuda",0);
+ shell("GUÍA CON AYUDA",`${index+1} de ${guide.length} · ${q.w}`,
+ "Puedes escuchar la palabra tantas veces como necesites. Si te equivocas, podrás probar otra sílaba.",
+ "Toca la sílaba que escuchas más fuerte.",
+ `<div class="actions"><button class="btn listen" onclick="speak('${q.w}')">🔊 Escuchar palabra</button></div>
+ <div class="syllables">${q.s.map((x,i)=>`<button class="syl" onclick="answerGuide(${i},this)">${x}</button>`).join("")}</div>
+ <div id="fb" class="feedback"></div>`)
+}
+function answerGuide(i,el){
+ const q=guide[index];attempts++;tryCountForItem++;
+ const fb=document.getElementById("fb");
+ if(i===q.a){
+   el.classList.add("correct");fb.className="feedback ok";fb.textContent=`¡Bien, ${studentLabel()}! Encontraste el golpe de voz.`;
+   setTimeout(()=>{index++;tryCountForItem=0;render()},650)
+ }else{
+   el.classList.add("wrong");fb.className="feedback no";
+   fb.textContent=tryCountForItem===1?"Esa no es. Escucha otra vez y prueba otra sílaba.":"Pronuncia lentamente la palabra y compara las opciones que quedan.";
+   speak(q.w)
+ }
+}
+function practiceStep(){
+ if(index>=practice.length){phase=3;index=0;tryCountForItem=0;return render()}
+ const q=practice[index],mode=index%3;setProgress(34+Math.round(index/practice.length*36),"Práctica · Radar",1);
+ if(mode===0)return tapPractice(q);
+ if(mode===1)return detectorPractice(q);
+ audioPractice(q)
+}
+function tapPractice(q){
+ shell("RADAR · TOCA",`${index+1} de ${practice.length} · ${q.w}`,"Ahora hay menos ayuda.","Escucha o pronuncia la palabra y toca la parte más fuerte.",
+ `<div class="word">${q.w}</div><div class="actions"><button class="btn listen" onclick="speak('${q.w}')">🔊 Escuchar</button></div>
+ <div class="syllables">${q.s.map((x,i)=>`<button class="syl" onclick="answerPractice(${i},this)">${x}</button>`).join("")}</div><div id="fb" class="feedback"></div>`)
+}
+function detectorPractice(q){
+ shell("RADAR · DESLIZA",`${index+1} de ${practice.length} · Mueve el detector`,"El tamaño de las sílabas cambia conforme mueves el marcador.","Desliza hasta la parte que escuchas más fuerte y confirma.",
+ `<div class="word">${q.w}</div>
+ <div class="detector"><div id="detectorLabels" class="detector-labels">${q.s.map((x,i)=>`<div class="detector-label">${x}</div>`).join("")}</div>
+ <input id="detectorRange" type="range" min="0" max="${q.s.length-1}" step="0.01" value="0" oninput="animateDetector(this.value,${q.s.length})"></div>
+ <div class="actions"><button class="btn listen" onclick="speak('${q.w}')">🔊 Escuchar</button><button class="btn primary" onclick="confirmDetector()">Confirmar detector</button></div>
+ <div id="fb" class="feedback"></div>`);
+ animateDetector(0,q.s.length)
+}
+function animateDetector(v,n){
+ const els=[...document.querySelectorAll(".detector-label")];const x=Number(v);
+ els.forEach((el,i)=>{
+   const d=Math.abs(x-i),strength=Math.max(0,1-d);
+   el.style.fontSize=(1.12+strength*1.15)+"rem";
+   el.style.transform=`scale(${1+strength*.22})`;
+   el.style.opacity=(.55+strength*.45).toFixed(2)
+ })
+}
+function confirmDetector(){
+ const q=practice[index],v=Math.round(Number(document.getElementById("detectorRange").value));
+ answerPractice(v,null)
+}
+function audioPractice(q){
+ shell("RADAR · ESCUCHA PRIMERO",`${index+1} de ${practice.length} · Oído antes que vista`,"Primero escucha sin mirar cómo se divide la palabra.","Pulsa escuchar, después revela las sílabas y responde.",
+ `<div id="covered" class="hint" style="text-align:center">La palabra está oculta por un momento.</div>
+ <div class="actions"><button class="btn listen" onclick="speak('${q.w}')">🔊 Escuchar</button><button class="btn secondary" onclick="document.getElementById('hiddenSyl').style.display='flex';document.getElementById('covered').style.display='none'">Mostrar sílabas</button></div>
+ <div id="hiddenSyl" class="syllables" style="display:none">${q.s.map((x,i)=>`<button class="syl" onclick="answerPractice(${i},this)">${x}</button>`).join("")}</div><div id="fb" class="feedback"></div>`)
+}
+function answerPractice(i,el){
+ const q=practice[index];attempts++;tryCountForItem++;
+ const fb=document.getElementById("fb");
+ if(i===q.a){
+   if(tryCountForItem===1)firstTry++;
+   if(el)el.classList.add("correct");
+   fb.className="feedback ok";fb.textContent=`¡Correcto, ${studentLabel()}!`;
+   setTimeout(()=>{index++;tryCountForItem=0;render()},600)
+ }else{
+   if(tryCountForItem===1)errors.push(q.w);
+   if(el)el.classList.add("wrong");
+   fb.className="feedback no";fb.textContent=tryCountForItem===1?"No fue esa. Escucha nuevamente y selecciona otra opción.":"Sigue intentando: compara las sílabas que quedan.";
+   speak(q.w)
+ }
+}
+function checkStep(){
+ if(index>=check.length){phase=4;return render()}
+ const q=check[index];setProgress(74+index*2.4,"Comprobación · Sin pistas",2);
+ shell("COMPROBACIÓN",`${index+1} de ${check.length} · ${q.w}`,
+ "Aquí queremos medir lo que ya puedes hacer sin ayuda.",
+ "Tienes una sola respuesta. Toca la sílaba que escuchas más fuerte.",
+ `<div class="word">${q.w}</div><div class="syllables">${q.s.map((x,i)=>`<button class="syl" onclick="answerCheck(${i},this)">${x}</button>`).join("")}</div><div id="fb" class="feedback"></div>`)
+}
+function answerCheck(i,el){
+ const q=check[index];attempts++;
+ document.querySelectorAll(".syl").forEach(b=>b.disabled=true);
+ const fb=document.getElementById("fb");
+ if(i===q.a){checkScore++;el.classList.add("correct");fb.className="feedback ok";fb.textContent="Correcto."}
+ else{fb.className="feedback no";fb.textContent=`La sílaba fuerte era “${q.s[q.a]}”.`;speak(q.w)}
+ setTimeout(()=>{index++;render()},750)
+}
+function finish(){
+ setProgress(100,"Nivel 1 · Resultado",2);
+ const checkPct=Math.round(checkScore/check.length*100),ready=checkPct>=80;
+ shell(ready?"NIVEL 1 DOMINADO":"REFUERZO RECOMENDADO",
+ ready?`¡Buen trabajo, ${studentLabel()}!`:`${studentLabel()}, vamos a fortalecer tu radar`,
+ ready?"Ya puedes reconocer con suficiente seguridad qué sílaba suena más fuerte.":"Todavía conviene repetir algunas palabras antes de avanzar al Nivel 2.",
+ "",
+ `<div style="display:flex;align-items:center;gap:13px;margin-bottom:15px"><div class="avatar-box">${avatar}</div><div><strong style="font-size:1.3rem">${studentLabel()}</strong><div class="muted">Reporte del Nivel 1</div></div></div>
+ <div class="stats"><div class="stat"><strong>${checkScore}/10</strong>Comprobación</div><div class="stat"><strong>${checkPct}%</strong>Dominio</div><div class="stat"><strong>${firstTry}</strong>Práctica al 1.er intento</div><div class="stat"><strong>${attempts}</strong>Intentos totales</div></div>
+ <div class="feedback ${ready?"ok":"info"}">${ready?"✓ Criterio alcanzado: 80 % o más. Puedes avanzar al Nivel 2.":"Tu siguiente paso será repetir la práctica, especialmente las palabras que costaron más."}</div>
+ ${errors.length?`<div class="hint">Palabras para reforzar: <b>${[...new Set(errors)].join(", ")}</b></div>`:""}
+ <div class="actions"><button class="btn secondary" onclick="phase=2;index=0;attempts=0;firstTry=0;errors=[];checkScore=0;tryCountForItem=0;render()">↻ Repetir práctica</button>${ready?'<button class="btn next" onclick="alert(\'Nivel 1 completado. El siguiente paso es Nivel 2: separar palabras en sílabas.\')">Nivel 2 →</button>':""}</div>`)
+}
+syncProfile();render();
+</script>
+</body>
+</html>

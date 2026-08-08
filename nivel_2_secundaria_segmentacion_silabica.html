@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nivel 2 · Laboratorio de Sílabas</title>
+<style>
+:root{
+  --canyon:#DF6D41;
+  --butter:#F7D89A;
+  --sky:#8DA6CC;
+  --olive:#AAA648;
+  --cream:#FFF9F0;
+  --paper:#FFFFFF;
+  --ink:#2F3440;
+  --muted:#6E7480;
+  --line:#E7E0D8;
+  --danger:#B85C5C;
+  --shadow:0 14px 34px rgba(73,61,48,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at top right, rgba(141,166,204,.16), transparent 25%),
+    linear-gradient(180deg,var(--cream),#FFFDF9 48%,#F5F0E8);
+}
+button,input{font:inherit}
+.wrap{max-width:1040px;margin:auto;padding:16px 14px 60px}
+.hero{
+  background:linear-gradient(135deg,#B95431,var(--canyon));
+  color:white;
+  border-radius:28px;
+  padding:clamp(24px,5vw,44px);
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+.hero:after{
+  content:"";
+  position:absolute;
+  width:280px;height:280px;border-radius:50%;
+  background:rgba(247,216,154,.18);
+  right:-100px;top:-110px;
+}
+.badge{
+  display:inline-block;
+  background:var(--butter);
+  color:#5B4027;
+  padding:8px 12px;
+  border-radius:999px;
+  font-size:.8rem;
+  font-weight:950;
+  letter-spacing:.08em;
+}
+.hero h1{font-size:clamp(2.2rem,7vw,4rem);margin:14px 0 6px;line-height:1}
+.hero p{max-width:760px;color:#FFF4EC;line-height:1.6;font-size:1.06rem}
+.hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.hero-mini{
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.17);
+  padding:13px;border-radius:15px
+}
+.hero-mini strong{display:block;color:var(--butter);font-size:.8rem;letter-spacing:.04em}
+.profile,.panel{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  margin-top:18px;
+  padding:clamp(18px,4vw,30px);
+}
+.profile-head{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+.identity{display:flex;align-items:center;gap:14px}
+.avatar-box{
+  width:66px;height:66px;display:grid;place-items:center;border-radius:20px;font-size:2rem;
+  background:linear-gradient(135deg,rgba(247,216,154,.65),rgba(141,166,204,.30));
+  border:2px solid rgba(223,109,65,.18)
+}
+.student-name{font-size:1.2rem;font-weight:950}
+.muted{color:var(--muted)}
+.profile-form{display:grid;grid-template-columns:minmax(190px,1fr) auto;gap:10px;margin-top:15px}
+.profile-form input{
+  padding:13px 14px;border:2px solid var(--line);border-radius:14px;outline:none;background:white;color:var(--ink)
+}
+.profile-form input:focus{border-color:var(--sky);box-shadow:0 0 0 4px rgba(141,166,204,.12)}
+.avatar-picker{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.avatar-btn{
+  width:48px;height:48px;border:2px solid var(--line);background:#fff;border-radius:14px;font-size:1.45rem;cursor:pointer
+}
+.avatar-btn.selected{border-color:var(--canyon);background:rgba(223,109,65,.10)}
+.route{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.route-step{padding:14px;border:1px solid var(--line);border-radius:16px;background:#FBF8F3;font-weight:850}
+.route-step.active{background:rgba(141,166,204,.18);border-color:var(--sky)}
+.route-step.done{background:rgba(170,166,72,.17);border-color:var(--olive)}
+.progress-label{display:flex;justify-content:space-between;gap:12px;font-size:.85rem;color:var(--muted);font-weight:850;margin-bottom:7px}
+.progress{height:12px;border-radius:999px;background:#EFE9E1;overflow:hidden}
+.progress div{height:100%;width:0;background:linear-gradient(90deg,var(--sky),var(--olive));transition:.35s}
+.stage{
+  display:inline-flex;
+  background:rgba(141,166,204,.18);
+  color:#3D5474;
+  padding:8px 12px;border-radius:12px;font-size:.82rem;font-weight:950;letter-spacing:.04em
+}
+h2{font-size:clamp(1.5rem,4vw,2.2rem);margin:14px 0 8px}
+.explain{
+  padding:14px 16px;
+  background:rgba(247,216,154,.38);
+  border-left:5px solid var(--canyon);
+  border-radius:14px;
+  line-height:1.55
+}
+.instruction{
+  margin:14px 0;
+  padding:14px 16px;
+  border-radius:16px;
+  background:rgba(141,166,204,.11);
+  border:2px solid rgba(141,166,204,.25);
+  font-weight:900
+}
+.hint{background:var(--butter);padding:12px 14px;border-radius:14px;color:#5A492E;margin-top:12px}
+.word{
+  text-align:center;
+  font-weight:950;
+  font-size:clamp(2.15rem,8vw,4.35rem);
+  margin:22px 0;
+  letter-spacing:.02em
+}
+.cut-word{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:0;
+  margin:24px 0;
+}
+.letter{
+  font-size:clamp(1.9rem,6vw,3rem);
+  font-weight:950;
+  padding:10px 5px;
+}
+.cut{
+  width:18px;height:56px;
+  border:0;
+  background:transparent;
+  position:relative;
+  cursor:pointer;
+}
+.cut:before{
+  content:"";
+  position:absolute;
+  left:8px;top:6px;bottom:6px;
+  width:3px;border-radius:4px;
+  background:#E5DDD3;
+  transition:.16s;
+}
+.cut:hover:before{background:var(--canyon);transform:scaleY(1.15)}
+.cut.selected:before{background:var(--canyon);box-shadow:0 0 0 4px rgba(223,109,65,.12)}
+.blocks{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:22px 0;
+}
+.block{
+  min-width:92px;
+  padding:17px 18px;
+  border:2px solid var(--line);
+  border-radius:18px;
+  background:white;
+  font-size:clamp(1.25rem,5vw,1.9rem);
+  font-weight:950;
+  cursor:pointer;
+  transition:.16s;
+  user-select:none;
+}
+.block:hover{transform:translateY(-2px);border-color:var(--sky)}
+.block.selected{border-color:var(--canyon);background:rgba(223,109,65,.10);transform:translateY(-2px)}
+.block.correct{border-color:var(--olive);background:rgba(170,166,72,.18);animation:pop .35s ease}
+.block.wrong{border-color:var(--danger);background:#FCEBEC}
+@keyframes pop{50%{transform:scale(1.1)}}
+.dropzone{
+  min-height:88px;
+  border:2px dashed rgba(141,166,204,.55);
+  border-radius:18px;
+  background:#FAFBFD;
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;
+  padding:14px;margin:16px 0;
+}
+.dropzone .placeholder{color:var(--muted);font-weight:800}
+.actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:15px}
+.btn{border:0;border-radius:14px;padding:13px 17px;font-weight:950;cursor:pointer}
+.primary{background:var(--sky);color:#20334D}
+.canyon{background:var(--canyon);color:white}
+.secondary{background:#F1ECE6;color:var(--ink)}
+.next{background:var(--olive);color:#2F3209}
+.feedback{
+  min-height:56px;margin-top:15px;padding:13px 15px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;text-align:center;font-weight:850
+}
+.feedback.ok{background:rgba(170,166,72,.20);color:#565A18}
+.feedback.no{background:#FCEBEC;color:#813B46}
+.feedback.info{background:var(--butter);color:#5A492E}
+.choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}
+.choice{
+  padding:19px;border:2px solid var(--line);background:white;border-radius:18px;font-weight:950;cursor:pointer;
+  font-size:1.08rem
+}
+.choice:hover{border-color:var(--sky)}
+.counter-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
+.count-btn{
+  padding:20px;border:2px solid var(--line);border-radius:18px;background:white;font-size:1.5rem;font-weight:950;cursor:pointer
+}
+.count-btn:hover{border-color:var(--canyon)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.stat{padding:15px;border-radius:16px;background:#FBF8F3;border:1px solid var(--line);text-align:center}
+.stat strong{display:block;font-size:1.45rem}
+.author-footer{
+  margin-top:30px;
+  background:#6A402D;
+  color:#FFF8F2;
+  border-top:5px solid var(--canyon);
+  border-radius:24px;
+  padding:26px;
+  box-shadow:var(--shadow)
+}
+.author-footer .eyebrow{color:var(--butter);font-size:.78rem;font-weight:950;letter-spacing:.12em}
+.author-footer h3{margin:7px 0 8px}
+.author-footer p{color:#F7EDE5;line-height:1.55;max-width:820px}
+.author-footer a{
+  display:inline-block;background:var(--olive);color:#282B07;text-decoration:none;
+  font-weight:950;padding:11px 15px;border-radius:12px
+}
+.copy{color:#ECDDD4;font-size:.82rem;margin-top:12px}
+@media(max-width:680px){
+  .hero-grid,.route,.stats,.counter-grid{grid-template-columns:1fr}
+  .profile-form,.choice-grid{grid-template-columns:1fr}
+  .wrap{padding:10px 10px 40px}
+  .block{min-width:74px;padding:15px 12px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section class="hero">
+  <span class="badge">NIVEL 2 · SEPARAR</span>
+  <h1>LABORATORIO DE SÍLABAS</h1>
+  <p>Ahora que el oído ya detecta dónde suena más fuerte una palabra, vamos a aprender a <strong>dividir las palabras en sílabas</strong>. Aquí cortamos, ordenamos, reconstruimos y contamos.</p>
+  <div class="hero-grid">
+    <div class="hero-mini"><strong>GUÍA</strong>Descubre cómo se separan las palabras.</div>
+    <div class="hero-mini"><strong>LABORATORIO</strong>Corta, arrastra, ordena y reconstruye.</div>
+    <div class="hero-mini"><strong>COMPROBACIÓN</strong>Demuestra que puedes separar sin pistas.</div>
+  </div>
+</section>
+
+<section class="profile">
+  <div class="profile-head">
+    <div class="identity">
+      <div id="avatarBox" class="avatar-box">🦊</div>
+      <div>
+        <div id="nameDisplay" class="student-name">Explorador/a</div>
+        <div class="muted">Tu perfil en Laboratorio de Sílabas</div>
+      </div>
+    </div>
+    <span class="stage">TU IDENTIDAD</span>
+  </div>
+  <div class="profile-form">
+    <input id="nameInput" maxlength="24" placeholder="Escribe tu nombre">
+    <button class="btn primary" onclick="saveProfile()">Guardar nombre</button>
+  </div>
+  <div class="avatar-picker">
+    <button class="avatar-btn selected" data-avatar="🦊" onclick="selectAvatar('🦊')">🦊</button>
+    <button class="avatar-btn" data-avatar="🐼" onclick="selectAvatar('🐼')">🐼</button>
+    <button class="avatar-btn" data-avatar="🦉" onclick="selectAvatar('🦉')">🦉</button>
+    <button class="avatar-btn" data-avatar="🐯" onclick="selectAvatar('🐯')">🐯</button>
+    <button class="avatar-btn" data-avatar="🚀" onclick="selectAvatar('🚀')">🚀</button>
+    <button class="avatar-btn" data-avatar="🧪" onclick="selectAvatar('🧪')">🧪</button>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="route">
+    <div id="r0" class="route-step active">1 · GUÍA</div>
+    <div id="r1" class="route-step">2 · LABORATORIO</div>
+    <div id="r2" class="route-step">3 · COMPROBACIÓN</div>
+  </div>
+  <div style="margin-top:16px">
+    <div class="progress-label"><span id="phaseLabel">Guía</span><span id="progressText">0%</span></div>
+    <div class="progress"><div id="progressBar"></div></div>
+  </div>
+</section>
+
+<main id="app"></main>
+
+<footer class="author-footer">
+  <div class="eyebrow">AUTOR</div>
+  <h3>Luis Alberto Antonio Narciso</h3>
+  <p>Ingeniero en Electrónica por la UAM y con estudios de Maestría en Ciencias en la UNA. Profesional de Quality Assurance, automatización de pruebas y tecnología educativa, con experiencia como tester en proyectos vinculados con Google y Ford. Su trabajo busca acercar herramientas digitales y experiencias educativas útiles a otras personas mediante tecnología, diseño y aprendizaje.</p>
+  <p><em>“Recurso diseñado y desarrollado por Luis Alberto Antonio Narciso”.</em></p>
+  <a href="https://narciso1516.github.io/narcisotesting.com/" target="_blank" rel="noopener noreferrer">Conocer al autor</a>
+  <div class="copy">© <span id="year"></span> Luis Alberto Antonio Narciso</div>
+</footer>
+
+</div>
+
+<script>
+document.getElementById("year").textContent=new Date().getFullYear();
+
+const app=document.getElementById("app");
+const progressBar=document.getElementById("progressBar");
+const progressText=document.getElementById("progressText");
+const phaseLabel=document.getElementById("phaseLabel");
+
+let studentName=localStorage.getItem("radarStudentName") || "";
+let avatar=localStorage.getItem("radarStudentAvatar") || "🦊";
+function studentLabel(){return studentName.trim() || "Explorador/a"}
+function syncProfile(){
+  document.getElementById("nameDisplay").textContent=studentLabel();
+  document.getElementById("avatarBox").textContent=avatar;
+  document.getElementById("nameInput").value=studentName;
+  document.querySelectorAll(".avatar-btn").forEach(b=>b.classList.toggle("selected",b.dataset.avatar===avatar));
+}
+function saveProfile(){
+  studentName=document.getElementById("nameInput").value.trim().slice(0,24);
+  localStorage.setItem("radarStudentName",studentName);
+  syncProfile();
+}
+function selectAvatar(a){
+  avatar=a;
+  localStorage.setItem("radarStudentAvatar",a);
+  syncProfile();
+}
+
+function shell(stage,title,explain,instruction,body){
+  app.innerHTML=`<section class="panel">
+    <span class="stage">${stage}</span>
+    <h2>${title}</h2>
+    ${explain?`<div class="explain">${explain}</div>`:""}
+    ${instruction?`<div class="instruction">${instruction}</div>`:""}
+    ${body}
+  </section>`;
+}
+function setProgress(p,label,route){
+  progressBar.style.width=p+"%";
+  progressText.textContent=p+"%";
+  phaseLabel.textContent=label;
+  [0,1,2].forEach(i=>{
+    const el=document.getElementById("r"+i);
+    el.className="route-step";
+    if(i<route)el.classList.add("done");
+    if(i===route)el.classList.add("active");
+  });
+}
+
+const guide=[
+{w:"análisis",s:["a","ná","li","sis"]},{w:"social",s:["so","cial"]},{w:"fenómeno",s:["fe","nó","me","no"]},
+{w:"investigar",s:["in","ves","ti","gar"]},{w:"matemática",s:["ma","te","má","ti","ca"]}
+];
+
+const practice=[
+{w:"proyecto",s:["pro","yec","to"]},{w:"argumento",s:["ar","gu","men","to"]},{w:"tecnología",s:["tec","no","lo","gí","a"]},
+{w:"científico",s:["cien","tí","fi","co"]},{w:"educación",s:["e","du","ca","ción"]},{w:"sociedad",s:["so","cie","dad"]},
+{w:"literatura",s:["li","te","ra","tu","ra"]},{w:"computadora",s:["com","pu","ta","do","ra"]},{w:"información",s:["in","for","ma","ción"]},
+{w:"conclusión",s:["con","clu","sión"]},{w:"democracia",s:["de","mo","cra","cia"]},{w:"economía",s:["e","co","no","mí","a"]},
+{w:"geografía",s:["ge","o","gra","fí","a"]},{w:"investigación",s:["in","ves","ti","ga","ción"]}
+];
+
+const check=[
+{w:"universidad",s:["u","ni","ver","si","dad"]},{w:"responsable",s:["res","pon","sa","ble"]},{w:"académico",s:["a","ca","dé","mi","co"]},
+{w:"comunicación",s:["co","mu","ni","ca","ción"]},{w:"histórico",s:["his","tó","ri","co"]},{w:"biología",s:["bio","lo","gí","a"]},
+{w:"filosofía",s:["fi","lo","so","fí","a"]},{w:"probabilidad",s:["pro","ba","bi","li","dad"]},{w:"independencia",s:["in","de","pen","den","cia"]},{w:"constitución",s:["cons","ti","tu","ción"]}
+];
+
+let phase=0,index=0,attempts=0,firstTry=0,errors=[],checkScore=0,currentAttempts=0;
+let selectedCuts=[];
+let orderSelection=[];
+
+function render(){
+  if(phase===0)return intro();
+  if(phase===1)return guideStep();
+  if(phase===2)return practiceStep();
+  if(phase===3)return checkStep();
+  finish();
+}
+
+function intro(){
+  setProgress(3,"Guía · Descubre",0);
+  shell(
+    "DESCUBRE",
+    "Las palabras también se pueden partir",
+    "Una palabra puede dividirse en pequeños grupos de sonidos llamados <b>sílabas</b>. Por ejemplo, <b>pelota</b> se puede separar como <b>pe · lo · ta</b>.",
+    "Mira cómo la palabra se abre en bloques. Después comenzaremos a hacerlo juntos.",
+    `<div class="word">PELOTA</div>
+     <div class="blocks">
+       <div class="block correct">PE</div>
+       <div class="block correct">LO</div>
+       <div class="block correct">TA</div>
+     </div>
+     <div class="hint">✂️ Cada bloque representa una sílaba. En este nivel vamos a aprender dónde separar.</div>
+     <div class="actions"><button class="btn next" onclick="phase=1;index=0;render()">Entrar al laboratorio →</button></div>`
+  );
+}
+
+function guideStep(){
+  if(index>=guide.length){phase=2;index=0;currentAttempts=0;return render()}
+  const q=guide[index];
+  setProgress(8+index*5,"Guía · Corta la palabra",0);
+  renderCutActivity(q,true);
+}
+
+function renderCutActivity(q,isGuide=false){
+  selectedCuts=[];
+  const letters=[...q.w];
+  let html='<div class="cut-word">';
+  letters.forEach((ch,i)=>{
+    html+=`<span class="letter">${ch}</span>`;
+    if(i<letters.length-1){
+      html+=`<button class="cut" data-pos="${i}" onclick="toggleCut(this,${i})" aria-label="Cortar después de ${ch}"></button>`;
+    }
+  });
+  html+='</div>';
+
+  shell(
+    isGuide?"GUÍA · CORTA":"LABORATORIO · CORTA",
+    `${index+1} de ${isGuide?guide.length:practice.length} · ${q.w}`,
+    isGuide?"Vamos a practicar dónde se hacen los cortes. Si te equivocas, podrás volver a intentarlo.":"",
+    "Toca los espacios donde crees que la palabra debe separarse y luego confirma.",
+    `${html}
+     <div class="actions">
+       <button class="btn canyon" onclick="${isGuide?'confirmGuideCuts()':'confirmPracticeCuts()'}">✂️ Confirmar cortes</button>
+       <button class="btn secondary" onclick="selectedCuts=[];document.querySelectorAll('.cut').forEach(x=>x.classList.remove('selected'))">Limpiar</button>
+     </div>
+     <div id="fb" class="feedback"></div>`
+  );
+}
+
+function toggleCut(el,pos){
+  const ix=selectedCuts.indexOf(pos);
+  if(ix>=0){selectedCuts.splice(ix,1);el.classList.remove("selected")}
+  else{selectedCuts.push(pos);el.classList.add("selected")}
+}
+
+function correctCutPositions(q){
+  let pos=0,out=[];
+  q.s.forEach((sy,i)=>{
+    pos+=sy.length;
+    if(i<q.s.length-1)out.push(pos-1);
+  });
+  return out;
+}
+
+function sameSet(a,b){
+  return a.length===b.length && [...a].sort((x,y)=>x-y).every((v,i)=>v===[...b].sort((x,y)=>x-y)[i]);
+}
+
+function confirmGuideCuts(){
+  const q=guide[index],fb=document.getElementById("fb");
+  attempts++;currentAttempts++;
+  if(sameSet(selectedCuts,correctCutPositions(q))){
+    fb.className="feedback ok";
+    fb.textContent=`¡Bien, ${studentLabel()}! ${q.w} → ${q.s.join(" · ")}`;
+    setTimeout(()=>{index++;currentAttempts=0;render()},800);
+  }else{
+    fb.className="feedback no";
+    fb.textContent=currentAttempts===1?"Todavía no. Revisa los espacios y prueba otra combinación.":"Piensa cómo pronuncias la palabra lentamente. Puedes cambiar los cortes.";
+  }
+}
+
+function practiceStep(){
+  if(index>=practice.length){phase=3;index=0;currentAttempts=0;return render()}
+  const q=practice[index],mode=index%4;
+  setProgress(34+Math.round(index/practice.length*36),"Práctica · Laboratorio",1);
+  if(mode===0)return renderCutActivity(q,false);
+  if(mode===1)return orderActivity(q);
+  if(mode===2)return chooseActivity(q);
+  countActivity(q);
+}
+
+function confirmPracticeCuts(){
+  const q=practice[index],fb=document.getElementById("fb");
+  attempts++;currentAttempts++;
+  if(sameSet(selectedCuts,correctCutPositions(q))){
+    if(currentAttempts===1)firstTry++;
+    fb.className="feedback ok";
+    fb.textContent=`Correcto: ${q.s.join(" · ")}`;
+    setTimeout(()=>{index++;currentAttempts=0;render()},700);
+  }else{
+    if(currentAttempts===1)errors.push(q.w);
+    fb.className="feedback no";
+    fb.textContent="Cambia los cortes y vuelve a intentarlo. No necesitas pasar a otra palabra todavía.";
+  }
+}
+
+function shuffled(arr){
+  return [...arr].sort(()=>Math.random()-.5);
+}
+function orderActivity(q){
+  orderSelection=[];
+  const mix=shuffled(q.s.map((x,i)=>({text:x,orig:i})));
+  shell(
+    "LABORATORIO · ORDENA",
+    `${index+1} de ${practice.length} · Reconstruye “${q.w}”`,
+    "Las sílabas se mezclaron.",
+    "Toca los bloques en el orden correcto para reconstruir la palabra.",
+    `<div class="blocks">${mix.map((x,i)=>`<button class="block" data-text="${x.text}" onclick="selectOrder(this,'${x.text}')">${x.text}</button>`).join("")}</div>
+     <div id="dropzone" class="dropzone"><span class="placeholder">Tu palabra aparecerá aquí</span></div>
+     <div class="actions"><button class="btn canyon" onclick="confirmOrder()">Confirmar orden</button><button class="btn secondary" onclick="orderSelection=[];render()">Reiniciar</button></div>
+     <div id="fb" class="feedback"></div>`
+  );
+}
+function selectOrder(btn,text){
+  if(btn.classList.contains("selected"))return;
+  btn.classList.add("selected");
+  orderSelection.push(text);
+  const dz=document.getElementById("dropzone");
+  dz.innerHTML=orderSelection.map(x=>`<span class="block selected">${x}</span>`).join("");
+}
+function confirmOrder(){
+  const q=practice[index],fb=document.getElementById("fb");
+  attempts++;currentAttempts++;
+  const ok=orderSelection.join("|")===q.s.join("|");
+  if(ok){
+    if(currentAttempts===1)firstTry++;
+    fb.className="feedback ok";fb.textContent=`¡Reconstruida! ${q.s.join(" · ")}`;
+    setTimeout(()=>{index++;currentAttempts=0;render()},700);
+  }else{
+    if(currentAttempts===1)errors.push(q.w);
+    fb.className="feedback no";fb.textContent="El orden todavía no forma correctamente la palabra. Reintenta.";
+  }
+}
+
+function chooseActivity(q){
+  const wrong1=q.s.length===2?[q.w]:[q.s[0]+q.s[1],...q.s.slice(2)];
+  const wrong2=q.s.length>2?[q.s[0],q.s.slice(1).join("")]:[q.s.join("")];
+  const options=shuffled([
+    {t:q.s.join(" · "),ok:true},
+    {t:wrong1.join(" · "),ok:false},
+    {t:wrong2.join(" · "),ok:false}
+  ]);
+  shell(
+    "LABORATORIO · ELIGE",
+    `${index+1} de ${practice.length} · ${q.w}`,
+    "Ahora compara distintas formas de separar la misma palabra.",
+    "Selecciona la división correcta.",
+    `<div class="choice-grid">${options.map(o=>`<button class="choice" onclick="chooseAnswer(${o.ok})">${o.t}</button>`).join("")}</div>
+     <div id="fb" class="feedback"></div>`
+  );
+}
+function chooseAnswer(ok){
+  const q=practice[index],fb=document.getElementById("fb");
+  attempts++;currentAttempts++;
+  if(ok){
+    if(currentAttempts===1)firstTry++;
+    fb.className="feedback ok";fb.textContent=`Correcto: ${q.s.join(" · ")}`;
+    setTimeout(()=>{index++;currentAttempts=0;render()},700);
+  }else{
+    if(currentAttempts===1)errors.push(q.w);
+    fb.className="feedback no";fb.textContent="Esa división no corresponde. Compara las otras opciones.";
+  }
+}
+
+function countActivity(q){
+  shell(
+    "LABORATORIO · CUENTA",
+    `${index+1} de ${practice.length} · ${q.w}`,
+    "Separar también nos permite saber cuántas sílabas tiene una palabra.",
+    "¿Cuántas sílabas tiene esta palabra?",
+    `<div class="word">${q.w}</div>
+     <div class="counter-grid">
+       <button class="count-btn" onclick="countAnswer(1)">1</button>
+       <button class="count-btn" onclick="countAnswer(2)">2</button>
+       <button class="count-btn" onclick="countAnswer(3)">3</button>
+       <button class="count-btn" onclick="countAnswer(4)">4</button>
+     </div>
+     <div id="fb" class="feedback"></div>`
+  );
+}
+function countAnswer(n){
+  const q=practice[index],fb=document.getElementById("fb");
+  attempts++;currentAttempts++;
+  if(n===q.s.length){
+    if(currentAttempts===1)firstTry++;
+    fb.className="feedback ok";fb.textContent=`Sí: ${q.s.join(" · ")} → ${q.s.length} sílabas.`;
+    setTimeout(()=>{index++;currentAttempts=0;render()},700);
+  }else{
+    if(currentAttempts===1)errors.push(q.w);
+    fb.className="feedback no";fb.textContent="Vuelve a pronunciarla lentamente y cuenta cada bloque de sonido.";
+  }
+}
+
+function checkStep(){
+  if(index>=check.length){phase=4;return render()}
+  const q=check[index];
+  setProgress(74+index*2.4,"Comprobación · Sin pistas",2);
+  shell(
+    "COMPROBACIÓN",
+    `${index+1} de ${check.length} · ${q.w}`,
+    "Aquí ya no hay reintentos: queremos saber si puedes identificar la separación por ti mismo.",
+    "Selecciona la división correcta.",
+    buildCheckOptions(q)
+  );
+}
+
+function buildCheckOptions(q){
+  const correct=q.s.join(" · ");
+  let wrong1,wrong2;
+  if(q.s.length===2){
+    wrong1=q.w;
+    wrong2=q.w.slice(0,1)+" · "+q.w.slice(1);
+  }else{
+    wrong1=[q.s[0]+q.s[1],...q.s.slice(2)].join(" · ");
+    wrong2=[q.s[0],q.s.slice(1).join("")].join(" · ");
+  }
+  const opts=shuffled([{t:correct,ok:true},{t:wrong1,ok:false},{t:wrong2,ok:false}]);
+  return `<div class="choice-grid">${opts.map(o=>`<button class="choice" onclick="answerCheck(${o.ok})">${o.t}</button>`).join("")}</div><div id="fb" class="feedback"></div>`;
+}
+
+function answerCheck(ok){
+  const q=check[index],fb=document.getElementById("fb");
+  attempts++;
+  document.querySelectorAll(".choice").forEach(b=>b.disabled=true);
+  if(ok){
+    checkScore++;
+    fb.className="feedback ok";
+    fb.textContent="Correcto.";
+  }else{
+    fb.className="feedback no";
+    fb.textContent=`La separación correcta es ${q.s.join(" · ")}.`;
+  }
+  setTimeout(()=>{index++;render()},850);
+}
+
+function finish(){
+  setProgress(100,"Nivel 2 · Resultado",2);
+  const pct=Math.round(checkScore/check.length*100);
+  const ready=pct>=80;
+  shell(
+    ready?"NIVEL 2 DOMINADO":"REFUERZO RECOMENDADO",
+    ready?`¡Excelente, ${studentLabel()}!`:`${studentLabel()}, conviene reforzar la separación`,
+    ready?"Ya puedes dividir palabras en sílabas con suficiente seguridad.":"Todavía hay palabras que conviene practicar antes de avanzar.",
+    "",
+    `<div style="display:flex;align-items:center;gap:13px;margin-bottom:15px">
+       <div class="avatar-box">${avatar}</div>
+       <div><strong style="font-size:1.3rem">${studentLabel()}</strong><div class="muted">Reporte del Nivel 2</div></div>
+     </div>
+     <div class="stats">
+       <div class="stat"><strong>${checkScore}/10</strong>Comprobación</div>
+       <div class="stat"><strong>${pct}%</strong>Dominio</div>
+       <div class="stat"><strong>${firstTry}</strong>Práctica al 1.er intento</div>
+       <div class="stat"><strong>${attempts}</strong>Intentos totales</div>
+     </div>
+     <div class="feedback ${ready?"ok":"info"}">${ready?"✓ Criterio alcanzado: 80 % o más. Puedes avanzar al Nivel 3.":"Repite el laboratorio y enfócate en las palabras que te costaron más."}</div>
+     ${errors.length?`<div class="hint">Palabras para reforzar: <b>${[...new Set(errors)].join(", ")}</b></div>`:""}
+     <div class="actions">
+       <button class="btn secondary" onclick="phase=2;index=0;attempts=0;firstTry=0;errors=[];checkScore=0;currentAttempts=0;render()">↻ Repetir laboratorio</button>
+       ${ready?'<button class="btn next" onclick="alert(\'Nivel 2 completado. El siguiente paso es Nivel 3: identificar la sílaba tónica.\')">Nivel 3 →</button>':""}
+     </div>`
+  );
+}
+
+syncProfile();
+render();
+</script>
+</body>
+</html>

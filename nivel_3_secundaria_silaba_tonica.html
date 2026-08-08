@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nivel 3 · Cazadores de la Tónica · secundaria</title>
+<style>
+:root{--homebody:#F49F51;--tequila:#FFD4E5;--spring:#BEE4E7;--tropical:#95C7C2;--flamingo:#F490B9;--florence:#F7CCAD;--violet:#F490B9;--lav:#FFD4E5;--mint:#95C7C2;--lime:#95C7C2;--yellow:#F7CCAD;--cream:#FFF8F3;--ink:#293244;--muted:#6B7382;--line:#E6E2EA;--bad:#B85D67;--white:#fff;--shadow:0 14px 34px rgba(41,50,68,.10)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(180deg,var(--cream),#F6F4FA)}
+button,input{font:inherit}.wrap{max-width:1040px;margin:auto;padding:15px 14px 55px}
+.hero{background:linear-gradient(135deg,#E983B0,var(--violet));color:#fff;border-radius:28px;padding:clamp(24px,5vw,44px);box-shadow:var(--shadow)}
+.badge,.stage{display:inline-block;border-radius:999px;padding:8px 12px;font-size:.8rem;font-weight:950;letter-spacing:.06em}
+.badge{background:#F7CCAD;color:#7A3E1A}.hero h1{font-size:clamp(2.1rem,7vw,3.9rem);margin:13px 0 7px;line-height:1}.hero p{color:#FFF8FC;max-width:760px;line-height:1.55}
+.hero-grid,.route,.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.hero-grid{margin-top:17px}.hero-mini{background:#ffffff1A;border:1px solid #ffffff22;border-radius:15px;padding:13px}.hero-mini strong{display:block;color:var(--yellow);font-size:.8rem}
+.panel,.profile{background:#fff;border:1px solid var(--line);border-radius:24px;padding:clamp(18px,4vw,29px);box-shadow:var(--shadow);margin-top:18px}
+.profile-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.identity{display:flex;align-items:center;gap:13px}.avatar{width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,#FFD4E5,#BEE4E7);display:grid;place-items:center;font-size:2rem}.name{font-size:1.18rem;font-weight:950}.muted{color:var(--muted)}
+.profile-form{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:14px}.profile-form input{padding:13px;border:2px solid var(--line);border-radius:14px;outline:none}.profile-form input:focus{border-color:#F490B9}
+.avatars{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}.av{width:46px;height:46px;border:2px solid var(--line);border-radius:13px;background:#fff;font-size:1.4rem;cursor:pointer}.av.sel{border-color:#F490B9;background:#FFF0F6}
+.route-step{padding:13px;border-radius:15px;border:1px solid var(--line);background:#FFF9F6;font-weight:900}.route-step.active{background:#FFF0F6;border-color:#FFD4E5}.route-step.done{background:#E9F5F3;border-color:#95C7C2}
+.progressline{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;font-weight:850;margin:15px 0 7px}.progress{height:12px;background:#F3EBEE;border-radius:99px;overflow:hidden}.progress div{height:100%;width:0;background:linear-gradient(90deg,#95C7C2,#F49F51);transition:.35s}
+.stage{background:#FFE6F0;color:#9D4A6F}h2{font-size:clamp(1.45rem,4vw,2.15rem);margin:13px 0 8px}.explain{background:#FFF0F6;border-left:5px solid var(--flamingo, #F490B9);padding:14px 16px;border-radius:14px;line-height:1.55}.instruction{background:#EAF7F7;border:2px solid #B8DDDA;padding:14px 16px;border-radius:15px;margin:14px 0;font-weight:900}.hint{background:#F7CCAD;padding:12px 14px;border-radius:14px;margin-top:12px;color:#55471E}
+.word{text-align:center;font-size:clamp(2.1rem,8vw,4.3rem);font-weight:950;margin:21px 0}.syllables{display:flex;justify-content:center;flex-wrap:wrap;gap:11px;margin:20px 0}.syl{min-width:90px;padding:18px;border:2px solid var(--line);border-radius:18px;background:#fff;font-size:clamp(1.3rem,5vw,2rem);font-weight:950;cursor:pointer;transition:.16s}.syl:hover{transform:translateY(-2px);border-color:#F490B9}.syl.correct{background:#E9F5F3;border-color:#95C7C2;transform:scale(1.09)}.syl.wrong{opacity:.35;text-decoration:line-through;pointer-events:none}
+.focus-track{display:flex;justify-content:center;gap:10px;align-items:flex-end;min-height:115px;margin:20px 0}.focus-item{flex:1;max-width:180px;text-align:center;transition:.12s}.focus-item .orb{height:18px;border-radius:99px;background:#FFD4E5;margin:0 auto 10px;transition:.12s}.focus-item span{font-size:1.25rem;font-weight:950;transition:.12s}input[type=range]{width:100%;accent-color:var(--violet)}
+.choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}.choice{padding:18px;border:2px solid var(--line);border-radius:17px;background:#fff;font-weight:950;cursor:pointer}.choice:hover{border-color:#F490B9}
+.btn{border:0;border-radius:14px;padding:13px 17px;font-weight:950;cursor:pointer}.primary{background:var(--homebody);color:#fff}.listen{background:var(--spring);color:#214749}.secondary{background:#F7EFEA;color:var(--ink)}.next{background:#95C7C2;color:#30370B}.actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:15px}
+.feedback{min-height:55px;padding:13px;margin-top:14px;border-radius:14px;text-align:center;font-weight:850;display:flex;align-items:center;justify-content:center}.feedback.ok{background:#E9F5F3;color:#35615E}.feedback.no{background:#FFF0F3;color:#9A4662}.feedback.info{background:#F7CCAD;color:#55471E}
+.stat{padding:15px;text-align:center;border:1px solid var(--line);border-radius:15px;background:#FFF9F6}.stat strong{display:block;font-size:1.45rem}
+footer{margin-top:29px;background:#9F5B49;color:#FFF9F5;border-top:5px solid #F490B9;border-radius:24px;padding:25px;box-shadow:var(--shadow)}footer .ey{color:var(--yellow);font-weight:950;font-size:.78rem;letter-spacing:.1em}footer h3{margin:7px 0}footer p{color:#FFF0EA;line-height:1.5;max-width:830px}footer a{display:inline-block;background:#95C7C2;color:#214845;text-decoration:none;font-weight:950;padding:11px 15px;border-radius:12px}.copy{font-size:.82rem;color:#F3DCD4;margin-top:12px}
+@media(max-width:680px){.hero-grid,.route,.stats,.profile-form,.choice-grid{grid-template-columns:1fr}.wrap{padding:9px}.syl{min-width:72px;padding:15px 11px}}
+
+/* Bloque didáctico: sílabas tónicas y átonas */
+.tonic-lesson{background:#fff;border:1px solid var(--line);border-radius:24px;padding:clamp(18px,4vw,29px);box-shadow:var(--shadow);margin-top:18px}
+.tonic-lesson h2{margin-bottom:6px}.tonic-intro{font-size:1.03rem;line-height:1.6;color:var(--ink)}
+.tonic-types{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:17px 0}
+.tonic-card{border-radius:20px;padding:18px;border:2px solid var(--line);position:relative;overflow:hidden}
+.tonic-card.strong{background:#FFF0F6;border-color:var(--flamingo)}
+.tonic-card.soft{background:#EAF7F7;border-color:var(--tropical)}
+.tonic-card .kind{font-size:1.18rem;font-weight:950;margin-bottom:7px}
+.tonic-card p{margin:0;line-height:1.5}.tonic-card .signal{font-size:2rem;float:right;margin-left:8px}
+.focus-message{padding:14px 16px;border-radius:16px;background:var(--florence);border-left:5px solid var(--homebody);font-weight:850;line-height:1.55}
+.demo-word{text-align:center;font-size:clamp(2rem,8vw,3.7rem);font-weight:950;margin:18px 0 10px}
+.demo-syllables{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.demo-syl{min-width:105px;padding:15px;border-radius:17px;text-align:center;border:2px solid var(--line);background:#F8FAFB;font-size:1.35rem;font-weight:950;transition:.2s}
+.demo-syl.tonica{background:#FFF0F6;border-color:var(--flamingo);transform:scale(1.08)}
+.demo-syl.atona{background:#EAF7F7;border-color:var(--spring);color:#66717E}
+.demo-syl small{display:block;font-size:.68rem;margin-top:5px;font-weight:850}
+.demo-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:15px}
+.demo-actions button{border:0;border-radius:13px;padding:11px 14px;font-weight:950;cursor:pointer}
+.demo-actions .show-tonic{background:var(--flamingo);color:#fff}.demo-actions .show-all{background:var(--tropical);color:#214749}
+@media(max-width:650px){.tonic-types{grid-template-columns:1fr}}
+
+</style></head>
+<body><div class="wrap">
+<section class="hero"><span class="badge">SECUNDARIA · NIVEL 1–2 · NIVEL 3</span><h1>🎯 CAZADORES DE LA TÓNICA</h1><p>Ya sabes escuchar el golpe de voz y separar palabras. Ahora aprenderás el nombre de esa sílaba especial y a localizarla con precisión.</p><div class="hero-grid"><div class="hero-mini"><strong>APRENDE</strong>Descubre qué significa sílaba tónica.</div><div class="hero-mini"><strong>ENTRENA</strong>Foco, escucha, selección y comparación.</div><div class="hero-mini"><strong>DEMUESTRA</strong>10 palabras conocidas con menos pistas.</div></div></section>
+
+
+<section class="tonic-lesson">
+  <span class="stage">ANTES DE COMENZAR</span>
+  <h2>Una palabra tiene sílabas tónicas y átonas</h2>
+  <p class="tonic-intro">
+    Cuando pronunciamos una palabra, <b>no todas sus sílabas tienen la misma fuerza</b>.
+    Hay dos tipos que debemos distinguir:
+  </p>
+
+  <div class="tonic-types">
+    <article class="tonic-card strong">
+      <span class="signal">🔊</span>
+      <div class="kind">Sílaba TÓNICA</div>
+      <p>Es la sílaba que pronunciamos con <b>mayor fuerza</b>. En cada palabra hay una que destaca.</p>
+    </article>
+    <article class="tonic-card soft">
+      <span class="signal">🔉</span>
+      <div class="kind">Sílabas ÁTONAS</div>
+      <p>Son las demás sílabas de la palabra. Se pronuncian con <b>menor fuerza</b> que la tónica.</p>
+    </article>
+  </div>
+
+  <div class="focus-message">
+    🎯 <b>¿En cuál nos enfocaremos en este nivel?</b><br>
+    En la <b>sílaba tónica</b>. Primero aprenderás a encontrar la parte que recibe el golpe de voz.
+    Reconocer las átonas te ayudará a notar el contraste, pero tu misión será localizar <b>la tónica</b>.
+  </div>
+
+  <div class="demo-word">ca · mi · no</div>
+  <div class="demo-syllables">
+    <div class="demo-syl atona" data-demo="a">ca<small>ÁTONA · menor fuerza</small></div>
+    <div class="demo-syl tonica" data-demo="t">MI<small>TÓNICA · mayor fuerza</small></div>
+    <div class="demo-syl atona" data-demo="a">no<small>ÁTONA · menor fuerza</small></div>
+  </div>
+  <div class="demo-actions">
+    <button class="show-tonic" type="button" onclick="demoTonic()">🎯 Mostrar solo la tónica</button>
+    <button class="show-all" type="button" onclick="demoAll()">👀 Comparar tónica y átonas</button>
+    <button class="btn listen" type="button" onclick="speak('camino')">🔊 Escuchar “camino”</button>
+  </div>
+</section>
+
+<section class="profile"><div class="profile-head"><div class="identity"><div id="avatarBox" class="avatar">🦊</div><div><div id="nameDisplay" class="name">Explorador/a</div><div class="muted">Cazador/a de la tónica</div></div></div><span class="stage">TU IDENTIDAD</span></div><div class="profile-form"><input id="nameInput" maxlength="24" placeholder="Escribe tu nombre"><button class="btn primary" onclick="saveProfile()">Guardar</button></div><div class="avatars"><button class="av sel" data-a="🦊" onclick="selAvatar('🦊')">🦊</button><button class="av" data-a="🦉" onclick="selAvatar('🦉')">🦉</button><button class="av" data-a="🐯" onclick="selAvatar('🐯')">🐯</button><button class="av" data-a="🎯" onclick="selAvatar('🎯')">🎯</button><button class="av" data-a="🔎" onclick="selAvatar('🔎')">🔎</button></div></section>
+
+<section class="panel"><div class="route"><div id="r0" class="route-step active">1 · GUÍA</div><div id="r1" class="route-step">2 · ENTRENAMIENTO</div><div id="r2" class="route-step">3 · COMPROBACIÓN</div></div><div class="progressline"><span id="phaseLabel">Guía</span><span id="pct">0%</span></div><div class="progress"><div id="bar"></div></div></section>
+<main id="app"></main>
+
+<footer><div class="ey">AUTOR</div><h3>Luis Alberto Antonio Narciso</h3><p>Ingeniero en Electrónica por la UAM y con estudios de Maestría en Ciencias en la UNA. Profesional de Quality Assurance, automatización de pruebas y tecnología educativa, con experiencia como tester en proyectos vinculados con Google y Ford. Desarrolla recursos digitales con el propósito de acercar tecnología y aprendizaje a otras personas.</p><p><em>“Recurso diseñado y desarrollado por Luis Alberto Antonio Narciso”.</em></p><a href="https://narciso1516.github.io/narcisotesting.com/" target="_blank" rel="noopener noreferrer">Conocer al autor</a><div class="copy">© <span id="year"></span> Luis Alberto Antonio Narciso</div></footer>
+</div>
+<script>
+document.getElementById("year").textContent=new Date().getFullYear();
+const app=document.getElementById("app"),bar=document.getElementById("bar"),pct=document.getElementById("pct"),phaseLabel=document.getElementById("phaseLabel");
+let studentName=localStorage.getItem("radarStudentName")||"",avatar=localStorage.getItem("radarStudentAvatar")||"🦊";
+function who(){return studentName.trim()||"Explorador/a"}function sync(){nameDisplay.textContent=who();avatarBox.textContent=avatar;nameInput.value=studentName;document.querySelectorAll(".av").forEach(b=>b.classList.toggle("sel",b.dataset.a===avatar))}
+function saveProfile(){studentName=nameInput.value.trim().slice(0,24);localStorage.setItem("radarStudentName",studentName);sync()}function selAvatar(a){avatar=a;localStorage.setItem("radarStudentAvatar",a);sync()}
+function speak(t){if(!("speechSynthesis"in window))return;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang="es-MX";u.rate=.73;speechSynthesis.speak(u)}
+function shell(tag,title,exp,inst,body){app.innerHTML=`<section class="panel"><span class="stage">${tag}</span><h2>${title}</h2>${exp?`<div class="explain">${exp}</div>`:""}${inst?`<div class="instruction">${inst}</div>`:""}${body}</section>`}
+function prog(n,label,r){bar.style.width=n+"%";pct.textContent=n+"%";phaseLabel.textContent=label;[0,1,2].forEach(i=>{let e=document.getElementById("r"+i);e.className="route-step";if(i<r)e.classList.add("done");if(i===r)e.classList.add("active")})}
+const guide=[{w:"análisis",s:["a","ná","li","sis"],a:1},{w:"social",s:["so","cial"],a:1},{w:"fenómeno",s:["fe","nó","me","no"],a:1},{w:"investigar",s:["in","ves","ti","gar"],a:3},{w:"matemática",s:["ma","te","má","ti","ca"],a:2}];
+const train=[{w:"proyecto",s:["pro","yec","to"],a:1},{w:"argumento",s:["ar","gu","men","to"],a:2},{w:"tecnología",s:["tec","no","lo","gí","a"],a:3},{w:"científico",s:["cien","tí","fi","co"],a:1},{w:"educación",s:["e","du","ca","ción"],a:3},{w:"sociedad",s:["so","cie","dad"],a:2},{w:"literatura",s:["li","te","ra","tu","ra"],a:3},{w:"información",s:["in","for","ma","ción"],a:3},{w:"conclusión",s:["con","clu","sión"],a:2},{w:"democracia",s:["de","mo","cra","cia"],a:2},{w:"economía",s:["e","co","no","mí","a"],a:3},{w:"investigación",s:["in","ves","ti","ga","ción"],a:4}];
+const test=[{w:"universidad",s:["u","ni","ver","si","dad"],a:4},{w:"responsable",s:["res","pon","sa","ble"],a:2},{w:"académico",s:["a","ca","dé","mi","co"],a:2},{w:"comunicación",s:["co","mu","ni","ca","ción"],a:4},{w:"histórico",s:["his","tó","ri","co"],a:1},{w:"biología",s:["bio","lo","gí","a"],a:2},{w:"filosofía",s:["fi","lo","so","fí","a"],a:3},{w:"probabilidad",s:["pro","ba","bi","li","dad"],a:4},{w:"independencia",s:["in","de","pen","den","cia"],a:3},{w:"constitución",s:["cons","ti","tu","ción"],a:3}];
+let phase=0,index=0,itemTries=0,attempts=0,first=0,errors=[],testScore=0;
+function render(){if(phase===0)return intro();if(phase===1)return guideStep();if(phase===2)return trainStep();if(phase===3)return testStep();finish()}
+function intro(){prog(3,"Guía · Concepto",0);shell("DESCUBRE","Ahora tiene nombre","En los niveles anteriores descubriste que una parte de la palabra suena más fuerte. Esa parte se llama <b>sílaba tónica</b>. Todas las palabras tienen una sílaba tónica, lleven tilde escrita o no.","Observa: <b>ca · MI · no</b>. La sílaba <b>MI</b> es la tónica porque recibe el golpe de voz.",`<div class="word">ca · <span style="color:var(--violet);font-size:1.2em">MI</span> · no</div><div class="hint">Importante: <b>sílaba tónica</b> no significa “sílaba con tilde”. Algunas sílabas tónicas llevan tilde y otras no. Eso lo aprenderás después.</div><div class="actions"><button class="btn listen" onclick="speak('camino')">🔊 Escuchar camino</button><button class="btn next" onclick="phase=1;index=0;render()">Empezar guía →</button></div>`)}
+function guideStep(){if(index>=guide.length){phase=2;index=0;itemTries=0;return render()}let q=guide[index];prog(8+index*5,"Guía · Identifica",0);standard(q,"GUÍA CON AYUDA",`Toca la <b>sílaba tónica</b>: la que escuchas con mayor fuerza.`,true)}
+function standard(q,tag,inst,guided=false){shell(tag,`${index+1} · ${q.w}`,guided?"La palabra ya está separada. Ahora conecta lo que escuchas con el concepto de sílaba tónica.":"",inst,`<div class="word">${q.w}</div><div class="actions"><button class="btn listen" onclick="speak('${q.w}')">🔊 Escuchar</button></div><div class="syllables">${q.s.map((x,i)=>`<button class="syl" onclick="${guided?`ansGuide(${i},this)`:`ansTrain(${i},this)`}">${x}</button>`).join("")}</div><div id="fb" class="feedback"></div>`)}
+function ansGuide(i,el){let q=guide[index],fb=document.getElementById("fb");attempts++;itemTries++;if(i===q.a){el.classList.add("correct");fb.className="feedback ok";fb.textContent=`Sí: “${q.s[q.a]}” es la sílaba tónica.`;setTimeout(()=>{index++;itemTries=0;render()},650)}else{el.classList.add("wrong");fb.className="feedback no";fb.textContent="Esa sílaba no recibe el golpe principal. Escucha otra vez y selecciona una de las que quedan.";speak(q.w)}}
+function trainStep(){if(index>=train.length){phase=3;index=0;itemTries=0;return render()}let q=train[index],m=index%3;prog(35+Math.round(index/train.length*35),"Entrenamiento · Caza la tónica",1);if(m===0)return standard(q,"CAZA LA TÓNICA","Selecciona la sílaba tónica.",false);if(m===1)return focus(q);compare(q)}
+function ansTrain(i,el){let q=train[index],fb=document.getElementById("fb");attempts++;itemTries++;if(i===q.a){if(itemTries===1)first++;el?.classList.add("correct");fb.className="feedback ok";fb.textContent=`🎯 Objetivo encontrado: ${q.s[q.a].toUpperCase()}.`;setTimeout(()=>{index++;itemTries=0;render()},650)}else{if(itemTries===1)errors.push(q.w);el?.classList.add("wrong");fb.className="feedback no";fb.textContent="Todavía no. Esa opción queda descartada; prueba otra.";speak(q.w)}}
+function focus(q){shell("FOCO TÓNICO",`${index+1} · Mueve el foco`,"El foco aumenta el tamaño de la sílaba que estás señalando.","Mueve el control hasta la sílaba que crees tónica y confirma.",`<div class="word">${q.w}</div><div id="focus" class="focus-track">${q.s.map(x=>`<div class="focus-item"><div class="orb"></div><span>${x}</span></div>`).join("")}</div><input id="range" type="range" min="0" max="${q.s.length-1}" step=".01" value="0" oninput="moveFocus(this.value)"><div class="actions"><button class="btn listen" onclick="speak('${q.w}')">🔊 Escuchar</button><button class="btn primary" onclick="confirmFocus()">Confirmar foco</button></div><div id="fb" class="feedback"></div>`);moveFocus(0)}
+function moveFocus(v){let x=+v;document.querySelectorAll(".focus-item").forEach((e,i)=>{let p=Math.max(0,1-Math.abs(x-i));e.querySelector("span").style.fontSize=(1.2+p*1.15)+"rem";e.querySelector(".orb").style.width=(25+p*65)+"%";e.querySelector(".orb").style.height=(14+p*32)+"px";e.style.opacity=.55+p*.45})}
+function confirmFocus(){ansTrain(Math.round(+document.getElementById("range").value),null)}
+function compare(q){let wrong=(q.a+1)%q.s.length;let opts=[q.a,wrong].sort(()=>Math.random()-.5);shell("COMPARA EL GOLPE",`${index+1} · ${q.w}`,"Dos versiones destacan sílabas diferentes.","Elige la que coincide con cómo pronuncias realmente la palabra.",`<div class="choice-grid">${opts.map(pos=>`<button class="choice" onclick="ansCompare(${pos})">${q.s.map((x,i)=>i===pos?x.toUpperCase():x).join(" · ")}</button>`).join("")}</div><div class="actions"><button class="btn listen" onclick="speak('${q.w}')">🔊 Escuchar</button></div><div id="fb" class="feedback"></div>`)}
+function ansCompare(pos){ansTrain(pos,null)}
+function testStep(){if(index>=test.length){phase=4;return render()}let q=test[index];prog(74+index*2.4,"Comprobación · Sin ayudas",2);shell("COMPROBACIÓN",`${index+1} de ${test.length} · ${q.w}`,"Una sola respuesta. Aquí medimos si ya identificas la sílaba tónica sin pistas.","Toca la sílaba tónica.",`<div class="word">${q.w}</div><div class="syllables">${q.s.map((x,i)=>`<button class="syl" onclick="ansTest(${i},this)">${x}</button>`).join("")}</div><div id="fb" class="feedback"></div>`)}
+function ansTest(i,el){let q=test[index],fb=document.getElementById("fb");attempts++;document.querySelectorAll(".syl").forEach(b=>b.disabled=true);if(i===q.a){testScore++;el.classList.add("correct");fb.className="feedback ok";fb.textContent="Correcto."}else{fb.className="feedback no";fb.textContent=`La sílaba tónica era “${q.s[q.a]}”.`}setTimeout(()=>{index++;render()},750)}
+function finish(){prog(100,"Nivel 3 · Resultado",2);let p=Math.round(testScore/test.length*100),ready=p>=80;shell(ready?"NIVEL 3 DOMINADO":"REFUERZO RECOMENDADO",ready?`🎯 ${who()}, ya eres cazador/a de la tónica`:`${who()}, tu oído sigue entrenando`,ready?"Identificas la sílaba tónica con suficiente seguridad para continuar.":"Conviene repetir el entrenamiento antes de pasar al siguiente aprendizaje.","",`<div style="display:flex;align-items:center;gap:13px"><div class="avatar">${avatar}</div><div><strong style="font-size:1.25rem">${who()}</strong><div class="muted">Reporte · Nivel 3 · secundaria</div></div></div><div class="stats" style="margin-top:15px"><div class="stat"><strong>${testScore}/10</strong>Comprobación</div><div class="stat"><strong>${p}%</strong>Dominio</div><div class="stat"><strong>${first}</strong>Al 1.er intento</div></div><div class="feedback ${ready?"ok":"info"}">${ready?"✓ 80 % o más. Siguiente: contar la posición de la sílaba tónica desde el final.":"Repite únicamente el entrenamiento y vuelve a comprobar tu dominio."}</div>${errors.length?`<div class="hint">Palabras para reforzar: <b>${[...new Set(errors)].join(", ")}</b></div>`:""}<div class="actions"><button class="btn secondary" onclick="phase=2;index=0;itemTries=0;attempts=0;first=0;errors=[];testScore=0;render()">↻ Repetir entrenamiento</button>${ready?'<button class="btn next" onclick="alert(\'Nivel 3 completado. El Nivel 4 será contar la posición de la sílaba tónica desde el final.\')">Nivel 4 →</button>':""}</div>`)}
+
+function demoTonic(){
+ document.querySelectorAll('[data-demo="a"]').forEach(e=>{e.style.opacity=".28";e.style.transform="scale(.94)"});
+ document.querySelectorAll('[data-demo="t"]').forEach(e=>{e.style.opacity="1";e.style.transform="scale(1.14)"});
+}
+function demoAll(){
+ document.querySelectorAll('[data-demo]').forEach(e=>{e.style.opacity="1";e.style.transform=e.dataset.demo==="t"?"scale(1.08)":"scale(1)"});
+}
+
+sync();render();
+</script></body></html>
