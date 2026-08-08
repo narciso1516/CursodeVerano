@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#081326" />
+  <title>Curso de Verano · Poblado Tres</title>
+  <meta name="description" content="Una experiencia de aprendizaje activa, divertida y personalizada para niñas, niños y jóvenes de Poblado Tres, Tres Valles, Veracruz." />
+
+  <style>
+    :root{
+      --fluff:#f4b5de;
+      --poison:#dff700;
+      --busy:#fa58a7;
+      --zoom:#3f22ec;
+      --meeting:#03e29d;
+      --giraffe:#efca62;
+
+      --bg:#fffafc;
+      --bg2:#f7f4ff;
+      --card:rgba(255,255,255,.82);
+      --card-strong:rgba(255,255,255,.94);
+      --text:#17133f;
+      --muted:#625d7f;
+      --blue:#3f22ec;
+      --cyan:#03e29d;
+      --yellow:#efca62;
+      --pink:#fa58a7;
+      --purple:#3f22ec;
+      --green:#03e29d;
+      --orange:#efca62;
+      --shadow:0 24px 70px rgba(63,34,236,.12);
+      --radius:26px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 8% 7%, rgba(244,181,222,.7), transparent 21%),
+        radial-gradient(circle at 92% 9%, rgba(223,247,0,.55), transparent 20%),
+        radial-gradient(circle at 8% 76%, rgba(3,226,157,.20), transparent 20%),
+        linear-gradient(180deg,#fffafd 0%,#fbf9ff 48%,#fffdf8 100%);
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+      background-size:34px 34px;
+      mask-image:linear-gradient(to bottom,rgba(0,0,0,.75),transparent 86%);
+      z-index:-1;
+    }
+
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+
+    .noise{
+      position:fixed; inset:0; pointer-events:none; opacity:.035; z-index:99;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E");
+    }
+
+    .container{width:min(1120px, calc(100% - 28px)); margin:auto}
+    .section{padding:86px 0; position:relative}
+    .eyebrow{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:9px 14px; border:1px solid rgba(63,34,236,.14);
+      border-radius:999px; background:rgba(255,255,255,.84);
+      color:#31265e; font-size:.84rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
+      backdrop-filter:blur(14px);
+    }
+    .eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);box-shadow:0 0 18px var(--cyan)}
+    h1,h2,h3,p{margin-top:0}
+    h1{
+      font-size:clamp(3rem, 9vw, 7rem);
+      line-height:.93; letter-spacing:-.065em; margin-bottom:22px;
+    }
+    h2{
+      font-size:clamp(2.25rem, 7vw, 4.7rem);
+      line-height:1; letter-spacing:-.045em; margin-bottom:18px;
+    }
+    .lead{
+      color:var(--muted);
+      font-size:clamp(1.06rem, 2.9vw, 1.35rem);
+      line-height:1.65;
+      max-width:760px;
+    }
+    .gradient-text{
+      background:linear-gradient(90deg,#fff 0%,#8ff5ea 35%,#77bfff 62%,#c09cff 100%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+
+    /* HERO */
+    .hero{
+      min-height:100svh;
+      display:flex; align-items:center;
+      position:relative; overflow:hidden;
+      padding:92px 0 56px;
+    }
+    .hero::after{
+      content:"";
+      position:absolute; inset:auto -12% -30% -12%; height:48%;
+      background:radial-gradient(ellipse,rgba(84,187,255,.18),transparent 68%);
+      filter:blur(14px); pointer-events:none;
+    }
+    .hero-grid{
+      display:grid; grid-template-columns:1.12fr .88fr; gap:40px; align-items:center;
+    }
+    .hero-copy{position:relative; z-index:3}
+    .hero-copy .lead{max-width:660px}
+    .hero-actions{
+      display:flex; flex-wrap:wrap; gap:12px; margin-top:30px;
+    }
+    .btn{
+      display:inline-flex; justify-content:center; align-items:center; gap:10px;
+      min-height:54px; padding:0 20px; border-radius:18px;
+      border:1px solid rgba(63,34,236,.14);
+      background:var(--zoom); color:#fff; font-weight:900;
+      box-shadow:0 14px 34px rgba(0,0,0,.18);
+      transition:.25s ease; cursor:pointer;
+    }
+    .btn:hover{transform:translateY(-3px) scale(1.01)}
+    .btn.alt{background:rgba(255,255,255,.07); color:var(--text); backdrop-filter:blur(14px)}
+    .hero-note{
+      margin-top:20px; display:flex; gap:12px; align-items:center; color:#504a75; font-weight:700; font-size:.92rem;
+    }
+    .hero-note span:first-child{
+      width:36px;height:36px;display:grid;place-items:center;border-radius:12px;background:rgba(95,241,229,.12);border:1px solid rgba(95,241,229,.2)
+    }
+
+    .orbital{
+      position:relative; min-height:560px;
+      display:grid; place-items:center; perspective:1000px;
+    }
+    .core{
+      width:min(330px,78vw); aspect-ratio:1;
+      border-radius:44px;
+      background:
+        linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.03)),
+        radial-gradient(circle at 30% 22%,rgba(95,241,229,.22),transparent 28%),
+        radial-gradient(circle at 75% 72%,rgba(154,124,255,.30),transparent 32%);
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.12);
+      backdrop-filter:blur(24px);
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center; padding:28px; position:relative; overflow:hidden;
+      transform:rotateY(-6deg) rotateX(3deg);
+      animation:float 6s ease-in-out infinite;
+    }
+    .core::before{
+      content:"";position:absolute;inset:-30%;
+      background:conic-gradient(from 0deg,transparent,rgba(95,241,229,.12),transparent,rgba(154,124,255,.14),transparent);
+      animation:spin 11s linear infinite;
+    }
+    .core>*{position:relative;z-index:2}
+    .core .big{font-size:clamp(3rem,8vw,5.5rem);line-height:1}
+    .core strong{font-size:clamp(1.6rem,4vw,2.5rem);letter-spacing:-.03em}
+    .core small{color:var(--muted);font-size:1rem;margin-top:10px;line-height:1.45}
+    .float-card{
+      position:absolute; padding:14px 16px;border-radius:18px;
+      background:rgba(10,24,48,.72);border:1px solid rgba(63,34,236,.14);backdrop-filter:blur(16px);
+      box-shadow:0 18px 40px rgba(0,0,0,.24);
+      font-weight:900;font-size:.92rem;
+      animation:float 5s ease-in-out infinite;
+    }
+    .fc1{top:70px;left:0}
+    .fc2{top:90px;right:0;animation-delay:-1.1s}
+    .fc3{bottom:100px;left:4%;animation-delay:-2.3s}
+    .fc4{bottom:70px;right:3%;animation-delay:-3.4s}
+
+    /* STATS */
+    .stats{
+      display:grid; grid-template-columns:repeat(4,1fr); gap:12px;
+      margin-top:34px;
+    }
+    .stat{
+      padding:20px;border-radius:22px;background:rgba(255,255,255,.84);
+      border:1px solid rgba(63,34,236,.12);backdrop-filter:blur(14px)
+    }
+    .stat strong{display:block;font-size:1.45rem;margin-bottom:7px}
+    .stat span{color:var(--muted);font-size:.92rem;line-height:1.45}
+
+    /* FEATURE GRID */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;margin-top:34px}
+    .card{
+      position:relative; overflow:hidden;
+      min-height:230px;padding:26px;border-radius:var(--radius);
+      background:linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+      border:1px solid rgba(63,34,236,.12);
+      box-shadow:0 12px 36px rgba(0,0,0,.14);
+      transition:.35s ease;
+    }
+    .card:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.22)}
+    .card::after{
+      content:"";position:absolute;width:180px;height:180px;border-radius:50%;
+      right:-70px;bottom:-90px;filter:blur(18px);opacity:.32;background:var(--glow,var(--blue));
+    }
+    .card h3{font-size:1.5rem;margin:18px 0 10px;letter-spacing:-.025em}
+    .card p{color:var(--muted);line-height:1.58;margin-bottom:0}
+    .card .icon{
+      width:54px;height:54px;border-radius:17px;display:grid;place-items:center;
+      font-size:1.65rem;background:rgba(255,255,255,.92);border:1px solid rgba(63,34,236,.12)
+    }
+    .span4{grid-column:span 4}.span5{grid-column:span 5}.span7{grid-column:span 7}.span8{grid-column:span 8}
+
+    /* JOURNEY */
+    .journey-wrap{
+      margin-top:40px; display:grid; grid-template-columns:.75fr 1.25fr; gap:18px; align-items:start;
+    }
+    .journey-intro{
+      position:sticky; top:24px;
+      padding:28px;border-radius:var(--radius);background:rgba(255,255,255,.84);border:1px solid rgba(63,34,236,.12)
+    }
+    .journey-intro .quote{
+      font-size:clamp(1.55rem,4vw,2.35rem);font-weight:950;line-height:1.08;letter-spacing:-.04em
+    }
+    .steps{display:grid;gap:14px}
+    .step{
+      display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;
+      padding:22px;border-radius:22px;background:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.09);
+      transform:translateY(20px);opacity:.45;transition:.6s ease;
+    }
+    .step.active{transform:none;opacity:1;background:rgba(255,255,255,.085)}
+    .step-num{
+      width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-weight:950;
+      background:linear-gradient(145deg,rgba(95,241,229,.2),rgba(89,184,255,.12));border:1px solid rgba(95,241,229,.18)
+    }
+    .step h3{margin:2px 0 8px;font-size:1.35rem}
+    .step p{margin:0;color:var(--muted);line-height:1.55}
+
+    /* GROUPS */
+    .groups{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px
+    }
+    .group{
+      min-height:330px;border-radius:30px;padding:28px;position:relative;overflow:hidden;
+      border:1px solid rgba(63,34,236,.12);
+      background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.035));
+      cursor:pointer;transition:.35s ease;
+    }
+    .group:hover{transform:translateY(-7px) scale(1.01)}
+    .group::before{
+      content:"";position:absolute;inset:auto -10% -18% -10%;height:50%;border-radius:50%;
+      background:radial-gradient(circle,var(--g),transparent 65%);opacity:.27;filter:blur(10px)
+    }
+    .group>*{position:relative;z-index:2}
+    .group .emoji{font-size:3.4rem}
+    .group h3{font-size:2rem;margin:14px 0 6px}
+    .group .tag{display:inline-block;color:#31265e;font-size:.83rem;font-weight:850;padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.07)}
+    .group p{color:var(--muted);line-height:1.55;margin-top:18px}
+    .group small{display:block;color:var(--text);font-weight:850;margin-top:18px}
+
+    /* INTERACTIVE SKILLS */
+    .skill-console{
+      margin-top:34px;display:grid;grid-template-columns:1fr 1fr;gap:18px;
+    }
+    .skill-panel{
+      padding:26px;border-radius:28px;background:rgba(255,255,255,.88);border:1px solid rgba(63,34,236,.12)
+    }
+    .skill-buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+    .skill-btn{
+      border:1px solid rgba(63,34,236,.12);background:rgba(255,255,255,.84);color:var(--text);
+      padding:12px 14px;border-radius:14px;font-weight:850;cursor:pointer;transition:.2s ease
+    }
+    .skill-btn.active,.skill-btn:hover{background:#fff;color:#07101f;transform:translateY(-2px)}
+    .skill-display{
+      min-height:260px;padding:26px;border-radius:28px;
+      background:
+        radial-gradient(circle at 80% 10%,rgba(154,124,255,.20),transparent 30%),
+        linear-gradient(160deg,rgba(255,255,255,.09),rgba(255,255,255,.03));
+      border:1px solid rgba(63,34,236,.12);
+      display:flex;flex-direction:column;justify-content:center
+    }
+    .skill-display .mini{font-size:.84rem;text-transform:uppercase;letter-spacing:.08em;color:#c7d4e8;font-weight:900}
+    .skill-display h3{font-size:clamp(2rem,5vw,3.1rem);line-height:1;margin:10px 0 16px}
+    .skill-display p{color:var(--muted);line-height:1.6;margin:0}
+    .bar{height:10px;border-radius:999px;background:rgba(255,255,255,.92);overflow:hidden;margin-top:22px}
+    .bar span{display:block;height:100%;width:42%;border-radius:inherit;background:linear-gradient(90deg,var(--cyan),var(--blue));transition:width .5s ease}
+
+    /* PARENTS */
+    .parent-box{
+      margin-top:34px;padding:34px;border-radius:34px;background:
+      radial-gradient(circle at 0 0,rgba(255,216,97,.13),transparent 28%),
+      radial-gradient(circle at 100% 100%,rgba(95,241,229,.12),transparent 32%),
+      rgba(255,255,255,.065);
+      border:1px solid rgba(63,34,236,.12)
+    }
+    .questions{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:24px}
+    .q{
+      padding:18px;border-radius:18px;background:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.08);
+      font-weight:900;line-height:1.35
+    }
+
+    /* CTA */
+    .cta{
+      text-align:center;padding:52px 22px;border-radius:36px;
+      background:
+        radial-gradient(circle at 20% 20%,rgba(95,241,229,.2),transparent 28%),
+        radial-gradient(circle at 80% 70%,rgba(154,124,255,.25),transparent 30%),
+        rgba(255,255,255,.075);
+      border:1px solid rgba(63,34,236,.14);position:relative;overflow:hidden
+    }
+    .cta h2{max-width:860px;margin-left:auto;margin-right:auto}
+    .cta .lead{margin:0 auto 26px}
+
+    footer{
+      padding:34px 0 48px;color:#97a7c0;font-size:.9rem;text-align:center
+    }
+
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(26px);transition:.75s cubic-bezier(.2,.7,.2,1)}
+    .reveal.show{opacity:1;transform:none}
+
+    /* CONFETTI */
+    .spark{
+      position:fixed;width:8px;height:8px;border-radius:2px;pointer-events:none;z-index:120;
+      animation:pop 900ms ease-out forwards;
+    }
+
+    /* MOBILE */
+    @media (max-width:860px){
+      .hero{padding-top:74px}
+      .hero-grid{grid-template-columns:1fr}
+      .orbital{min-height:460px}
+      .float-card{font-size:.78rem;padding:11px 12px}
+      .stats{grid-template-columns:repeat(2,1fr)}
+      .span4,.span5,.span7,.span8{grid-column:span 12}
+      .journey-wrap{grid-template-columns:1fr}
+      .journey-intro{position:relative;top:auto}
+      .groups{grid-template-columns:1fr}
+      .skill-console{grid-template-columns:1fr}
+      .questions{grid-template-columns:1fr}
+    }
+
+    @media (max-width:520px){
+      .container{width:min(100% - 20px,1120px)}
+      .section{padding:68px 0}
+      h1{font-size:clamp(3rem,15vw,4.7rem)}
+      h2{font-size:clamp(2.25rem,11vw,3.4rem)}
+      .lead{font-size:1rem}
+      .hero-actions{display:grid;grid-template-columns:1fr}
+      .btn{width:100%}
+      .orbital{min-height:390px}
+      .core{width:74vw;border-radius:34px}
+      .fc1{top:30px;left:0}.fc2{top:56px;right:0}.fc3{bottom:62px;left:0}.fc4{bottom:28px;right:0}
+      .stats{grid-template-columns:1fr}
+      .card,.parent-box,.skill-panel,.skill-display{padding:22px}
+      .group{min-height:280px}
+      .step{padding:18px}
+    }
+
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes pop{
+      0%{transform:translate(0,0) scale(1);opacity:1}
+      100%{transform:translate(var(--x),var(--y)) rotate(320deg) scale(.2);opacity:0}
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+    }
+  
+    /* PALETA EDITORIAL SUMINISTRADA */
+    .palette-strip{
+      display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:28px
+    }
+    .palette-chip{height:12px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(23,19,63,.08)}
+    .p1{background:var(--fluff)} .p2{background:var(--poison)} .p3{background:var(--busy)}
+    .p4{background:var(--zoom)} .p5{background:var(--meeting)} .p6{background:var(--giraffe)}
+
+    .hero{
+      background:
+        radial-gradient(circle at 78% 22%, rgba(223,247,0,.7), transparent 24%),
+        radial-gradient(circle at 20% 18%, rgba(244,181,222,.85), transparent 30%),
+        linear-gradient(180deg,rgba(255,255,255,.15),rgba(255,255,255,.6));
+    }
+    .gradient-text{
+      background:linear-gradient(90deg,var(--zoom),var(--busy),#a265ff,var(--meeting));
+      -webkit-background-clip:text;background-clip:text;color:transparent
+    }
+    .eyebrow{background:var(--poison);color:#28214d;border:none;box-shadow:0 8px 24px rgba(223,247,0,.28)}
+    .eyebrow .dot{background:var(--zoom);box-shadow:0 0 0 5px rgba(63,34,236,.12)}
+    .btn{background:var(--zoom);color:#fff;border:none}
+    .btn.alt{background:var(--busy);color:#fff;border:none}
+    .btn.wa{background:var(--meeting);color:#122f28}
+    .core{
+      background:
+        radial-gradient(circle at 30% 20%,rgba(223,247,0,.82),transparent 30%),
+        radial-gradient(circle at 80% 78%,rgba(250,88,167,.70),transparent 32%),
+        linear-gradient(145deg,#ffffff,#f8f5ff);
+      border:2px solid rgba(63,34,236,.12);
+      box-shadow:0 30px 80px rgba(63,34,236,.16)
+    }
+    .float-card{background:rgba(255,255,255,.96);color:var(--text);border:1px solid rgba(63,34,236,.12)}
+    .stat:nth-child(1){border-top:7px solid var(--busy)}
+    .stat:nth-child(2){border-top:7px solid var(--poison)}
+    .stat:nth-child(3){border-top:7px solid var(--meeting)}
+    .stat:nth-child(4){border-top:7px solid var(--zoom)}
+    .card{background:rgba(255,255,255,.92);color:var(--text)}
+    .card p,.group p,.step p,.skill-display p{color:var(--muted)}
+    .group:nth-child(1){background:linear-gradient(160deg,var(--fluff),#fff)}
+    .group:nth-child(2){background:linear-gradient(160deg,var(--poison),#fff)}
+    .group:nth-child(3){background:linear-gradient(160deg,#bdb1ff,#fff)}
+    .group .tag{background:rgba(255,255,255,.78);color:var(--text)}
+    .skill-btn{background:white;color:var(--text);border:1px solid rgba(63,34,236,.14)}
+    .skill-btn.active,.skill-btn:hover{background:var(--zoom);color:white}
+    .skill-display{
+      background:
+        radial-gradient(circle at 85% 10%,rgba(244,181,222,.65),transparent 28%),
+        radial-gradient(circle at 10% 90%,rgba(3,226,157,.24),transparent 30%),
+        white
+    }
+    .bar{background:#ece8ff}.bar span{background:linear-gradient(90deg,var(--meeting),var(--zoom),var(--busy))}
+    .parent-box{
+      background:
+        radial-gradient(circle at 0 0,rgba(239,202,98,.60),transparent 28%),
+        radial-gradient(circle at 100% 100%,rgba(3,226,157,.26),transparent 32%),
+        white
+    }
+    .q:nth-child(odd){border-left:7px solid var(--busy)}
+    .q:nth-child(even){border-left:7px solid var(--meeting)}
+    .cta{
+      background:
+        radial-gradient(circle at 15% 18%,rgba(244,181,222,.75),transparent 30%),
+        radial-gradient(circle at 84% 18%,rgba(223,247,0,.70),transparent 27%),
+        radial-gradient(circle at 70% 95%,rgba(3,226,157,.30),transparent 25%),
+        white
+    }
+
+    /* RECORRIDO INTERACTIVO */
+    .story-shell{
+      position:relative;margin-top:34px;border-radius:34px;overflow:hidden;
+      background:#fff;border:1px solid rgba(63,34,236,.12);box-shadow:var(--shadow)
+    }
+    .story-progress{height:8px;background:#eee9ff}
+    .story-progress span{display:block;height:100%;width:16.6%;background:linear-gradient(90deg,var(--busy),var(--zoom),var(--meeting));transition:.35s ease}
+    .story-stage{position:relative;min-height:430px}
+    .story-card{
+      position:absolute;inset:0;padding:clamp(26px,5vw,54px);
+      display:grid;grid-template-columns:.8fr 1.2fr;gap:30px;align-items:center;
+      opacity:0;transform:translateX(60px) scale(.98);pointer-events:none;transition:.5s cubic-bezier(.2,.7,.2,1)
+    }
+    .story-card.active{opacity:1;transform:none;pointer-events:auto}
+    .story-card.exit-left{opacity:0;transform:translateX(-60px) scale(.98)}
+    .story-visual{
+      min-height:280px;border-radius:30px;display:grid;place-items:center;text-align:center;padding:24px;
+      font-size:clamp(4rem,12vw,8rem);position:relative;overflow:hidden
+    }
+    .story-visual::after{content:"";position:absolute;inset:auto -15% -30% -15%;height:52%;background:rgba(255,255,255,.45);border-radius:50%;filter:blur(22px)}
+    .story-copy .kicker{text-transform:uppercase;letter-spacing:.1em;font-weight:950;font-size:.82rem;color:var(--zoom)}
+    .story-copy h3{font-size:clamp(2rem,6vw,4rem);line-height:.98;letter-spacing:-.045em;margin:10px 0 16px}
+    .story-copy p{font-size:1.05rem;line-height:1.66;color:var(--muted)}
+    .story-nav{display:flex;justify-content:space-between;gap:12px;padding:0 24px 24px}
+    .story-nav button{
+      flex:1;min-height:52px;border:none;border-radius:16px;font-weight:950;cursor:pointer;
+      background:#efeaff;color:var(--zoom);transition:.2s ease
+    }
+    .story-nav button:last-child{background:var(--zoom);color:#fff}
+    .story-nav button:hover{transform:translateY(-2px)}
+    .story-dots{display:flex;gap:8px;justify-content:center;padding:0 0 20px}
+    .story-dot{width:9px;height:9px;border-radius:50%;background:#d7d1f4;transition:.25s ease}
+    .story-dot.active{width:28px;border-radius:999px;background:var(--busy)}
+
+    /* TRAYECTORIA */
+    .profile-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px;margin-top:34px}
+    .profile-card,.method-card{
+      background:white;border:1px solid rgba(63,34,236,.12);border-radius:30px;padding:28px;box-shadow:var(--shadow)
+    }
+    .profile-badge{
+      width:76px;height:76px;border-radius:24px;display:grid;place-items:center;font-size:2.1rem;
+      background:linear-gradient(145deg,var(--giraffe),var(--fluff))
+    }
+    .profile-card h3{font-size:2rem;margin:18px 0 8px}
+    .career-list{display:grid;gap:12px;margin-top:22px}
+    .career-item{
+      padding:15px 16px;border-radius:17px;background:#faf8ff;border-left:6px solid var(--zoom);font-weight:800
+    }
+    .career-item:nth-child(2){border-left-color:var(--meeting)}
+    .career-item:nth-child(3){border-left-color:var(--busy)}
+    .career-item:nth-child(4){border-left-color:var(--giraffe)}
+    .method-steps{display:grid;gap:12px;margin-top:18px}
+    .method-row{display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:start;padding:14px;border-radius:18px;background:#fbfaff}
+    .method-row span:first-child{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--poison);font-weight:950}
+    .guarantee{
+      margin-top:18px;padding:18px;border-radius:20px;background:linear-gradient(100deg,rgba(3,226,157,.16),rgba(223,247,0,.22));
+      border:1px solid rgba(3,226,157,.24)
+    }
+
+    .wa-panel{
+      margin-top:30px;padding:28px;border-radius:30px;background:var(--zoom);color:white;text-align:center;
+      box-shadow:0 24px 60px rgba(63,34,236,.24)
+    }
+    .wa-panel h3{font-size:clamp(2rem,6vw,3.4rem);margin-bottom:10px}
+    .wa-panel p{color:#e8e3ff;max-width:720px;margin:0 auto 20px;line-height:1.6}
+    .wa-number{display:block;font-size:clamp(1.4rem,5vw,2.2rem);font-weight:950;margin-bottom:18px;letter-spacing:.02em}
+
+    @media(max-width:860px){
+      .story-card{grid-template-columns:1fr;position:absolute;align-content:start}
+      .story-stage{min-height:660px}
+      .story-visual{min-height:220px}
+      .profile-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:520px){
+      .story-stage{min-height:700px}
+      .story-nav{padding:0 14px 14px}
+      .story-card{padding:20px}
+      .palette-strip{gap:5px}
+    }
+
+  
+    /* ACTIVIDADES VIVAS */
+    .activity-showcase{
+      margin-top:36px;
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:14px
+    }
+    .activity-card{
+      position:relative;
+      overflow:hidden;
+      min-height:320px;
+      border-radius:30px;
+      padding:24px;
+      background:white;
+      border:1px solid rgba(63,34,236,.12);
+      box-shadow:var(--shadow);
+      cursor:pointer;
+      transition:.35s ease;
+      isolation:isolate
+    }
+    .activity-card:hover{transform:translateY(-7px) scale(1.01)}
+    .activity-card::after{
+      content:"";
+      position:absolute;
+      width:180px;height:180px;
+      border-radius:50%;
+      right:-50px;bottom:-70px;
+      background:var(--a-color,var(--fluff));
+      opacity:.34;
+      filter:blur(8px);
+      z-index:-1
+    }
+    .activity-card.big{grid-column:span 7}
+    .activity-card.small{grid-column:span 5}
+    .activity-card.third{grid-column:span 4}
+    .activity-scene{
+      min-height:165px;
+      display:flex;
+      justify-content:center;
+      align-items:flex-end;
+      gap:14px;
+      padding:18px;
+      border-radius:24px;
+      background:linear-gradient(145deg,rgba(244,181,222,.55),rgba(255,255,255,.75));
+      position:relative;
+      overflow:hidden
+    }
+    .activity-scene.poison{background:linear-gradient(145deg,rgba(223,247,0,.62),rgba(255,255,255,.8))}
+    .activity-scene.meeting{background:linear-gradient(145deg,rgba(3,226,157,.34),rgba(255,255,255,.85))}
+    .activity-scene.zoom{background:linear-gradient(145deg,rgba(63,34,236,.18),rgba(244,181,222,.45))}
+    .activity-scene.giraffe{background:linear-gradient(145deg,rgba(239,202,98,.62),rgba(255,255,255,.82))}
+    .kid{
+      font-size:clamp(2.8rem,8vw,4.9rem);
+      filter:drop-shadow(0 8px 10px rgba(0,0,0,.10));
+      animation:kidBounce 3.2s ease-in-out infinite
+    }
+    .kid:nth-child(2){animation-delay:-.7s}
+    .kid:nth-child(3){animation-delay:-1.4s}
+    .kid:nth-child(4){animation-delay:-2.1s}
+    .activity-prop{
+      position:absolute;
+      font-size:2rem;
+      animation:float 4s ease-in-out infinite
+    }
+    .activity-prop.p1{top:16px;left:18px}
+    .activity-prop.p2{top:20px;right:18px;animation-delay:-1s}
+    .activity-prop.p3{bottom:12px;right:20%;animation-delay:-2s}
+    .activity-card h3{
+      margin:18px 0 8px;
+      font-size:1.55rem;
+      letter-spacing:-.03em
+    }
+    .activity-card p{
+      color:var(--muted);
+      line-height:1.55;
+      margin-bottom:12px
+    }
+    .activity-tag{
+      display:inline-flex;
+      padding:8px 11px;
+      border-radius:999px;
+      font-size:.79rem;
+      font-weight:900;
+      background:#f3efff;
+      color:var(--zoom)
+    }
+    .activity-detail{
+      max-height:0;
+      opacity:0;
+      overflow:hidden;
+      transition:.35s ease;
+      color:var(--text);
+      font-weight:750;
+      line-height:1.5
+    }
+    .activity-card.open .activity-detail{
+      max-height:160px;
+      opacity:1;
+      margin-top:12px
+    }
+    .activity-card.open{
+      border-color:rgba(250,88,167,.45);
+      box-shadow:0 26px 70px rgba(250,88,167,.16)
+    }
+    .activity-card .tap-note{
+      display:block;
+      margin-top:8px;
+      font-size:.82rem;
+      font-weight:900;
+      color:var(--busy)
+    }
+    .happy-banner{
+      margin-top:18px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:18px 20px;
+      border-radius:22px;
+      background:linear-gradient(90deg,var(--poison),#f9ffd0);
+      color:#292442;
+      font-weight:900;
+      line-height:1.4
+    }
+    .happy-banner span{font-size:2rem}
+
+    @keyframes kidBounce{
+      0%,100%{transform:translateY(0) rotate(-1deg)}
+      50%{transform:translateY(-7px) rotate(1deg)}
+    }
+
+    @media(max-width:860px){
+      .activity-card.big,.activity-card.small,.activity-card.third{grid-column:span 12}
+    }
+
+  
+    /* DEMOS DE CUESTIONARIOS */
+    .quiz-lab{
+      margin-top:36px;
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:14px
+    }
+    .demo{
+      grid-column:span 6;
+      background:white;
+      border:1px solid rgba(63,34,236,.12);
+      border-radius:28px;
+      padding:24px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      position:relative
+    }
+    .demo.wide{grid-column:span 12}
+    .demo h3{
+      font-size:1.55rem;
+      margin:10px 0 8px;
+      letter-spacing:-.03em
+    }
+    .demo p{
+      color:var(--muted);
+      line-height:1.55
+    }
+    .demo-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px
+    }
+    .demo-badge{
+      display:inline-flex;
+      padding:7px 10px;
+      border-radius:999px;
+      background:var(--poison);
+      color:#292442;
+      font-size:.76rem;
+      font-weight:950
+    }
+    .answer-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+      margin-top:16px
+    }
+    .answer-btn{
+      min-height:50px;
+      border:none;
+      border-radius:15px;
+      background:#f5f1ff;
+      color:var(--text);
+      font-weight:900;
+      cursor:pointer;
+      transition:.2s ease
+    }
+    .answer-btn:hover{transform:translateY(-2px)}
+    .answer-btn.correct{background:var(--meeting);color:#143d32}
+    .answer-btn.wrong{background:var(--fluff);color:#6f2051}
+    .feedback{
+      min-height:24px;
+      margin-top:12px;
+      font-weight:900
+    }
+    .memory-stage{
+      margin-top:16px;
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap
+    }
+    .memory-chip{
+      width:72px;
+      height:72px;
+      border-radius:20px;
+      display:grid;
+      place-items:center;
+      font-size:1.55rem;
+      font-weight:950;
+      background:var(--giraffe);
+      transition:.3s ease
+    }
+    .memory-chip.hidden{
+      background:#eee9ff;
+      color:transparent;
+      transform:rotateY(180deg)
+    }
+    .memory-controls{
+      display:flex;
+      gap:10px;
+      margin-top:14px;
+      flex-wrap:wrap
+    }
+    .mini-btn{
+      border:none;
+      border-radius:14px;
+      padding:12px 15px;
+      background:var(--zoom);
+      color:white;
+      font-weight:900;
+      cursor:pointer
+    }
+    .mini-btn.alt{background:var(--busy)}
+    .slider-wrap{
+      margin-top:20px;
+      padding:18px;
+      border-radius:20px;
+      background:#fbf9ff
+    }
+    .slider-wrap input{width:100%;accent-color:var(--busy)}
+    .slider-value{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+      margin-top:10px;
+      font-weight:900
+    }
+    .sort-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:16px
+    }
+    .sort-chip{
+      border:none;
+      border-radius:14px;
+      padding:12px 14px;
+      font-weight:900;
+      background:#f1edff;
+      cursor:pointer;
+      transition:.2s ease
+    }
+    .sort-chip.selected{
+      background:var(--busy);
+      color:white;
+      transform:translateY(-2px)
+    }
+    .quiz-note{
+      margin-top:16px;
+      padding:14px 16px;
+      border-radius:17px;
+      background:linear-gradient(90deg,rgba(244,181,222,.55),rgba(223,247,0,.4));
+      font-weight:850;
+      line-height:1.5
+    }
+
+    /* MANTRA */
+    .mantra-wrap{
+      margin-top:36px;
+      border-radius:38px;
+      padding:clamp(28px,6vw,64px);
+      position:relative;
+      overflow:hidden;
+      text-align:center;
+      background:
+        radial-gradient(circle at 10% 20%,rgba(244,181,222,.9),transparent 28%),
+        radial-gradient(circle at 90% 15%,rgba(223,247,0,.85),transparent 25%),
+        radial-gradient(circle at 80% 90%,rgba(3,226,157,.38),transparent 25%),
+        linear-gradient(145deg,#fff,#faf8ff);
+      border:1px solid rgba(63,34,236,.12);
+      box-shadow:var(--shadow)
+    }
+    .mantra-small{
+      font-size:.86rem;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-weight:950;
+      color:var(--zoom)
+    }
+    .mantra-big{
+      font-size:clamp(3rem,12vw,7.6rem);
+      line-height:.9;
+      letter-spacing:-.065em;
+      margin:14px auto 22px;
+      max-width:980px;
+      font-weight:1000
+    }
+    .mantra-big .no{
+      color:var(--busy)
+    }
+    .mantra-big .puedo{
+      color:var(--zoom)
+    }
+    .mantra-explain{
+      max-width:780px;
+      margin:0 auto;
+      color:var(--muted);
+      font-size:1.08rem;
+      line-height:1.65
+    }
+    .mantra-actions{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:26px
+    }
+    .mantra-pill{
+      padding:12px 16px;
+      border-radius:999px;
+      background:white;
+      border:1px solid rgba(63,34,236,.12);
+      font-weight:900
+    }
+    .mantra-steps{
+      margin-top:28px;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px
+    }
+    .mantra-step{
+      padding:18px;
+      border-radius:20px;
+      background:rgba(255,255,255,.8);
+      border:1px solid rgba(63,34,236,.1);
+      font-weight:900;
+      line-height:1.35
+    }
+    .mantra-step span{
+      display:block;
+      font-size:2rem;
+      margin-bottom:6px
+    }
+
+    @media(max-width:860px){
+      .demo,.demo.wide{grid-column:span 12}
+      .mantra-steps{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:520px){
+      .answer-grid{grid-template-columns:1fr}
+      .mantra-steps{grid-template-columns:1fr}
+      .memory-chip{width:62px;height:62px}
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="noise"></div>
+
+  <header class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy reveal">
+        <div class="eyebrow"><span class="dot"></span> Curso de Verano · Poblado Tres</div>
+        <h1 style="margin-top:18px">Aquí no vienes a <span class="gradient-text">pasar el verano.</span></h1>
+        <p class="lead">
+          Vienes a <strong style="color:var(--text)">descubrir todo lo que puedes aprender</strong>.
+          Lectura, matemáticas, inglés, escritura, ciencia, tecnología, cultura general,
+          creatividad, trabajo en equipo y retos diseñados para que cada alumno avance a su ritmo.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn" href="#experiencia">Descubrir la experiencia ↓</a>
+          <button class="btn alt" id="surpriseBtn">Sorpréndeme ✨</button>
+        </div>
+
+        <div class="hero-note">
+          <span>📱</span>
+          <span>Diseñado para aprender también desde el celular, no solo para consumir contenido.</span>
+        </div>
+
+        <div class="palette-strip" aria-label="Paleta visual del curso">
+          <span class="palette-chip p1"></span><span class="palette-chip p2"></span>
+          <span class="palette-chip p3"></span><span class="palette-chip p4"></span>
+          <span class="palette-chip p5"></span><span class="palette-chip p6"></span>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><strong>Aprender haciendo</strong><span>Retos, dinámicas, lectura, juegos y práctica real.</span></div>
+          <div class="stat"><strong>Progreso gradual</strong><span>La dificultad aumenta sin convertir el aprendizaje en presión.</span></div>
+          <div class="stat"><strong>Seguimiento</strong><span>Observamos qué comprende, qué necesita y qué ya puede hacer solo.</span></div>
+          <div class="stat"><strong>Confianza</strong><span>Buscamos que el alumno empiece a decir: “sí puedo”.</span></div>
+        </div>
+      </div>
+
+      <div class="orbital reveal">
+        <div class="core">
+          <div class="big">🚀</div>
+          <strong>Aprender puede sentirse increíble</strong>
+          <small>Cuando el alumno participa, explora, se equivoca, vuelve a intentar y descubre su propia capacidad.</small>
+        </div>
+        <div class="float-card fc1">📚 Leer y comprender</div>
+        <div class="float-card fc2">🧠 Pensar y resolver</div>
+        <div class="float-card fc3">🎮 Aprender jugando</div>
+        <div class="float-card fc4">🤝 Aprender juntos</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="experiencia">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow"><span class="dot"></span> ¿Por qué importa?</div>
+          <h2 style="margin-top:18px">El verano también puede convertirse en <span class="gradient-text">crecimiento.</span></h2>
+          <p class="lead">
+            El curso no está pensado como una lista de tareas. Está pensado como una experiencia educativa:
+            descubrir qué sabe cada alumno, detectar qué necesita reforzar y crear oportunidades constantes para practicar,
+            preguntar, colaborar y avanzar.
+          </p>
+        </div>
+
+        <div class="grid">
+          <article class="card span7 reveal" style="--glow:var(--cyan)">
+            <div class="icon">🧩</div>
+            <h3>No todos necesitan lo mismo</h3>
+            <p>El aprendizaje se ajusta por edad, nivel, ritmo y habilidad. Un alumno puede necesitar lectura; otro, seguridad para participar; otro, más reto.</p>
+          </article>
+
+          <article class="card span5 reveal" style="--glow:var(--purple)">
+            <div class="icon">🎯</div>
+            <h3>Cada actividad tiene intención</h3>
+            <p>No jugamos “por jugar”. Usamos dinámicas para desarrollar comprensión, memoria, cálculo, lenguaje, atención, autonomía y pensamiento.</p>
+          </article>
+
+          <article class="card span4 reveal" style="--glow:var(--yellow)">
+            <div class="icon">📖</div>
+            <h3>Lectura</h3>
+            <p>Leer, comprender, recordar, explicar, inferir y responder con más seguridad.</p>
+          </article>
+
+          <article class="card span4 reveal" style="--glow:var(--green)">
+            <div class="icon">➗</div>
+            <h3>Matemáticas</h3>
+            <p>Operaciones, fracciones, razonamiento, problemas y estrategias para resolver.</p>
+          </article>
+
+          <article class="card span4 reveal" style="--glow:var(--pink)">
+            <div class="icon">✍️</div>
+            <h3>Lenguaje</h3>
+            <p>Ortografía, redacción, vocabulario, comprensión y capacidad para expresar ideas.</p>
+          </article>
+
+          <article class="card span8 reveal" style="--glow:var(--blue)">
+            <div class="icon">🌎</div>
+            <h3>Inglés, cultura, ciencia y tecnología</h3>
+            <p>Preguntas WH, acciones, vocabulario, cultura general, curiosidad científica y actividades digitales que convierten la pantalla en una herramienta de aprendizaje.</p>
+          </article>
+
+          <article class="card span4 reveal" style="--glow:var(--orange)">
+            <div class="icon">🤝</div>
+            <h3>Convivencia</h3>
+            <p>Respetar, escuchar, integrarse, liderar, colaborar y aprender también de los compañeros.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow"><span class="dot"></span> El cambio que buscamos</div>
+          <h2 style="margin-top:18px">Del “no sé” al <span class="gradient-text">“ya entendí”.</span></h2>
+          <p class="lead">El aprendizaje no ocurre de golpe. Se construye en pequeños momentos que van transformando la manera en que el alumno se enfrenta a un reto.</p>
+        </div>
+
+        <div class="journey-wrap">
+          <aside class="journey-intro reveal">
+            <div class="quote">“No buscamos que memorice más. Buscamos que comprenda mejor y se atreva a intentarlo.”</div>
+            <p style="color:var(--muted);line-height:1.6;margin:18px 0 0">
+              La meta es que el alumno participe más, dependa menos de que alguien le diga cada paso y descubra estrategias propias para aprender.
+            </p>
+          </aside>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div><h3>Llega</h3><p>Con conocimientos, dudas, hábitos y formas distintas de aprender.</p></div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div><h3>Explora</h3><p>Lee, observa, juega, pregunta, se equivoca y prueba otra estrategia.</p></div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div><h3>Practica</h3><p>Los retos aumentan poco a poco para fortalecer habilidades sin saturarlo.</p></div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div><h3>Comprende</h3><p>Empieza a reconocer patrones y explicar por qué una respuesta funciona.</p></div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div><h3>Participa</h3><p>Pregunta, propone, ayuda, escucha y aprende también al explicar a otros.</p></div>
+            </div>
+            <div class="step">
+              <div class="step-num">6</div>
+              <div><h3>Descubre</h3><p><strong style="color:var(--text)">“Sí puedo aprenderlo.”</strong> Y esa idea puede cambiar la forma en que enfrenta el siguiente reto.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow"><span class="dot"></span> Nuestros grupos</div>
+          <h2 style="margin-top:18px">Tres nombres. Una misma idea: <span class="gradient-text">crecer aprendiendo.</span></h2>
+          <p class="lead">Cada grupo trabaja con actividades, lenguaje, ritmo y retos acordes a su etapa.</p>
+        </div>
+
+        <div class="groups">
+          <article class="group reveal" style="--g:#59b8ff">
+            <div class="emoji">🧬</div>
+            <span class="tag">Primeros niveles</span>
+            <h3>Ribosomas</h3>
+            <p>Aprender jugando, leer mejor, seguir instrucciones, expresarse y fortalecer habilidades básicas con actividades muy visuales.</p>
+            <small>Toca para iluminar ✨</small>
+          </article>
+
+          <article class="group reveal" style="--g:#75ef9e">
+            <div class="emoji">🔬</div>
+            <span class="tag">Nivel intermedio</span>
+            <h3>Organillos</h3>
+            <p>Comprender, resolver, escribir, comparar, preguntar y desarrollar más independencia durante las actividades.</p>
+            <small>Toca para iluminar ✨</small>
+          </article>
+
+          <article class="group reveal" style="--g:#9a7cff">
+            <div class="emoji">⚛️</div>
+            <span class="tag">Mayores</span>
+            <h3>Neutrones</h3>
+            <p>Retos más complejos, razonamiento, lenguaje, matemáticas, inglés, cultura y trabajo colaborativo con mayor autonomía.</p>
+            <small>Toca para iluminar ✨</small>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow"><span class="dot"></span> Prueba la experiencia</div>
+          <h2 style="margin-top:18px">Elige una habilidad y mira <span class="gradient-text">qué buscamos desarrollar.</span></h2>
+        </div>
+
+        <div class="skill-console">
+          <div class="skill-panel reveal">
+            <h3 style="font-size:1.65rem;margin-bottom:6px">¿Qué quieres fortalecer?</h3>
+            <p style="color:var(--muted);line-height:1.55">Toca una habilidad. Así pensamos el curso: cada actividad debe desarrollar algo concreto.</p>
+            <div class="skill-buttons">
+              <button class="skill-btn active" data-skill="lectura">Lectura</button>
+              <button class="skill-btn" data-skill="mates">Matemáticas</button>
+              <button class="skill-btn" data-skill="escritura">Escritura</button>
+              <button class="skill-btn" data-skill="ingles">Inglés</button>
+              <button class="skill-btn" data-skill="equipo">Trabajo en equipo</button>
+              <button class="skill-btn" data-skill="autonomia">Autonomía</button>
+            </div>
+          </div>
+
+          <div class="skill-display reveal">
+            <div class="mini" id="skillMini">Comprender antes de responder</div>
+            <h3 id="skillTitle">Lectura que tiene sentido</h3>
+            <p id="skillText">No queremos solamente que pronuncie palabras. Queremos que identifique ideas, recuerde detalles, explique, relacione información y gane seguridad leyendo.</p>
+            <div class="bar"><span id="skillBar"></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <section class="section" id="actividades">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow"><span class="dot"></span> Así se vive el curso</div>
+          <h2 style="margin-top:18px">Niños trabajando, participando y <span class="gradient-text">disfrutando aprender.</span></h2>
+          <p class="lead">
+            Queremos que las familias puedan imaginar lo que sucede dentro del curso: niños leyendo juntos,
+            resolviendo retos, construyendo respuestas, moviéndose, preguntando, usando tecnología y celebrando cuando descubren algo.
+          </p>
+        </div>
+
+        <div class="activity-showcase">
+          <article class="activity-card big reveal" style="--a-color:var(--fluff)">
+            <div class="activity-scene">
+              <span class="activity-prop p1">📖</span>
+              <span class="activity-prop p2">✨</span>
+              <span class="kid">👧🏻</span>
+              <span class="kid">🧒🏽</span>
+              <span class="kid">👦🏻</span>
+            </div>
+            <span class="activity-tag">Lectura + comprensión</span>
+            <h3>Reto de detectives lectores</h3>
+            <p>Leen una historia, buscan pistas, recuerdan detalles y trabajan juntos para descubrir la respuesta.</p>
+            <div class="activity-detail">Aquí entrenamos comprensión, memoria, inferencias y confianza para explicar lo que entendieron con sus propias palabras.</div>
+            <span class="tap-note">Toca para descubrir qué desarrollan →</span>
+          </article>
+
+          <article class="activity-card small reveal" style="--a-color:var(--poison)">
+            <div class="activity-scene poison">
+              <span class="activity-prop p1">🍕</span>
+              <span class="activity-prop p2">➗</span>
+              <span class="kid">🧒🏻</span>
+              <span class="kid">👧🏽</span>
+            </div>
+            <span class="activity-tag">Matemáticas visuales</span>
+            <h3>Fracciones que se pueden tocar</h3>
+            <p>Dividen, comparan y representan partes usando ejemplos cotidianos, dibujos y pequeños desafíos.</p>
+            <div class="activity-detail">El objetivo es que comprendan la idea de parte y totalidad antes de memorizar procedimientos.</div>
+            <span class="tap-note">Toca para descubrir qué desarrollan →</span>
+          </article>
+
+          <article class="activity-card third reveal" style="--a-color:var(--meeting)">
+            <div class="activity-scene meeting">
+              <span class="activity-prop p1">🇬🇧</span>
+              <span class="activity-prop p2">💬</span>
+              <span class="kid">👦🏽</span>
+              <span class="kid">👧🏻</span>
+            </div>
+            <span class="activity-tag">Inglés</span>
+            <h3>Question Race</h3>
+            <p>Preguntas rápidas, acciones y juegos para usar el idioma con energía y participación.</p>
+            <div class="activity-detail">Practican preguntas, vocabulario, escucha y respuesta sin convertir el inglés en una lista de palabras para memorizar.</div>
+            <span class="tap-note">Toca para ver más →</span>
+          </article>
+
+          <article class="activity-card third reveal" style="--a-color:var(--giraffe)">
+            <div class="activity-scene giraffe">
+              <span class="activity-prop p1">🧪</span>
+              <span class="activity-prop p2">🔎</span>
+              <span class="kid">👧🏾</span>
+              <span class="kid">🧒🏻</span>
+            </div>
+            <span class="activity-tag">Ciencia + curiosidad</span>
+            <h3>Exploradores y preguntas</h3>
+            <p>Observan, comparan, preguntan y buscan explicaciones a fenómenos y situaciones cotidianas.</p>
+            <div class="activity-detail">Fortalecemos curiosidad, observación, pensamiento crítico y la costumbre de preguntar “¿por qué?”.</div>
+            <span class="tap-note">Toca para ver más →</span>
+          </article>
+
+          <article class="activity-card third reveal" style="--a-color:var(--busy)">
+            <div class="activity-scene zoom">
+              <span class="activity-prop p1">🧩</span>
+              <span class="activity-prop p2">🏆</span>
+              <span class="kid">👦🏻</span>
+              <span class="kid">👧🏽</span>
+              <span class="kid">🧒🏾</span>
+            </div>
+            <span class="activity-tag">Trabajo en equipo</span>
+            <h3>Misiones colaborativas</h3>
+            <p>Resuelven pistas y problemas donde escuchar al compañero también forma parte de la solución.</p>
+            <div class="activity-detail">Aprenden a tomar turnos, explicar ideas, ayudar, pedir ayuda y celebrar el logro del equipo.</div>
+            <span class="tap-note">Toca para ver más →</span>
+          </article>
+
+          <article class="activity-card small reveal" style="--a-color:var(--zoom)">
+            <div class="activity-scene zoom">
+              <span class="activity-prop p1">📱</span>
+              <span class="activity-prop p2">🎮</span>
+              <span class="activity-prop p3">⭐</span>
+              <span class="kid">👧🏻</span>
+              <span class="kid">🧒🏽</span>
+            </div>
+            <span class="activity-tag">Tecnología educativa</span>
+            <h3>Misiones digitales</h3>
+            <p>Usan páginas interactivas, retos de velocidad, memoria, arrastrar, elegir, ordenar y responder.</p>
+            <div class="activity-detail">El celular o la tableta dejan de ser solo entretenimiento: se convierten en herramientas para pensar, practicar y crear.</div>
+            <span class="tap-note">Toca para descubrir qué desarrollan →</span>
+          </article>
+
+          <article class="activity-card big reveal" style="--a-color:var(--meeting)">
+            <div class="activity-scene meeting">
+              <span class="activity-prop p1">✏️</span>
+              <span class="activity-prop p2">💡</span>
+              <span class="kid">👦🏾</span>
+              <span class="kid">👧🏻</span>
+              <span class="kid">🧒🏼</span>
+            </div>
+            <span class="activity-tag">Escritura + creatividad</span>
+            <h3>Laboratorio de ideas</h3>
+            <p>Inventan textos, ordenan historias, corrigen palabras y convierten sus propias ideas en algo que otros puedan leer.</p>
+            <div class="activity-detail">Trabajamos ortografía, vocabulario, organización de ideas y la satisfacción de crear algo propio.</div>
+            <span class="tap-note">Toca para descubrir qué desarrollan →</span>
+          </article>
+        </div>
+
+        <div class="happy-banner reveal">
+          <span>😄</span>
+          <div>La alegría no es un adorno del curso. Cuando un niño participa, pregunta, ríe, se mueve y siente que puede resolver un reto, está creando una relación más positiva con el aprendizaje.</div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section" id="cuestionarios">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow"><span class="dot"></span> Pruébalo tú mismo</div>
+          <h2 style="margin-top:18px">Nuestros cuestionarios no se sienten como <span class="gradient-text">un examen aburrido.</span></h2>
+          <p class="lead">
+            Cambiamos la forma de responder según la habilidad que queremos desarrollar:
+            elegir, recordar, ordenar, mover, comparar, estimar, descubrir y volver a intentar.
+            Aquí tienes algunos ejemplos simplificados.
+          </p>
+        </div>
+
+        <div class="quiz-lab">
+          <article class="demo reveal">
+            <div class="demo-title">
+              <span class="demo-badge">LECTURA</span>
+              <span>📖</span>
+            </div>
+            <h3>Pregunta con comprensión</h3>
+            <p><strong>Lee:</strong> “Elena llevó una sombrilla porque el cielo estaba muy oscuro.”<br><br>¿Qué podemos inferir?</p>
+            <div class="answer-grid" data-quiz="reading">
+              <button class="answer-btn" data-correct="false">Que era de noche</button>
+              <button class="answer-btn" data-correct="true">Que podía llover</button>
+              <button class="answer-btn" data-correct="false">Que Elena iba a nadar</button>
+              <button class="answer-btn" data-correct="false">Que hacía mucho calor</button>
+            </div>
+            <div class="feedback" id="readingFeedback"></div>
+          </article>
+
+          <article class="demo reveal">
+            <div class="demo-title">
+              <span class="demo-badge" style="background:var(--meeting)">MEMORIA</span>
+              <span>🧠</span>
+            </div>
+            <h3>Recuerda antes de responder</h3>
+            <p>Mira estos elementos durante unos segundos. Después ocúltalos e intenta recordarlos.</p>
+            <div class="memory-stage">
+              <div class="memory-chip">7</div>
+              <div class="memory-chip">🔺</div>
+              <div class="memory-chip">B</div>
+              <div class="memory-chip">⭐</div>
+            </div>
+            <div class="memory-controls">
+              <button class="mini-btn" id="hideMemory">Ocultar</button>
+              <button class="mini-btn alt" id="showMemory">Mostrar otra vez</button>
+            </div>
+            <div class="feedback" id="memoryFeedback">¿Puedes recordar el número, la letra y las figuras?</div>
+          </article>
+
+          <article class="demo reveal">
+            <div class="demo-title">
+              <span class="demo-badge" style="background:var(--giraffe)">AUTOEVALUACIÓN</span>
+              <span>🎚️</span>
+            </div>
+            <h3>Slider de confianza</h3>
+            <p>Después de una actividad, el alumno también puede reflexionar sobre cómo se sintió.</p>
+            <div class="slider-wrap">
+              <label for="confidence"><strong>¿Qué tan seguro te sientes resolviendo fracciones?</strong></label>
+              <input id="confidence" type="range" min="1" max="5" value="3">
+              <div class="slider-value">
+                <span>Necesito practicar</span>
+                <strong id="confidenceText">Voy avanzando 🙂</strong>
+                <span>¡Lo domino!</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="demo reveal">
+            <div class="demo-title">
+              <span class="demo-badge" style="background:var(--busy);color:white">CLASIFICAR</span>
+              <span>🧩</span>
+            </div>
+            <h3>Encuentra las palabras esdrújulas</h3>
+            <p>Toca solo las que pertenecen al grupo correcto.</p>
+            <div class="sort-row" id="wordSort">
+              <button class="sort-chip" data-right="true">música</button>
+              <button class="sort-chip" data-right="false">reloj</button>
+              <button class="sort-chip" data-right="true">pájaro</button>
+              <button class="sort-chip" data-right="false">papel</button>
+              <button class="sort-chip" data-right="true">médico</button>
+              <button class="sort-chip" data-right="false">canción</button>
+            </div>
+            <div class="feedback" id="sortFeedback">Toca tres palabras.</div>
+          </article>
+
+          <article class="demo wide reveal">
+            <div class="demo-title">
+              <span class="demo-badge" style="background:var(--zoom);color:white">NUESTRA IDEA</span>
+              <span>🎮</span>
+            </div>
+            <h3>Una habilidad puede tener muchas formas de practicarse</h3>
+            <p>
+              En lugar de repetir 50 veces el mismo tipo de pregunta, podemos combinar opción múltiple,
+              sliders, tarjetas que se voltean, memoria, ordenar, emparejar, completar, construir palabras,
+              hotspots, retos por tiempo, preguntas abiertas y actividades colaborativas.
+            </p>
+            <div class="quiz-note">
+              El objetivo no es que el alumno aprenda a “adivinar el inciso correcto”.
+              El objetivo es que use la habilidad de distintas maneras hasta comprenderla.
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section" id="mantra">
+      <div class="container">
+        <div class="mantra-wrap reveal">
+          <div class="mantra-small">Nuestro mantra</div>
+          <div class="mantra-big">Nunca debo decir <span class="no">“no puedo”.</span></div>
+          <p class="mantra-explain">
+            No significa fingir que todo es fácil. Significa cambiar la frase.
+            Cuando algo todavía no sale, buscamos otra estrategia, pedimos ayuda,
+            practicamos y volvemos a intentarlo.
+          </p>
+
+          <div class="mantra-actions">
+            <span class="mantra-pill">❌ “No puedo”</span>
+            <span class="mantra-pill">➡️ “Todavía no me sale”</span>
+            <span class="mantra-pill">✅ “Voy a intentarlo de otra forma”</span>
+          </div>
+
+          <div class="mantra-steps">
+            <div class="mantra-step"><span>🤔</span>No entiendo todavía.</div>
+            <div class="mantra-step"><span>🙋</span>Pregunto o pido ayuda.</div>
+            <div class="mantra-step"><span>🔁</span>Pruebo otra estrategia.</div>
+            <div class="mantra-step"><span>🌟</span>Descubro que sí puedo avanzar.</div>
+          </div>
+
+          <button class="btn" id="mantraBtn" style="margin-top:26px">✨ Repetir nuestro mantra</button>
+          <div class="feedback" id="mantraFeedback" style="font-size:1.15rem;margin-top:14px"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="como-trabajamos">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow"><span class="dot"></span> Avanza · regresa · descubre</div>
+          <h2 style="margin-top:18px">Nuestra manera de <span class="gradient-text">pensar y trabajar.</span></h2>
+          <p class="lead">Usa los botones, las flechas del teclado o desliza con el dedo. Cada pantalla explica una parte de la filosofía del curso.</p>
+        </div>
+
+        <div class="story-shell reveal" id="storyShell">
+          <div class="story-progress"><span id="storyProgress"></span></div>
+          <div class="story-stage">
+            <article class="story-card active">
+              <div class="story-visual" style="background:var(--fluff)">🧠</div>
+              <div class="story-copy">
+                <div class="kicker">Pensamiento 01</div>
+                <h3>Primero observamos. Después enseñamos.</h3>
+                <p>Antes de exigir resultados necesitamos comprender cómo aprende el alumno, qué domina, qué le cuesta y qué tipo de ayuda necesita. La enseñanza empieza con observación y diagnóstico.</p>
+              </div>
+            </article>
+            <article class="story-card">
+              <div class="story-visual" style="background:var(--poison)">🎯</div>
+              <div class="story-copy">
+                <div class="kicker">Pensamiento 02</div>
+                <h3>Cada actividad debe tener un propósito.</h3>
+                <p>Una dinámica divertida también puede entrenar lectura, cálculo, memoria, atención, expresión oral, seguimiento de instrucciones o colaboración. La diversión no reemplaza al aprendizaje: lo vuelve más accesible.</p>
+              </div>
+            </article>
+            <article class="story-card">
+              <div class="story-visual" style="background:var(--busy)">🪜</div>
+              <div class="story-copy">
+                <div class="kicker">Pensamiento 03</div>
+                <h3>La dificultad crece poco a poco.</h3>
+                <p>Diseñamos retos escalonados. El alumno empieza con algo alcanzable, gana confianza y después enfrenta una versión más compleja. Así practicamos sin convertir el error en frustración.</p>
+              </div>
+            </article>
+            <article class="story-card">
+              <div class="story-visual" style="background:#bcb2ff">🤝</div>
+              <div class="story-copy">
+                <div class="kicker">Pensamiento 04</div>
+                <h3>Aprender también significa convivir.</h3>
+                <p>Escuchar, respetar, explicar, integrar a un compañero y trabajar en equipo son habilidades formativas. El curso busca un ambiente donde aprender y convivir formen parte de la misma experiencia.</p>
+              </div>
+            </article>
+            <article class="story-card">
+              <div class="story-visual" style="background:var(--meeting)">📱</div>
+              <div class="story-copy">
+                <div class="kicker">Pensamiento 05</div>
+                <h3>La tecnología se convierte en herramienta.</h3>
+                <p>Usamos experiencias digitales, páginas interactivas, juegos, cronómetros, retos, preguntas y actividades visuales para que la pantalla deje de ser consumo pasivo y se convierta en participación.</p>
+              </div>
+            </article>
+            <article class="story-card">
+              <div class="story-visual" style="background:var(--giraffe)">🚀</div>
+              <div class="story-copy">
+                <div class="kicker">Pensamiento 06</div>
+                <h3>El objetivo final: “yo puedo aprender”.</h3>
+                <p>No prometemos que todos avancen igual ni resultados mágicos. Sí nos comprometemos a ofrecer una experiencia preparada, acompañada, respetuosa y diseñada para que cada alumno tenga oportunidades reales de practicar, comprender y avanzar.</p>
+              </div>
+            </article>
+          </div>
+          <div class="story-dots" id="storyDots"></div>
+          <div class="story-nav">
+            <button id="storyPrev">← Anterior</button>
+            <button id="storyNext">Siguiente →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow"><span class="dot"></span> Para madres, padres y tutores</div>
+          <h2 style="margin-top:18px">No solo preguntamos: <span class="gradient-text">“¿lo hizo bien?”</span></h2>
+          <p class="lead">El seguimiento importa porque el resultado final no cuenta toda la historia. También importa cómo llegó a esa respuesta.</p>
+        </div>
+
+        <div class="parent-box reveal">
+          <div class="questions">
+            <div class="q">¿Qué comprendió hoy?</div>
+            <div class="q">¿Qué pudo hacer por sí mismo?</div>
+            <div class="q">¿Dónde necesitó apoyo?</div>
+            <div class="q">¿Qué estrategia descubrió?</div>
+            <div class="q">¿Cómo participó con los demás?</div>
+            <div class="q">¿Qué conviene seguir reforzando?</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section" id="trayectoria">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow"><span class="dot"></span> Quién está detrás del curso</div>
+          <h2 style="margin-top:18px">Educación con una mirada <span class="gradient-text">tecnológica, profesional y humana.</span></h2>
+          <p class="lead">El curso combina experiencia en ingeniería, tecnología, calidad de software y trabajo educativo para convertir objetivos académicos en actividades claras, medibles, visuales e interactivas.</p>
+        </div>
+
+        <div class="profile-grid">
+          <article class="profile-card reveal">
+            <div class="profile-badge">👨‍💻</div>
+            <h3>Ing. Luis Alberto Antonio Narciso</h3>
+            <p style="color:var(--muted);line-height:1.6">Ingeniero en Electrónica por la UAM, con experiencia profesional en tecnología, pruebas de software y proyectos de calidad para empresas internacionales, además de trabajo educativo y desarrollo de herramientas digitales para el aprendizaje.</p>
+            <div class="career-list">
+              <div class="career-item">⚙️ Ingeniería en Electrónica · UAM Azcapotzalco</div>
+              <div class="career-item">🧪 Experiencia en QA / Testing y automatización</div>
+              <div class="career-item">🌐 Experiencia profesional en proyectos relacionados con Google y Ford</div>
+              <div class="career-item">📚 Desarrollo de actividades HTML, matemáticas, lectura, inglés y tecnología educativa</div>
+            </div>
+          </article>
+
+          <article class="method-card reveal">
+            <h3 style="font-size:2rem">¿Cómo trabajamos?</h3>
+            <div class="method-steps">
+              <div class="method-row"><span>1</span><div><strong>Observamos.</strong><br><span style="color:var(--muted)">Identificamos fortalezas, dificultades y ritmo de trabajo.</span></div></div>
+              <div class="method-row"><span>2</span><div><strong>Diseñamos.</strong><br><span style="color:var(--muted)">Elegimos actividades y retos adecuados al objetivo pedagógico.</span></div></div>
+              <div class="method-row"><span>3</span><div><strong>Practicamos.</strong><br><span style="color:var(--muted)">El alumno participa, responde, prueba estrategias y vuelve a intentar.</span></div></div>
+              <div class="method-row"><span>4</span><div><strong>Ajustamos.</strong><br><span style="color:var(--muted)">Si algo no funciona, cambiamos la forma de explicarlo o el tipo de actividad.</span></div></div>
+              <div class="method-row"><span>5</span><div><strong>Damos seguimiento.</strong><br><span style="color:var(--muted)">Buscamos evidencias de comprensión, autonomía, participación y avance.</span></div></div>
+            </div>
+            <div class="guarantee">
+              <strong>Lo que sí garantizamos:</strong>
+              una experiencia preparada con intención pedagógica, acompañamiento, respeto, actividades cuidadosamente diseñadas y atención al proceso de aprendizaje. Los resultados académicos pueden variar entre alumnos porque cada proceso es diferente.
+            </div>
+          </article>
+        </div>
+
+        <div class="wa-panel reveal">
+          <h3>¿Quieres inscribir a tu hijo o hija?</h3>
+          <p>Escríbeme directamente por WhatsApp para conocer disponibilidad, grupo adecuado y resolver tus dudas sobre el curso.</p>
+          <span class="wa-number">📲 55 8457 7590</span>
+          <a class="btn wa" href="https://wa.me/525584577590?text=Hola%2C%20quiero%20informaci%C3%B3n%20para%20inscribir%20a%20mi%20hijo%2Fa%20al%20Curso%20de%20Verano%20de%20Poblado%20Tres." target="_blank" rel="noopener">Hablar por WhatsApp →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta reveal">
+          <div class="eyebrow"><span class="dot"></span> Poblado Tres · Tres Valles, Veracruz</div>
+          <h2 style="margin-top:20px">Un verano puede convertirse en el momento en que un alumno descubre que <span class="gradient-text">sí puede.</span></h2>
+          <p class="lead">
+            Aprender también es preguntar, equivocarse, intentarlo otra vez, ayudar a alguien más,
+            leer mejor, resolver con estrategia y atreverse a participar.
+          </p>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><button class="btn" id="finalBtn">✨ Activar modo “Sí puedo”</button><a class="btn wa" href="https://wa.me/525584577590?text=Hola%2C%20quiero%20informaci%C3%B3n%20para%20inscribir%20a%20mi%20hijo%2Fa%20al%20Curso%20de%20Verano%20de%20Poblado%20Tres." target="_blank" rel="noopener">📲 Inscripciones por WhatsApp</a></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      Curso de Verano · Poblado Tres · Una experiencia educativa basada en práctica, acompañamiento, respeto y aprendizaje activo.
+    </div>
+  </footer>
+
+  <script>
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('show');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },{threshold:.12});
+    revealEls.forEach(el=>revealObserver.observe(el));
+
+    const stepEls = document.querySelectorAll('.step');
+    const stepObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting) entry.target.classList.add('active');
+      });
+    },{threshold:.5});
+    stepEls.forEach(el=>stepObserver.observe(el));
+
+    const skillData = {
+      lectura:{
+        mini:'Comprender antes de responder',
+        title:'Lectura que tiene sentido',
+        text:'No queremos solamente que pronuncie palabras. Queremos que identifique ideas, recuerde detalles, explique, relacione información y gane seguridad leyendo.',
+        width:'74%'
+      },
+      mates:{
+        mini:'Resolver con estrategia',
+        title:'Matemáticas que se entienden',
+        text:'Fracciones, operaciones y problemas se trabajan con ejemplos, retos y representaciones visuales para que el alumno comprenda el porqué y no solo repita un procedimiento.',
+        width:'86%'
+      },
+      escritura:{
+        mini:'Pensar y comunicar',
+        title:'Escribir para expresar ideas',
+        text:'Ortografía, vocabulario, conectores y redacción se convierten en herramientas para ordenar lo que piensa y comunicarlo con mayor claridad.',
+        width:'68%'
+      },
+      ingles:{
+        mini:'Usar el idioma',
+        title:'Inglés en movimiento',
+        text:'Preguntas, acciones, vocabulario y pequeñas dinámicas ayudan a que el idioma se use, se escuche y se practique de forma menos pasiva.',
+        width:'61%'
+      },
+      equipo:{
+        mini:'Aprender también de otros',
+        title:'Colaborar también es aprender',
+        text:'Explicar, escuchar, respetar turnos, ayudar y recibir ayuda desarrolla habilidades que ningún ejercicio individual puede enseñar por completo.',
+        width:'80%'
+      },
+      autonomia:{
+        mini:'Cada vez necesita menos guía',
+        title:'Aprender a aprender',
+        text:'La meta es que el alumno pueda iniciar, decidir, comprobar, corregir y continuar con mayor independencia. Esa autonomía vale dentro y fuera del salón.',
+        width:'92%'
+      }
+    };
+
+    document.querySelectorAll('.skill-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('.skill-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const d = skillData[btn.dataset.skill];
+        document.getElementById('skillMini').textContent = d.mini;
+        document.getElementById('skillTitle').textContent = d.title;
+        document.getElementById('skillText').textContent = d.text;
+        document.getElementById('skillBar').style.width = d.width;
+      });
+    });
+
+    document.querySelectorAll('.group').forEach(group=>{
+      group.addEventListener('click',(e)=>{
+        burst(e.clientX || innerWidth/2, e.clientY || innerHeight/2, 14);
+        group.animate(
+          [{transform:'scale(1)'},{transform:'scale(1.025)'},{transform:'scale(1)'}],
+          {duration:420,easing:'ease-out'}
+        );
+      });
+    });
+
+    function burst(x,y,count=22){
+      const colors = ['#59b8ff','#5ff1e5','#ffd861','#ff74b8','#9a7cff','#75ef9e'];
+      for(let i=0;i<count;i++){
+        const s=document.createElement('i');
+        s.className='spark';
+        s.style.left=x+'px';s.style.top=y+'px';
+        s.style.background=colors[Math.floor(Math.random()*colors.length)];
+        const ang=Math.random()*Math.PI*2;
+        const dist=60+Math.random()*120;
+        s.style.setProperty('--x',Math.cos(ang)*dist+'px');
+        s.style.setProperty('--y',Math.sin(ang)*dist+'px');
+        document.body.appendChild(s);
+        setTimeout(()=>s.remove(),950);
+      }
+    }
+
+    document.getElementById('surpriseBtn').addEventListener('click',(e)=>{
+      burst(e.clientX,e.clientY,30);
+      document.querySelector('#experiencia').scrollIntoView({behavior:'smooth'});
+    });
+
+    document.getElementById('finalBtn').addEventListener('click',(e)=>{
+      burst(e.clientX,e.clientY,46);
+      const btn=e.currentTarget;
+      const old=btn.textContent;
+      btn.textContent='🚀 ¡Sí puedo aprenderlo!';
+      setTimeout(()=>btn.textContent=old,2200);
+    });
+
+    // Parallax sutil solo en dispositivos con puntero fino
+    if(matchMedia('(pointer:fine)').matches){
+      window.addEventListener('mousemove',(e)=>{
+        const x=(e.clientX/innerWidth-.5)*8;
+        const y=(e.clientY/innerHeight-.5)*8;
+        const core=document.querySelector('.core');
+        core.style.transform=`rotateY(${x-6}deg) rotateX(${-y+3}deg)`;
+      });
+    }
+
+
+    document.querySelectorAll('.activity-card').forEach(card=>{
+      card.addEventListener('click',()=>{
+        const wasOpen=card.classList.contains('open');
+        document.querySelectorAll('.activity-card').forEach(c=>c.classList.remove('open'));
+        if(!wasOpen){
+          card.classList.add('open');
+          const r=card.getBoundingClientRect();
+          burst(r.left+r.width*.82, r.top+r.height*.22, 12);
+        }
+      });
+    });
+
+
+    // Mini demo: lectura
+    document.querySelectorAll('[data-quiz="reading"] .answer-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const group=btn.parentElement;
+        group.querySelectorAll('.answer-btn').forEach(b=>b.classList.remove('correct','wrong'));
+        const ok=btn.dataset.correct==='true';
+        btn.classList.add(ok?'correct':'wrong');
+        document.getElementById('readingFeedback').textContent =
+          ok ? '✅ Exacto. La sombrilla y el cielo oscuro nos permiten inferir que podía llover.'
+             : '🔄 Intenta otra vez. Busca una pista dentro de la oración.';
+        if(ok){
+          const r=btn.getBoundingClientRect();
+          burst(r.left+r.width/2,r.top+r.height/2,12);
+        }
+      });
+    });
+
+    // Mini demo: memoria
+    const memoryChips=[...document.querySelectorAll('.memory-chip')];
+    document.getElementById('hideMemory').addEventListener('click',()=>{
+      memoryChips.forEach(c=>c.classList.add('hidden'));
+      document.getElementById('memoryFeedback').textContent='Ahora trata de decirlos sin mirar 👀';
+    });
+    document.getElementById('showMemory').addEventListener('click',()=>{
+      memoryChips.forEach(c=>c.classList.remove('hidden'));
+      document.getElementById('memoryFeedback').textContent='¿Cuántos recordaste? La memoria también se entrena.';
+    });
+
+    // Slider
+    const confidence=document.getElementById('confidence');
+    const confidenceText=document.getElementById('confidenceText');
+    const confMessages={
+      1:'Necesito acompañamiento',
+      2:'Estoy empezando',
+      3:'Voy avanzando 🙂',
+      4:'Me siento seguro',
+      5:'¡Puedo explicarlo! 🚀'
+    };
+    confidence.addEventListener('input',()=>confidenceText.textContent=confMessages[confidence.value]);
+
+    // Clasificar palabras
+    document.querySelectorAll('#wordSort .sort-chip').forEach(chip=>{
+      chip.addEventListener('click',()=>{
+        chip.classList.toggle('selected');
+        const selected=[...document.querySelectorAll('#wordSort .sort-chip.selected')];
+        const selectedCorrect=selected.filter(x=>x.dataset.right==='true').length;
+        const selectedWrong=selected.filter(x=>x.dataset.right==='false').length;
+        const feedback=document.getElementById('sortFeedback');
+        if(selectedWrong>0){
+          feedback.textContent='🔎 Revisa: una de las seleccionadas no es esdrújula.';
+        }else if(selectedCorrect===3){
+          feedback.textContent='✅ ¡Perfecto! música, pájaro y médico.';
+          const r=feedback.getBoundingClientRect();
+          burst(r.left+r.width/2,r.top,14);
+        }else{
+          feedback.textContent=`Llevas ${selectedCorrect} de 3 correctas.`;
+        }
+      });
+    });
+
+    // Mantra
+    document.getElementById('mantraBtn').addEventListener('click',(e)=>{
+      const feedback=document.getElementById('mantraFeedback');
+      feedback.textContent='🌟 “No digo: no puedo. Digo: todavía no me sale… y vuelvo a intentarlo.”';
+      burst(e.clientX,e.clientY,28);
+    });
+
+    // Recorrido interactivo: botones, teclado y swipe
+    const storyCards=[...document.querySelectorAll('.story-card')];
+    const storyProgress=document.getElementById('storyProgress');
+    const storyDots=document.getElementById('storyDots');
+    const storyShell=document.getElementById('storyShell');
+    let storyIndex=0, touchStartX=0;
+
+    storyCards.forEach((_,i)=>{
+      const d=document.createElement('span');
+      d.className='story-dot'+(i===0?' active':'');
+      d.addEventListener('click',()=>showStory(i));
+      storyDots.appendChild(d);
+    });
+
+    function showStory(next){
+      if(next<0) next=storyCards.length-1;
+      if(next>=storyCards.length) next=0;
+      storyCards.forEach((c,i)=>{
+        c.classList.toggle('active',i===next);
+        c.classList.remove('exit-left');
+      });
+      [...storyDots.children].forEach((d,i)=>d.classList.toggle('active',i===next));
+      storyIndex=next;
+      storyProgress.style.width=((storyIndex+1)/storyCards.length*100)+'%';
+    }
+    document.getElementById('storyPrev').addEventListener('click',()=>showStory(storyIndex-1));
+    document.getElementById('storyNext').addEventListener('click',()=>showStory(storyIndex+1));
+    document.addEventListener('keydown',e=>{
+      if(e.key==='ArrowLeft') showStory(storyIndex-1);
+      if(e.key==='ArrowRight') showStory(storyIndex+1);
+    });
+    storyShell.addEventListener('touchstart',e=>touchStartX=e.changedTouches[0].clientX,{passive:true});
+    storyShell.addEventListener('touchend',e=>{
+      const dx=e.changedTouches[0].clientX-touchStartX;
+      if(Math.abs(dx)>45) showStory(storyIndex+(dx<0?1:-1));
+    },{passive:true});
+
+  </script>
+</body>
+</html>
