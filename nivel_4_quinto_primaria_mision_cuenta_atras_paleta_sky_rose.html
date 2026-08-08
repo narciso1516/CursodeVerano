@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nivel 4 · Misión Cuenta Atrás · 5.º primaria</title>
+<style>
+:root{--skyblue:#5568AF;--aqua:#CEE8EE;--lime:#CDD629;--rose:#EC1763;--blush:#F8C9DD;--sunset:#F37826;--navy:#5568AF;--blue:#5568AF;--ice:#CEE8EE;--gold:#CDD629;--orange:#F37826;--green:#CDD629;--paper:#fff;--bg:#F7FAFC;--ink:#273244;--muted:#697386;--line:#DDE5EC;--bad:#B85E68;--shadow:0 14px 34px rgba(35,59,99,.10)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(180deg,#F7FAFC,#FFF5F8);color:var(--ink)}button,input{font:inherit}.wrap{max-width:1040px;margin:auto;padding:14px 13px 55px}
+.hero{padding:clamp(24px,5vw,44px);border-radius:28px;color:#fff;background:linear-gradient(135deg,#43539A,var(--skyblue));box-shadow:var(--shadow);overflow:hidden;position:relative}.hero:after{content:"4 · 3 · 2 · 1";position:absolute;right:-10px;bottom:-24px;font-size:clamp(3rem,10vw,7rem);font-weight:1000;color:#ffffff0e}.badge,.tag{display:inline-block;padding:8px 12px;border-radius:999px;font-size:.8rem;font-weight:950;letter-spacing:.06em}.badge{background:var(--lime);color:#333A08}.hero h1{font-size:clamp(2.1rem,7vw,3.9rem);line-height:1;margin:14px 0 8px}.hero p{max-width:760px;color:#F7FAFF;line-height:1.55}.hero-grid,.route,.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.hero-grid{margin-top:17px}.hero-mini{background:#ffffff12;border:1px solid #ffffff1f;border-radius:15px;padding:13px}.hero-mini strong{display:block;color:var(--lime);font-size:.8rem}
+.panel,.profile{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:clamp(18px,4vw,29px);box-shadow:var(--shadow);margin-top:18px}.profile-head{display:flex;justify-content:space-between;align-items:center;gap:13px;flex-wrap:wrap}.identity{display:flex;gap:13px;align-items:center}.avatar{width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,var(--aqua),var(--blush));display:grid;place-items:center;font-size:2rem}.name{font-size:1.18rem;font-weight:950}.muted{color:var(--muted)}.profile-form{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:14px}.profile-form input{padding:13px;border:2px solid var(--line);border-radius:14px;outline:none}.avatars{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}.av{width:46px;height:46px;border:2px solid var(--line);border-radius:13px;background:#fff;font-size:1.4rem;cursor:pointer}.av.sel{border-color:var(--skyblue);background:var(--ice)}
+.route-step{padding:13px;border-radius:15px;border:1px solid var(--line);background:#F8FAFC;font-weight:900}.route-step.active{background:var(--aqua);border-color:var(--skyblue)}.route-step.done{background:#F1F5C8;border-color:var(--lime)}.progressline{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;font-weight:850;margin:15px 0 7px}.progress{height:12px;background:#E9EEF3;border-radius:99px;overflow:hidden}.progress div{height:100%;width:0;background:linear-gradient(90deg,var(--skyblue),var(--rose),var(--lime));transition:.35s}
+.tag{background:var(--blush);color:#8B1B48}h2{font-size:clamp(1.45rem,4vw,2.15rem);margin:13px 0 8px}.explain{padding:14px 16px;border-radius:14px;background:#FFF3D2;border-left:5px solid var(--sunset);line-height:1.55}.instruction{margin:14px 0;padding:14px 16px;border-radius:15px;background:#EEF9FB;border:2px solid var(--aqua);font-weight:900}.hint{background:#FDF4C5;padding:12px 14px;border-radius:14px;margin-top:12px;color:#5A471E}
+.word{text-align:center;font-size:clamp(2rem,8vw,4.2rem);font-weight:950;margin:20px 0}.syllables{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:20px 0;direction:rtl}.syllable{direction:ltr;min-width:88px;padding:17px 13px;border:2px solid var(--line);border-radius:18px;background:#fff;font-size:clamp(1.25rem,5vw,1.85rem);font-weight:950;text-align:center;transition:.2s}.syllable .num{display:block;font-size:.72rem;color:var(--muted);margin-top:6px}.syllable.tonic{border-color:var(--sunset);background:#FFF0E4;transform:translateY(-3px)}.syllable.counted{border-color:var(--skyblue);background:#EEF2FF}
+.count-track{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:18px 0;direction:rtl}.count-chip{direction:ltr;width:76px;height:76px;border:2px solid var(--line);background:#fff;border-radius:20px;font-weight:950;cursor:pointer}.count-chip strong{display:block;font-size:1.5rem}.count-chip.active{border-color:var(--skyblue);background:var(--ice);transform:scale(1.06)}
+.options{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-top:18px}.choice{padding:18px;border:2px solid var(--line);border-radius:17px;background:#fff;font-weight:950;cursor:pointer}.choice:hover{border-color:var(--skyblue)}.choice.dead{opacity:.35;pointer-events:none}.choice.good{background:#F1F5C8;border-color:var(--lime)}
+.btn{border:0;border-radius:14px;padding:13px 17px;font-weight:950;cursor:pointer}.primary{background:var(--navy);color:#fff}.listen{background:var(--aqua);color:#233A58}.secondary{background:#EFF2F5;color:var(--ink)}.next{background:var(--lime);color:#313608}.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:15px}.feedback{min-height:55px;padding:13px;margin-top:14px;border-radius:14px;text-align:center;font-weight:850;display:flex;align-items:center;justify-content:center}.feedback.ok{background:#F1F5C8;color:#4B550A}.feedback.no{background:#FDE8F0;color:#9A234F}.feedback.info{background:#FDF4C5;color:#59461D}.stat{padding:15px;text-align:center;border:1px solid var(--line);border-radius:15px;background:#F8FAFC}.stat strong{display:block;font-size:1.45rem}
+footer{margin-top:29px;background:#43539A;color:#F7FAFF;border-top:5px solid var(--rose);border-radius:24px;padding:25px;box-shadow:var(--shadow)}footer .ey{color:var(--lime);font-size:.78rem;font-weight:950;letter-spacing:.1em}footer h3{margin:7px 0}footer p{color:#EEF3FF;line-height:1.5;max-width:830px}footer a{display:inline-block;background:var(--lime);color:#303608;text-decoration:none;font-weight:950;padding:11px 15px;border-radius:12px}.copy{font-size:.82rem;color:#DDE6F7;margin-top:12px}
+@media(max-width:680px){.hero-grid,.route,.stats,.profile-form,.options{grid-template-columns:1fr}.wrap{padding:9px}.syllable{min-width:68px;padding:14px 10px}}
+
+/* ===== Respuestas visualmente separadas del conteo ===== */
+.answer-card{
+  position:relative;
+  padding:17px 14px 15px;
+  border:2px solid var(--line);
+  border-radius:18px;
+  background:#fff;
+  font-weight:900;
+  cursor:pointer;
+  min-height:92px;
+  transition:.16s ease;
+  text-align:left;
+}
+.answer-card:hover{
+  border-color:var(--skyblue);
+  transform:translateY(-2px);
+  box-shadow:0 8px 18px rgba(35,59,99,.08);
+}
+.answer-card__name{
+  display:block;
+  font-size:1.05rem;
+  font-weight:950;
+  color:var(--skyblue);
+  margin-bottom:7px;
+}
+.answer-card__support{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:5px 8px;
+  border-radius:999px;
+  background:var(--ice);
+  color:#40566F;
+  font-size:.75rem;
+  font-weight:850;
+}
+.answer-card__support::before{
+  content:"↤";
+  font-weight:950;
+  color:var(--orange);
+}
+.answer-card.dead{opacity:.34;pointer-events:none}
+.answer-card.good{
+  background:#E8F3ED;
+  border-color:var(--green);
+}
+.answer-card.good .answer-card__name{color:#315E49}
+.answer-help{
+  margin:10px 0 0;
+  text-align:center;
+  color:var(--muted);
+  font-size:.83rem;
+  line-height:1.4;
+}
+
+
+/* ===== Zona explícita de posibles respuestas ===== */
+.answer-zone{
+  margin-top:18px;
+  padding:16px;
+  border:2px dashed var(--skyblue);
+  border-radius:20px;
+  background:#F8FBFF;
+}
+.answer-zone__title{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin:0 0 12px;
+  color:var(--skyblue);
+  font-size:.82rem;font-weight:950;letter-spacing:.08em;
+}
+.answer-zone__title:before{content:"👇";font-size:1.05rem}
+.answer-zone .options{margin:0}
+.answer-card__letter{
+  position:absolute;top:9px;right:10px;
+  width:27px;height:27px;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--blush);color:#8B1B48;
+  font-size:.72rem;font-weight:950;
+}
+
+</style></head>
+<body><div class="wrap">
+<section class="hero"><span class="badge">5.º DE PRIMARIA · NIVEL 4</span><h1>🧭 MISIÓN CUENTA ATRÁS</h1><p>Ya localizas la sílaba tónica. Ahora aprenderás a descubrir su posición contando siempre desde el final de la palabra.</p><div class="hero-grid"><div class="hero-mini"><strong>REGLA CLAVE</strong>Siempre empezamos por la última sílaba.</div><div class="hero-mini"><strong>ENTRENA</strong>Cuenta 1, 2, 3… de derecha a izquierda.</div><div class="hero-mini"><strong>DEMUESTRA</strong>Reconoce última, penúltima y antepenúltima.</div></div></section>
+
+<section class="profile"><div class="profile-head"><div class="identity"><div id="avatarBox" class="avatar">🦊</div><div><div id="nameDisplay" class="name">Explorador/a</div><div class="muted">Tripulante de Cuenta Atrás</div></div></div><span class="tag">TU IDENTIDAD</span></div><div class="profile-form"><input id="nameInput" maxlength="24" placeholder="Escribe tu nombre"><button class="btn primary" onclick="saveProfile()">Guardar</button></div><div class="avatars"><button class="av sel" data-a="🦊" onclick="selAvatar('🦊')">🦊</button><button class="av" data-a="🧭" onclick="selAvatar('🧭')">🧭</button><button class="av" data-a="🚀" onclick="selAvatar('🚀')">🚀</button><button class="av" data-a="🦉" onclick="selAvatar('🦉')">🦉</button><button class="av" data-a="🎯" onclick="selAvatar('🎯')">🎯</button></div></section>
+
+<section class="panel"><div class="route"><div id="r0" class="route-step active">1 · GUÍA</div><div id="r1" class="route-step">2 · ENTRENAMIENTO</div><div id="r2" class="route-step">3 · COMPROBACIÓN</div></div><div class="progressline"><span id="phaseLabel">Guía</span><span id="pct">0%</span></div><div class="progress"><div id="bar"></div></div></section>
+<main id="app"></main>
+
+<footer><div class="ey">AUTOR</div><h3>Luis Alberto Antonio Narciso</h3><p>Ingeniero en Electrónica por la UAM y con estudios de Maestría en Ciencias en la UNA. Profesional de Quality Assurance, automatización de pruebas y tecnología educativa, con experiencia como tester en proyectos vinculados con Google y Ford. Desarrolla experiencias web interactivas orientadas al aprendizaje y al acceso a herramientas digitales.</p><p><em>“Recurso diseñado y desarrollado por Luis Alberto Antonio Narciso”.</em></p><a href="https://narciso1516.github.io/narcisotesting.com/" target="_blank" rel="noopener noreferrer">Conocer al autor</a><div class="copy">© <span id="year"></span> Luis Alberto Antonio Narciso</div></footer>
+</div>
+<script>
+year.textContent=new Date().getFullYear();
+let studentName=localStorage.getItem("radarStudentName")||"",avatar=localStorage.getItem("radarStudentAvatar")||"🦊";
+function who(){return studentName.trim()||"Explorador/a"}function sync(){nameDisplay.textContent=who();avatarBox.textContent=avatar;nameInput.value=studentName;document.querySelectorAll(".av").forEach(b=>b.classList.toggle("sel",b.dataset.a===avatar))}
+function saveProfile(){studentName=nameInput.value.trim().slice(0,24);localStorage.setItem("radarStudentName",studentName);sync()}function selAvatar(a){avatar=a;localStorage.setItem("radarStudentAvatar",a);sync()}
+function speak(t){if(!("speechSynthesis"in window))return;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang="es-MX";u.rate=.72;speechSynthesis.speak(u)}
+const app=document.getElementById("app");
+function shell(tag,title,exp,inst,body){app.innerHTML=`<section class="panel"><span class="tag">${tag}</span><h2>${title}</h2>${exp?`<div class="explain">${exp}</div>`:""}${inst?`<div class="instruction">${inst}</div>`:""}${body}</section>`}
+function prog(n,label,r){bar.style.width=n+"%";pct.textContent=n+"%";phaseLabel.textContent=label;[0,1,2].forEach(i=>{let e=document.getElementById("r"+i);e.className="route-step";if(i<r)e.classList.add("done");if(i===r)e.classList.add("active")})}
+const guide=[
+{w:"papel",s:["pa","pel"],a:1},{w:"camino",s:["ca","mi","no"],a:1},{w:"música",s:["mú","si","ca"],a:0},{w:"corazón",s:["co","ra","zón"],a:2},{w:"teléfono",s:["te","lé","fo","no"],a:1}
+];
+const train=[
+{w:"doctor",s:["doc","tor"],a:1},{w:"pelota",s:["pe","lo","ta"],a:1},{w:"sábado",s:["sá","ba","do"],a:0},{w:"animal",s:["a","ni","mal"],a:2},{w:"ventana",s:["ven","ta","na"],a:1},{w:"médico",s:["mé","di","co"],a:0},{w:"profesor",s:["pro","fe","sor"],a:2},{w:"camisa",s:["ca","mi","sa"],a:1},{w:"canción",s:["can","ción"],a:1},{w:"número",s:["nú","me","ro"],a:0},{w:"comida",s:["co","mi","da"],a:1},{w:"reloj",s:["re","loj"],a:1},{w:"biblioteca",s:["bi","blio","te","ca"],a:2},{w:"bicicleta",s:["bi","ci","cle","ta"],a:2},{w:"zapato",s:["za","pa","to"],a:1}
+];
+const test=[
+{w:"limón",s:["li","món"],a:1},{w:"árbol",s:["ár","bol"],a:0},{w:"mariposa",s:["ma","ri","po","sa"],a:2},{w:"computadora",s:["com","pu","ta","do","ra"],a:3},{w:"matemática",s:["ma","te","má","ti","ca"],a:2},{w:"escuela",s:["es","cue","la"],a:1},{w:"pájaro",s:["pá","ja","ro"],a:0},{w:"comedor",s:["co","me","dor"],a:2},{w:"cuaderno",s:["cua","der","no"],a:1},{w:"hospital",s:["hos","pi","tal"],a:2}
+];
+function pos(q){return q.s.length-q.a}function posName(n){return n===1?"última":n===2?"penúltima":n===3?"antepenúltima":"anterior a la antepenúltima"}
+let phase=0,index=0,tries=0,attempts=0,first=0,errors=[],score=0;
+function render(){if(phase===0)return intro();if(phase===1)return guideStep();if(phase===2)return trainStep();if(phase===3)return testStep();finish()}
+function syllableView(q,showNums=true){return `<div class="syllables">${[...q.s].reverse().map((x,ri)=>{let original=q.s.length-1-ri,n=ri+1;return `<div class="syllable ${original===q.a?"tonic":""}">${x}${showNums?`<span class="num">${n} · ${posName(n)}</span>`:""}</div>`}).join("")}</div>`}
+function intro(){prog(3,"Guía · Nueva regla",0);shell("DESCUBRE","La cuenta empieza por el final","Ya sabes localizar la <b>sílaba tónica</b>. Ahora necesitamos saber en qué lugar está. Para hacerlo usamos una regla muy importante: <b>contamos desde el final de la palabra</b>.","En <b>ca · MI · no</b>: empezamos en <b>no = 1</b>, seguimos con <b>mi = 2</b>. Por eso la tónica está en la posición 2, es decir, la <b>penúltima</b>.",`<div class="word">ca · <span style="color:var(--orange)">MI</span> · no</div>${syllableView({s:["ca","mi","no"],a:1})}<div class="hint">🧭 <b>1 = última · 2 = penúltima · 3 = antepenúltima.</b><br>Todavía no necesitamos decir “aguda”, “grave” o “esdrújula”. Eso llegará después.</div><div class="actions"><button class="btn next" onclick="phase=1;index=0;render()">Practicar la cuenta →</button></div>`)}
+function guideStep(){if(index>=guide.length){phase=2;index=0;tries=0;return render()}let q=guide[index],p=pos(q);prog(9+index*5,"Guía · Cuenta conmigo",0);shell("GUÍA PASO A PASO",`${index+1} · ${q.w}`,"La sílaba tónica ya está destacada. Tu tarea ahora es <b>contar desde el final</b>.","Observa los números y responde: ¿qué posición ocupa la sílaba tónica?",`<div class="word">${q.w}</div>${syllableView(q)}<div class="actions"><button class="btn listen" onclick="speak('${q.w}')">🔊 Escuchar</button></div>${buttons(q,true)}<div id="fb" class="feedback"></div>`)}
+function shuffledPositions(max){
+ let a=Array.from({length:max},(_,i)=>i+1);
+ for(let i=a.length-1;i>0;i--){
+   const j=Math.floor(Math.random()*(i+1));
+   [a[i],a[j]]=[a[j],a[i]];
+ }
+ return a;
+}
+function answerLetter(i){return ["A","B","C","D"][i]||""}
+function buttons(q,guided=false){
+ let max=Math.min(4,q.s.length);
+ let shuffled=shuffledPositions(max);
+ return `<div class="answer-zone">
+   <div class="answer-zone__title">ELIGE UNA POSIBLE RESPUESTA</div>
+   <div class="options">
+   ${shuffled.map((n,i)=>`<button class="answer-card" onclick="${guided?`ansGuide(${n},this)`:`ansTrain(${n},this)`}">
+     <span class="answer-card__letter">${answerLetter(i)}</span>
+     <span class="answer-card__name">${posName(n).toUpperCase()}</span>
+     <span class="answer-card__support">${n} desde el final</span>
+   </button>`).join("")}
+   </div>
+ </div>`;
+}
+function ansGuide(n,el){let q=guide[index],fb=document.getElementById("fb");attempts++;tries++;if(n===pos(q)){el.classList.add("good");fb.className="feedback ok";fb.textContent=`Correcto: la tónica está en la ${posName(n)} sílaba (${n} desde el final).`;setTimeout(()=>{index++;tries=0;render()},700)}else{el.classList.add("dead");fb.className="feedback no";fb.textContent="Recuerda: empieza a contar por la última sílaba. Esa opción queda descartada; intenta otra."}}
+function trainStep(){if(index>=train.length){phase=3;index=0;tries=0;return render()}let q=train[index];prog(35+Math.round(index/train.length*35),"Entrenamiento · Cuenta atrás",1);let mode=index%3;if(mode===0)return countMission(q);if(mode===1)return nameMission(q);numberMission(q)}
+function tonicText(q){return q.s.map((x,i)=>i===q.a?`<span style="color:var(--orange);font-size:1.12em">${x.toUpperCase()}</span>`:x).join(" · ")}
+function countMission(q){shell("CUENTA ATRÁS",`${index+1} · ${q.w}`,"La tónica está marcada. Ahora haz mentalmente la cuenta de derecha a izquierda.","¿En qué posición desde el final está la sílaba tónica?",`<div class="word">${tonicText(q)}</div><div class="actions"><button class="btn listen" onclick="speak('${q.w}')">🔊 Escuchar</button></div>${buttons(q)}<div id="fb" class="feedback"></div>`)}
+function numberMission(q){shell("NÚMERO DE POSICIÓN",`${index+1} · ${q.w}`,"Ya no mostramos los números debajo de las sílabas.","Cuenta desde el final y elige el número que corresponde a la tónica.",`<div class="word">${tonicText(q)}</div>${buttons(q)}<div id="fb" class="feedback"></div>`)}
+function nameMission(q){
+ let opts=shuffledPositions(Math.min(3,q.s.length));
+ shell(
+   "NOMBRE DE LA POSICIÓN",
+   `${index+1} · ${q.w}`,
+   "Ahora piensa en el nombre de la posición.",
+   "¿Dónde está la sílaba tónica?",
+   `<div class="word">${tonicText(q)}</div>
+    <div class="answer-zone">
+      <div class="answer-zone__title">ELIGE UNA POSIBLE RESPUESTA</div>
+      <div class="options">
+        ${opts.map((n,i)=>`<button class="answer-card" onclick="ansTrain(${n},this)">
+          <span class="answer-card__letter">${answerLetter(i)}</span>
+          <span class="answer-card__name">${posName(n).toUpperCase()}</span>
+          <span class="answer-card__support">${n} desde el final</span>
+        </button>`).join("")}
+      </div>
+    </div>
+    <div id="fb" class="feedback"></div>`
+ )
+}
+function ansTrain(n,el){let q=train[index],fb=document.getElementById("fb");attempts++;tries++;if(n===pos(q)){if(tries===1)first++;el?.classList.add("good");fb.className="feedback ok";fb.textContent=`✓ ${n} desde el final = ${posName(n)}.`;setTimeout(()=>{index++;tries=0;render()},650)}else{if(tries===1)errors.push(q.w);el?.classList.add("dead");fb.className="feedback no";fb.textContent="No todavía. Cuenta desde la última sílaba y elige una de las opciones que quedan."}}
+function testStep(){
+ if(index>=test.length){phase=4;return render()}
+ let q=test[index];
+ prog(74+index*2.4,"Comprobación · Sin pistas",2);
+ let opts=shuffledPositions(Math.min(3,q.s.length));
+ shell(
+   "COMPROBACIÓN",
+   `${index+1} de ${test.length} · ${q.w}`,
+   "Aquí tienes una sola oportunidad. La sílaba tónica ya está marcada para medir únicamente si dominas la posición.",
+   "Indica dónde está la tónica contando desde el final.",
+   `<div class="word">${tonicText(q)}</div>
+    <div class="answer-zone">
+      <div class="answer-zone__title">ELIGE UNA POSIBLE RESPUESTA</div>
+      <div class="options">
+        ${opts.map((n,i)=>`<button class="answer-card" onclick="ansTest(${n},this)">
+          <span class="answer-card__letter">${answerLetter(i)}</span>
+          <span class="answer-card__name">${posName(n).toUpperCase()}</span>
+          <span class="answer-card__support">${n} desde el final</span>
+        </button>`).join("")}
+      </div>
+    </div>
+    <div id="fb" class="feedback"></div>`
+ )
+}
+function ansTest(n,el){let q=test[index],fb=document.getElementById("fb");attempts++;document.querySelectorAll(".answer-card,.choice").forEach(b=>b.disabled=true);if(n===pos(q)){score++;el.classList.add("good");fb.className="feedback ok";fb.textContent="Correcto."}else{fb.className="feedback no";fb.textContent=`La tónica está en la ${posName(pos(q))} posición: ${pos(q)} desde el final.`}setTimeout(()=>{index++;render()},800)}
+function finish(){prog(100,"Nivel 4 · Resultado",2);let p=Math.round(score/test.length*100),ready=p>=80;shell(ready?"NIVEL 4 DOMINADO":"REFUERZO RECOMENDADO",ready?`🧭 ${who()}, misión cumplida`:`${who()}, practiquemos un poco más`,ready?"Ya puedes localizar la posición de la sílaba tónica contando desde el final.":"La regla es sencilla, pero debe volverse automática antes de continuar.","",`<div style="display:flex;gap:13px;align-items:center"><div class="avatar">${avatar}</div><div><strong style="font-size:1.25rem">${who()}</strong><div class="muted">Reporte · Nivel 4 · 5.º primaria</div></div></div><div class="stats" style="margin-top:15px"><div class="stat"><strong>${score}/10</strong>Comprobación</div><div class="stat"><strong>${p}%</strong>Dominio</div><div class="stat"><strong>${first}</strong>Al 1.er intento</div></div><div class="feedback ${ready?"ok":"info"}">${ready?"✓ Alcanzaste 80 % o más. Ya estás preparado para conectar posición + nombre de palabra en el Nivel 5.":"Repite el entrenamiento. Concéntrate en empezar siempre por la última sílaba."}</div>${errors.length?`<div class="hint">Palabras que conviene reforzar: <b>${[...new Set(errors)].join(", ")}</b></div>`:""}<div class="actions"><button class="btn secondary" onclick="phase=2;index=0;tries=0;attempts=0;first=0;errors=[];score=0;render()">↻ Repetir entrenamiento</button>${ready?'<button class="btn next" onclick="alert(\'Nivel 4 completado. Sigue el Nivel 5: clasificar palabras como agudas, graves y esdrújulas.\')">Nivel 5 →</button>':""}</div>`)}
+sync();render();
+</script></body></html>

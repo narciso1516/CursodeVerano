@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ruta Mesoamericana de las Palabras · 5.º Primaria</title>
+<style>
+:root{
+  --yellow:#F9D438;--yellow2:#FFE471;--green:#B2D860;--green2:#8FCB5B;
+  --purple:#6C59B2;--purple2:#583A99;--orange:#F47A1E;--orange2:#F29251;
+  --blue:#BAD2F4;--blue2:#75A5EA;--pink:#EF84E0;--pink2:#EF59CF;
+  --ink:#28324B;--cream:#FFF9F0;--white:#FFFFFF;--line:#E6DFD5;
+  --shadow:0 18px 45px rgba(52,46,82,.12)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);
+  background:linear-gradient(180deg,#FFFDF8,var(--cream))
+}
+button,a{font:inherit}
+.wrap{max-width:1180px;margin:auto;padding:18px 14px 60px}
+.hero{
+  border-radius:34px;padding:clamp(28px,6vw,58px);
+  background:linear-gradient(135deg,var(--purple),var(--purple2));color:white;
+  box-shadow:var(--shadow);position:relative;overflow:hidden
+}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;opacity:.16}
+.hero:before{width:320px;height:320px;background:var(--pink);right:-100px;top:-120px}
+.hero:after{width:250px;height:250px;background:var(--blue2);left:-90px;bottom:-120px}
+.badge{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border-radius:999px;
+  background:var(--yellow);color:#4B3F00;font-size:.8rem;font-weight:950;letter-spacing:.06em
+}
+.hero h1{font-size:clamp(2.2rem,7vw,4.6rem);line-height:.98;margin:15px 0 9px;max-width:900px}
+.hero p{max-width:820px;color:#F4EDFF;line-height:1.6;font-size:1.04rem}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{border:0;border-radius:15px;padding:13px 17px;font-weight:950;cursor:pointer;text-decoration:none}
+.btn-primary{background:var(--yellow);color:#4B3F00}
+.btn-soft{background:#ffffff18;color:white;border:1px solid #ffffff38}
+.note{margin-top:16px;padding:13px 15px;border-radius:16px;background:#ffffff10;border:1px solid #ffffff25;color:#EEE7FB;font-size:.88rem;line-height:1.45}
+
+.progress-card{
+  margin-top:18px;background:white;border:1px solid var(--line);border-radius:24px;padding:19px;box-shadow:var(--shadow)
+}
+.progress-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.profile{display:flex;gap:12px;align-items:center}
+.avatar{width:58px;height:58px;border-radius:20px;background:linear-gradient(135deg,var(--yellow),var(--pink));display:grid;place-items:center;font-size:1.8rem}
+.pname{font-weight:950;font-size:1.08rem}.muted{color:#6F7583;font-size:.88rem}
+.progress{height:14px;background:#F0ECF4;border-radius:999px;overflow:hidden;margin-top:12px}
+.progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--yellow),var(--green),var(--blue2),var(--pink),var(--purple));transition:.5s}
+.progress-text{display:flex;justify-content:space-between;color:#6F7583;font-size:.84rem;font-weight:850;margin-top:6px}
+
+.map-card{
+  margin-top:20px;border-radius:32px;background:white;border:1px solid var(--line);
+  box-shadow:var(--shadow);padding:18px;overflow:hidden
+}
+.map-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;flex-wrap:wrap;padding:8px 8px 16px}
+.map-head h2{margin:0;font-size:clamp(1.5rem,4vw,2.3rem)}
+.map-head p{margin:5px 0 0;color:#6F7583;max-width:700px;line-height:1.45}
+
+/* ===== MAPA ILUSTRADO ===== */
+.map{
+  position:relative;min-height:1380px;border-radius:28px;overflow:hidden;
+  background:linear-gradient(#E8F7FF 0 22%,#E8F1CB 22% 100%);
+  border:2px solid #D8DDE8
+}
+.sky{position:absolute;inset:0 0 auto 0;height:22%;background:
+  radial-gradient(circle at 15% 25%,#fff 0 6px,transparent 7px),
+  radial-gradient(circle at 18% 30%,#fff 0 8px,transparent 9px),
+  radial-gradient(circle at 22% 27%,#fff 0 7px,transparent 8px),
+  linear-gradient(#BFE8FF,#E8F7FF)
+}
+.sun{position:absolute;right:6%;top:4%;width:82px;height:82px;border-radius:50%;background:var(--yellow);box-shadow:0 0 0 14px #F9D43822}
+.mountain{position:absolute;top:12%;width:0;height:0;border-left:120px solid transparent;border-right:120px solid transparent;border-bottom:170px solid #9EA8D1;opacity:.85}
+.mountain:after{content:"";position:absolute;left:-60px;top:60px;width:0;height:0;border-left:60px solid transparent;border-right:60px solid transparent;border-bottom:85px solid #FFF}
+.m1{left:6%}.m2{left:24%;transform:scale(.8)}.m3{right:18%;transform:scale(1.1)}
+
+.river{
+  position:absolute;right:-3%;top:25%;width:170px;height:72%;
+  background:linear-gradient(90deg,#8BD6EE,#57B8DE);
+  border-radius:55% 45% 48% 52% / 10% 13% 87% 90%;
+  transform:rotate(2deg);opacity:.9
+}
+.river:after{content:"";position:absolute;inset:0;background:
+ repeating-linear-gradient(180deg,transparent 0 60px,rgba(255,255,255,.35) 61px 64px,transparent 65px 110px)}
+
+.road{
+  position:absolute;left:7%;top:26%;width:73%;height:66%;
+  border:34px solid #E8C790;border-radius:44% 56% 49% 51% / 13% 12% 88% 87%;
+  border-left-color:transparent;border-top-color:transparent;
+  transform:rotate(-4deg)
+}
+.road-inner{
+  position:absolute;left:11%;top:29%;width:66%;height:59%;
+  border:8px dashed #FFF7DD;border-radius:44% 56% 49% 51% / 13% 12% 88% 87%;
+  border-left-color:transparent;border-top-color:transparent;
+  transform:rotate(-4deg);opacity:.9
+}
+
+.village{
+  position:absolute;left:5%;top:31%;display:flex;gap:8px;align-items:flex-end
+}
+.house{
+  width:62px;height:48px;background:#F6B35A;border:3px solid #7A5C3E;border-radius:6px;position:relative
+}
+.house:before{
+  content:"";position:absolute;left:-8px;top:-28px;border-left:38px solid transparent;border-right:38px solid transparent;border-bottom:30px solid #C8573D
+}
+.house:after{content:"";position:absolute;width:14px;height:24px;left:22px;bottom:0;background:#7A5C3E;border-radius:3px 3px 0 0}
+.house.alt{background:#BAD2F4}.house.alt:before{border-bottom-color:#6C59B2}
+.house.small{transform:scale(.8);transform-origin:bottom}
+
+.tree{
+  position:absolute;width:46px;height:76px;z-index:2
+}
+.tree:before{content:"";position:absolute;left:18px;bottom:0;width:10px;height:30px;background:#7C5A3A;border-radius:4px}
+.tree:after{content:"";position:absolute;left:2px;top:0;width:42px;height:52px;background:var(--green2);border-radius:50% 50% 44% 56%;box-shadow:-15px 12px 0 -4px #B2D860,15px 12px 0 -4px #7FBB4E}
+.t1{left:4%;top:44%}.t2{left:18%;top:53%}.t3{left:38%;top:39%}.t4{left:56%;top:57%}.t5{left:8%;top:75%}.t6{left:44%;top:79%}.t7{right:17%;top:35%}.t8{right:8%;top:70%}
+.cactus{
+  position:absolute;width:30px;height:56px;border-radius:14px;background:#4AAA72;z-index:2
+}
+.cactus:before,.cactus:after{content:"";position:absolute;width:18px;height:28px;border-radius:12px;background:#4AAA72;top:15px}
+.cactus:before{left:-12px}.cactus:after{right:-12px}
+.c1{left:27%;top:66%}.c2{right:22%;top:84%}
+
+.station{
+  position:absolute;width:220px;min-height:150px;
+  border-radius:24px;padding:16px 15px;
+  border:3px solid white;background:#ffffffee;
+  box-shadow:0 14px 28px rgba(48,42,73,.14);
+  z-index:4;text-align:center
+}
+.station .level{
+  position:absolute;top:-14px;left:-10px;width:44px;height:44px;border-radius:50%;
+  display:grid;place-items:center;background:white;border:3px solid currentColor;font-weight:950
+}
+.station .culture{
+  display:inline-block;margin-top:5px;padding:4px 8px;border-radius:999px;
+  background:#F5F1FB;font-size:.67rem;font-weight:900
+}
+.station .mission{font-size:.78rem;margin-top:6px;line-height:1.35;color:#505768}
+.station .done-tag{
+  position:absolute;right:-7px;bottom:-9px;padding:5px 8px;border-radius:999px;
+  background:#7DBB6D;color:white;font-size:.63rem;font-weight:950;display:none
+}
+.station.done .done-tag{display:block}
+.station.done{outline:4px solid rgba(86,167,95,.23)}
+
+.level-link{
+  display:inline-block;margin-top:9px;padding:8px 11px;border-radius:12px;
+  text-decoration:none;font-size:1.02rem;font-weight:950;color:white;
+  transition:.18s ease
+}
+.level-link:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 8px 16px rgba(0,0,0,.12)}
+.level-link:focus{outline:3px solid #27324A22;outline-offset:3px}
+
+.s1{left:9%;top:25%;color:#896E00}.s1 .level-link{background:#C5A900}
+.s2{left:39%;top:31%;color:#207E85}.s2 .level-link{background:#20A6B4}
+.s3{left:12%;top:43%;color:#A23C7A}.s3 .level-link{background:#D758A8}
+.s4{left:47%;top:50%;color:#5F7B21}.s4 .level-link{background:#78A436}
+.s5{left:16%;top:62%;color:#AF551F}.s5 .level-link{background:#E76B22}
+.s6{left:51%;top:69%;color:#654DA2}.s6 .level-link{background:#6C59B2}
+.s7{left:20%;top:80%;color:#5A79AE}.s7 .level-link{background:#6A93D9}
+.s8{left:54%;top:87%;color:#8B7500}.s8 .level-link{background:#D0A600}
+
+.decoration{position:absolute;z-index:1;font-size:2rem;opacity:.9}
+.d1{left:67%;top:28%}.d2{left:30%;top:47%}.d3{left:70%;top:61%}.d4{left:7%;top:68%}
+.path-label{
+  position:absolute;left:36%;top:23%;padding:8px 12px;border-radius:999px;
+  background:#FFF7D9;border:2px solid #E3C76E;font-weight:950;color:#7B651C;z-index:3
+}
+
+.legend{display:flex;gap:9px;flex-wrap:wrap;padding:15px 6px 2px}
+.chip{padding:7px 10px;border-radius:999px;background:#F6F1FB;border:1px solid #E0D7EB;color:#625A72;font-size:.8rem}
+
+.footer{margin-top:20px;border-radius:24px;background:#27324A;color:white;padding:24px;border-top:5px solid var(--yellow)}
+.footer h3{margin:0 0 6px}.footer p{color:#DEE4F0;line-height:1.5;max-width:860px}.footer a{color:#FFE471}
+
+@media(max-width:900px){
+  .map{min-height:1750px}
+  .river{right:-8%;width:130px}
+  .road,.road-inner{display:none}
+  .station{width:260px;left:50%!important;transform:translateX(-50%)}
+  .s1{top:24%}.s2{top:34%}.s3{top:44%}.s4{top:54%}.s5{top:64%}.s6{top:74%}.s7{top:84%}.s8{top:92%}
+  .tree,.cactus,.village{opacity:.65}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="hero">
+  <span class="badge">🗺️ 5.º PRIMARIA · RUTA COMPLETA</span>
+  <h1>La Ruta Mesoamericana de las Palabras</h1>
+  <p>Recorre ocho estaciones ordenadas a lo largo de un camino ilustrado. Cada parada representa un nivel de aprendizaje y lleva un nombre inspirado en tradiciones mesoamericanas.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" href="#mapa">🌿 Explorar el mapa</a>
+    <button class="btn btn-soft" onclick="resetMap()">↻ Reiniciar progreso</button>
+  </div>
+  <div class="note">Los nombres culturales funcionan únicamente como identidad de las estaciones. Las ilustraciones son originales y no buscan representar históricamente a las deidades.</div>
+</section>
+
+<section class="progress-card">
+  <div class="progress-head">
+    <div class="profile"><div id="avatar" class="avatar">🌟</div><div><div id="studentName" class="pname">Explorador/a</div><div class="muted">Viajero/a de las palabras</div></div></div>
+  </div>
+  <div class="progress"><div id="progressBar"></div></div>
+  <div class="progress-text"><span id="progressText">0 de 8 estaciones visitadas</span><span id="progressPct">0%</span></div>
+</section>
+
+<section id="mapa" class="map-card">
+  <div class="map-head">
+    <div><h2>🌳 Camino de las 8 estaciones</h2><p>Ahora el mapa tiene una ruta clara. <b>Solo haz clic en el nombre del nivel</b> para entrar.</p></div>
+    <span class="badge">8 NIVELES</span>
+  </div>
+
+  <div class="map">
+    <div class="sky"></div><div class="sun"></div>
+    <div class="mountain m1"></div><div class="mountain m2"></div><div class="mountain m3"></div>
+    <div class="river"></div><div class="road"></div><div class="road-inner"></div>
+    <div class="path-label">CAMINO DEL APRENDIZAJE</div>
+
+    <div class="village"><div class="house"></div><div class="house alt"></div><div class="house small"></div></div>
+
+    <div class="tree t1"></div><div class="tree t2"></div><div class="tree t3"></div><div class="tree t4"></div>
+    <div class="tree t5"></div><div class="tree t6"></div><div class="tree t7"></div><div class="tree t8"></div>
+    <div class="cactus c1"></div><div class="cactus c2"></div>
+
+    <div class="decoration d1">🦋</div><div class="decoration d2">🌼</div><div class="decoration d3">🪨</div><div class="decoration d4">🌺</div>
+
+    <section class="station s1" data-level="1">
+      <span class="level">1</span><div class="culture">MEXICA · TLÁLOC</div>
+      <div class="mission">Escucha cuál sílaba suena con mayor fuerza.</div>
+      <a class="level-link" href="nivel_1.html">Radar de Palabras</a><span class="done-tag">VISITADO ✓</span>
+    </section>
+
+    <section class="station s2" data-level="2">
+      <span class="level">2</span><div class="culture">MEXICA · QUETZALCÓATL</div>
+      <div class="mission">Divide correctamente las palabras en sílabas.</div>
+      <a class="level-link" href="nivel_2.html">Laboratorio de Sílabas</a><span class="done-tag">VISITADO ✓</span>
+    </section>
+
+    <section class="station s3" data-level="3">
+      <span class="level">3</span><div class="culture">MEXICA · XOCHIPILLI</div>
+      <div class="mission">Encuentra la sílaba tónica y distingue las átonas.</div>
+      <a class="level-link" href="nivel_3.html">Cazadores de la Tónica</a><span class="done-tag">VISITADO ✓</span>
+    </section>
+
+    <section class="station s4" data-level="4">
+      <span class="level">4</span><div class="culture">ZAPOTECA · COCIJO</div>
+      <div class="mission">Cuenta la posición de la tónica desde el final.</div>
+      <a class="level-link" href="nivel_4.html">Misión Cuenta Atrás</a><span class="done-tag">VISITADO ✓</span>
+    </section>
+
+    <section class="station s5" data-level="5">
+      <span class="level">5</span><div class="culture">MIXTECA · DZAHUI</div>
+      <div class="mission">Clasifica aguda, grave, esdrújula o sobresdrújula.</div>
+      <a class="level-link" href="nivel_5.html">Central de Clasificación</a><span class="done-tag">VISITADO ✓</span>
+    </section>
+
+    <section class="station s6" data-level="6">
+      <span class="level">6</span><div class="culture">MAYA · KUKULKÁN</div>
+      <div class="mission">Aplica las reglas y decide cuándo lleva tilde.</div>
+      <a class="level-link" href="nivel_6.html">Laboratorio de la Tilde</a><span class="done-tag">VISITADO ✓</span>
+    </section>
+
+    <section class="station s7" data-level="7">
+      <span class="level">7</span><div class="culture">MAYA · CHAAC</div>
+      <div class="mission">Resuelve palabras mezcladas con menos pistas.</div>
+      <a class="level-link" href="nivel_7.html">Detectives de la Tilde</a><span class="done-tag">VISITADO ✓</span>
+    </section>
+
+    <section class="station s8" data-level="8">
+      <span class="level">8</span><div class="culture">MAYA · IX CHEL</div>
+      <div class="mission">Reto final de precisión y velocidad.</div>
+      <a class="level-link" href="nivel_8.html">Órbita de Acentos</a><span class="done-tag">VISITADO ✓</span>
+    </section>
+  </div>
+
+  <div class="legend">
+    <span class="chip">🌳 Árboles y vegetación</span>
+    <span class="chip">🏠 Pequeño poblado</span>
+    <span class="chip">🛤️ Camino principal</span>
+    <span class="chip">🌊 Río y paisaje</span>
+    <span class="chip">🔗 Solo el nombre abre el nivel</span>
+  </div>
+</section>
+
+<footer class="footer">
+  <h3>Luis Alberto Antonio Narciso</h3>
+  <p>Recurso interactivo para el aprendizaje progresivo de la acentuación en 5.º de primaria.</p>
+  <p>© <span id="year"></span> · <a href="https://narciso1516.github.io/narcisotesting.com/" target="_blank" rel="noopener noreferrer">Conocer al autor</a></p>
+</footer>
+</div>
+
+<script>
+year.textContent=new Date().getFullYear();
+studentName.textContent=localStorage.getItem("radarStudentName")||"Explorador/a";
+avatar.textContent=localStorage.getItem("radarStudentAvatar")||"🌟";
+
+const stations=[...document.querySelectorAll(".station")];
+document.querySelectorAll(".level-link").forEach(link=>{
+  link.addEventListener("click",()=>{
+    const station=link.closest(".station");
+    const lv=station.dataset.level;
+    localStorage.setItem("acentuacion5_visit_"+lv,"1");
+    localStorage.setItem("acentuacion5_last_level",lv);
+  });
+});
+
+function updateMap(){
+  let visited=0;
+  stations.forEach(st=>{
+    const yes=localStorage.getItem("acentuacion5_visit_"+st.dataset.level)==="1";
+    st.classList.toggle("done",yes);
+    if(yes)visited++;
+  });
+  const pct=Math.round(visited/8*100);
+  progressBar.style.width=pct+"%";
+  progressText.textContent=visited+" de 8 estaciones visitadas";
+  progressPct.textContent=pct+"%";
+}
+function resetMap(){
+  if(!confirm("¿Reiniciar únicamente el progreso visual del mapa?"))return;
+  for(let i=1;i<=8;i++)localStorage.removeItem("acentuacion5_visit_"+i);
+  localStorage.removeItem("acentuacion5_last_level");
+  updateMap();
+}
+updateMap();
+window.addEventListener("pageshow",updateMap);
+</script>
+</body>
+</html>

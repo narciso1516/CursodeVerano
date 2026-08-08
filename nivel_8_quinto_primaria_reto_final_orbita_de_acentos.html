@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nivel 8 · Órbita de Acentos · 5.º primaria</title>
+<style>
+:root{
+ --space:#0B1C3B;--violet:#7A4BA8;--lilac:#D58BE8;--sky:#6EC9E8;--star:#F6D48F;
+ --ok:#66D5B2;--bad:#FF8298;--ink:#F4F8FF;--muted:#B7C8DF;--line:#355A83;--panel:#0E2446;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);
+background:
+radial-gradient(circle at 18% 15%,#7A4BA833,transparent 22%),
+radial-gradient(circle at 80% 35%,#6EC9E822,transparent 20%),
+linear-gradient(180deg,#07142B,#0B1C3B 50%,#07142B);min-height:100vh}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.5;
+background-image:radial-gradient(#fff 1px,transparent 1px),radial-gradient(#fff 1px,transparent 1px);
+background-size:56px 56px,91px 91px;background-position:0 0,29px 21px}
+.wrap{max-width:1080px;margin:auto;padding:14px;position:relative;z-index:1}
+.hero,.panel,.profile,footer{border:1px solid var(--line);border-radius:26px;padding:clamp(20px,4vw,34px);margin-bottom:17px;
+background:linear-gradient(180deg,#10284ddd,#0B1C3Bee);box-shadow:0 16px 38px #0005}
+.hero{background:linear-gradient(135deg,#0B1C3B,#402660);position:relative;overflow:hidden}
+.hero:after{content:"⚡";position:absolute;right:5%;bottom:-40px;font-size:10rem;color:#ffffff10}
+.badge,.tag{display:inline-block;border-radius:99px;padding:8px 12px;font-weight:950;font-size:.8rem;letter-spacing:.07em}
+.badge{background:var(--star);color:#4F3708}.tag{background:#7A4BA833;color:#F0C7F9;border:1px solid #8C61AF}
+.hero h1{font-size:clamp(2.1rem,7vw,4.1rem);margin:13px 0 7px}.hero p{color:#D9E6F7;line-height:1.55;max-width:820px}
+.hero-grid,.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.hero-grid{margin-top:16px}.mini,.stat{padding:13px;border:1px solid var(--line);border-radius:15px;background:#ffffff09}.mini strong{display:block;color:var(--star);font-size:.78rem}
+.profile-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.identity{display:flex;gap:12px;align-items:center}.avatar{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:2rem;background:linear-gradient(135deg,var(--violet),var(--sky));border:3px solid #D5F0FB}.name{font-weight:950;font-size:1.2rem}.muted{color:var(--muted)}
+.profile-form{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:13px}.profile-form input{padding:13px;border-radius:13px;border:1px solid #45688F;background:#081A34;color:white}.avatars{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.av{width:47px;height:47px;border:1px solid #45688F;border-radius:13px;background:#0A1D39;color:white;font-size:1.4rem}.av.sel{border-color:var(--lilac)}
+.progressline{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;font-weight:850;margin:14px 0 7px}.prog{height:12px;background:#07182F;border:1px solid #25486F;border-radius:99px;overflow:hidden}.prog div{height:100%;background:linear-gradient(90deg,var(--violet),var(--lilac),var(--sky),var(--star));width:0;transition:.35s}
+h2{font-size:clamp(1.45rem,4vw,2.2rem);margin:13px 0 8px}.explain{background:#7A4BA822;border-left:5px solid var(--lilac);padding:14px;border-radius:14px;line-height:1.5}.inst{background:#6EC9E816;border:2px solid #6EC9E840;padding:14px;border-radius:14px;margin:13px 0;font-weight:900}.hint{background:#F6D48F16;border:1px solid #F6D48F66;padding:12px;border-radius:13px;color:#F8E9BB;margin-top:12px}
+.word{text-align:center;font-size:clamp(2rem,8vw,4.2rem);font-weight:950;margin:22px 0}.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}.choice{padding:18px;border:1px solid #45688F;border-radius:17px;background:#0A2040;color:white;font-weight:950;cursor:pointer;transition:.15s}.choice:hover{border-color:var(--sky);transform:translateY(-1px)}.choice.good{background:#66D5B222;border-color:var(--ok)}.choice.dead{opacity:.3;pointer-events:none}
+.quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.quick-btn{padding:15px;border:1px solid #45688F;border-radius:16px;background:#0A2040;color:white;font-weight:950;cursor:pointer}.quick-btn:hover{border-color:var(--lilac)}
+.hotrow{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}.hot{width:58px;height:64px;border:1px solid #45688F;border-radius:14px;background:#0A2040;color:white;font-size:1.8rem;font-weight:950;cursor:pointer}.hot.good{border-color:var(--ok);background:#66D5B222}.hot.dead{opacity:.3;pointer-events:none}
+.timer{text-align:center;font-size:clamp(2rem,7vw,3.5rem);color:var(--star);font-weight:950;letter-spacing:.04em}.speedbar{height:16px;border-radius:99px;background:#07182F;border:1px solid #25486F;overflow:hidden;margin:14px 0}.speedbar div{height:100%;background:linear-gradient(90deg,var(--sky),var(--star),var(--bad));transition:.25s}
+.btn{border:0;border-radius:13px;padding:12px 16px;font-weight:950;cursor:pointer}.primary{background:var(--violet);color:white}.sky{background:var(--sky);color:#08233A}.star{background:var(--star);color:#513907}.secondary{background:#16355E;color:white;border:1px solid #45688F}.actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:14px}
+.feedback{min-height:52px;padding:12px;border-radius:13px;margin-top:13px;text-align:center;font-weight:850}.ok{background:#66D5B222;border:1px solid var(--ok)}.no{background:#FF829822;border:1px solid var(--bad)}.info{background:#F6D48F16;border:1px solid var(--star)}
+.stat{text-align:center}.stat strong{display:block;font-size:1.45rem}.rank{font-size:1.5rem;font-weight:950;color:var(--star)}
+footer{background:#07162E;border-top:5px solid var(--lilac)}footer .ey{color:var(--star);font-size:.78rem;font-weight:950}footer p{color:#C8D7E9;line-height:1.5}footer a{display:inline-block;background:var(--sky);color:#08233A;text-decoration:none;font-weight:950;padding:10px 14px;border-radius:11px}
+@media(max-width:700px){.hero-grid,.stats,.quick-grid{grid-template-columns:repeat(2,1fr)}.profile-form,.opts{grid-template-columns:1fr}}@media(max-width:430px){.hero-grid,.stats,.quick-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body><div class="wrap">
+<section class="hero"><span class="badge">5.º PRIMARIA · NIVEL 8</span><h1>⚡ ÓRBITA DE ACENTOS</h1><p>La misión final. Aquí ya no vienes a aprender una regla nueva: vienes a demostrar precisión, rapidez y dominio con palabras aleatorias.</p><div class="hero-grid"><div class="mini"><strong>PRECISIÓN</strong>Responde correctamente</div><div class="mini"><strong>VELOCIDAD</strong>Decide antes de que termine el tiempo</div><div class="mini"><strong>VARIEDAD</strong>Interacciones distintas</div><div class="mini"><strong>DOMINIO</strong>80 % o más para completar la ruta</div></div></section>
+
+<section class="profile"><div class="profile-head"><div class="identity"><div id="avatarBox" class="avatar">🚀</div><div><div id="nameDisplay" class="name">Explorador/a</div><div class="muted">Piloto de la misión final</div></div></div><span class="tag">TU IDENTIDAD</span></div><div class="profile-form"><input id="nameInput" maxlength="24" placeholder="Escribe tu nombre"><button class="btn primary" onclick="saveProfile()">Guardar</button></div><div class="avatars"><button class="av sel" data-a="🚀" onclick="selAvatar('🚀')">🚀</button><button class="av" data-a="🧑‍🚀" onclick="selAvatar('🧑‍🚀')">🧑‍🚀</button><button class="av" data-a="🪐" onclick="selAvatar('🪐')">🪐</button><button class="av" data-a="⚡" onclick="selAvatar('⚡')">⚡</button><button class="av" data-a="🏆" onclick="selAvatar('🏆')">🏆</button></div></section>
+
+<section class="panel"><div class="progressline"><span id="phaseLabel">Preparación</span><span id="pct">0%</span></div><div class="prog"><div id="bar"></div></div></section>
+<main id="app"></main>
+
+<footer><div class="ey">AUTOR</div><h3>Luis Alberto Antonio Narciso</h3><p>Ingeniero en Electrónica por la UAM y con estudios de Maestría en Ciencias en la UNA. Profesional de Quality Assurance, automatización de pruebas y tecnología educativa, con experiencia como tester en proyectos vinculados con Google y Ford. Desarrolla experiencias web interactivas orientadas al aprendizaje y al acceso a herramientas digitales.</p><p><em>“Recurso diseñado y desarrollado por Luis Alberto Antonio Narciso”.</em></p><a href="https://narciso1516.github.io/narcisotesting.com/" target="_blank" rel="noopener noreferrer">Conocer al autor</a><p>© <span id="year"></span> Luis Alberto Antonio Narciso</p></footer>
+</div>
+<script>
+year.textContent=new Date().getFullYear();const app=document.getElementById("app");
+let studentName=localStorage.getItem("radarStudentName")||"",avatar=localStorage.getItem("radarStudentAvatar")||"🚀";
+function who(){return studentName.trim()||"Explorador/a"}function sync(){nameDisplay.textContent=who();avatarBox.textContent=avatar;nameInput.value=studentName;document.querySelectorAll(".av").forEach(b=>b.classList.toggle("sel",b.dataset.a===avatar))}
+function saveProfile(){studentName=nameInput.value.trim().slice(0,24);localStorage.setItem("radarStudentName",studentName);sync()}function selAvatar(a){avatar=a;localStorage.setItem("radarStudentAvatar",a);sync()}
+function shell(tag,title,exp,inst,body){app.innerHTML=`<section class="panel"><span class="tag">${tag}</span><h2>${title}</h2>${exp?`<div class="explain">${exp}</div>`:""}${inst?`<div class="inst">${inst}</div>`:""}${body}</section>`}
+function prog(n,label){bar.style.width=n+"%";pct.textContent=n+"%";phaseLabel.textContent=label}
+const bank=[
+{w:"reloj",correct:"reloj",type:"aguda",accent:0},{w:"camion",correct:"camión",type:"aguda",accent:1},{w:"arbol",correct:"árbol",type:"grave",accent:1},
+{w:"joven",correct:"joven",type:"grave",accent:0},{w:"musica",correct:"música",type:"esdrújula",accent:1},{w:"sofa",correct:"sofá",type:"aguda",accent:1},
+{w:"papel",correct:"papel",type:"aguda",accent:0},{w:"telefono",correct:"teléfono",type:"esdrújula",accent:1},{w:"compas",correct:"compás",type:"aguda",accent:1},
+{w:"sabado",correct:"sábado",type:"esdrújula",accent:1},{w:"lapiz",correct:"lápiz",type:"grave",accent:1},{w:"doctor",correct:"doctor",type:"aguda",accent:0},
+{w:"ventana",correct:"ventana",type:"grave",accent:0},{w:"brujula",correct:"brújula",type:"esdrújula",accent:1},{w:"corazon",correct:"corazón",type:"aguda",accent:1},
+{w:"examen",correct:"examen",type:"grave",accent:0},{w:"numero",correct:"número",type:"esdrújula",accent:1},{w:"facil",correct:"fácil",type:"grave",accent:1},
+{w:"comedor",correct:"comedor",type:"aguda",accent:0},{w:"medico",correct:"médico",type:"esdrújula",accent:1}
+];
+let qset=[...bank].sort(()=>Math.random()-.5).slice(0,16),i=0,score=0,points=0,streak=0,bestStreak=0,totalTime=0,startTime=0,timer=null,timeLeft=12,errors=[];
+function render(){if(i===0&&score===0&&points===0&&totalTime===0)return intro();if(i<qset.length)return question();finish()}
+function intro(){prog(0,"Preparación");shell("MISIÓN FINAL","¿Listo para entrar en órbita?","Tendrás 16 retos aleatorios. Algunas preguntas pedirán clasificar, otras decidir si lleva tilde, otras elegir la escritura correcta o tocar dónde va la tilde.","Cada reto tiene 12 segundos. Una sola respuesta por reto.",`<div class="hint">🏆 Para completar el nivel necesitas <b>80 % de precisión</b>. La velocidad mejora tu puntuación, pero la precisión vale más.</div><div class="actions"><button class="btn star" onclick="i=0;score=0;points=0;streak=0;bestStreak=0;totalTime=0;startMission()">Iniciar misión ⚡</button></div>`)}
+function startMission(){question()}
+function startClock(){clearInterval(timer);timeLeft=12;startTime=Date.now();timer=setInterval(()=>{timeLeft--;let t=document.getElementById("tm"),sb=document.getElementById("speed");if(t)t.textContent=timeLeft+" s";if(sb)sb.style.width=(timeLeft/12*100)+"%";if(timeLeft<=0){clearInterval(timer);timeoutAnswer()}},1000)}
+function question(){
+ if(i>=qset.length)return finish();
+ let q=qset[i],mode=i%4;prog(Math.round(i/qset.length*100),"Reto "+(i+1)+" de "+qset.length);
+ if(mode===0)return modeAccent(q);
+ if(mode===1)return modeClass(q);
+ if(mode===2)return modeCorrect(q);
+ modeHotspot(q);
+}
+function commonTop(q){return `<div id="tm" class="timer">12 s</div><div class="speedbar"><div id="speed" style="width:100%"></div></div><div class="word">${q.w}</div>`}
+function modeAccent(q){shell("RETO · DECISIÓN","¿Lleva tilde?","Sin pistas.","Responde antes de que termine el tiempo.",`${commonTop(q)}<div class="opts"><button class="choice" onclick="answer(${q.accent===0},this)">NO LLEVA</button><button class="choice" onclick="answer(${q.accent===1},this)">SÍ LLEVA</button></div><div id="fb" class="feedback"></div>`);startClock()}
+function modeClass(q){let types=["aguda","grave","esdrújula","sobresdrújula"].sort(()=>Math.random()-.5);shell("RETO · CLASIFICA","¿Qué tipo de palabra es?","Recupera mentalmente la sílaba tónica y su posición.","Selecciona la clasificación.",`${commonTop(q)}<div class="quick-grid">${types.map(t=>`<button class="quick-btn" onclick="answer('${t}'==='${q.type}',this)">${t.toUpperCase()}</button>`).join("")}</div><div id="fb" class="feedback"></div>`);startClock()}
+function modeCorrect(q){let wrong=q.correct===q.w?fake(q.w):q.w;let opts=[q.correct,wrong].sort(()=>Math.random()-.5);shell("RETO · ESCRITURA","Elige la forma correcta","Solo una está bien escrita.","Selecciona.",`${commonTop(q)}<div class="opts">${opts.map(x=>`<button class="choice" onclick="answer('${esc(x)}'==='${esc(q.correct)}',this)">${x}</button>`).join("")}</div><div id="fb" class="feedback"></div>`);startClock()}
+function modeHotspot(q){
+ if(!q.accent)return modeAccent(q);
+ let plain=q.w,accented=q.correct,baseTarget=accented.normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+ let idx=-1;for(let k=0;k<accented.length;k++){if(accented[k].normalize("NFD").length>1){idx=k;break}}
+ if(idx<0){let accentedChars=[...accented];for(let k=0;k<accentedChars.length;k++){if(accentedChars[k]!==accentedChars[k].normalize("NFD").replace(/[\u0300-\u036f]/g,"")){idx=k;break}}}
+ if(idx<0){idx=0}
+ shell("RETO · HOTSPOT","¿Dónde va la tilde?","Toca la letra correcta.","Una sola oportunidad.",`${commonTop(q)}<div class="hotrow">${[...plain].map((c,k)=>`<button class="hot" onclick="answer(${k===idx},this)">${c}</button>`).join("")}</div><div id="fb" class="feedback"></div>`);startClock()
+}
+function esc(s){return s.replace(/'/g,"\\'")}
+function fake(s){let m={a:"á",e:"é",i:"í",o:"ó",u:"ú"};for(let j=0;j<s.length;j++)if(m[s[j]])return s.slice(0,j)+m[s[j]]+s.slice(j+1);return s+"´"}
+function answer(ok,el){clearInterval(timer);let elapsed=(Date.now()-startTime)/1000;totalTime+=elapsed;document.querySelectorAll(".choice,.quick-btn,.hot").forEach(b=>b.disabled=true);if(ok){score++;streak++;bestStreak=Math.max(bestStreak,streak);let bonus=Math.max(0,12-Math.floor(elapsed));points+=10+bonus;el?.classList.add("good");fb.className="feedback ok";fb.textContent=`✓ Correcto · +${10+bonus} puntos`}else{streak=0;errors.push(qset[i].correct);el?.classList.add("dead");fb.className="feedback no";fb.textContent=`Incorrecto. Forma correcta: ${qset[i].correct}`;}setTimeout(()=>{i++;question()},650)}
+function timeoutAnswer(){streak=0;errors.push(qset[i].correct);let f=document.getElementById("fb");if(f){f.className="feedback no";f.textContent=`Tiempo agotado. Correcta: ${qset[i].correct}`}setTimeout(()=>{i++;question()},700)}
+function finish(){clearInterval(timer);prog(100,"Misión completada");let pctScore=Math.round(score/qset.length*100),avg=totalTime?Math.round(totalTime/qset.length*10)/10:0,passed=pctScore>=80;let rank=pctScore>=95?"COMANDANTE ORTOGRÁFICO":pctScore>=80?"PILOTO DE ACENTOS":pctScore>=65?"CADETE EN ENTRENAMIENTO":"REQUIERE REFUERZO";shell(passed?"🏆 MISIÓN COMPLETADA":"🪐 MISIÓN DE REFUERZO",passed?`${who()}, completaste la órbita`:`${who()}, todavía podemos mejorar`,passed?"Has demostrado dominio de la ruta completa: escuchar, separar, localizar la tónica, contar, clasificar y aplicar la tilde.":"La velocidad no es el problema principal: primero necesitamos mejorar la precisión.","",`<div class="identity"><div class="avatar">${avatar}</div><div><div class="rank">${rank}</div><div class="muted">${who()} · Reporte final de 5.º primaria</div></div></div><div class="stats" style="margin-top:14px"><div class="stat"><strong>${score}/${qset.length}</strong>Aciertos</div><div class="stat"><strong>${pctScore}%</strong>Precisión</div><div class="stat"><strong>${avg}s</strong>Tiempo medio</div><div class="stat"><strong>${bestStreak}</strong>Mejor racha</div></div><div class="stats" style="margin-top:10px"><div class="stat"><strong>${points}</strong>Puntos</div><div class="stat"><strong>${errors.length}</strong>Errores</div><div class="stat"><strong>${passed?"SÍ":"NO"}</strong>Ruta dominada</div><div class="stat"><strong>5.º</strong>Grado</div></div><div class="feedback ${passed?"ok":"info"}">${passed?"✓ Superaste el 80 %. Ruta de acentuación de 5.º completada.":"Repite el reto después de repasar las palabras que fallaste."}</div>${errors.length?`<div class="hint">Palabras para revisar: <b>${[...new Set(errors)].join(", ")}</b></div>`:""}<div class="actions"><button class="btn secondary" onclick="qset=[...bank].sort(()=>Math.random()-.5).slice(0,16);i=0;score=0;points=0;streak=0;bestStreak=0;totalTime=0;errors=[];question()">↻ Nuevo reto aleatorio</button></div>`)}
+sync();render();
+</script>
+</body>
+</html>
