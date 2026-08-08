@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nivel 5 · Central de Clasificación · 4.º primaria</title>
+<style>
+:root{
+ --navy:#7F5A4D;--purple:#F490B9;--lilac:#FFD4E5;--aqua:#BEE4E7;
+ --green:#95C7C2;--yellow:#F7CCAD;--coral:#F49F51;--cream:#FFF8F3;
+ --homebody:#F49F51;--tequila:#FFD4E5;--spring:#BEE4E7;--tropical:#95C7C2;--flamingo:#F490B9;--florence:#F7CCAD;
+ --paper:#fff;--ink:#293345;--muted:#6B7482;--line:#E4E2E6;--bad:#B65B66;
+ --shadow:0 14px 34px rgba(38,59,87,.10)
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(180deg,#FFF8F3,#FDF3F6);color:var(--ink)}
+button,input{font:inherit}.wrap{max-width:1050px;margin:auto;padding:14px 13px 55px}
+.hero{padding:clamp(24px,5vw,44px);border-radius:28px;color:#fff;background:linear-gradient(135deg,#D975A2,var(--flamingo));box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero:after{content:"A · G · E · S";position:absolute;right:-12px;bottom:-30px;font-size:clamp(3rem,11vw,7.5rem);font-weight:1000;color:#ffffff0b}
+.badge,.tag{display:inline-block;padding:8px 12px;border-radius:999px;font-size:.8rem;font-weight:950;letter-spacing:.06em}
+.badge{background:var(--yellow);color:#574410}.hero h1{font-size:clamp(2.05rem,7vw,3.8rem);line-height:1;margin:14px 0 8px}.hero p{max-width:790px;color:#FFF8FC;line-height:1.58}
+.hero-grid,.route,.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.hero-grid{margin-top:17px}.hero-mini{background:#ffffff12;border:1px solid #ffffff1f;border-radius:15px;padding:13px}.hero-mini strong{display:block;color:var(--yellow);font-size:.78rem}
+.panel,.profile{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:clamp(18px,4vw,29px);box-shadow:var(--shadow);margin-top:18px}
+.profile-head{display:flex;justify-content:space-between;align-items:center;gap:13px;flex-wrap:wrap}.identity{display:flex;align-items:center;gap:13px}.avatar{width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,var(--lilac),#E3F5F1);display:grid;place-items:center;font-size:2rem}.name{font-size:1.18rem;font-weight:950}.muted{color:var(--muted)}
+.profile-form{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:14px}.profile-form input{padding:13px;border:2px solid var(--line);border-radius:14px;outline:none}.avatars{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}.av{width:46px;height:46px;border:2px solid var(--line);border-radius:13px;background:#fff;font-size:1.4rem;cursor:pointer}.av.sel{border-color:var(--flamingo);background:#F0ECF8}
+.route{grid-template-columns:repeat(3,1fr)}.route-step{padding:13px;border-radius:15px;border:1px solid var(--line);background:#F8F8FA;font-weight:900}.route-step.active{background:var(--tequila);border-color:var(--flamingo)}.route-step.done{background:#E7F4F2;border-color:var(--green)}
+.progressline{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;font-weight:850;margin:15px 0 7px}.progress{height:12px;background:#F2E8EB;border-radius:99px;overflow:hidden}.progress div{height:100%;width:0;background:linear-gradient(90deg,var(--flamingo),var(--homebody),var(--tropical));transition:.35s}
+.tag{background:var(--tequila);color:#564A79}h2{font-size:clamp(1.45rem,4vw,2.15rem);margin:13px 0 8px}.explain{padding:14px 16px;border-radius:14px;background:var(--florence);border-left:5px solid var(--homebody);line-height:1.55}.instruction{margin:14px 0;padding:14px 16px;border-radius:15px;background:#EAF7F8;border:2px solid var(--spring);font-weight:900}.hint{background:#FFF0F6;padding:12px 14px;border-radius:14px;margin-top:12px;color:#51486C}
+.rule-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:19px 0}.rule{padding:16px 12px;border-radius:18px;border:2px solid var(--line);text-align:center;background:#fff}.rule strong{display:block;font-size:1.12rem;margin-bottom:6px}.rule:nth-child(1){border-color:var(--coral);background:#FFF0E7}.rule:nth-child(2){border-color:var(--aqua);background:#EAF7F7}.rule:nth-child(3){border-color:var(--flamingo);background:#FFF0F6}.rule:nth-child(4){border-color:var(--green);background:#EAF5F3}
+.word{text-align:center;font-size:clamp(2rem,8vw,4.15rem);font-weight:950;margin:20px 0}.breakdown{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:18px 0}.syl{min-width:78px;padding:15px 12px;border:2px solid var(--line);border-radius:17px;text-align:center;font-weight:950;font-size:clamp(1.15rem,4vw,1.65rem);background:#fff}.syl.tonic{background:#FFF0E9;border-color:var(--coral);transform:translateY(-3px)}.syl small{display:block;font-size:.68rem;color:var(--muted);margin-top:5px}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-top:18px}.choice{padding:18px;border:2px solid var(--line);border-radius:17px;background:#fff;font-weight:950;cursor:pointer}.choice:hover{border-color:var(--flamingo);transform:translateY(-1px)}.choice.dead{opacity:.34;pointer-events:none}.choice.good{background:#EBF4E4;border-color:var(--green)}
+.btn{border:0;border-radius:14px;padding:13px 17px;font-weight:950;cursor:pointer}.primary{background:var(--homebody);color:#fff}.listen{background:var(--spring);color:#214749}.secondary{background:#F0EEF2;color:var(--ink)}.next{background:var(--tropical);color:#214845}.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:15px}
+.feedback{min-height:55px;padding:13px;margin-top:14px;border-radius:14px;text-align:center;font-weight:850;display:flex;align-items:center;justify-content:center}.feedback.ok{background:#E7F4F2;color:#3F5F2D}.feedback.no{background:#FBECEE;color:#813B46}.feedback.info{background:#FFF1D3;color:#59471D}
+.stat{padding:15px;text-align:center;border:1px solid var(--line);border-radius:15px;background:#F8F8FA}.stat strong{display:block;font-size:1.45rem}
+footer{margin-top:29px;background:#9C6553;color:#FFF9F5;border-top:5px solid var(--flamingo);border-radius:24px;padding:25px;box-shadow:var(--shadow)}footer .ey{color:var(--yellow);font-size:.78rem;font-weight:950;letter-spacing:.1em}footer h3{margin:7px 0}footer p{color:#FFF0EA;line-height:1.5;max-width:840px}footer a{display:inline-block;background:var(--florence);color:#6D421F;text-decoration:none;font-weight:950;padding:11px 15px;border-radius:12px}.copy{font-size:.82rem;color:#F3DCD4;margin-top:12px}
+@media(max-width:720px){.hero-grid,.rule-grid,.stats{grid-template-columns:repeat(2,1fr)}.route,.profile-form,.options{grid-template-columns:1fr}.wrap{padding:9px}}
+@media(max-width:440px){.hero-grid,.rule-grid,.stats{grid-template-columns:1fr}}
+
+/* ===== Explorador interactivo: por qué se clasifican así ===== */
+.classify-explorer{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:24px;
+  padding:clamp(18px,4vw,29px);
+  box-shadow:var(--shadow);
+  margin-top:18px;
+}
+.classify-explorer__head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap
+}
+.classify-explorer__head h2{margin:7px 0 5px}
+.classify-explorer__intro{
+  margin-top:14px;padding:15px 16px;border-radius:16px;
+  background:var(--florence);border-left:5px solid var(--homebody);line-height:1.55
+}
+.classify-path{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0
+}
+.classify-path__step{
+  min-height:94px;padding:13px;border:2px solid var(--line);border-radius:17px;background:#fff;text-align:center
+}
+.classify-path__step b{display:block;margin-bottom:5px;font-size:.86rem}
+.classify-path__step:nth-child(1){background:#FFF0E7;border-color:var(--homebody)}
+.classify-path__step:nth-child(2){background:#EAF7F8;border-color:var(--spring)}
+.classify-path__step:nth-child(3){background:#FFF0F6;border-color:var(--flamingo)}
+.classify-path__step:nth-child(4){background:#EAF5F3;border-color:var(--tropical)}
+.word-lab{
+  margin-top:16px;padding:18px;border:2px solid var(--line);border-radius:20px;
+  background:linear-gradient(180deg,#FFFDFB,#FFF8F7)
+}
+.word-lab__buttons{
+  display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-bottom:18px
+}
+.word-lab__btn{
+  border:2px solid var(--line);background:#fff;color:var(--ink);border-radius:14px;
+  padding:11px 14px;font-weight:950;cursor:pointer;transition:.16s
+}
+.word-lab__btn:hover{transform:translateY(-2px);border-color:var(--flamingo)}
+.word-lab__btn.active{background:var(--tequila);border-color:var(--flamingo)}
+.word-lab__word{text-align:center;font-size:clamp(2rem,7vw,3.7rem);font-weight:950;margin:10px 0 16px}
+.word-lab__syllables{display:flex;justify-content:center;flex-wrap:wrap;gap:9px;margin:14px 0}
+.word-lab__syl{
+  min-width:82px;padding:14px 12px;border:2px solid var(--line);border-radius:16px;background:#fff;
+  text-align:center;font-size:clamp(1.15rem,4vw,1.7rem);font-weight:950;transition:.2s
+}
+.word-lab__syl.tonic{
+  background:#FFF0E7;border-color:var(--homebody);transform:translateY(-3px) scale(1.04)
+}
+.word-lab__syl small{display:block;font-size:.68rem;color:var(--muted);margin-top:5px}
+.word-lab__reason{
+  margin-top:15px;padding:14px 16px;border-radius:16px;background:#EAF7F8;border:2px solid var(--spring);
+  text-align:center;font-weight:800;line-height:1.5
+}
+.word-lab__result{
+  display:inline-block;margin-top:8px;padding:7px 12px;border-radius:999px;background:var(--tropical);
+  color:#214845;font-weight:950
+}
+.word-lab__nav{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:14px}
+.word-lab__nav button{
+  border:0;border-radius:13px;padding:11px 14px;font-weight:950;cursor:pointer
+}
+.word-lab__prev{background:#F0EEF2;color:var(--ink)}
+.word-lab__next{background:var(--homebody);color:#fff}
+@media(max-width:720px){
+  .classify-path{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:440px){
+  .classify-path{grid-template-columns:1fr}
+}
+
+
+/* ===== Tablero fijo de posiciones desde el final ===== */
+.fixed-position-board{
+  margin:18px 0 10px;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  align-items:stretch;
+}
+.fixed-position-slot{
+  min-height:132px;
+  border:2px solid var(--line);
+  border-radius:18px;
+  background:#fff;
+  padding:12px 10px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  text-align:center;
+  position:relative;
+  transition:.2s ease;
+}
+.fixed-position-slot__number{
+  display:inline-grid;
+  place-items:center;
+  width:30px;height:30px;
+  margin:0 auto 5px;
+  border-radius:50%;
+  background:#F3F0F2;
+  color:var(--muted);
+  font-size:.76rem;
+  font-weight:950;
+}
+.fixed-position-slot__label{
+  font-size:.76rem;
+  font-weight:950;
+  letter-spacing:.04em;
+  color:var(--muted);
+  min-height:32px;
+}
+.fixed-position-slot__syllable{
+  min-height:54px;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  background:#FAF9FA;
+  border:1px dashed var(--line);
+  font-size:clamp(1.25rem,4vw,1.9rem);
+  font-weight:950;
+  margin-top:8px;
+}
+.fixed-position-slot.is-tonic{
+  border-color:var(--homebody);
+  background:#FFF2EA;
+  transform:translateY(-3px);
+  box-shadow:0 8px 18px rgba(244,159,81,.13);
+}
+.fixed-position-slot.is-tonic .fixed-position-slot__syllable{
+  background:#FFF0E7;
+  border:2px solid var(--homebody);
+  color:#8B4D1F;
+}
+.fixed-position-slot.is-tonic:after{
+  content:"SÍLABA TÓNICA";
+  position:absolute;
+  top:-10px;left:50%;
+  transform:translateX(-50%);
+  padding:4px 8px;
+  border-radius:999px;
+  background:var(--homebody);
+  color:white;
+  font-size:.58rem;
+  font-weight:950;
+  white-space:nowrap;
+}
+.fixed-position-slot.is-empty{opacity:.45}
+.fixed-position-legend{
+  margin-top:8px;
+  padding:11px 13px;
+  border-radius:14px;
+  background:#FFF0F6;
+  color:#63475A;
+  font-size:.86rem;
+  text-align:center;
+  line-height:1.45;
+}
+@media(max-width:720px){
+  .fixed-position-board{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:440px){
+  .fixed-position-board{grid-template-columns:1fr}
+}
+
+</style></head>
+<body><div class="wrap">
+<section class="hero"><span class="badge">4.º DE PRIMARIA · NIVEL 5</span><h1>🧠 CENTRAL DE CLASIFICACIÓN</h1><p>Ahora unimos lo aprendido: encuentra la sílaba tónica, mira su posición y clasifica la palabra. Primero dominaremos agudas, graves y esdrújulas; las sobresdrújulas aparecerán como reto extra.</p><div class="hero-grid"><div class="hero-mini"><strong>ÚLTIMA</strong>AGUDA</div><div class="hero-mini"><strong>PENÚLTIMA</strong>GRAVE</div><div class="hero-mini"><strong>ANTEPENÚLTIMA</strong>ESDRÚJULA</div><div class="hero-mini"><strong>ANTES</strong>SOBRESDRÚJULA</div></div></section>
+
+<section class="profile"><div class="profile-head"><div class="identity"><div id="avatarBox" class="avatar">🦊</div><div><div id="nameDisplay" class="name">Explorador/a</div><div class="muted">Analista de palabras</div></div></div><span class="tag">TU IDENTIDAD</span></div><div class="profile-form"><input id="nameInput" maxlength="24" placeholder="Escribe tu nombre"><button class="btn primary" onclick="saveProfile()">Guardar</button></div><div class="avatars"><button class="av sel" data-a="🦊" onclick="selAvatar('🦊')">🦊</button><button class="av" data-a="🧠" onclick="selAvatar('🧠')">🧠</button><button class="av" data-a="🔬" onclick="selAvatar('🔬')">🔬</button><button class="av" data-a="🦉" onclick="selAvatar('🦉')">🦉</button><button class="av" data-a="⚙️" onclick="selAvatar('⚙️')">⚙️</button></div></section>
+
+<section class="panel"><div class="route"><div id="r0" class="route-step active">1 · CONECTA</div><div id="r1" class="route-step">2 · CLASIFICA</div><div id="r2" class="route-step">3 · COMPRUEBA</div></div><div class="progressline"><span id="phaseLabel">Guía</span><span id="pct">0%</span></div><div class="progress"><div id="bar"></div></div></section>
+
+<section class="classify-explorer" aria-labelledby="why-title">
+  <div class="classify-explorer__head">
+    <div>
+      <span class="tag">ANTES DE CLASIFICAR</span>
+      <h2 id="why-title">¿Por qué una palabra es aguda, grave, esdrújula o sobresdrújula?</h2>
+      <div class="muted">No se clasifica por “cómo se ve” ni solamente por tener tilde. Se clasifica por la posición de su sílaba tónica.</div>
+    </div>
+  </div>
+
+  <div class="classify-explorer__intro">
+    Sigue siempre esta ruta: primero <b>separa la palabra</b>, después encuentra la <b>sílaba tónica</b>,
+    luego <b>cuenta desde el final</b> y finalmente coloca el nombre de la clasificación.
+  </div>
+
+  <div class="classify-path" aria-label="Ruta para clasificar palabras">
+    <div class="classify-path__step"><b>1 · SEPARA</b>Divide la palabra en sílabas.</div>
+    <div class="classify-path__step"><b>2 · ESCUCHA</b>Encuentra la sílaba que suena más fuerte.</div>
+    <div class="classify-path__step"><b>3 · CUENTA</b>Cuenta su posición desde el final.</div>
+    <div class="classify-path__step"><b>4 · CLASIFICA</b>Última = aguda · penúltima = grave · antepenúltima = esdrújula.</div>
+  </div>
+
+  <div class="word-lab">
+    <div class="instruction">Toca una palabra. Observa paso a paso por qué recibe esa clasificación.</div>
+    <div id="whyWordButtons" class="word-lab__buttons"></div>
+    <div id="whyWord" class="word-lab__word"></div>
+    <div id="whySyllables" class="fixed-position-board" aria-label="Posiciones fijas desde el final"></div>
+    <div class="fixed-position-legend">
+      Estas posiciones <b>no cambian</b>: siempre contamos desde el final de la palabra.
+      La sílaba que ocupe cada casilla sí cambia según la palabra.
+    </div>
+    <div id="whyReason" class="word-lab__reason"></div>
+    <div class="word-lab__nav">
+      <button type="button" class="word-lab__prev" onclick="whyPrev()">← Anterior</button>
+      <button type="button" class="word-lab__next" onclick="whyNext()">Siguiente palabra →</button>
+    </div>
+  </div>
+</section>
+
+<main id="app"></main>
+
+<footer><div class="ey">AUTOR</div><h3>Luis Alberto Antonio Narciso</h3><p>Ingeniero en Electrónica por la UAM y con estudios de Maestría en Ciencias en la UNA. Profesional de Quality Assurance, automatización de pruebas y tecnología educativa, con experiencia como tester en proyectos vinculados con Google y Ford. Desarrolla experiencias web interactivas orientadas al aprendizaje y al acceso a herramientas digitales.</p><p><em>“Recurso diseñado y desarrollado por Luis Alberto Antonio Narciso”.</em></p><a href="https://narciso1516.github.io/narcisotesting.com/" target="_blank" rel="noopener noreferrer">Conocer al autor</a><div class="copy">© <span id="year"></span> Luis Alberto Antonio Narciso</div></footer>
+</div>
+<script>
+year.textContent=new Date().getFullYear();
+let studentName=localStorage.getItem("radarStudentName")||"",avatar=localStorage.getItem("radarStudentAvatar")||"🦊";
+function who(){return studentName.trim()||"Explorador/a"}function sync(){nameDisplay.textContent=who();avatarBox.textContent=avatar;nameInput.value=studentName;document.querySelectorAll(".av").forEach(b=>b.classList.toggle("sel",b.dataset.a===avatar))}
+function saveProfile(){studentName=nameInput.value.trim().slice(0,24);localStorage.setItem("radarStudentName",studentName);sync()}function selAvatar(a){avatar=a;localStorage.setItem("radarStudentAvatar",a);sync()}
+function speak(t){if(!("speechSynthesis"in window))return;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang="es-MX";u.rate=.72;speechSynthesis.speak(u)}
+const app=document.getElementById("app");
+function shell(tag,title,exp,inst,body){app.innerHTML=`<section class="panel"><span class="tag">${tag}</span><h2>${title}</h2>${exp?`<div class="explain">${exp}</div>`:""}${inst?`<div class="instruction">${inst}</div>`:""}${body}</section>`}
+function prog(n,label,r){bar.style.width=n+"%";pct.textContent=n+"%";phaseLabel.textContent=label;[0,1,2].forEach(i=>{let e=document.getElementById("r"+i);e.className="route-step";if(i<r)e.classList.add("done");if(i===r)e.classList.add("active")})}
+const data={
+guide:[
+{w:"reloj",s:["re","loj"],a:1,t:"aguda"},{w:"camino",s:["ca","mi","no"],a:1,t:"grave"},{w:"música",s:["mú","si","ca"],a:0,t:"esdrújula"},{w:"corazón",s:["co","ra","zón"],a:2,t:"aguda"},{w:"teléfono",s:["te","lé","fo","no"],a:1,t:"esdrújula"},{w:"cuaderno",s:["cua","der","no"],a:1,t:"grave"}
+],
+train:[
+{w:"doctor",s:["doc","tor"],a:1,t:"aguda"},{w:"pelota",s:["pe","lo","ta"],a:1,t:"grave"},{w:"sábado",s:["sá","ba","do"],a:0,t:"esdrújula"},{w:"animal",s:["a","ni","mal"],a:2,t:"aguda"},{w:"ventana",s:["ven","ta","na"],a:1,t:"grave"},{w:"médico",s:["mé","di","co"],a:0,t:"esdrújula"},{w:"camisa",s:["ca","mi","sa"],a:1,t:"grave"},{w:"canción",s:["can","ción"],a:1,t:"aguda"},{w:"pájaro",s:["pá","ja","ro"],a:0,t:"esdrújula"},{w:"zapato",s:["za","pa","to"],a:1,t:"grave"},{w:"dígamelo",s:["dí","ga","me","lo"],a:0,t:"sobresdrújula"}
+],
+test:[
+{w:"limón",s:["li","món"],a:1,t:"aguda"},{w:"árbol",s:["ár","bol"],a:0,t:"grave"},{w:"mariposa",s:["ma","ri","po","sa"],a:2,t:"grave"},{w:"hospital",s:["hos","pi","tal"],a:2,t:"aguda"},{w:"escuela",s:["es","cue","la"],a:1,t:"grave"},{w:"brújula",s:["brú","ju","la"],a:0,t:"esdrújula"},{w:"comedor",s:["co","me","dor"],a:2,t:"aguda"},{w:"tomate",s:["to","ma","te"],a:1,t:"grave"},{w:"número",s:["nú","me","ro"],a:0,t:"esdrújula"},{w:"cuéntamelo",s:["cuén","ta","me","lo"],a:0,t:"sobresdrújula"}
+]};
+function pos(q){return q.s.length-q.a}function posName(n){return n===1?"última":n===2?"penúltima":n===3?"antepenúltima":"antes de la antepenúltima"}
+function typeFromPos(n){return n===1?"aguda":n===2?"grave":n===3?"esdrújula":"sobresdrújula"}
+let phase=0,index=0,tries=0,attempts=0,first=0,errors=[],score=0;
+function render(){if(phase===0)return intro();if(phase===1)return guide();if(phase===2)return train();if(phase===3)return test();finish()}
+function rules(){return `<div class="rule-grid"><div class="rule"><strong>AGUDA</strong>Tónica en la <b>última</b></div><div class="rule"><strong>GRAVE</strong>Tónica en la <b>penúltima</b></div><div class="rule"><strong>ESDRÚJULA</strong>Tónica en la <b>antepenúltima</b></div><div class="rule"><strong>SOBRESDRÚJULA</strong>Tónica <b>antes</b> de la antepenúltima</div></div>`}
+function tonic(q,details=true){return `<div class="breakdown">${q.s.map((x,i)=>{let p=q.s.length-i;return `<div class="syl ${i===q.a?"tonic":""}">${i===q.a?x.toUpperCase():x}${details?`<small>${p} · ${posName(p)}</small>`:""}</div>`}).join("")}</div>`}
+function intro(){prog(3,"Conecta · Regla nueva",0);shell("DESCUBRE LA CONEXIÓN","La posición ahora tiene un nombre","En el Nivel 4 aprendiste a contar la posición de la sílaba tónica desde el final. Ahora esa posición nos permitirá <b>clasificar</b> la palabra.","No memorices cuatro definiciones aisladas. Sigue la ruta: <b>tónica → posición → clasificación</b>.",`${rules()}<div class="word">co · ra · <span style="color:var(--coral)">ZÓN</span></div><div class="hint"><b>ZÓN</b> está en la última posición → la palabra <b>corazón es AGUDA</b>.</div><div class="actions"><button class="btn next" onclick="phase=1;index=0;render()">Conectar lo aprendido →</button></div>`)}
+function guide(){let arr=data.guide;if(index>=arr.length){phase=2;index=0;tries=0;return render()}let q=arr[index];prog(8+index*4,"Guía · Conecta",0);shell("GUÍA CON AYUDA",`${index+1} · ${q.w}`,"La sílaba tónica y su posición están visibles. Solo falta convertir esa posición en una clasificación.","Observa la tónica, mira su posición y elige el tipo de palabra.",`<div class="word">${q.w}</div>${tonic(q,true)}${choices(q,"guide")}<div id="fb" class="feedback"></div>`)}
+function choices(q,mode){let types=["aguda","grave","esdrújula","sobresdrújula"];return `<div class="options">${types.map(t=>`<button class="choice" onclick="${mode==="guide"?`answerGuide('${t}',this)`:mode==="train"?`answerTrain('${t}',this)`:`answerTest('${t}',this)`}">${t.toUpperCase()}</button>`).join("")}</div>`}
+function answerGuide(t,el){let q=data.guide[index],fb=document.getElementById("fb");attempts++;tries++;if(t===q.t){el.classList.add("good");fb.className="feedback ok";fb.textContent=`Correcto: tónica en la ${posName(pos(q))} → ${q.t.toUpperCase()}.`;setTimeout(()=>{index++;tries=0;render()},700)}else{el.classList.add("dead");fb.className="feedback no";fb.textContent=`No todavía. La tónica está en la ${posName(pos(q))}. Busca qué clasificación corresponde.`}}
+function train(){let arr=data.train;if(index>=arr.length){phase=3;index=0;tries=0;return render()}let q=arr[index],m=index%3;prog(35+Math.round(index/arr.length*35),"Clasifica · Entrenamiento",1);if(m===0)return fullHelp(q);if(m===1)return reducedHelp(q);wordOnly(q)}
+function fullHelp(q){shell("RUTA COMPLETA",`${index+1} · ${q.w}`,"Primero usa toda la información disponible.","Tónica → posición → clasificación.",`<div class="word">${q.w}</div>${tonic(q,true)}${choices(q,"train")}<div id="fb" class="feedback"></div>`)}
+function reducedHelp(q){shell("MENOS PISTAS",`${index+1} · ${q.w}`,"La sílaba tónica está marcada, pero tú debes recordar su posición.","Cuenta desde el final y clasifica.",`<div class="word">${q.w}</div>${tonic(q,false)}<div class="actions"><button class="btn listen" onclick="speak('${q.w}')">🔊 Escuchar</button></div>${choices(q,"train")}<div id="fb" class="feedback"></div>`)}
+function wordOnly(q){shell("CLASIFICA SOLO/A",`${index+1} · ${q.w}`,"Ahora desaparecen la separación y la posición. Recupera mentalmente los pasos de los niveles anteriores.","Escucha si lo necesitas y clasifica la palabra.",`<div class="word">${q.w}</div><div class="actions"><button class="btn listen" onclick="speak('${q.w}')">🔊 Escuchar</button></div>${choices(q,"train")}<div id="fb" class="feedback"></div>`)}
+function answerTrain(t,el){let q=data.train[index],fb=document.getElementById("fb");attempts++;tries++;if(t===q.t){if(tries===1)first++;el.classList.add("good");fb.className="feedback ok";fb.textContent=`✓ ${q.w} es ${q.t.toUpperCase()}. Tónica en la ${posName(pos(q))}.`;setTimeout(()=>{index++;tries=0;render()},700)}else{if(tries===1)errors.push(q.w);el.classList.add("dead");fb.className="feedback no";fb.textContent="Esa clasificación queda descartada. Vuelve a pensar: ¿dónde está la tónica contando desde el final?"}}
+function test(){let arr=data.test;if(index>=arr.length){phase=4;return render()}let q=arr[index];prog(74+index*2.4,"Comprueba · Sin pistas",2);shell("COMPROBACIÓN",`${index+1} de ${arr.length} · ${q.w}`,"Una sola oportunidad. Aquí se combinan los aprendizajes de los niveles anteriores.","Clasifica la palabra. No mostramos la sílaba tónica ni su posición.",`<div class="word">${q.w}</div><div class="actions"><button class="btn listen" onclick="speak('${q.w}')">🔊 Escuchar</button></div>${choices(q,"test")}<div id="fb" class="feedback"></div>`)}
+function answerTest(t,el){let q=data.test[index],fb=document.getElementById("fb");attempts++;document.querySelectorAll(".choice").forEach(b=>b.disabled=true);if(t===q.t){score++;el.classList.add("good");fb.className="feedback ok";fb.textContent="Correcto."}else{fb.className="feedback no";fb.textContent=`Es ${q.t.toUpperCase()}: la tónica está en la ${posName(pos(q))}.`}setTimeout(()=>{index++;render()},850)}
+function finish(){prog(100,"Nivel 5 · Resultado",2);let p=Math.round(score/data.test.length*100),ready=p>=80;shell(ready?"NIVEL 5 DOMINADO":"REFUERZO RECOMENDADO",ready?`🧠 ${who()}, clasificación completada`:`${who()}, consolidemos la clasificación`,ready?"Ya conectas sílaba tónica, posición y tipo de palabra.":"Antes de aprender las reglas de tilde conviene que esta clasificación sea segura.","",`<div style="display:flex;align-items:center;gap:13px"><div class="avatar">${avatar}</div><div><strong style="font-size:1.25rem">${who()}</strong><div class="muted">Reporte · Nivel 5 · 4.º primaria</div></div></div><div class="stats" style="margin-top:15px"><div class="stat"><strong>${score}/10</strong>Comprobación</div><div class="stat"><strong>${p}%</strong>Dominio</div><div class="stat"><strong>${first}</strong>Al 1.er intento</div><div class="stat"><strong>${attempts}</strong>Intentos</div></div><div class="feedback ${ready?"ok":"info"}">${ready?"✓ 80 % o más. Ya puedes pasar al Nivel 6: descubrir cuándo se escribe la tilde.":"Repite el entrenamiento. Usa siempre la ruta: tónica → posición → clasificación."}</div>${errors.length?`<div class="hint">Palabras para reforzar: <b>${[...new Set(errors)].join(", ")}</b></div>`:""}<div class="actions"><button class="btn secondary" onclick="phase=2;index=0;tries=0;attempts=0;first=0;errors=[];score=0;render()">↻ Repetir entrenamiento</button>${ready?'<button class="btn next" onclick="alert(\'Nivel 5 completado. Sigue el Nivel 6: reglas de acentuación y uso de la tilde.\')">Nivel 6 →</button>':""}</div>`)}
+
+/* ===== Explorador de clasificación ===== */
+const whyWords = [
+  {w:"reloj", s:["re","loj"], tonic:1, type:"AGUDA"},
+  {w:"corazón", s:["co","ra","zón"], tonic:2, type:"AGUDA"},
+  {w:"camino", s:["ca","mi","no"], tonic:1, type:"GRAVE"},
+  {w:"árbol", s:["ár","bol"], tonic:0, type:"GRAVE"},
+  {w:"música", s:["mú","si","ca"], tonic:0, type:"ESDRÚJULA"},
+  {w:"teléfono", s:["te","lé","fo","no"], tonic:1, type:"ESDRÚJULA"},
+  {w:"dígamelo", s:["dí","ga","me","lo"], tonic:0, type:"SOBRESDRÚJULA"},
+  {w:"explícamelo", s:["ex","plí","ca","me","lo"], tonic:1, type:"SOBRESDRÚJULA"}
+];
+let whyIndex = 0;
+
+function whyPositionName(n){
+  return n===1 ? "última" :
+         n===2 ? "penúltima" :
+         n===3 ? "antepenúltima" :
+         "antes de la antepenúltima";
+}
+function renderWhyExplorer(){
+  const q = whyWords[whyIndex];
+  const position = q.s.length - q.tonic;
+
+  const buttons = document.getElementById("whyWordButtons");
+  const word = document.getElementById("whyWord");
+  const syllables = document.getElementById("whySyllables");
+  const reason = document.getElementById("whyReason");
+  if(!buttons || !word || !syllables || !reason) return;
+
+  buttons.innerHTML = whyWords.map((x,i)=>
+    `<button type="button" class="word-lab__btn ${i===whyIndex?"active":""}" onclick="whySelect(${i})">${x.w}</button>`
+  ).join("");
+
+  word.textContent = q.w;
+
+  const fixedSlots = [
+    {pos:4,label:"ANTES DE LA ANTEPENÚLTIMA"},
+    {pos:3,label:"ANTEPENÚLTIMA"},
+    {pos:2,label:"PENÚLTIMA"},
+    {pos:1,label:"ÚLTIMA"}
+  ];
+
+  syllables.innerHTML = fixedSlots.map(slot=>{
+    const syllableIndex = q.s.length - slot.pos;
+    const hasSyllable = syllableIndex >= 0 && syllableIndex < q.s.length;
+    const isTonic = hasSyllable && syllableIndex === q.tonic;
+    const syllableText = hasSyllable ? q.s[syllableIndex] : "—";
+
+    return `<div class="fixed-position-slot ${isTonic?"is-tonic":""} ${hasSyllable?"":"is-empty"}">
+      <div>
+        <div class="fixed-position-slot__number">${slot.pos}</div>
+        <div class="fixed-position-slot__label">${slot.label}</div>
+      </div>
+      <div class="fixed-position-slot__syllable">${isTonic ? syllableText.toUpperCase() : syllableText}</div>
+    </div>`;
+  }).join("");
+
+  reason.innerHTML =
+    `<b>${q.w}</b> se separa en <b>${q.s.join(" · ")}</b>.<br>` +
+    `Las casillas permanecen fijas y colocamos cada sílaba contando desde la derecha. ` +
+    `La sílaba tónica es <b>${q.s[q.tonic].toUpperCase()}</b> y cayó en la casilla <b>${whyPositionName(position)}</b>.<br>` +
+    `Por eso se clasifica como <span class="word-lab__result">${q.type}</span>`;
+}
+function whySelect(i){ whyIndex=i; renderWhyExplorer(); }
+function whyPrev(){ whyIndex=(whyIndex-1+whyWords.length)%whyWords.length; renderWhyExplorer(); }
+function whyNext(){ whyIndex=(whyIndex+1)%whyWords.length; renderWhyExplorer(); }
+
+renderWhyExplorer();
+sync();render();
+</script></body></html>

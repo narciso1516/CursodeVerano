@@ -1,0 +1,1144 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nivel 6 · Laboratorio de la Tilde</title>
+<style>
+:root{--indigo:#4F46A5;--turquoise:#20B8B0;--yellow:#FFD75A;--coral:#FF765F;--green:#8BCB77;--lavender:#EEEAFE;--cream:#FFF9ED;--ink:#27324A;--muted:#697386;--line:#E2E3EA;--o:#FF765F;--pale:#EEEAFE;--ice:#20B8B0;--sea:#4F46A5;--pink:#FFD75A;--peach:#FFF1C7}*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:linear-gradient(180deg,#FFF9ED,#F7F6FF)}.wrap{max-width:1000px;margin:auto;padding:14px}.hero,.card,footer{border-radius:25px;padding:clamp(20px,4vw,34px);margin-bottom:17px}.hero{background:linear-gradient(135deg,#4F46A5,#20B8B0);color:white}.hero h1{font-size:clamp(2rem,7vw,3.7rem);margin:10px 0}.badge{background:var(--yellow);color:#4E4300;padding:7px 11px;border-radius:99px;font-weight:900}.card{background:white;border:1px solid var(--line);box-shadow:0 12px 30px #6d465010}.rules,.opts,.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.rule,.opt,.stat{padding:15px;border:2px solid var(--line);border-radius:16px;background:white}.rule:nth-child(1){background:#FFF0EC;border-color:var(--coral)}.rule:nth-child(2){background:#EAFBF9;border-color:var(--turquoise)}.rule:nth-child(3){background:#FFF8D9;border-color:var(--yellow)}.rule:nth-child(4){background:#F2EEFF;border-color:var(--lavender)}.rule b{display:block}.word{text-align:center;font-size:clamp(2.2rem,9vw,4.4rem);font-weight:950;margin:25px}.info{background:#FFF3C9;border-left:5px solid var(--coral);padding:14px;border-radius:13px;line-height:1.5}.inst{background:#EAFBF9;border:2px solid var(--turquoise);padding:14px;border-radius:13px;font-weight:850;margin:13px 0}.opt{font:inherit;font-weight:900;cursor:pointer}.opt:hover{border-color:var(--ice)}.opt.dead{opacity:.3;pointer-events:none}.opt.good{background:#EEF8E8;border-color:var(--green)}.actions{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:14px}.btn{border:0;border-radius:13px;padding:12px 16px;font-weight:900;cursor:pointer}.primary{background:var(--coral);color:white}.next{background:var(--turquoise);color:#173B3A}.listen{background:var(--indigo);color:white}.feedback{padding:13px;border-radius:13px;margin-top:13px;text-align:center;font-weight:850;min-height:48px}.ok{background:#EEF8E8}.no{background:#fbecee}.progress{height:11px;background:#ECEAF5;border-radius:99px;overflow:hidden;margin-top:15px}.progress div{height:100%;background:linear-gradient(90deg,var(--indigo),var(--turquoise),var(--yellow),var(--coral),var(--green))}.profile{display:flex;gap:12px;align-items:center}.avatar{font-size:2rem;background:linear-gradient(135deg,var(--lavender),#EAFBF9);padding:13px;border-radius:17px}footer{background:#27324A;color:#F8FAFF;border-top:5px solid var(--yellow)}footer a{display:inline-block;background:var(--yellow);color:#4D4300;text-decoration:none;font-weight:900;padding:10px 14px;border-radius:11px}@media(max-width:600px){.rules,.opts,.stats{grid-template-columns:1fr}}
+.flow-intro{margin-top:16px}
+.flow-title{text-align:center;margin:8px 0 5px}.flow-sub{text-align:center;color:#626879;margin:0 auto 18px;max-width:760px;line-height:1.5}
+.flow{display:grid;grid-template-columns:1fr 42px 1fr 42px 1fr;align-items:stretch;gap:6px;margin:16px 0}
+.flow-step{border:2px solid var(--line);border-radius:18px;padding:15px;text-align:center;min-height:128px;display:flex;flex-direction:column;justify-content:center}
+.flow-step:nth-of-type(1){background:#FFF0EC;border-color:var(--coral)}
+.flow-step:nth-of-type(3){background:#EAFBF9;border-color:var(--turquoise)}
+.flow-step:nth-of-type(5){background:#FFF8D9;border-color:var(--yellow)}
+.flow-num{font-size:.72rem;font-weight:950;letter-spacing:.08em;margin-bottom:5px}.flow-step b{font-size:1.05rem}.flow-step span{font-size:.86rem;margin-top:6px;line-height:1.35}
+.flow-arrow{display:grid;place-items:center;font-size:1.7rem;font-weight:950;color:var(--indigo)}
+.rule-map{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:15px 0}
+.rule-map .route{border-radius:17px;padding:14px;border:2px solid var(--line);line-height:1.4}
+.route.ag{background:#FFF0EC;border-color:var(--coral)}.route.gr{background:#EAFBF9;border-color:var(--turquoise)}.route.es{background:#FFF8D9;border-color:var(--yellow)}.route.so{background:#F2EEFF;border-color:var(--lavender)}
+.route b{display:block;margin-bottom:4px}
+.demo-lab{margin-top:20px;border:2px solid var(--ice);background:#F7FFFD;border-radius:20px;padding:18px}
+.demo-lab h3{text-align:center;margin:0 0 5px}.demo-note{text-align:center;color:#656A78;font-size:.9rem;margin-bottom:14px}
+.demo-tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.demo-tab{border:2px solid var(--line);background:white;border-radius:999px;padding:9px 13px;font-weight:900;cursor:pointer}
+.demo-tab.active{background:var(--sea);border-color:var(--green);color:white}
+.demo-word{text-align:center;font-size:clamp(2rem,8vw,3.5rem);font-weight:950;margin:13px}
+.demo-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.demo-step{padding:13px;border-radius:15px;background:white;border:2px solid var(--line);text-align:center;line-height:1.4}
+.demo-step b{display:block;font-size:.74rem;margin-bottom:5px;color:var(--indigo)}
+.demo-result{margin-top:12px;padding:13px;border-radius:14px;background:#FFF3C9;border-left:5px solid var(--coral);text-align:center;font-weight:850;line-height:1.45}
+.start-real{margin-top:17px;padding-top:16px;border-top:2px dashed var(--line);text-align:center}
+@media(max-width:700px){.flow{grid-template-columns:1fr}.flow-arrow{transform:rotate(90deg);min-height:25px}.rule-map,.demo-steps{grid-template-columns:1fr}}
+
+
+/* ===== Efectos visuales para cards de reglas ===== */
+.rule-map .route,
+.flow-step{
+  position:relative;
+  overflow:hidden;
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease, filter .22s ease;
+  will-change:transform;
+}
+.rule-map .route:before,
+.flow-step:before{
+  content:"";
+  position:absolute;
+  inset:-40% auto -40% -70%;
+  width:45%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.62),transparent);
+  transform:skewX(-18deg);
+  transition:left .55s ease;
+  pointer-events:none;
+}
+.rule-map .route:hover,
+.flow-step:hover{
+  transform:translateY(-6px) scale(1.015);
+  box-shadow:0 14px 28px rgba(48,51,66,.13);
+  filter:saturate(1.05);
+}
+.rule-map .route:hover:before,
+.flow-step:hover:before{left:135%}
+.rule-map .route:active,
+.flow-step:active{transform:translateY(-2px) scale(.995)}
+.flow-step{animation:flowCardIn .55s ease both}
+.flow-step:nth-of-type(3){animation-delay:.09s}
+.flow-step:nth-of-type(5){animation-delay:.18s}
+.rule-map .route{animation:ruleCardIn .55s ease both}
+.rule-map .route:nth-child(2){animation-delay:.07s}
+.rule-map .route:nth-child(3){animation-delay:.14s}
+.rule-map .route:nth-child(4){animation-delay:.21s}
+@keyframes flowCardIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes ruleCardIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+
+/* ===== Simulador cronológico ===== */
+.timeline-sim{
+  margin-top:24px;
+  padding:20px;
+  border:2px solid var(--sea);
+  border-radius:22px;
+  background:linear-gradient(180deg,#F7FCFE,#FFFDF9);
+  box-shadow:0 12px 28px rgba(1,135,181,.09);
+}
+.timeline-sim h3{text-align:center;margin:0 0 5px;font-size:1.28rem}
+.timeline-sim__sub{text-align:center;color:#666D7B;line-height:1.45;margin-bottom:14px}
+.timeline-word{
+  text-align:center;
+  font-size:clamp(2.2rem,8vw,4rem);
+  font-weight:950;
+  margin:15px 0 18px;
+  color:#2D4058;
+}
+.timeline-rail{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  position:relative;
+}
+.timeline-step{
+  min-height:155px;
+  border:2px solid var(--line);
+  border-radius:18px;
+  padding:14px;
+  background:white;
+  opacity:.28;
+  transform:translateY(10px) scale(.98);
+  transition:opacity .3s ease, transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+.timeline-step.visible{
+  opacity:1;
+  transform:none;
+}
+.timeline-step.active{
+  border-color:var(--o);
+  box-shadow:0 10px 24px rgba(252,144,72,.14);
+}
+.timeline-step.done{
+  border-color:var(--green);
+  background:#EEF8E8;
+}
+.timeline-step__num{
+  width:34px;height:34px;border-radius:50%;
+  display:grid;place-items:center;
+  margin:0 auto 8px;
+  font-weight:950;
+  color:white;
+  background:var(--sea);
+}
+.timeline-step.active .timeline-step__num{background:var(--o)}
+.timeline-step__label{text-align:center;font-size:.82rem;font-weight:950;letter-spacing:.05em}
+.timeline-step__value{
+  margin-top:8px;
+  text-align:center;
+  line-height:1.4;
+  font-weight:800;
+}
+.timeline-step__value strong{display:block;font-size:1.08rem;margin-bottom:4px}
+.timeline-status{
+  margin-top:14px;
+  min-height:54px;
+  padding:12px 14px;
+  border-radius:14px;
+  background:var(--peach);
+  border-left:5px solid var(--o);
+  text-align:center;
+  font-weight:850;
+  line-height:1.45;
+}
+.timeline-controls{
+  display:flex;
+  justify-content:center;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+.timeline-controls button{
+  border:0;border-radius:13px;padding:11px 14px;font-weight:950;cursor:pointer;
+}
+.timeline-next{background:var(--o);color:white}
+.timeline-reset{background:var(--sea);color:white}
+.timeline-example-switch{
+  display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:12px
+}
+.timeline-example-switch button{
+  border:2px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;font-weight:900;cursor:pointer
+}
+.timeline-example-switch button.active{
+  border-color:var(--green);background:#EAFBF9;color:#0B6B8D
+}
+.timeline-activities-banner{
+  margin-top:20px;
+  padding:15px 16px;
+  border-radius:16px;
+  background:#FFF5DD;
+  border:2px dashed var(--o);
+  text-align:center;
+  font-weight:900;
+}
+@media(max-width:700px){
+  .timeline-rail{grid-template-columns:1fr}
+}
+
+
+/* ===== Banco de interacciones educativas ===== */
+.interaction-kicker{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:6px 10px;border-radius:999px;
+  background:#EAFBF9;border:1px solid var(--ice);
+  color:#17635F;font-size:.72rem;font-weight:950;letter-spacing:.05em;
+}
+.interaction-title{margin:9px 0 4px}
+.swipe-board{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.swipe-choice{
+  min-height:120px;border:2px solid var(--line);border-radius:20px;
+  display:grid;place-items:center;text-align:center;padding:18px;
+  background:white;font-weight:950;cursor:pointer;transition:.18s
+}
+.swipe-choice:hover{transform:translateY(-4px);box-shadow:0 10px 22px rgba(48,51,66,.10)}
+.swipe-choice.no{border-color:var(--green);background:#EAFBF9}
+.swipe-choice.yes{border-color:var(--o);background:#FFF0EC}
+.toggle-row{display:flex;justify-content:center;align-items:center;gap:16px;margin:22px 0;flex-wrap:wrap}
+.big-toggle{width:92px;height:48px;border-radius:999px;background:#D7D8E5;position:relative;cursor:pointer;border:2px solid #B9BBCB}
+.big-toggle:after{content:"";position:absolute;width:36px;height:36px;border-radius:50%;background:white;top:4px;left:5px;box-shadow:0 3px 8px #0002;transition:.2s}
+.big-toggle.on{background:var(--sea);border-color:var(--green)}.big-toggle.on:after{left:47px}
+.hotspot-row{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin:18px 0}
+.hotspot-letter{
+  width:58px;height:64px;border:2px solid var(--line);border-radius:14px;
+  background:white;font-size:1.65rem;font-weight:950;cursor:pointer;transition:.16s
+}
+.hotspot-letter:hover{border-color:var(--o);transform:translateY(-2px)}
+.hotspot-letter.good{background:#EEF8E8;border-color:var(--green)}
+.hotspot-letter.dead{opacity:.28;pointer-events:none}
+.sort-steps{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:18px 0}
+.sort-card{
+  padding:13px 15px;border-radius:15px;border:2px solid var(--line);background:white;
+  font-weight:900;cursor:pointer;min-width:145px
+}
+.sort-card.sel{border-color:var(--o);background:#FFF0EC}
+.sort-output{min-height:70px;border:2px dashed var(--ice);border-radius:16px;background:#F7FFFD;padding:12px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.sort-chip{padding:9px 11px;border-radius:12px;background:#EAFBF9;border:1px solid var(--ice);font-weight:900}
+.matching{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.match-col{display:grid;gap:9px}
+.match-item{padding:13px;border:2px solid var(--line);border-radius:14px;background:white;font-weight:850;cursor:pointer}
+.match-item.sel{border-color:var(--o);background:#FFF0EC}.match-item.done{border-color:var(--green);background:#EAFBF9;pointer-events:none}
+.fill-wrap{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:16px}
+.fill-wrap input{padding:13px 14px;border:2px solid var(--line);border-radius:13px;min-width:230px;font:inherit}
+.detector-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.detector-card{padding:16px;border:2px solid var(--line);border-radius:16px;background:white;text-align:center;font-size:1.1rem;font-weight:950;cursor:pointer}
+.detector-card:hover{border-color:var(--ice)}
+.rating-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px 0}
+.rating-dot{width:54px;height:54px;border-radius:50%;border:2px solid var(--line);background:white;font-weight:950;cursor:pointer}
+.rating-dot:hover{border-color:var(--o);transform:scale(1.06)}
+@media(max-width:650px){
+ .swipe-board,.matching,.detector-grid{grid-template-columns:1fr}
+}
+
+
+/* ===== Asistente guiado por tarjetas ===== */
+.rule-assistant{
+  margin-top:24px;
+  border:2px solid var(--ice);
+  border-radius:24px;
+  background:linear-gradient(180deg,#F9FCFF,#FFFDF9);
+  padding:20px;
+  box-shadow:0 14px 32px rgba(40,60,90,.10);
+}
+.rule-assistant__top{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+  flex-wrap:wrap;
+}
+.rule-assistant__top h3{margin:0 0 4px;font-size:1.35rem}
+.rule-assistant__top p{margin:0;color:#636B7C;line-height:1.45}
+.rule-assistant__progress{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin:16px 0;
+}
+.rule-dot{
+  flex:1;
+  min-width:120px;
+  padding:9px 10px;
+  border-radius:999px;
+  background:#F1F0F7;
+  border:2px solid var(--line);
+  text-align:center;
+  font-size:.75rem;
+  font-weight:950;
+  color:#747A86;
+}
+.rule-dot.active{
+  background:#EAFBF9;
+  border-color:var(--ice);
+  color:#17635F;
+}
+.rule-dot.done{
+  background:#EEF8E8;
+  border-color:var(--green);
+  color:#426736;
+}
+.assistant-word{
+  text-align:center;
+  font-size:clamp(2.2rem,8vw,4rem);
+  font-weight:950;
+  margin:12px 0 18px;
+}
+.assistant-card{
+  min-height:260px;
+  border:2px solid var(--line);
+  border-radius:22px;
+  background:white;
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+  animation:assistantIn .28s ease both;
+}
+.assistant-card:before{
+  content:"";
+  position:absolute;
+  width:180px;height:180px;
+  border-radius:50%;
+  right:-70px;top:-70px;
+  background:rgba(14,173,227,.06);
+}
+@keyframes assistantIn{
+  from{opacity:0;transform:translateX(16px)}
+  to{opacity:1;transform:none}
+}
+.assistant-kicker{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#FFF1E8;
+  color:#A24836;
+  font-size:.72rem;
+  font-weight:950;
+  letter-spacing:.06em;
+}
+.assistant-question{
+  font-size:1.25rem;
+  font-weight:950;
+  margin:12px 0 8px;
+}
+.assistant-note{
+  color:#666D78;
+  line-height:1.45;
+  margin-bottom:14px;
+}
+.assistant-options{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+.assistant-option{
+  border:2px solid var(--line);
+  border-radius:16px;
+  background:#fff;
+  padding:15px;
+  font-weight:950;
+  cursor:pointer;
+  transition:.16s ease;
+}
+.assistant-option:hover{
+  transform:translateY(-2px);
+  border-color:var(--ice);
+}
+.assistant-option.selected{
+  border-color:var(--o);
+  background:#FFF0EC;
+}
+.assistant-option.correct{
+  border-color:var(--green);
+  background:#EEF8E8;
+}
+.assistant-option.wrong{
+  opacity:.38;
+  pointer-events:none;
+}
+.assistant-ending{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:18px 0;
+}
+.ending-chip{
+  min-width:92px;
+  padding:14px 16px;
+  border-radius:16px;
+  border:2px solid var(--line);
+  background:white;
+  text-align:center;
+  font-weight:950;
+  cursor:pointer;
+  font-size:1.05rem;
+}
+.ending-chip.selected{
+  border-color:var(--ice);
+  background:#EAFBF9;
+}
+.assistant-rulebox{
+  padding:15px;
+  border-radius:16px;
+  background:#FFF9DD;
+  border:2px solid var(--pink);
+  line-height:1.5;
+  font-weight:850;
+}
+.assistant-result{
+  text-align:center;
+  padding:18px;
+  border-radius:18px;
+  background:#EEF8E8;
+  border:2px solid #9EC63E;
+}
+.assistant-result strong{
+  display:block;
+  font-size:1.6rem;
+  margin:6px 0;
+}
+.assistant-nav{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:16px;
+}
+.assistant-nav button{
+  border:0;
+  border-radius:13px;
+  padding:12px 16px;
+  font-weight:950;
+  cursor:pointer;
+}
+.assistant-back{background:#ECEFF3;color:#343A46}
+.assistant-next{background:var(--sea);color:white}
+.assistant-next:disabled{opacity:.35;cursor:not-allowed}
+.assistant-feedback{
+  min-height:48px;
+  margin-top:12px;
+  padding:11px 13px;
+  border-radius:13px;
+  text-align:center;
+  font-weight:850;
+}
+.assistant-feedback.ok{background:#EEF8E8;color:#426736}
+.assistant-feedback.no{background:#FFF0F3;color:#9E4152}
+.always-rules{
+  margin-top:16px;
+  padding-top:15px;
+  border-top:2px dashed var(--line);
+}
+.always-rules__title{
+  text-align:center;
+  font-weight:950;
+  margin-bottom:10px;
+}
+.always-rules__grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+}
+.always-rule{
+  border-radius:14px;
+  padding:11px;
+  border:2px solid var(--line);
+  background:white;
+  font-size:.82rem;
+  line-height:1.35;
+}
+.always-rule b{display:block;margin-bottom:4px}
+.always-rule:nth-child(1){border-color:var(--o);background:#FFF0EC}
+.always-rule:nth-child(2){border-color:var(--ice);background:#EAFBF9}
+.always-rule:nth-child(3){border-color:var(--pink);background:#FFF9DD}
+.always-rule:nth-child(4){border-color:var(--peach);background:#F2EEFF}
+@media(max-width:700px){
+  .assistant-options,.always-rules__grid{grid-template-columns:1fr}
+  .rule-dot{min-width:100%}
+}
+
+</style></head>
+<body><div class="wrap"><section class="hero"><span class="badge">4.º PRIMARIA · NIVEL 6</span><h1>🔬 Laboratorio de la Tilde</h1><p>Usa una ruta sencilla: recuerda qué tipo de palabra es, observa cómo termina y decide si necesita tilde.</p></section>
+<section class="card"><div class="profile"><div class="avatar">🦊</div><div><b id="nm">Explorador/a</b><br><small>Especialista en tildes</small></div></div><div class="progress"><div id="bar" style="width:3%"></div></div></section><main id="app"></main>
+<footer><b>AUTOR · Luis Alberto Antonio Narciso</b><p>Ingeniero en Electrónica por la UAM y con estudios de Maestría en Ciencias en la UNA. Profesional de Quality Assurance, automatización de pruebas y tecnología educativa, con experiencia como tester en proyectos vinculados con Google y Ford.</p><p><i>“Recurso diseñado y desarrollado por Luis Alberto Antonio Narciso”.</i></p><a href="https://narciso1516.github.io/narcisotesting.com/" target="_blank" rel="noopener noreferrer">Conocer al autor</a><p>© <span id="yr"></span> Luis Alberto Antonio Narciso</p></footer></div>
+<script>
+yr.textContent=new Date().getFullYear();nm.textContent=localStorage.getItem("radarStudentName")||"Explorador/a";
+const A=document.getElementById("app"),B=document.getElementById("bar");
+const train=[
+["canción","cancion","aguda","n",1],["reloj","reloj","aguda","j",0],["árbol","arbol","grave","l",1],["camino","camino","grave","vocal",0],
+["música","musica","esdrújula","vocal",1],["limón","limon","aguda","n",1],["doctor","doctor","aguda","r",0],["compás","compas","aguda","s",1],
+["papel","papel","aguda","l",0],["lápiz","lapiz","grave","z",1],["ventana","ventana","grave","vocal",0],["joven","joven","grave","n",0],
+["pájaro","pajaro","esdrújula","vocal",1],["número","numero","esdrújula","vocal",1],["brújula","brujula","esdrújula","vocal",1],["dígamelo","digamelo","sobresdrújula","vocal",1]
+];
+const test=[["camión","camion","aguda","n",1],["comedor","comedor","aguda","r",0],["sofá","sofa","aguda","vocal",1],["césped","cesped","grave","d",1],["escuela","escuela","grave","vocal",0],["examen","examen","grave","n",0],["médico","medico","esdrújula","vocal",1],["sábado","sabado","esdrújula","vocal",1],["corazón","corazon","aguda","n",1],["fácil","facil","grave","l",1]];
+let phase=0,i=0,tries=0,score=0,first=0,attempts=0,bad=[];
+
+
+
+const assistantExamples=[
+  {
+    shown:"cancion",correct:"canción",
+    type:"aguda",ending:"n",
+    endings:["vocal","n","s","otra consonante"],
+    rule:"Las palabras agudas llevan tilde si terminan en vocal, n o s.",
+    result:"Sí lleva tilde"
+  },
+  {
+    shown:"arbol",correct:"árbol",
+    type:"grave",ending:"otra consonante",
+    endings:["vocal","n","s","otra consonante"],
+    rule:"Las palabras graves llevan tilde si NO terminan en vocal, n o s.",
+    result:"Sí lleva tilde"
+  },
+  {
+    shown:"musica",correct:"música",
+    type:"esdrújula",ending:"vocal",
+    endings:["vocal","n","s","otra consonante"],
+    rule:"Las palabras esdrújulas siempre llevan tilde.",
+    result:"Sí lleva tilde"
+  }
+];
+let assistantExample=0;
+let assistantStep=1;
+let assistantTypeChoice=null;
+let assistantEndingChoice=null;
+
+function renderAssistant(){
+  const q=assistantExamples[assistantExample];
+  const card=document.getElementById("assistantCard");
+  const word=document.getElementById("assistantWord");
+  const back=document.getElementById("assistantBack");
+  const next=document.getElementById("assistantNext");
+  if(!card||!word)return;
+
+  word.textContent=q.shown;
+  back.disabled=assistantStep===1;
+  next.disabled=false;
+
+  [1,2,3,4].forEach(n=>{
+    const d=document.getElementById("assistantDot"+n);
+    if(!d)return;
+    d.className="rule-dot";
+    if(n<assistantStep)d.classList.add("done");
+    if(n===assistantStep)d.classList.add("active");
+  });
+
+  if(assistantStep===1){
+    next.disabled=assistantTypeChoice!==q.type;
+    card.innerHTML=`
+      <span class="assistant-kicker">PASO 1 · RECUPERA LO QUE YA SABES</span>
+      <div class="assistant-question">¿Qué tipo de palabra es <b>${q.shown}</b>?</div>
+      <div class="assistant-note">Esto ya lo aprendiste en el nivel anterior.</div>
+      <div class="assistant-options">
+        ${["aguda","grave","esdrújula","sobresdrújula"].map(t=>`
+          <button class="assistant-option ${assistantTypeChoice===t?"selected":""}" onclick="chooseAssistantType('${t}',this)">
+            ${t.toUpperCase()}
+          </button>`).join("")}
+      </div>
+      <div id="assistantFeedback" class="assistant-feedback"></div>`;
+  }
+
+  if(assistantStep===2){
+    next.disabled=assistantEndingChoice!==q.ending;
+    card.innerHTML=`
+      <span class="assistant-kicker">PASO 2 · OBSERVA CÓMO TERMINA</span>
+      <div class="assistant-question">La misma palabra sigue aquí: <b>${q.shown}</b></div>
+      <div class="assistant-note">Ahora mira solamente la última letra.</div>
+      <div class="assistant-ending">
+        ${q.endings.map(e=>`
+          <button class="ending-chip ${assistantEndingChoice===e?"selected":""}" onclick="chooseAssistantEnding('${e}',this)">
+            ${e}
+          </button>`).join("")}
+      </div>
+      <div id="assistantFeedback" class="assistant-feedback"></div>`;
+  }
+
+  if(assistantStep===3){
+    card.innerHTML=`
+      <span class="assistant-kicker">PASO 3 · APLICA LA REGLA</span>
+      <div class="assistant-question">Ya sabemos dos cosas:</div>
+      <div class="assistant-rulebox">
+        <b>${q.shown}</b> es <b>${q.type.toUpperCase()}</b> y termina en <b>${q.ending}</b>.<br><br>
+        ${q.rule}
+      </div>
+      <div class="assistant-note" style="margin-top:14px">
+        Ahora usa esa regla para decidir si la palabra necesita tilde.
+      </div>
+      <div class="assistant-options">
+        <button class="assistant-option" onclick="chooseAssistantRuleDecision(false,this)">NO lleva tilde</button>
+        <button class="assistant-option" onclick="chooseAssistantRuleDecision(true,this)">SÍ lleva tilde</button>
+      </div>
+      <div id="assistantFeedback" class="assistant-feedback"></div>`;
+    next.disabled=true;
+  }
+
+  if(assistantStep===4){
+    card.innerHTML=`
+      <span class="assistant-kicker">PASO 4 · RESULTADO</span>
+      <div class="assistant-result">
+        <div>${q.shown}</div>
+        <strong>→ ${q.correct}</strong>
+        <div>${q.result}</div>
+      </div>
+      <div class="assistant-note" style="text-align:center;margin-top:14px">
+        Observaste la misma palabra durante todo el recorrido.
+      </div>
+      <div class="actions">
+        <button class="btn next" onclick="assistantNextExample()">Probar otra palabra →</button>
+      </div>`;
+    next.disabled=true;
+  }
+}
+
+function chooseAssistantType(t,e){
+  const q=assistantExamples[assistantExample];
+  assistantTypeChoice=t;
+  document.querySelectorAll(".assistant-option").forEach(b=>b.classList.remove("selected","correct","wrong"));
+  e.classList.add("selected");
+  const f=document.getElementById("assistantFeedback");
+  if(t===q.type){
+    e.classList.add("correct");
+    f.className="assistant-feedback ok";
+    f.textContent="Correcto. Ya puedes continuar.";
+    document.getElementById("assistantNext").disabled=false;
+  }else{
+    e.classList.add("wrong");
+    f.className="assistant-feedback no";
+    f.textContent="Revisa dónde está la sílaba tónica y vuelve a intentarlo.";
+    document.getElementById("assistantNext").disabled=true;
+  }
+}
+
+function chooseAssistantEnding(eValue,e){
+  const q=assistantExamples[assistantExample];
+  assistantEndingChoice=eValue;
+  document.querySelectorAll(".ending-chip").forEach(b=>b.classList.remove("selected"));
+  e.classList.add("selected");
+  const f=document.getElementById("assistantFeedback");
+  if(eValue===q.ending){
+    f.className="assistant-feedback ok";
+    f.textContent="Exacto. Esa es la terminación que necesitamos observar.";
+    document.getElementById("assistantNext").disabled=false;
+  }else{
+    f.className="assistant-feedback no";
+    f.textContent="Mira la última letra de la palabra.";
+    document.getElementById("assistantNext").disabled=true;
+  }
+}
+
+function chooseAssistantRuleDecision(yes,e){
+  const q=assistantExamples[assistantExample];
+  document.querySelectorAll(".assistant-option").forEach(b=>b.classList.remove("selected","correct","wrong"));
+  const correct=true; // all 3 guided examples need accent
+  const f=document.getElementById("assistantFeedback");
+  if(yes===correct){
+    e.classList.add("correct");
+    f.className="assistant-feedback ok";
+    f.textContent="Correcto. La regla indica que sí lleva tilde.";
+    document.getElementById("assistantNext").disabled=false;
+  }else{
+    e.classList.add("wrong");
+    f.className="assistant-feedback no";
+    f.textContent="Vuelve a leer la regla que aparece arriba.";
+  }
+}
+
+function assistantNext(){
+  if(assistantStep<4){
+    assistantStep++;
+    renderAssistant();
+  }
+}
+function assistantPrev(){
+  if(assistantStep>1){
+    assistantStep--;
+    renderAssistant();
+  }
+}
+function assistantNextExample(){
+  assistantExample=(assistantExample+1)%assistantExamples.length;
+  assistantStep=1;
+  assistantTypeChoice=null;
+  assistantEndingChoice=null;
+  renderAssistant();
+}
+
+const timelineExamples = [
+  {
+    shown:"cancion", correct:"canción",
+    type:"AGUDA", ending:"n",
+    observe:"Termina en n.",
+    rule:"Las agudas llevan tilde si terminan en vocal, n o s.",
+    result:"Sí lleva tilde → canción"
+  },
+  {
+    shown:"arbol", correct:"árbol",
+    type:"GRAVE", ending:"l",
+    observe:"Termina en l.",
+    rule:"Las graves llevan tilde si NO terminan en vocal, n o s.",
+    result:"Sí lleva tilde → árbol"
+  },
+  {
+    shown:"musica", correct:"música",
+    type:"ESDRÚJULA", ending:"vocal",
+    observe:"Es esdrújula: no necesitamos revisar la terminación.",
+    rule:"Las esdrújulas siempre llevan tilde.",
+    result:"Sí lleva tilde → música"
+  }
+];
+let timelineExampleIndex=0;
+let timelineStep=0;
+
+function renderTimeline(){
+  const q=timelineExamples[timelineExampleIndex];
+  const switcher=document.getElementById("timelineExampleSwitch");
+  const word=document.getElementById("timelineWord");
+  if(!switcher||!word)return;
+
+  switcher.innerHTML=timelineExamples.map((x,i)=>
+    `<button type="button" class="${i===timelineExampleIndex?"active":""}" onclick="selectTimelineExample(${i})">${x.correct}</button>`
+  ).join("");
+
+  word.textContent=q.shown;
+
+  const s1=document.getElementById("timelineStep1");
+  const s2=document.getElementById("timelineStep2");
+  const s3=document.getElementById("timelineStep3");
+  [s1,s2,s3].forEach((el,i)=>{
+    if(!el)return;
+    el.className="timeline-step";
+    if(timelineStep>=i+1)el.classList.add("visible");
+    if(timelineStep===i+1)el.classList.add("active");
+    if(timelineStep>i+1)el.classList.add("done");
+  });
+
+  document.getElementById("timelineValue1").innerHTML =
+    timelineStep>=1 ? `<strong>${q.type}</strong>Primero identificamos el tipo de palabra.` : "—";
+  document.getElementById("timelineValue2").innerHTML =
+    timelineStep>=2 ? `<strong>${q.ending}</strong>${q.observe}` : "—";
+  document.getElementById("timelineValue3").innerHTML =
+    timelineStep>=3 ? `<strong>${q.rule}</strong>${q.result}` : "—";
+
+  const status=document.getElementById("timelineStatus");
+  if(timelineStep===0) status.innerHTML="Pulsa <b>Siguiente paso</b> para comenzar.";
+  if(timelineStep===1) status.innerHTML=`Paso 1: primero descubrimos que <b>${q.shown}</b> es una palabra <b>${q.type}</b>.`;
+  if(timelineStep===2) status.innerHTML=`Paso 2: ahora observamos la terminación. <b>${q.observe}</b>`;
+  if(timelineStep===3) status.innerHTML=`Paso 3: aplicamos la regla. <b>${q.result}</b>`;
+}
+function nextTimelineStep(){
+  if(timelineStep<3)timelineStep++;
+  renderTimeline();
+}
+function resetTimeline(){
+  timelineStep=0;
+  renderTimeline();
+}
+function selectTimelineExample(i){
+  timelineExampleIndex=i;
+  timelineStep=0;
+  renderTimeline();
+}
+
+const demos=[
+ {shown:"cancion",correct:"canción",type:"AGUDA",end:"n",rule:"Las agudas llevan tilde cuando terminan en vocal, n o s.",need:true},
+ {shown:"arbol",correct:"árbol",type:"GRAVE",end:"l",rule:"Las graves llevan tilde cuando NO terminan en vocal, n o s.",need:true},
+ {shown:"musica",correct:"música",type:"ESDRÚJULA",end:"vocal",rule:"Las esdrújulas siempre llevan tilde.",need:true}
+];
+let demoIndex=0;
+function introLevel(){
+ card("🔬 Antes de experimentar: aprende la ruta",
+   "En este nivel ya sabes encontrar la sílaba tónica y clasificar palabras. Ahora aprenderás una idea nueva: <b>saber dónde está la fuerza no basta para decidir si hay tilde</b>. Debemos aplicar una regla.",
+   "Mira el recorrido visual. <b>Siempre seguiremos el mismo flujo de tres decisiones.</b>",
+   `<div class="flow-intro">
+      <div class="flow">
+       <div class="flow-step"><div class="flow-num">PASO 1</div><b>🏷️ CLASIFICA</b><span>¿Es aguda, grave, esdrújula o sobresdrújula?</span></div>
+       <div class="flow-arrow">→</div>
+       <div class="flow-step"><div class="flow-num">PASO 2</div><b>🔎 OBSERVA</b><span>Si es aguda o grave, mira cómo termina.</span></div>
+       <div class="flow-arrow">→</div>
+       <div class="flow-step"><div class="flow-num">PASO 3</div><b>´ APLICA LA REGLA</b><span>Decide: ¿necesita tilde o no?</span></div>
+      </div>
+      <div class="rule-map">
+       <div class="route ag"><b>AGUDAS</b>✓ Tilde si terminan en <b>vocal, n o s</b>.</div>
+       <div class="route gr"><b>GRAVES</b>✓ Tilde si <b>NO</b> terminan en vocal, n o s.</div>
+       <div class="route es"><b>ESDRÚJULAS</b>✓ <b>Siempre</b> llevan tilde.</div>
+       <div class="route so"><b>SOBRESDRÚJULAS</b>✓ <b>Siempre</b> llevan tilde.</div>
+      </div>
+      
+<div class="rule-assistant">
+  <div class="rule-assistant__top">
+    <div>
+      <h3>🧠 Asistente de reglas</h3>
+      <p>Trabajaremos una sola palabra y la iremos analizando paso a paso.</p>
+    </div>
+  </div>
+
+  <div class="rule-assistant__progress">
+    <div id="assistantDot1" class="rule-dot active">1 · Recupera lo que sabes</div>
+    <div id="assistantDot2" class="rule-dot">2 · Observa cómo termina</div>
+    <div id="assistantDot3" class="rule-dot">3 · Aplica la regla</div>
+    <div id="assistantDot4" class="rule-dot">4 · Resultado</div>
+  </div>
+
+  <div id="assistantWord" class="assistant-word">cancion</div>
+  <div id="assistantCard" class="assistant-card"></div>
+
+  <div class="assistant-nav">
+    <button id="assistantBack" class="assistant-back" type="button" onclick="assistantPrev()">← Atrás</button>
+    <button id="assistantNext" class="assistant-next" type="button" onclick="assistantNext()">Siguiente →</button>
+  </div>
+
+  <div class="always-rules">
+    <div class="always-rules__title">📌 Estas reglas siempre están presentes</div>
+    <div class="always-rules__grid">
+      <div class="always-rule"><b>AGUDAS</b>Tilde si terminan en vocal, n o s.</div>
+      <div class="always-rule"><b>GRAVES</b>Tilde si NO terminan en vocal, n o s.</div>
+      <div class="always-rule"><b>ESDRÚJULAS</b>Siempre llevan tilde.</div>
+      <div class="always-rule"><b>SOBRESDRÚJULAS</b>Siempre llevan tilde.</div>
+    </div>
+  </div>
+</div>
+
+<div class="demo-lab">
+       <h3>🧪 Hagamos 3 ejemplos juntos</h3>
+       <div class="demo-note">Toca cada palabra y observa cómo recorre exactamente la misma ruta.</div>
+       <div id="demoTabs" class="demo-tabs"></div>
+       <div id="demoContent"></div>
+      </div>
+      <div class="start-real">
+       <b>Cuando entiendas los tres ejemplos, comienza tus experimentos.</b>
+       <div class="actions"><button class="btn next" onclick="phase=1;i=0;render()">Ahora me toca a mí →</button></div>
+      </div>
+    </div>`);
+ renderDemo();
+ renderTimeline();
+ renderAssistant();
+}
+function renderDemo(){
+ const q=demos[demoIndex],tabs=document.getElementById("demoTabs"),box=document.getElementById("demoContent");
+ if(!tabs||!box)return;
+ tabs.innerHTML=demos.map((x,j)=>`<button class="demo-tab ${j===demoIndex?"active":""}" onclick="demoIndex=${j};renderDemo()">Ejemplo ${j+1} · ${x.correct}</button>`).join("");
+ box.innerHTML=`<div class="demo-word">${q.shown}</div>
+ <div class="demo-steps">
+   <div class="demo-step"><b>1 · CLASIFICA</b>Es <strong>${q.type}</strong>.</div>
+   <div class="demo-step"><b>2 · OBSERVA</b>${q.type==="ESDRÚJULA"?"Aquí no necesitamos revisar la terminación.":`Termina en <strong>${q.end}</strong>.`}</div>
+   <div class="demo-step"><b>3 · APLICA</b>${q.rule}</div>
+ </div>
+ <div class="demo-result">Resultado: <b>sí necesita tilde</b> → se escribe <b>${q.correct}</b>.</div>`;
+}
+
+function rules(){return `<div class="rules"><div class="rule"><b>AGUDAS</b>Tilde si terminan en vocal, n o s.</div><div class="rule"><b>GRAVES</b>Tilde si NO terminan en vocal, n o s.</div><div class="rule"><b>ESDRÚJULAS</b>Siempre llevan tilde.</div><div class="rule"><b>SOBRESDRÚJULAS</b>Siempre llevan tilde.</div></div>`}
+function card(title,info,inst,body){A.innerHTML=`<section class="card"><h2>${title}</h2><div class="info">${info}</div><div class="inst">${inst}</div>${body}</section>`}
+function render(){if(phase===0){introLevel();return}if(phase===1)return practice();if(phase===2)return exam();finish()}
+function buttons(){return `<div class="opts"><button class="opt" onclick="answer(1,this)">´ SÍ necesita tilde</button><button class="opt" onclick="answer(0,this)">NO necesita tilde</button></div>`}
+
+let toggleAnswer=false;
+let matchSelected=null;
+let matchDone=[];
+let sortChosen=[];
+
+function practice(){
+  if(i>=train.length){phase=2;i=0;render();return}
+  let q=train[i];
+  B.style.width=(10+i/train.length*60)+"%";
+  const mode=i%7;
+
+  if(mode===0) return practiceSwipe(q);
+  if(mode===1) return practiceToggle(q);
+  if(mode===2) return practiceHotspot(q);
+  if(mode===3) return practiceSort(q);
+  if(mode===4) return practiceMatching(q);
+  if(mode===5) return practiceFill(q);
+  return practiceDetector(q);
+}
+
+function practiceHeader(label,title,info,inst,body){
+  card(`${label} · ${title}`,info,inst,body);
+}
+
+function practiceSwipe(q){
+  practiceHeader(
+    "DESLIZA / DECIDE",
+    q[1],
+    `Es una palabra <b>${q[2].toUpperCase()}</b> y termina en <b>${q[3]}</b>.`,
+    "Imagina que deslizas la tarjeta a un lado u otro.",
+    `<div class="swipe-board">
+      <button class="swipe-choice no" onclick="gradePractice(0,this)">← NO NECESITA TILDE</button>
+      <button class="swipe-choice yes" onclick="gradePractice(1,this)">SÍ NECESITA TILDE →</button>
+    </div><div id="fb" class="feedback"></div>`
+  );
+}
+
+function practiceToggle(q){
+  toggleAnswer=false;
+  practiceHeader(
+    "TOGGLE",
+    q[1],
+    `Clasificación: <b>${q[2].toUpperCase()}</b> · terminación: <b>${q[3]}</b>.`,
+    "Activa el interruptor solo si la palabra necesita tilde.",
+    `<div class="toggle-row">
+      <b>NO</b>
+      <div id="tildeToggle" class="big-toggle" onclick="toggleAnswer=!toggleAnswer;this.classList.toggle('on')"></div>
+      <b>SÍ</b>
+    </div>
+    <div class="actions"><button class="btn next" onclick="gradePractice(toggleAnswer?1:0,null)">Confirmar decisión</button></div>
+    <div id="fb" class="feedback"></div>`
+  );
+}
+
+function practiceHotspot(q){
+  if(!q[4]) return practiceSwipe(q);
+  const chars=[...q[1]];
+  const correct=q[0];
+  let target=-1;
+  for(let k=0;k<correct.length;k++){
+    if(correct[k].normalize("NFD").replace(/[\u0300-\u036f]/g,"")!==correct[k]){target=k;break}
+  }
+  practiceHeader(
+    "HOTSPOT",
+    q[1],
+    `La regla ya indica que <b>sí necesita tilde</b>.`,
+    "Toca la letra exacta sobre la que debe ir la tilde.",
+    `<div class="hotspot-row">
+      ${chars.map((c,k)=>`<button class="hotspot-letter" onclick="gradeHotspot(${k===target},this)">${c}</button>`).join("")}
+    </div><div id="fb" class="feedback"></div>`
+  );
+}
+function gradeHotspot(ok,e){
+  let q=train[i];
+  attempts++;tries++;
+  if(ok){
+    if(tries===1)first++;
+    e.classList.add("good");
+    fb.className="feedback ok";fb.textContent=`✓ Se escribe “${q[0]}”.`;
+    setTimeout(()=>{i++;tries=0;render()},650);
+  }else{
+    if(tries===1)bad.push(q[0]);
+    e.classList.add("dead");
+    fb.className="feedback no";fb.textContent="Esa letra queda descartada. Busca la vocal de la sílaba tónica.";
+  }
+}
+
+function practiceSort(q){
+  sortChosen=[];
+  const steps=["CLASIFICA","OBSERVA LA TERMINACIÓN","APLICA LA REGLA"].sort(()=>Math.random()-.5);
+  practiceHeader(
+    "ORDENA EL PROCESO",
+    q[1],
+    "Antes de decidir la tilde, coloca los tres pasos en el orden correcto.",
+    "Toca las tarjetas en el orden en que debes pensar.",
+    `<div class="sort-steps">
+      ${steps.map(x=>`<button class="sort-card" onclick="chooseSort('${x}',this)">${x}</button>`).join("")}
+    </div>
+    <div id="sortOutput" class="sort-output">Tu secuencia aparecerá aquí</div>
+    <div class="actions"><button class="btn next" onclick="checkSort()">Comprobar secuencia</button></div>
+    <div id="fb" class="feedback"></div>`
+  );
+}
+function chooseSort(x,e){
+  if(e.classList.contains("sel"))return;
+  e.classList.add("sel");sortChosen.push(x);
+  sortOutput.innerHTML=sortChosen.map(x=>`<span class="sort-chip">${x}</span>`).join(" → ");
+}
+function checkSort(){
+  const expected=["CLASIFICA","OBSERVA LA TERMINACIÓN","APLICA LA REGLA"];
+  attempts++;tries++;
+  if(sortChosen.join("|")===expected.join("|")){
+    if(tries===1)first++;
+    fb.className="feedback ok";
+    fb.textContent="✓ Ese es el orden mental correcto.";
+    setTimeout(()=>{i++;tries=0;render()},650);
+  }else{
+    if(tries===1)bad.push(train[i][0]);
+    fb.className="feedback no";
+    fb.textContent="Todavía no. Reinicia mentalmente: primero identifica qué tipo de palabra es.";
+    setTimeout(()=>{sortChosen=[];render()},700);
+  }
+}
+
+const ruleLabels=[
+  "Aguda: tilde si termina en vocal, n o s",
+  "Grave: tilde si NO termina en vocal, n o s",
+  "Esdrújula: siempre lleva tilde",
+  "Sobresdrújula: siempre lleva tilde"
+];
+function ruleIndexFor(type){
+  return type==="aguda"?0:type==="grave"?1:type==="esdrújula"?2:3;
+}
+function practiceMatching(q){
+  matchSelected=null;matchDone=[];
+  const correctIndex=ruleIndexFor(q[2]);
+  const rules=[...ruleLabels].sort(()=>Math.random()-.5);
+  practiceHeader(
+    "MATCHING",
+    q[1],
+    `Relaciona la palabra con la regla que realmente corresponde a <b>${q[2].toUpperCase()}</b>.`,
+    "Las reglas están mezcladas: no uses la posición como pista.",
+    `<div class="matching">
+      <div class="match-col"><button class="match-item sel">${q[1]}</button></div>
+      <div class="match-col">${rules.map(r=>`<button class="match-item" onclick="checkMatch('${r.replace(/'/g,"\\'")}',this)">${r}</button>`).join("")}</div>
+    </div><div id="fb" class="feedback"></div>`
+  );
+}
+function checkMatch(rule,e){
+  let q=train[i],expected=ruleLabels[ruleIndexFor(q[2])];
+  attempts++;tries++;
+  if(rule===expected){
+    if(tries===1)first++;
+    e.classList.add("done");fb.className="feedback ok";fb.textContent="✓ Regla correcta.";
+    setTimeout(()=>{i++;tries=0;render()},650);
+  }else{
+    if(tries===1)bad.push(q[0]);
+    e.classList.add("dead");fb.className="feedback no";fb.textContent="Esa regla no corresponde. Lee la clasificación de la palabra.";
+  }
+}
+
+function practiceFill(q){
+  practiceHeader(
+    "COMPLETA",
+    q[1],
+    `Usa la regla de las palabras <b>${q[2].toUpperCase()}</b>.`,
+    "Escribe la palabra correctamente, con tilde solo si corresponde.",
+    `<div class="word">${q[1]}</div>
+     <div class="fill-wrap"><input id="fillInput" autocomplete="off" placeholder="Escribe la palabra"><button class="btn primary" onclick="checkFill()">Comprobar</button></div>
+     <div id="fb" class="feedback"></div>`
+  );
+}
+function checkFill(){
+  let q=train[i],a=fillInput.value.trim().toLowerCase();
+  attempts++;tries++;
+  if(a===q[0].toLowerCase()){
+    if(tries===1)first++;
+    fb.className="feedback ok";fb.textContent="✓ Escritura correcta.";
+    setTimeout(()=>{i++;tries=0;render()},650);
+  }else{
+    if(tries===1)bad.push(q[0]);
+    fb.className="feedback no";fb.textContent=`Revisa la regla. Todavía no está correcta.`;
+  }
+}
+
+function practiceDetector(q){
+  let variants=[q[0],q[1],fake(q[1])];
+  variants=[...new Set(variants)].sort(()=>Math.random()-.5);
+  practiceHeader(
+    "DETECTOR",
+    "Encuentra la escritura correcta",
+    `Palabra base: <b>${q[1]}</b>.`,
+    "Toca la tarjeta que esté escrita correctamente.",
+    `<div class="detector-grid">${variants.map(x=>`<button class="detector-card" onclick="checkDetector('${x.replace(/'/g,"\\'")}',this)">${x}</button>`).join("")}</div>
+     <div id="fb" class="feedback"></div>`
+  );
+}
+function checkDetector(x,e){
+  let q=train[i];
+  attempts++;tries++;
+  if(x===q[0]){
+    if(tries===1)first++;
+    e.classList.add("good");fb.className="feedback ok";fb.textContent="✓ Detectaste la forma correcta.";
+    setTimeout(()=>{i++;tries=0;render()},650);
+  }else{
+    if(tries===1)bad.push(q[0]);
+    e.classList.add("dead");fb.className="feedback no";fb.textContent="Esa forma queda descartada. Revisa la regla.";
+  }
+}
+
+function gradePractice(x,e){
+  let q=train[i],f=fb;
+  attempts++;tries++;
+  if(x===q[4]){
+    if(tries===1)first++;
+    e?.classList.add("good");
+    f.className="feedback ok";
+    f.textContent=q[4]?`✓ Se escribe “${q[0]}”.`:`✓ “${q[0]}” no necesita tilde.`;
+    setTimeout(()=>{i++;tries=0;render()},650);
+  }else{
+    if(tries===1)bad.push(q[0]);
+    e?.classList.add("dead");
+    f.className="feedback no";
+    f.textContent="Esa opción queda descartada. Revisa clasificación + terminación + regla.";
+  }
+}
+
+
+function exam(){
+  if(i>=test.length){phase=3;render();return}
+  let q=test[i];
+  B.style.width=(75+i*2.4)+"%";
+  const mode=i%3;
+
+  if(mode===0){
+    card(`Comprobación ${i+1} de 10`,`Sin pistas de clasificación ni terminación.`,"Elige la escritura correcta. Solo tienes una oportunidad.",
+      `<div class="word">${q[1]}</div>
+       <div class="opts">
+         <button class="opt" onclick="testDirect('${q[0].replace(/'/g,"\\'")}',this)">${q[0]}</button>
+         <button class="opt" onclick="testDirect('${(q[4]?q[1]:fake(q[1])).replace(/'/g,"\\'")}',this)">${q[4]?q[1]:fake(q[1])}</button>
+       </div><div id="fb" class="feedback"></div>`);
+  } else if(mode===1){
+    card(`Comprobación ${i+1} de 10`,`Recupera mentalmente la regla.`,"¿Necesita tilde?",
+      `<div class="word">${q[1]}</div>
+       <div class="swipe-board">
+         <button class="swipe-choice no" onclick="testYesNo(0,this)">NO</button>
+         <button class="swipe-choice yes" onclick="testYesNo(1,this)">SÍ</button>
+       </div><div id="fb" class="feedback"></div>`);
+  } else {
+    card(`Comprobación ${i+1} de 10`,`Recuerda la clasificación para poder aplicar la regla.`,"¿Qué tipo de palabra es?",
+      `<div class="word">${q[1]}</div>
+       <div class="detector-grid">
+        ${["aguda","grave","esdrújula","sobresdrújula"].sort(()=>Math.random()-.5).map(t=>`<button class="detector-card" onclick="testClass('${t}',this)">${t.toUpperCase()}</button>`).join("")}
+       </div><div id="fb" class="feedback"></div>`);
+  }
+}
+function finishTestItem(ok,e,message){
+  document.querySelectorAll(".opt,.swipe-choice,.detector-card").forEach(x=>x.disabled=true);
+  if(ok){score++;e?.classList.add("good");fb.className="feedback ok";fb.textContent=message||"Correcto."}
+  else{fb.className="feedback no";fb.textContent=message||"Incorrecto."}
+  setTimeout(()=>{i++;render()},700);
+}
+function testDirect(x,e){let q=test[i];finishTestItem(x===q[0],e,x===q[0]?"Correcto.":`La forma correcta es “${q[0]}”.`)}
+function testYesNo(x,e){let q=test[i];finishTestItem(x===q[4],e,x===q[4]?"Correcto.":`La respuesta correcta es ${q[4]?"SÍ":"NO"}.`)}
+function testClass(t,e){let q=test[i];finishTestItem(t===q[2],e,t===q[2]?"Clasificación correcta.":`Es ${q[2].toUpperCase()}.`)}
+
+function fake(s){let m={a:"á",e:"é",i:"í",o:"ó",u:"ú"};for(let j=0;j<s.length;j++)if(m[s[j]])return s.slice(0,j)+m[s[j]]+s.slice(j+1);return s}
+function testAns(correct,e){let q=test[i];attempts++;document.querySelectorAll(".opt").forEach(x=>x.disabled=true);if(correct){score++;e.classList.add("good");fb.className="feedback ok";fb.textContent="Correcto."}else{fb.className="feedback no";fb.textContent=`La forma correcta es “${q[0]}”.`}setTimeout(()=>{i++;render()},700)}
+function finish(){B.style.width="100%";let p=score*10,ok=p>=80;card(ok?"🔬 Nivel 6 dominado":"Refuerzo recomendado",ok?"Ya relacionas clasificación, terminación y uso de la tilde.":"Conviene repetir las reglas antes del Nivel 7.","",`<div class="stats"><div class="stat"><b>${score}/10</b><br>Comprobación</div><div class="stat"><b>${p}%</b><br>Dominio</div><div class="stat"><b>${first}</b><br>Primer intento</div><div class="stat"><b>${attempts}</b><br>Intentos</div></div><div class="feedback ${ok?"ok":"no"}">${ok?"✓ Preparado para el Nivel 7: palabras con y sin tilde mezcladas.":"Repite el laboratorio y aplica siempre la ruta completa."}</div>${bad.length?`<div class="info">Refuerza: <b>${[...new Set(bad)].join(", ")}</b></div>`:""}<div class="actions"><button class="btn primary" onclick="phase=1;i=0;tries=0;score=0;first=0;attempts=0;bad=[];render()">↻ Repetir</button></div>`)}
+render();
+</script></body></html>
+<style>
+/* ===== Pedagogical color semantics ===== */
+.hero{box-shadow:0 16px 34px rgba(79,70,165,.16)}
+.card{box-shadow:0 12px 30px rgba(39,50,74,.08)}
+.rule-map .route.ag,.always-rule:nth-child(1){border-color:var(--coral)!important;background:#FFF0EC!important}
+.rule-map .route.gr,.always-rule:nth-child(2){border-color:var(--turquoise)!important;background:#EAFBF9!important}
+.rule-map .route.es,.always-rule:nth-child(3){border-color:var(--yellow)!important;background:#FFF8D9!important}
+.rule-map .route.so,.always-rule:nth-child(4){border-color:var(--indigo)!important;background:#F2EEFF!important}
+.flow-step:nth-of-type(1){border-color:var(--coral)!important;background:#FFF0EC!important}
+.flow-step:nth-of-type(3){border-color:var(--turquoise)!important;background:#EAFBF9!important}
+.flow-step:nth-of-type(5){border-color:var(--yellow)!important;background:#FFF8D9!important}
+.rule-dot.active{background:#EAFBF9!important;border-color:var(--turquoise)!important;color:#17635F!important}
+.rule-dot.done{background:#EEF8E8!important;border-color:var(--green)!important;color:#426736!important}
+.assistant-card{border-color:#DCDDE7}
+.assistant-option.selected{border-color:var(--coral)!important;background:#FFF0EC!important}
+.assistant-option.correct,.hotspot-letter.good,.match-item.done{border-color:var(--green)!important;background:#EEF8E8!important}
+.assistant-option.wrong,.hotspot-letter.dead{filter:saturate(.6)}
+.assistant-next,.timeline-next{background:var(--turquoise)!important;color:#173B3A!important}
+.assistant-back{background:#EEEAFE!important;color:#4F46A5!important}
+.assistant-rulebox{background:#FFF8D9!important;border-color:var(--yellow)!important}
+.assistant-result{background:#EEF8E8!important;border-color:var(--green)!important}
+.timeline-sim{border-color:var(--turquoise)!important;background:linear-gradient(180deg,#F7FFFD,#FFFDF8)!important}
+.timeline-step.active{border-color:var(--coral)!important}
+.timeline-step.done{border-color:var(--green)!important;background:#EEF8E8!important}
+.timeline-step__num{background:var(--indigo)!important}
+.timeline-step.active .timeline-step__num{background:var(--coral)!important}
+.timeline-status{background:#FFF3C9!important;border-left-color:var(--yellow)!important}
+.timeline-reset{background:var(--indigo)!important;color:white!important}
+.demo-tab.active{background:var(--turquoise)!important;border-color:var(--turquoise)!important;color:#173B3A!important}
+.demo-result{background:#FFF3C9!important;border-left-color:var(--coral)!important}
+.swipe-choice.no{border-color:var(--indigo)!important;background:#F2EEFF!important}
+.swipe-choice.yes{border-color:var(--coral)!important;background:#FFF0EC!important}
+.big-toggle.on{background:var(--turquoise)!important;border-color:var(--turquoise)!important}
+.sort-card.sel,.match-item.sel{border-color:var(--coral)!important;background:#FFF0EC!important}
+.sort-output{border-color:var(--turquoise)!important;background:#F8FFFE!important}
+.sort-chip{background:#EAFBF9!important;border-color:var(--turquoise)!important}
+.feedback.ok,.ok{background:#EEF8E8!important;color:#426736!important}
+.feedback.no,.no{background:#FFF0F3!important;color:#9E4152!important}
+.progress div{background:linear-gradient(90deg,var(--indigo),var(--turquoise),var(--yellow),var(--coral),var(--green))!important}
+</style>
