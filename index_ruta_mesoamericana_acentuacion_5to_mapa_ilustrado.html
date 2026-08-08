@@ -146,6 +146,9 @@ button,a{font:inherit}
 }
 .station.done .done-tag{display:block}
 .station.done{outline:4px solid rgba(86,167,95,.23)}
+.station.locked{filter:grayscale(.32);opacity:.78}
+.station.locked .level-link{background:#8D94A3!important;cursor:not-allowed;pointer-events:none;box-shadow:none}
+.station.locked:after{content:"🔒 Completa la estación anterior";display:block;margin-top:7px;font-size:.66rem;font-weight:900;color:#687080}
 
 .level-link{
   display:inline-block;margin-top:9px;padding:8px 11px;border-radius:12px;
@@ -178,11 +181,11 @@ button,a{font:inherit}
 .footer h3{margin:0 0 6px}.footer p{color:#DEE4F0;line-height:1.5;max-width:860px}.footer a{color:#FFE471}
 
 @media(max-width:900px){
-  .map{min-height:1750px}
+  .map{min-height:1900px}
   .river{right:-8%;width:130px}
   .road,.road-inner{display:none}
   .station{width:260px;left:50%!important;transform:translateX(-50%)}
-  .s1{top:24%}.s2{top:34%}.s3{top:44%}.s4{top:54%}.s5{top:64%}.s6{top:74%}.s7{top:84%}.s8{top:92%}
+  .s1{top:22%}.s2{top:32%}.s3{top:42%}.s4{top:52%}.s5{top:62%}.s6{top:72%}.s7{top:82%}.s8{top:90%}
   .tree,.cactus,.village{opacity:.65}
 }
 </style>
@@ -205,12 +208,12 @@ button,a{font:inherit}
     <div class="profile"><div id="avatar" class="avatar">🌟</div><div><div id="studentName" class="pname">Explorador/a</div><div class="muted">Viajero/a de las palabras</div></div></div>
   </div>
   <div class="progress"><div id="progressBar"></div></div>
-  <div class="progress-text"><span id="progressText">0 de 8 estaciones visitadas</span><span id="progressPct">0%</span></div>
+  <div class="progress-text"><span id="progressText">0 de 8 estaciones recorridas</span><span id="progressPct">0%</span></div>
 </section>
 
 <section id="mapa" class="map-card">
   <div class="map-head">
-    <div><h2>🌳 Camino de las 8 estaciones</h2><p>Ahora el mapa tiene una ruta clara. <b>Solo haz clic en el nombre del nivel</b> para entrar.</p></div>
+    <div><h2>🌳 Camino de las 8 estaciones</h2><p>Avanza en orden. <b>Al entrar en una estación se habilitará la siguiente</b>, evitando saltos accidentales.</p></div>
     <span class="badge">8 NIVELES</span>
   </div>
 
@@ -231,49 +234,49 @@ button,a{font:inherit}
     <section class="station s1" data-level="1">
       <span class="level">1</span><div class="culture">MEXICA · TLÁLOC</div>
       <div class="mission">Escucha cuál sílaba suena con mayor fuerza.</div>
-      <a class="level-link" href="nivel_1_completo_radar_de_palabras.html">Radar de Palabras</a><span class="done-tag">VISITADO ✓</span>
+      <a class="level-link" href="nivel_1_completo_radar_de_palabras.html">Radar de Palabras</a><span class="done-tag">RECORRIDO ✓</span>
     </section>
 
     <section class="station s2" data-level="2">
       <span class="level">2</span><div class="culture">MEXICA · QUETZALCÓATL</div>
       <div class="mission">Divide correctamente las palabras en sílabas.</div>
-      <a class="level-link" href="nivel_2_laboratorio_de_silabas.html">Laboratorio de Sílabas</a><span class="done-tag">VISITADO ✓</span>
+      <a class="level-link" href="nivel_2_laboratorio_de_silabas.html">Laboratorio de Sílabas</a><span class="done-tag">RECORRIDO ✓</span>
     </section>
 
     <section class="station s3" data-level="3">
       <span class="level">3</span><div class="culture">MEXICA · XOCHIPILLI</div>
       <div class="mission">Encuentra la sílaba tónica y distingue las átonas.</div>
-      <a class="level-link" href="nivel_3_quinto_primaria_tonicas_y_atonas.html">Cazadores de la Tónica</a><span class="done-tag">VISITADO ✓</span>
+      <a class="level-link" href="nivel_3_quinto_primaria_tonicas_y_atonas.html">Cazadores de la Tónica</a><span class="done-tag">RECORRIDO ✓</span>
     </section>
 
     <section class="station s4" data-level="4">
       <span class="level">4</span><div class="culture">ZAPOTECA · COCIJO</div>
       <div class="mission">Cuenta la posición de la tónica desde el final.</div>
-      <a class="level-link" href="nivel_4_quinto_primaria_mision_cuenta_atras_paleta_sky_rose.html">Misión Cuenta Atrás</a><span class="done-tag">VISITADO ✓</span>
+      <a class="level-link" href="nivel_4_quinto_primaria_mision_cuenta_atras_paleta_sky_rose.html">Misión Cuenta Atrás</a><span class="done-tag">RECORRIDO ✓</span>
     </section>
 
     <section class="station s5" data-level="5">
       <span class="level">5</span><div class="culture">MIXTECA · DZAHUI</div>
       <div class="mission">Clasifica aguda, grave, esdrújula o sobresdrújula.</div>
-      <a class="level-link" href="nivel_5_quinto_primaria_central_clasificacion_posiciones_fijas.html">Central de Clasificación</a><span class="done-tag">VISITADO ✓</span>
+      <a class="level-link" href="nivel_5_quinto_primaria_central_clasificacion_posiciones_fijas.html">Central de Clasificación</a><span class="done-tag">RECORRIDO ✓</span>
     </section>
 
     <section class="station s6" data-level="6">
       <span class="level">6</span><div class="culture">MAYA · KUKULKÁN</div>
       <div class="mission">Aplica las reglas y decide cuándo lleva tilde.</div>
-      <a class="level-link" href="nivel_6_quinto_primaria_asistente_guiado_paleta_aprendizaje.html">Laboratorio de la Tilde</a><span class="done-tag">VISITADO ✓</span>
+      <a class="level-link" href="nivel_6_quinto_primaria_asistente_guiado_paleta_aprendizaje.html">Laboratorio de la Tilde</a><span class="done-tag">RECORRIDO ✓</span>
     </section>
 
     <section class="station s7" data-level="7">
       <span class="level">7</span><div class="culture">MAYA · CHAAC</div>
       <div class="mission">Resuelve palabras mezcladas con menos pistas.</div>
-      <a class="level-link" href="nivel_7_quinto_primaria_detectives_tilde_espacial.html">Detectives de la Tilde</a><span class="done-tag">VISITADO ✓</span>
+      <a class="level-link" href="nivel_7_quinto_primaria_detectives_tilde_espacial.html">Detectives de la Tilde</a><span class="done-tag">RECORRIDO ✓</span>
     </section>
 
     <section class="station s8" data-level="8">
       <span class="level">8</span><div class="culture">MAYA · IX CHEL</div>
       <div class="mission">Reto final de precisión y velocidad.</div>
-      <a class="level-link" href="nivel_8_quinto_primaria_reto_final_orbita_de_acentos.html">Órbita de Acentos</a><span class="done-tag">VISITADO ✓</span>
+      <a class="level-link" href="nivel_8_quinto_primaria_reto_final_orbita_de_acentos.html">Órbita de Acentos</a><span class="done-tag">RECORRIDO ✓</span>
     </section>
   </div>
 
@@ -282,7 +285,7 @@ button,a{font:inherit}
     <span class="chip">🏠 Pequeño poblado</span>
     <span class="chip">🛤️ Camino principal</span>
     <span class="chip">🌊 Río y paisaje</span>
-    <span class="chip">🔗 Solo el nombre abre el nivel</span>
+    <span class="chip">🔒 Los niveles se habilitan en orden</span>
   </div>
 </section>
 
@@ -300,8 +303,12 @@ avatar.textContent=localStorage.getItem("radarStudentAvatar")||"🌟";
 
 const stations=[...document.querySelectorAll(".station")];
 document.querySelectorAll(".level-link").forEach(link=>{
-  link.addEventListener("click",()=>{
+  link.addEventListener("click",e=>{
     const station=link.closest(".station");
+    if(station.classList.contains("locked")){
+      e.preventDefault();
+      return;
+    }
     const lv=station.dataset.level;
     localStorage.setItem("acentuacion5_visit_"+lv,"1");
     localStorage.setItem("acentuacion5_last_level",lv);
@@ -311,17 +318,23 @@ document.querySelectorAll(".level-link").forEach(link=>{
 function updateMap(){
   let visited=0;
   stations.forEach(st=>{
-    const yes=localStorage.getItem("acentuacion5_visit_"+st.dataset.level)==="1";
+    const lv=Number(st.dataset.level);
+    const yes=localStorage.getItem("acentuacion5_visit_"+lv)==="1";
+    const prevReady=lv===1 || localStorage.getItem("acentuacion5_visit_"+(lv-1))==="1";
     st.classList.toggle("done",yes);
+    st.classList.toggle("locked",!prevReady);
+    const link=st.querySelector(".level-link");
+    link.setAttribute("aria-disabled",String(!prevReady));
+    link.tabIndex=prevReady?0:-1;
     if(yes)visited++;
   });
   const pct=Math.round(visited/8*100);
   progressBar.style.width=pct+"%";
-  progressText.textContent=visited+" de 8 estaciones visitadas";
+  progressText.textContent=visited+" de 8 estaciones recorridas";
   progressPct.textContent=pct+"%";
 }
 function resetMap(){
-  if(!confirm("¿Reiniciar únicamente el progreso visual del mapa?"))return;
+  if(!confirm("¿Reiniciar el recorrido del mapa?"))return;
   for(let i=1;i<=8;i++)localStorage.removeItem("acentuacion5_visit_"+i);
   localStorage.removeItem("acentuacion5_last_level");
   updateMap();
