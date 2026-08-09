@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>La Expedición de las Palabras · 1.º de primaria · 50 retos</title>
 <link rel="stylesheet" href="expedicion_palabras_1ro.css">
+<style>
+.listen-word{display:flex;justify-content:center;margin:14px 0 18px}.listen-word .btn{font-size:1.08rem;min-width:min(100%,320px);background:#0D8383;color:#fff}.listen-help{text-align:center;color:#60787b;font-weight:800;margin:-8px 0 15px}.choice-audio-mode .word-focus{display:none!important}
+</style>
 </head>
 <body>
 <div class="app">
@@ -28,29 +31,20 @@
 </div>
 <div id="milestone" class="milestone hidden" role="dialog" aria-modal="true" aria-labelledby="milestoneTitle">
   <div class="milestone-card">
-    <div class="big">🎉</div>
-    <div class="eyebrow">¡Meta de hoy completada!</div>
+    <div class="big">🎉</div><div class="eyebrow">¡Meta de hoy completada!</div>
     <h2 id="milestoneTitle">¡FELICIDADES, LO LOGRASTE!</h2>
     <p>Ya completaste <b>20 retos</b>. Si quieres detenerte, está bien. Tu maestro ya está feliz con lo que lograste hoy y <b>mañana puedes presentarte a clases</b>.</p>
     <p>Si todavía tienes ganas, puedes seguir avanzando. Hay <b>30 retos extra</b> y poco a poco serán más difíciles para que practiques más.</p>
     <p><b>Tú decides: ¿quieres terminar por hoy o quieres seguir con el reto?</b></p>
-    <div class="milestone-actions">
-      <button id="continueBtn" class="btn orange">🚀 Quiero seguir avanzando</button>
-      <button id="finish20Btn" class="btn ghost">🏁 Ya quiero terminar</button>
-    </div>
+    <div class="milestone-actions"><button id="continueBtn" class="btn orange">🚀 Quiero seguir avanzando</button><button id="finish20Btn" class="btn ghost">🏁 Ya quiero terminar</button></div>
   </div>
 </div>
 <div id="confirmFinish" class="milestone hidden" role="dialog" aria-modal="true" aria-labelledby="confirmFinishTitle">
   <div class="milestone-card">
-    <div class="big">🤔</div>
-    <div class="eyebrow">Antes de terminar</div>
-    <h2 id="confirmFinishTitle">¿Estás seguro?</h2>
+    <div class="big">🤔</div><div class="eyebrow">Antes de terminar</div><h2 id="confirmFinishTitle">¿Estás seguro?</h2>
     <p>Ya hiciste un gran trabajo hoy. Si terminas ahora, te mostraré tu <b>reporte de aprendizaje</b> con tus logros, intentos y lo que ya sabes hacer.</p>
     <p>Si cambiaste de idea, todavía puedes seguir jugando.</p>
-    <div class="milestone-actions">
-      <button id="confirmFinishBtn" class="btn green">✅ Sí, quiero terminar y ver mi reporte</button>
-      <button id="cancelFinishBtn" class="btn orange">🚀 No, quiero seguir</button>
-    </div>
+    <div class="milestone-actions"><button id="confirmFinishBtn" class="btn green">✅ Sí, quiero terminar y ver mi reporte</button><button id="cancelFinishBtn" class="btn orange">🚀 No, quiero seguir</button></div>
   </div>
 </div>
 <script src="expedicion_palabras_1ro.js"></script>
@@ -65,6 +59,43 @@
   if(finish){finish.onclick=function(){milestone.classList.add('hidden');confirm.classList.remove('hidden');};}
   if(no){no.onclick=function(){confirm.classList.add('hidden');milestone.classList.remove('hidden');};}
   if(yes){yes.onclick=function(){confirm.classList.add('hidden');if(originalFinish)originalFinish.call(finish);};}
+
+  const card=document.getElementById('challengeCard');
+  let lastSignature='';
+  function speakWord(word){
+    if(!('speechSynthesis' in window)){alert('Este dispositivo no pudo reproducir la palabra. Puedes pedir ayuda a tu maestro.');return;}
+    window.speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(word);
+    u.lang='es-MX';u.rate=.72;u.pitch=1.05;
+    window.speechSynthesis.speak(u);
+  }
+  function enhanceChoiceQuestion(){
+    if(!card)return;
+    const title=card.querySelector('h2');
+    const wordEl=card.querySelector('.word-focus');
+    const prompt=card.querySelector('.prompt');
+    const options=card.querySelector('.options');
+    if(!title||!wordEl||!prompt)return;
+    const isChoice=title.textContent.trim()==='Encuentra la correcta' && !!options;
+    card.classList.toggle('choice-audio-mode',isChoice);
+    const old=card.querySelector('.listen-word'); if(old)old.remove();
+    const oldHelp=card.querySelector('.listen-help'); if(oldHelp)oldHelp.remove();
+    if(!isChoice)return;
+    const word=wordEl.textContent.trim();
+    const signature=word+'|'+prompt.textContent.trim();
+    lastSignature=signature;
+    const wrap=document.createElement('div');wrap.className='listen-word';
+    const btn=document.createElement('button');btn.type='button';btn.className='btn';btn.innerHTML='🔊 Escuchar palabra';btn.setAttribute('aria-label','Escuchar la palabra');
+    btn.addEventListener('click',()=>{speakWord(word);btn.innerHTML='🔊 Escuchar otra vez';});
+    wrap.appendChild(btn);prompt.before(wrap);
+    const help=document.createElement('div');help.className='listen-help';help.textContent='Escucha con atención y elige cómo se escribe.';wrap.after(help);
+    prompt.textContent='¿Cuál opción corresponde a la palabra que escuchaste?';
+  }
+  if(card){
+    const observer=new MutationObserver(()=>requestAnimationFrame(enhanceChoiceQuestion));
+    observer.observe(card,{childList:true,subtree:false});
+    setTimeout(enhanceChoiceQuestion,0);
+  }
 })();
 </script>
 </body>
