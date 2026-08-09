@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>La Expedición de las Palabras · 1.º de primaria · 50 retos</title>
+<link rel="stylesheet" href="expedicion_palabras_1ro.css">
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="mascot" id="mascot">🐥</div><div>Expedición de las Palabras<small>1.º de primaria · Individual</small></div></div>
+  <div class="hud"><div class="pill">⭐ <strong id="pointsHud">0</strong></div><div class="pill">🏅 <strong id="medalsHud">0</strong></div><div class="pill optional">🎯 <strong id="challengeHud">0/50</strong></div></div>
+</header>
+
+<section id="startScreen" class="card hero">
+  <div class="eyebrow">Aventura individual de lectura y palabras</div>
+  <h1>Aprende jugando, una palabra a la vez.</h1>
+  <p>Completa primero <b>20 retos</b>. Después tú decides si quieres seguir descubriendo retos nuevos. Puedes regresar a practicar y el juego recuerda tus intentos.</p>
+  <div class="start-row"><input id="studentName" maxlength="28" autocomplete="off" placeholder="Escribe tu nombre"><button id="startBtn" class="btn orange">🚀 Empezar</button></div>
+  <div id="startError" class="feedback try"></div>
+</section>
+
+<section id="gameScreen" class="hidden">
+  <div class="progress-shell"><div class="progress-label"><span id="progressText">Reto 1 de 50</span><span id="worldText">Primeros pasos</span></div><div class="meter"><div id="progressBar"></div></div></div>
+  <div class="worlds" id="worlds"></div>
+  <main class="card challenge next-in" id="challengeCard"></main>
+</section>
+
+<section id="reportScreen" class="card hidden"></section>
+</div>
+<div id="milestone" class="milestone hidden" role="dialog" aria-modal="true"><div class="milestone-card"><div class="big">🎉</div><div class="eyebrow">Meta principal completada</div><h2>¡Llegaste al reto 20!</h2><p>¡Muy bien! Ya completaste los 20 retos principales.</p><p>La aventura todavía tiene <b>30 retos extra</b>. Serán un poquito más difíciles, pero mientras más practiques, <b>mejor podrás leer, reconocer y formar palabras</b>.</p><p><b>¿Quieres seguir jugando?</b></p><div class="milestone-actions"><button id="continueBtn" class="btn orange">🚀 ¡Sí! Quiero seguir</button><button id="finish20Btn" class="btn ghost">🏁 Ver mis resultados</button></div></div></div>
+
+<script src="expedicion_palabras_1ro.js"></script>
+</body>
+</html>
