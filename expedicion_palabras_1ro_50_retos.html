@@ -61,13 +61,20 @@
   if(yes){yes.onclick=function(){confirm.classList.add('hidden');if(originalFinish)originalFinish.call(finish);};}
 
   const card=document.getElementById('challengeCard');
-  let lastSignature='';
-  function speakWord(word){
+  function speakWord(word,btn){
     if(!('speechSynthesis' in window)){alert('Este dispositivo no pudo reproducir la palabra. Puedes pedir ayuda a tu maestro.');return;}
-    window.speechSynthesis.cancel();
-    const u=new SpeechSynthesisUtterance(word);
-    u.lang='es-MX';u.rate=.72;u.pitch=1.05;
-    window.speechSynthesis.speak(u);
+    try{
+      window.speechSynthesis.cancel();
+      const u=new SpeechSynthesisUtterance(word);
+      u.lang='es-MX';u.rate=.72;u.pitch=1;u.volume=1;
+      const voices=window.speechSynthesis.getVoices();
+      const voice=voices.find(v=>/^es-MX/i.test(v.lang))||voices.find(v=>/^es/i.test(v.lang));
+      if(voice)u.voice=voice;
+      u.onstart=function(){btn.textContent='🔊 Escuchando…';};
+      u.onend=function(){btn.textContent='🔊 Escuchar otra vez';};
+      u.onerror=function(){btn.textContent='🔊 Escuchar otra vez';};
+      window.speechSynthesis.speak(u);
+    }catch(err){console.error(err);alert('No pude reproducir la palabra. Toca el botón otra vez.');}
   }
   function enhanceChoiceQuestion(){
     if(!card)return;
@@ -78,24 +85,32 @@
     if(!title||!wordEl||!prompt)return;
     const isChoice=title.textContent.trim()==='Encuentra la correcta' && !!options;
     card.classList.toggle('choice-audio-mode',isChoice);
-    const old=card.querySelector('.listen-word'); if(old)old.remove();
-    const oldHelp=card.querySelector('.listen-help'); if(oldHelp)oldHelp.remove();
     if(!isChoice)return;
     const word=wordEl.textContent.trim();
-    const signature=word+'|'+prompt.textContent.trim();
-    lastSignature=signature;
-    const wrap=document.createElement('div');wrap.className='listen-word';
-    const btn=document.createElement('button');btn.type='button';btn.className='btn';btn.innerHTML='🔊 Escuchar palabra';btn.setAttribute('aria-label','Escuchar la palabra');
-    btn.addEventListener('click',()=>{speakWord(word);btn.innerHTML='🔊 Escuchar otra vez';});
+    if(!word)return;
+    const existing=card.querySelector('.listen-word');
+    if(existing && existing.dataset.word===word)return;
+    if(existing)existing.remove();
+    card.querySelector('.listen-help')?.remove();
+    const wrap=document.createElement('div');
+    wrap.className='listen-word';wrap.dataset.word=word;
+    const btn=document.createElement('button');
+    btn.type='button';btn.className='btn';btn.textContent='🔊 Escuchar palabra';btn.setAttribute('aria-label','Escuchar la palabra');
+    btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();speakWord(word,btn);});
     wrap.appendChild(btn);prompt.before(wrap);
     const help=document.createElement('div');help.className='listen-help';help.textContent='Escucha con atención y elige cómo se escribe.';wrap.after(help);
     prompt.textContent='¿Cuál opción corresponde a la palabra que escuchaste?';
   }
   if(card){
-    const observer=new MutationObserver(()=>requestAnimationFrame(enhanceChoiceQuestion));
+    let scheduled=false;
+    const observer=new MutationObserver(function(){
+      if(scheduled)return;scheduled=true;
+      requestAnimationFrame(function(){scheduled=false;enhanceChoiceQuestion();});
+    });
     observer.observe(card,{childList:true,subtree:false});
     setTimeout(enhanceChoiceQuestion,0);
   }
+  if('speechSynthesis' in window && 'onvoiceschanged' in window.speechSynthesis){window.speechSynthesis.onvoiceschanged=function(){window.speechSynthesis.getVoices();};}
 })();
 </script>
 </body>
