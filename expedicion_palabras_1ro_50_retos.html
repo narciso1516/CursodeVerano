@@ -29,7 +29,35 @@
 
 <section id="reportScreen" class="card hidden"></section>
 </div>
-<div id="milestone" class="milestone hidden" role="dialog" aria-modal="true"><div class="milestone-card"><div class="big">🎉</div><div class="eyebrow">Meta principal completada</div><h2>¡Llegaste al reto 20!</h2><p>¡Muy bien! Ya completaste los 20 retos principales.</p><p>La aventura todavía tiene <b>30 retos extra</b>. Serán un poquito más difíciles, pero mientras más practiques, <b>mejor podrás leer, reconocer y formar palabras</b>.</p><p><b>¿Quieres seguir jugando?</b></p><div class="milestone-actions"><button id="continueBtn" class="btn orange">🚀 ¡Sí! Quiero seguir</button><button id="finish20Btn" class="btn ghost">🏁 Ver mis resultados</button></div></div></div>
+
+<div id="milestone" class="milestone hidden" role="dialog" aria-modal="true" aria-labelledby="milestoneTitle">
+  <div class="milestone-card">
+    <div class="big">🎉</div>
+    <div class="eyebrow">¡Meta de hoy completada!</div>
+    <h2 id="milestoneTitle">¡FELICIDADES, LO LOGRASTE!</h2>
+    <p>Ya completaste <b>20 retos</b>. Si quieres detenerte, está bien. Tu maestro ya está feliz con lo que lograste hoy y <b>mañana puedes presentarte a clases</b>.</p>
+    <p>Si todavía tienes ganas, puedes seguir avanzando. Hay <b>30 retos extra</b> y poco a poco serán más difíciles para que practiques más.</p>
+    <p><b>Tú decides: ¿quieres terminar por hoy o quieres seguir con el reto?</b></p>
+    <div class="milestone-actions">
+      <button id="continueBtn" class="btn orange">🚀 Quiero seguir avanzando</button>
+      <button id="finish20Btn" class="btn ghost">🏁 Ya quiero terminar</button>
+    </div>
+  </div>
+</div>
+
+<div id="confirmFinish" class="milestone hidden" role="dialog" aria-modal="true" aria-labelledby="confirmFinishTitle">
+  <div class="milestone-card">
+    <div class="big">🤔</div>
+    <div class="eyebrow">Antes de terminar</div>
+    <h2 id="confirmFinishTitle">¿Estás seguro?</h2>
+    <p>Ya hiciste un gran trabajo hoy. Si terminas ahora, te mostraré tu <b>reporte de aprendizaje</b> con tus logros, intentos y lo que ya sabes hacer.</p>
+    <p>Si cambiaste de idea, todavía puedes seguir jugando.</p>
+    <div class="milestone-actions">
+      <button id="confirmFinishBtn" class="btn green">✅ Sí, quiero terminar y ver mi reporte</button>
+      <button id="cancelFinishBtn" class="btn orange">🚀 No, quiero seguir</button>
+    </div>
+  </div>
+</div>
 
 <script src="expedicion_palabras_1ro.js"></script>
 </body>
