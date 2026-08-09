@@ -1,0 +1,934 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bloque 1 · 5.º de primaria · Palabras con propósito</title>
+<style>
+:root{
+--redorange:#FF340C;
+--red:#E0070F;
+--pink:#F03172;
+--blush:#E990A2;
+--amber:#FFAE00;
+--chartreuse:#CAC307;
+--teal:#0F4A42;
+--periwinkle:#93A9DE;
+--cream:#F9F3DB;
+--navy:#181A4D;
+--indigo:#273287;
+--brown:#441B07;
+
+/* alias para conservar toda la lógica/CSS existente */
+--blue:#273287;
+--sky:#93A9DE;
+--lime:#CAC307;
+--orange:#FFAE00;
+--coffee:#441B07;
+--white:#FFFDF8;
+--muted:#6B625B;
+--line:#E6D8C7;
+--good:#EAF3C7;
+--bad:#FCE1E4;
+--shadow:0 18px 45px rgba(24,26,77,.12)
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--coffee);background:linear-gradient(180deg,var(--cream),#fff)}button,input{font:inherit}.wrap{max-width:1120px;margin:auto;padding:16px 12px 52px}.hero{background:linear-gradient(135deg,var(--navy),var(--indigo));color:#fff;border-radius:30px;padding:30px;box-shadow:var(--shadow)}.badge{display:inline-block;background:var(--chartreuse);color:var(--coffee);padding:8px 12px;border-radius:999px;font-weight:950;font-size:.78rem}.hero h1{font-size:clamp(2.2rem,7vw,4.4rem);line-height:.98;margin:10px 0 8px}.hero p{max-width:850px;line-height:1.55;color:#F4F2FF}.goal{margin-top:16px;background:#ffffff14;border:1px solid #ffffff33;border-radius:16px;padding:14px;line-height:1.5}.topgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-top:16px}.panel{background:var(--white);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:var(--shadow)}.profile{display:flex;gap:12px;align-items:center}.avatar{width:60px;height:60px;border-radius:20px;background:linear-gradient(135deg,var(--lime),var(--orange));display:grid;place-items:center;font-size:1.9rem}.name{font-weight:950;font-size:1.08rem}.small{font-size:.84rem;color:var(--muted)}.profile-form{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.profile-form input{flex:1;min-width:180px;padding:11px;border:2px solid var(--line);border-radius:12px}.btn{border:0;border-radius:13px;padding:11px 14px;font-weight:950;cursor:pointer}.btn-blue{background:var(--indigo);color:#fff}.btn-lime{background:var(--chartreuse);color:var(--coffee)}.btn-soft{background:#F7D5E7;color:var(--coffee)}.progress{height:14px;background:#EEEAE3;border-radius:999px;overflow:hidden;margin-top:9px}.progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--sky),var(--lime),var(--orange));transition:.35s}.statrow{display:flex;justify-content:space-between;gap:8px;margin-top:6px;color:var(--muted);font-size:.82rem;font-weight:850}.route{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:14px}.route-step{border:2px solid var(--line);border-radius:14px;padding:9px;text-align:center;background:#FAF9F6;font-size:.76rem;font-weight:900}.route-step.active{border-color:var(--indigo);background:var(--periwinkle);color:var(--indigo)}.route-step.done{border-color:var(--orange);background:#F4F8CC}.activity{margin-top:16px;border-top:7px solid var(--blue)}.stage{display:inline-block;background:var(--periwinkle);color:var(--indigo);padding:6px 10px;border-radius:999px;font-size:.76rem;font-weight:950}.activity h2{font-size:clamp(1.5rem,4vw,2.35rem);margin:10px 0 6px}.explain{background:#F6FBFB;border-left:5px solid var(--sky);padding:13px 14px;border-radius:13px;line-height:1.5}.instruction{margin:12px 0;padding:13px 14px;border:2px solid var(--lime);background:#FFF8D9;border-radius:14px;font-weight:900}.word{font-size:clamp(2.2rem,8vw,4.3rem);font-weight:950;text-align:center;color:var(--indigo);margin:16px 0}.listen-wrap{text-align:center;margin:10px 0}.listen{border:4px solid var(--blue);background:var(--chartreuse);color:var(--coffee);border-radius:999px;padding:13px 19px;font-weight:950;cursor:pointer;box-shadow:0 5px 0 rgba(26,26,167,.18)}.options{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}.choice,.chip,.syll{border:2px solid var(--line);background:#fff;border-radius:15px;padding:14px;font-weight:900;cursor:pointer}.choice:hover,.chip:hover,.syll:hover{border-color:var(--orange);transform:translateY(-1px)}.good{background:var(--good)!important;border-color:var(--indigo)!important}.bad{background:var(--bad)!important;border-color:var(--orange)!important;opacity:.7}.chips,.syllables{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin:14px 0}.zone{min-height:72px;border:2px dashed var(--blue);border-radius:16px;padding:12px;display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;background:#F9FCFC}.feedback{min-height:54px;margin-top:13px;padding:12px;border-radius:14px;text-align:center;font-weight:850;display:flex;align-items:center;justify-content:center}.feedback.ok{background:var(--good);color:#4D5C19}.feedback.no{background:var(--bad);color:#8A4424}.eval-clue{max-width:650px;margin:14px auto;padding:18px;border:3px solid var(--blue);border-radius:22px;background:var(--cream);text-align:center}
+.eval-clue .icon{font-size:4.5rem;line-height:1}
+.eval-clue .clue-title{margin-top:8px;font-size:.78rem;letter-spacing:.08em;font-weight:950;color:var(--indigo)}
+.eval-clue .clue-text{font-size:1.08rem;line-height:1.45;margin-top:6px}
+.help-row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+.help-btn{border:2px solid var(--blue);background:#fff;color:var(--indigo);border-radius:999px;padding:10px 14px;font-weight:950;cursor:pointer}
+.help-btn.used{opacity:.55}
+.metric-note{margin-top:10px;padding:10px 12px;border-radius:12px;background:#F2F5FF;color:var(--indigo);font-size:.82rem;line-height:1.4}
+.fact{margin-top:14px;padding:13px;border-radius:14px;background:var(--cream);border:2px solid var(--sky);line-height:1.45}.sliderbox{padding:16px;border:2px solid var(--line);border-radius:16px;background:#FAFBFD}.sliderbox input{width:100%;accent-color:var(--indigo)}.countlabels{display:flex;justify-content:space-between;font-weight:900;color:var(--indigo)}.taparea{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:16px 0}.tapbtn{width:74px;height:74px;border-radius:50%;border:3px solid var(--blue);background:var(--periwinkle);font-weight:950;cursor:pointer}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.matchcol{display:grid;gap:9px}.matchbtn{border:2px solid var(--line);border-radius:14px;padding:13px;background:#fff;font-weight:900;cursor:pointer}.matchbtn.sel{border-color:var(--indigo);background:var(--periwinkle)}.matchbtn.done{background:var(--good);border-color:var(--indigo)}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.sum{background:#FAF9F5;border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center}.sum b{display:block;font-size:1.5rem}@media(max-width:760px){.topgrid{grid-template-columns:1fr}.options,.grid3{grid-template-columns:1fr}.route{grid-template-columns:1fr 1fr}.summary{grid-template-columns:1fr 1fr}}
+
+.hero{background:linear-gradient(135deg,var(--navy),var(--indigo))}
+.badge{background:var(--amber);color:var(--coffee)}
+.stage{background:#F7D5E7;color:var(--coffee)}
+.btn-lime{background:var(--amber);color:var(--coffee)}
+.instruction{border-color:var(--orange);background:#FFF8DF}
+.word{color:var(--indigo)}
+.relation-board{margin-top:16px;padding:18px;border:3px solid var(--blue);border-radius:24px;background:#FFFDF8;box-shadow:0 12px 30px rgba(3,127,113,.08)}
+.relation-title{text-align:center;font-size:.8rem;font-weight:950;letter-spacing:.1em;color:var(--indigo);margin-bottom:12px}
+.relation-grid{display:grid;grid-template-columns:minmax(0,1fr) 70px minmax(0,1fr);gap:12px;align-items:start}
+.relation-column{display:grid;gap:10px}
+.relation-column-header{padding:10px 12px;border-radius:13px;text-align:center;font-weight:950;font-size:.78rem;letter-spacing:.05em}
+.relation-column.left .relation-column-header{background:#F7D5E7}
+.relation-column.right .relation-column-header{background:var(--amber)}
+.relation-center{display:flex;min-height:100%;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--indigo);font-weight:950}
+.relation-center .arrow{width:48px;height:48px;border-radius:50%;background:var(--chartreuse);border:3px solid var(--blue);display:grid;place-items:center;font-size:1.5rem}
+.relation-center small{text-align:center;color:var(--muted);font-size:.68rem;line-height:1.2}
+.matchbtn.relation-item{min-height:58px;background:#fff;transition:.16s}
+.matchbtn.relation-item.sel{border-color:var(--indigo);background:var(--periwinkle);box-shadow:0 0 0 4px rgba(87,177,168,.18)}
+.matchbtn.relation-item.done{background:var(--chartreuse);border-color:var(--indigo);opacity:.72;cursor:default}
+.relation-help{margin-top:12px;padding:10px 12px;border-radius:13px;background:#F7D5E7;text-align:center;font-size:.82rem;font-weight:800}
+@media(max-width:700px){.relation-grid{grid-template-columns:1fr}.relation-center{min-height:auto;flex-direction:row}.relation-center .arrow{transform:rotate(90deg)}}
+
+/* ===== Movimiento y estados ===== */
+.activity{
+  animation:questionIn .42s cubic-bezier(.2,.85,.25,1);
+  transform-origin:50% 0;
+}
+.activity.question-out{animation:questionOut .32s ease forwards}
+@keyframes questionIn{
+  from{opacity:0;transform:translateY(24px) scale(.985)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes questionOut{
+  to{opacity:0;transform:translateX(-34px) scale(.985)}
+}
+.advance-flash{
+  position:fixed;inset:0;pointer-events:none;z-index:9998;
+  display:grid;place-items:center;
+  background:radial-gradient(circle,rgba(255,174,0,.18),transparent 55%);
+  animation:flashAway .75s ease forwards
+}
+.advance-flash__badge{
+  width:104px;height:104px;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--amber);color:var(--navy);
+  border:6px solid #fff;box-shadow:0 18px 55px rgba(24,26,77,.25);
+  font-size:2.7rem;font-weight:950;
+  animation:popBadge .75s cubic-bezier(.2,.85,.25,1)
+}
+@keyframes popBadge{
+  0%{transform:scale(.25) rotate(-18deg);opacity:0}
+  55%{transform:scale(1.14) rotate(4deg);opacity:1}
+  100%{transform:scale(.95);opacity:0}
+}
+@keyframes flashAway{0%,60%{opacity:1}100%{opacity:0}}
+
+.timer-chip{
+  display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;
+  background:var(--cream);border:2px solid var(--periwinkle);
+  color:var(--navy);font-size:.78rem;font-weight:900;margin-left:7px
+}
+.performance-strip{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px
+}
+.performance-strip div{
+  background:#FFF8E7;border:1px solid #E9DBC3;border-radius:13px;padding:10px;text-align:center
+}
+.performance-strip b{display:block;font-size:1.15rem;color:var(--navy)}
+
+.report-hero{
+  padding:19px;border-radius:21px;margin-top:15px;border:3px solid var(--navy);
+  background:linear-gradient(135deg,#FFF9E7,#F7E0EB)
+}
+.report-hero.continue{border-color:var(--teal);background:linear-gradient(135deg,#EFF6D4,#E7F4F1)}
+.report-hero.partial{border-color:var(--amber);background:linear-gradient(135deg,#FFF4C7,#FCE1E8)}
+.report-hero.repeat{border-color:var(--red);background:linear-gradient(135deg,#FFE6E4,#F6D4E1)}
+.report-decision{
+  font-size:clamp(1.25rem,4vw,2rem);font-weight:950;color:var(--navy);margin:5px 0
+}
+.skill-report{display:grid;gap:9px;margin-top:14px}
+.skill-row{
+  display:grid;grid-template-columns:1.25fr 90px 1fr;gap:10px;align-items:center;
+  padding:11px 12px;border-radius:14px;background:#fff;border:1px solid var(--line)
+}
+.skill-meter{height:10px;background:#EEE7DB;border-radius:999px;overflow:hidden}
+.skill-meter span{display:block;height:100%;background:linear-gradient(90deg,var(--pink),var(--amber),var(--teal))}
+.recommendation{
+  margin-top:14px;padding:14px;border-radius:15px;background:#fff;border:2px solid var(--periwinkle);line-height:1.55
+}
+.report-actions{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+@media(max-width:700px){
+  .performance-strip{grid-template-columns:1fr}
+  .skill-row{grid-template-columns:1fr}
+}
+
+
+/* =====================================================================
+   SISTEMA VISUAL EDUCATIVO — Pink Punch / Lemon Drop / Lime Wedge
+   Violet Syrup / Orange Paloma / Blue Crystal
+   Refactor exclusivamente visual. No modifica contenido ni lógica.
+   ===================================================================== */
+
+:root{
+  /* Paleta proporcionada */
+  --color-pink:#F055A5;
+  --color-lemon:#FABE37;
+  --color-lime:#CCD537;
+  --color-violet:#7A88FE;
+  --color-orange:#FF9B28;
+  --color-blue-crystal:#BFDFF3;
+
+  /* Sistema semántico */
+  --color-primary:var(--color-violet);
+  --color-secondary:var(--color-blue-crystal);
+  --color-accent:var(--color-lemon);
+  --color-accent-strong:var(--color-orange);
+  --color-highlight:var(--color-pink);
+  --color-success:var(--color-lime);
+  --color-background:#FFFDF8; /* neutral de accesibilidad */
+  --color-surface:#FFFFFF;    /* neutral de accesibilidad */
+  --color-text:#181A4D;       /* neutral oscuro necesario para contraste WCAG */
+  --color-text-soft:#4D5278;  /* neutral de accesibilidad */
+
+  /* Alias del archivo existente: conserva toda la estructura */
+  --blue:var(--color-primary);
+  --sky:var(--color-blue-crystal);
+  --lime:var(--color-lime);
+  --orange:var(--color-orange);
+  --coffee:var(--color-text);
+  --cream:var(--color-background);
+  --white:var(--color-surface);
+  --muted:var(--color-text-soft);
+  --line:rgba(122,136,254,.24);
+  --good:rgba(204,213,55,.20);
+  --bad:rgba(240,85,165,.14);
+  --shadow:0 14px 38px rgba(24,26,77,.10);
+
+  /* Escala tipográfica */
+  --text-h1:clamp(2.25rem,6vw,4rem);
+  --text-h2:clamp(1.65rem,4vw,2.2rem);
+  --text-h3:clamp(1.25rem,3vw,1.55rem);
+  --text-body:clamp(1rem,1.6vw,1.10rem);
+  --text-small:.88rem;
+
+  /* Espaciado */
+  --space-xs:.45rem;
+  --space-sm:.75rem;
+  --space-md:1.05rem;
+  --space-lg:1.55rem;
+  --space-xl:2.25rem;
+}
+
+/* 60%: superficies y fondo */
+body{
+  color:var(--color-text);
+  background:
+    radial-gradient(circle at 8% 5%, rgba(191,223,243,.34), transparent 28rem),
+    linear-gradient(180deg,#FFFDF8,#FFF9EE 68%,#FFFDF8);
+  font-size:var(--text-body);
+  line-height:1.55;
+}
+.wrap{max-width:1120px;padding:var(--space-md) 14px 56px}
+.panel{
+  background:rgba(255,255,255,.97);
+  border:1px solid rgba(122,136,254,.20);
+  box-shadow:var(--shadow);
+}
+
+/* 30%: Violet Syrup + Blue Crystal para estructura */
+.hero{
+  background:linear-gradient(135deg,var(--color-violet),#6979F4);
+  color:#fff;
+  border:0;
+  box-shadow:0 18px 44px rgba(122,136,254,.23);
+}
+.hero h1{
+  font-size:var(--text-h1);
+  font-weight:950;
+  letter-spacing:-.045em;
+  line-height:.98;
+  margin:var(--space-sm) 0;
+}
+.hero p{
+  color:#fff;
+  font-size:clamp(1rem,2vw,1.12rem);
+  max-width:760px;
+}
+.goal{
+  background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.38);
+  font-size:1rem;
+}
+.badge{
+  background:var(--color-lemon);
+  color:var(--color-text);
+  font-weight:950;
+}
+
+/* Jerarquía tipográfica */
+.activity h2{
+  font-size:var(--text-h2);
+  line-height:1.1;
+  letter-spacing:-.025em;
+  color:var(--color-text);
+  margin:var(--space-sm) 0;
+}
+.activity h3{font-size:var(--text-h3)}
+.activity p,.explain,.instruction,.fact,.feedback{font-size:var(--text-body)}
+.small,.statrow,.timer-chip{font-size:var(--text-small)}
+
+/* Ubicación / contexto del alumno */
+.stage{
+  background:var(--color-blue-crystal);
+  color:var(--color-text);
+  font-weight:950;
+  border:1px solid rgba(122,136,254,.35);
+}
+.timer-chip{
+  background:#fff;
+  border:2px solid var(--color-blue-crystal);
+  color:var(--color-text-soft);
+}
+.activity{
+  border-top:7px solid var(--color-violet);
+}
+
+/* Explicación = superficie suave */
+.explain{
+  background:rgba(191,223,243,.28);
+  border-left:6px solid var(--color-blue-crystal);
+  color:var(--color-text);
+  padding:15px 16px;
+  line-height:1.6;
+}
+
+/* Instrucción = prioridad pedagógica */
+.instruction{
+  background:rgba(250,190,55,.18);
+  border:2px solid var(--color-lemon);
+  color:var(--color-text);
+  font-weight:900;
+  padding:15px 16px;
+  box-shadow:inset 5px 0 0 var(--color-lemon);
+}
+
+/* Pregunta / palabra objetivo */
+.word{
+  color:var(--color-violet);
+  font-size:clamp(2.45rem,8vw,4.5rem);
+  font-weight:950;
+  letter-spacing:-.04em;
+  line-height:1;
+  margin:var(--space-xl) 0 var(--space-md);
+}
+
+/* Botones: primario / secundario / terciario */
+.btn{
+  min-height:46px;
+  border-radius:14px;
+  padding:12px 17px;
+  transition:transform .14s ease,box-shadow .14s ease,filter .14s ease;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn:focus-visible,
+.choice:focus-visible,.chip:focus-visible,.syll:focus-visible,
+.matchbtn:focus-visible,.help-btn:focus-visible,.listen:focus-visible{
+  outline:4px solid rgba(240,85,165,.30);
+  outline-offset:3px;
+}
+.btn-blue{
+  background:var(--color-violet);
+  color:white;
+  box-shadow:0 5px 0 rgba(24,26,77,.18);
+}
+.btn-lime{
+  background:var(--color-lemon);
+  color:var(--color-text);
+  box-shadow:0 4px 0 rgba(255,155,40,.35);
+}
+.btn-soft{
+  background:rgba(191,223,243,.40);
+  color:var(--color-text);
+  border:1px solid rgba(122,136,254,.22);
+}
+.listen{
+  background:var(--color-lemon);
+  color:var(--color-text);
+  border:3px solid var(--color-violet);
+  box-shadow:0 5px 0 rgba(122,136,254,.20);
+}
+
+/* Interacción = limpia; no compite con la pregunta */
+.choice,.chip,.syll,.matchbtn{
+  color:var(--color-text);
+  background:#fff;
+  border:2px solid rgba(122,136,254,.23);
+  min-height:48px;
+  transition:transform .14s ease,border-color .14s ease,background .14s ease,box-shadow .14s ease;
+}
+.choice:hover,.chip:hover,.syll:hover,.matchbtn:hover{
+  border-color:var(--color-violet);
+  box-shadow:0 5px 16px rgba(122,136,254,.10);
+}
+
+/* 10%: Pink / Orange solo para atención y feedback */
+.choice.bad,.chip.bad,.syll.bad,.matchbtn.bad,.bad{
+  background:rgba(240,85,165,.14)!important;
+  border-color:var(--color-pink)!important;
+  color:var(--color-text)!important;
+}
+.good,.matchbtn.done{
+  background:rgba(204,213,55,.28)!important;
+  border-color:var(--color-lime)!important;
+  color:var(--color-text)!important;
+}
+.feedback{
+  min-height:60px;
+  border:1px solid transparent;
+  font-weight:850;
+  line-height:1.45;
+}
+.feedback.ok{
+  background:rgba(204,213,55,.24);
+  color:var(--color-text);
+  border-color:rgba(204,213,55,.65);
+}
+.feedback.no{
+  background:rgba(240,85,165,.12);
+  color:var(--color-text);
+  border-color:rgba(240,85,165,.45);
+}
+
+/* Pistas = diferenciadas sin parecer respuesta */
+.eval-clue{
+  border:3px solid var(--color-blue-crystal);
+  background:rgba(191,223,243,.18);
+}
+.eval-clue .clue-title{color:var(--color-violet)}
+.help-btn{
+  background:#fff;
+  color:var(--color-violet);
+  border:2px solid rgba(122,136,254,.55);
+}
+.metric-note{
+  background:rgba(191,223,243,.24);
+  color:var(--color-text);
+}
+.fact{
+  background:rgba(191,223,243,.20);
+  border:2px solid var(--color-blue-crystal);
+  color:var(--color-text);
+}
+
+/* Progreso: Violet -> Blue Crystal -> Lemon */
+.progress{background:rgba(191,223,243,.25)}
+.progress>div{
+  background:linear-gradient(90deg,var(--color-violet),var(--color-blue-crystal),var(--color-lemon));
+}
+.route-step{
+  background:#fff;
+  color:var(--color-text-soft);
+  border:1px solid rgba(122,136,254,.20);
+}
+.route-step.active{
+  background:rgba(122,136,254,.16);
+  border-color:var(--color-violet);
+  color:var(--color-violet);
+}
+.route-step.done{
+  background:rgba(204,213,55,.20);
+  border-color:var(--color-lime);
+  color:var(--color-text);
+}
+
+/* Zona de construcción */
+.zone{
+  background:rgba(191,223,243,.12);
+  border:2px dashed var(--color-violet);
+  color:var(--color-text-soft);
+}
+.sliderbox{background:#fff;border-color:rgba(122,136,254,.20)}
+.sliderbox input{accent-color:var(--color-violet)}
+.tapbtn{
+  background:var(--color-blue-crystal);
+  border-color:var(--color-violet);
+  color:var(--color-text);
+}
+
+/* Relación de columnas: semántica visual estable */
+.relation-board{
+  background:#fff;
+  border:3px solid rgba(122,136,254,.50);
+  box-shadow:0 10px 30px rgba(122,136,254,.10);
+}
+.relation-title{color:var(--color-violet)}
+.relation-column.left .relation-column-header{
+  background:rgba(191,223,243,.48);
+  color:var(--color-text);
+}
+.relation-column.right .relation-column-header{
+  background:rgba(250,190,55,.35);
+  color:var(--color-text);
+}
+.relation-center{color:var(--color-violet)}
+.relation-center .arrow{
+  background:var(--color-lemon);
+  color:var(--color-text);
+  border-color:var(--color-violet);
+}
+.relation-help{
+  background:rgba(191,223,243,.24);
+  color:var(--color-text);
+}
+.matchbtn.relation-item.sel{
+  background:rgba(122,136,254,.14);
+  border-color:var(--color-violet);
+  box-shadow:0 0 0 4px rgba(122,136,254,.12);
+}
+.matchbtn.relation-item.done{
+  background:rgba(204,213,55,.27);
+  border-color:var(--color-lime);
+}
+
+/* Reporte: claridad antes que decoración */
+.performance-strip div,.skill-row,.recommendation{
+  background:#fff;
+  border-color:rgba(122,136,254,.20);
+}
+.performance-strip b,.report-decision{color:var(--color-violet)}
+.skill-meter{background:rgba(191,223,243,.28)}
+.skill-meter span{
+  background:linear-gradient(90deg,var(--color-pink),var(--color-lemon),var(--color-lime));
+}
+.report-hero.continue{
+  background:linear-gradient(135deg,rgba(204,213,55,.20),rgba(191,223,243,.22));
+  border-color:var(--color-lime);
+}
+.report-hero.partial{
+  background:linear-gradient(135deg,rgba(250,190,55,.20),rgba(255,155,40,.14));
+  border-color:var(--color-lemon);
+}
+.report-hero.repeat{
+  background:linear-gradient(135deg,rgba(240,85,165,.13),rgba(122,136,254,.10));
+  border-color:var(--color-pink);
+}
+
+/* Microinteracción de avance adaptada a identidad */
+.advance-flash{
+  background:radial-gradient(circle,rgba(250,190,55,.22),rgba(122,136,254,.08),transparent 58%);
+}
+.advance-flash__badge{
+  background:var(--color-lemon);
+  color:var(--color-text);
+  border-color:#fff;
+}
+
+/* Responsive y legibilidad táctil */
+@media(max-width:760px){
+  .hero{padding:24px 18px}
+  .panel{padding:16px}
+  .word{font-size:clamp(2.25rem,13vw,3.55rem)}
+  .instruction,.explain{padding:14px}
+  .choice,.chip,.syll,.matchbtn,.btn,.listen,.help-btn{min-height:48px}
+}
+
+
+
+/* =====================================================================
+   SISTEMA DE MOVIMIENTO UX — Mobile/Tablet First
+   Añadido sobre la versión original sin modificar contenido pedagógico.
+   ===================================================================== */
+.btn,.choice,.chip,.syll,.matchbtn,.help-btn,.listen,.tapbtn{-webkit-tap-highlight-color:transparent;touch-action:manipulation;will-change:transform}
+.btn:active,.choice:active,.chip:active,.syll:active,.matchbtn:active,.help-btn:active,.listen:active,.tapbtn:active{transform:scale(.965)!important;transition-duration:.08s!important}
+@media (hover:none){.btn:hover,.choice:hover,.chip:hover,.syll:hover,.matchbtn:hover{transform:none;box-shadow:inherit}}
+.zone .chip{animation:piecePlaced .22s cubic-bezier(.2,.85,.25,1) both;pointer-events:none}
+@keyframes piecePlaced{0%{opacity:0;transform:translateY(7px) scale(.86)}70%{opacity:1;transform:translateY(-1px) scale(1.045)}100%{opacity:1;transform:translateY(0) scale(1)}}
+.feedback.ok{animation:feedbackCorrect .42s cubic-bezier(.2,.85,.25,1)}.feedback.no{animation:feedbackTryAgain .20s ease-in-out}.good{animation:correctChoice .38s cubic-bezier(.2,.85,.25,1)}.bad{animation:wrongChoice .20s ease-in-out}
+@keyframes feedbackCorrect{0%{opacity:.45;transform:scale(.98)}58%{opacity:1;transform:scale(1.018)}100%{opacity:1;transform:scale(1)}}
+@keyframes feedbackTryAgain{0%,100%{transform:translateX(0)}30%{transform:translateX(-4px)}70%{transform:translateX(4px)}}
+@keyframes correctChoice{0%{transform:scale(1)}55%{transform:scale(1.045);box-shadow:0 0 0 6px rgba(204,213,55,.15)}100%{transform:scale(1);box-shadow:none}}
+@keyframes wrongChoice{0%,100%{transform:translateX(0)}35%{transform:translateX(-4px)}70%{transform:translateX(4px)}}
+.fact{animation:factReveal .34s ease both}@keyframes factReveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.tapbtn.tap-pulse{animation:tapPulse .18s ease}#tapN.tap-pulse{animation:countPulse .20s ease}@keyframes tapPulse{50%{transform:scale(.92)}100%{transform:scale(1)}}@keyframes countPulse{50%{transform:scale(1.12)}100%{transform:scale(1)}}
+.progress>div.progress-pulse{animation:progressPulse .38s ease}@keyframes progressPulse{45%{filter:saturate(1.25) brightness(1.05)}100%{filter:none}}
+.route-step.milestone-pop{animation:milestoneStep .65s cubic-bezier(.2,.85,.25,1)}@keyframes milestoneStep{0%{transform:scale(.92)}55%{transform:scale(1.06);box-shadow:0 0 0 6px rgba(204,213,55,.15)}100%{transform:scale(1);box-shadow:none}}
+.micro-reward{position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom));z-index:9998;pointer-events:none;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.96);border:2px solid var(--color-lime);color:var(--color-text);font-weight:950;box-shadow:0 10px 28px rgba(24,26,77,.16);animation:microReward .62s ease forwards}
+.micro-reward__check{width:27px;height:27px;border-radius:50%;display:grid;place-items:center;background:var(--color-lime);font-size:.9rem}@keyframes microReward{0%{opacity:0;transform:translate(-50%,10px) scale(.94)}24%,72%{opacity:1;transform:translate(-50%,0) scale(1)}100%{opacity:0;transform:translate(-50%,-5px) scale(.98)}}
+.advance-flash.stage-reward{background:radial-gradient(circle,rgba(250,190,55,.25),rgba(122,136,254,.08),transparent 62%);animation:flashAway .92s ease forwards}.advance-flash.stage-reward .advance-flash__badge{width:min(78vw,330px);height:auto;min-height:132px;border-radius:28px;padding:20px 24px;text-align:center;font-size:1.15rem;line-height:1.25;animation:stageBadgePop .92s cubic-bezier(.2,.85,.25,1)}.advance-flash__badge strong{display:block;font-size:1.6rem;margin-top:4px}@keyframes stageBadgePop{0%{transform:scale(.72) translateY(12px);opacity:0}45%{transform:scale(1.035) translateY(0);opacity:1}80%{transform:scale(1);opacity:1}100%{transform:scale(.98);opacity:0}}
+.final-celebration{position:fixed;inset:0;z-index:9999;pointer-events:none;overflow:hidden;display:grid;place-items:center;background:rgba(255,253,248,.30);animation:finalFade 1.6s ease forwards}.final-celebration__card{position:relative;z-index:2;width:min(86vw,390px);padding:25px 22px;border-radius:30px;text-align:center;background:rgba(255,255,255,.97);border:3px solid var(--color-violet);box-shadow:0 22px 65px rgba(24,26,77,.22);color:var(--color-text);animation:finalCard 1.45s cubic-bezier(.2,.85,.25,1) forwards}.final-celebration__icon{font-size:3.2rem;line-height:1}.final-celebration__card strong{display:block;font-size:clamp(1.45rem,6vw,2.1rem);margin-top:8px}.final-celebration__card span{display:block;margin-top:5px;font-weight:800;color:var(--color-text-soft)}.confetti-dot{position:absolute;left:var(--x);top:-20px;width:10px;height:16px;border-radius:4px;background:var(--c);transform:rotate(var(--r));animation:confettiFall 1.35s ease-in var(--d) forwards}@keyframes confettiFall{to{transform:translate(var(--drift),105vh) rotate(430deg);opacity:.25}}@keyframes finalCard{0%{opacity:0;transform:translateY(18px) scale(.84)}35%,78%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-5px) scale(.98)}}@keyframes finalFade{0%,78%{opacity:1}100%{opacity:0}}
+.performance-strip div{animation:reportMetricIn .42s ease both}.performance-strip div:nth-child(2){animation-delay:.08s}.performance-strip div:nth-child(3){animation-delay:.16s}.skill-row{animation:reportMetricIn .40s ease both}.skill-row:nth-child(2){animation-delay:.05s}.skill-row:nth-child(3){animation-delay:.10s}.skill-row:nth-child(4){animation-delay:.15s}.skill-row:nth-child(5){animation-delay:.20s}@keyframes reportMetricIn{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}.advance-flash,.micro-reward,.final-celebration{display:none!important}}
+
+</style>
+</head>
+<body><div class="wrap">
+<section class="hero"><span class="badge">BLOQUE 1 · 25 RETOS · 5.º DE PRIMARIA</span><h1>Palabras con propósito</h1><p>Aprenderás a reconocer cómo están construidas las palabras usando vocabulario de Ciencias, Geografía, Historia, Español y cultura mexicana.</p><div class="goal"><b>Objetivo:</b> reconocer, contar y separar sílabas con seguridad para preparar el siguiente aprendizaje: descubrir cuál sílaba suena con mayor fuerza.<br><br>
+<b>Modo evaluación:</b> la respuesta no se muestra antes de contestar. Las ayudas son opcionales y quedan registradas para distinguir lo que el alumno resolvió solo de lo que logró con apoyo.</div></section>
+<section class="topgrid"><div class="panel"><div class="profile"><div id="avatar" class="avatar">🦉</div><div><div id="studentName" class="name">Explorador/a</div><div class="small">Investigador/a de palabras</div></div></div><div class="profile-form"><input id="nameInput" maxlength="24" placeholder="Escribe tu nombre"><button class="btn btn-blue" onclick="saveName()">Guardar</button><button class="btn btn-soft" onclick="setAvatar()">Cambiar avatar</button></div></div><div class="panel"><b>Tu recorrido</b><div class="progress"><div id="bar"></div></div><div class="statrow"><span id="counter">Reto 1 de 25</span><span id="scoreText">0 al primer intento · 0 sin ayuda</span></div><div class="route"><div id="r1" class="route-step active">1–5<br>DESCUBRO</div><div id="r2" class="route-step">6–10<br>CONSTRUYO</div><div id="r3" class="route-step">11–15<br>ANALIZO</div><div id="r4" class="route-step">16–20<br>AMPLÍO</div><div id="r5" class="route-step">21–25<br>TRANSFIERO</div></div><div style="text-align:center;margin-top:10px"><button class="btn btn-soft" onclick="resetAll()">↻ Reiniciar bloque</button></div></div></section>
+<main id="app"></main>
+</div>
+<script>
+const tasks=[
+{area:'Geografía',word:'mapa',type:'tapcount',parts:['ma','pa'],answer:2,fact:'Un mapa representa un territorio o lugar mediante símbolos.'},
+{area:'Ciencias',word:'célula',type:'order',parts:['cé','lu','la'],fact:'La célula es la unidad básica de los seres vivos.'},
+{area:'Historia',word:'México',type:'order',parts:['Mé','xi','co'],fact:'México es el país donde vivimos y posee una gran diversidad cultural.'},
+{area:'Español',word:'poema',type:'chooseSplit',parts:['po','e','ma'],options:['po-e-ma','poe-ma','po-em-a'],fact:'Un poema expresa ideas, emociones o imágenes mediante el lenguaje.'},
+{area:'Ciencias',word:'semilla',type:'fill',parts:['se','mi','lla'],prompt:'se – ___ – lla',answer:'mi',icon:'🌱',clue:'Parte de una planta que puede germinar y dar origen a otra planta.',hint:'Tiene tres sílabas. Pronuncia lentamente el nombre de lo que ves: se — ? — lla.',fact:'La semilla puede dar origen a una nueva planta.'},
+{area:'Geografía',word:'océano',type:'slidercount',parts:['o','cé','a','no'],answer:4,fact:'Los océanos cubren gran parte de la superficie terrestre.'},
+{area:'Historia',word:'olmeca',type:'order',parts:['ol','me','ca'],fact:'La cultura olmeca se desarrolló en Mesoamérica.'},
+{area:'Español',word:'leyenda',type:'fill',parts:['le','yen','da'],prompt:'le – ___ – da',answer:'yen',icon:'📜',clue:'Relato tradicional que mezcla hechos, cultura y elementos fantásticos.',hint:'Tiene tres sílabas: le — ? — da. Pronuncia lentamente el concepto.',fact:'Una leyenda mezcla elementos históricos, culturales y fantásticos.'},
+{area:'Ciencias',word:'planeta',type:'order',parts:['pla','ne','ta'],fact:'Un planeta gira alrededor de una estrella.',qa:'pla-ne-ta'},
+{area:'México',word:'Veracruz',type:'order',parts:['Ve','ra','cruz'],fact:'Veracruz es un estado de México situado junto al Golfo de México.'},
+{area:'Geografía',word:'volcán',type:'chooseSplit',parts:['vol','cán'],options:['vol-cán','vo-lcán','volc-án'],fact:'Un volcán es una abertura de la corteza terrestre por donde pueden salir materiales del interior.'},
+{area:'Ciencias',word:'órgano',type:'order',parts:['ór','ga','no'],fact:'Un órgano está formado por tejidos que cumplen una función determinada.'},
+{area:'Historia',word:'azteca',type:'order',parts:['az','te','ca'],fact:'Los mexicas o aztecas fundaron México-Tenochtitlan.'},
+{area:'Español',word:'párrafo',type:'chooseSplit',parts:['pá','rra','fo'],options:['pá-rra-fo','pár-ra-fo','párr-a-fo'],fact:'Un párrafo organiza varias oraciones alrededor de una idea.'},
+{area:'Geografía',word:'territorio',type:'order',parts:['te','rri','to','rio'],fact:'Un territorio es un espacio geográfico delimitado o reconocido.'},
+{area:'Ciencias',word:'ecosistema',type:'order',parts:['e','co','sis','te','ma'],fact:'Un ecosistema incluye seres vivos y el ambiente con el que se relacionan.'},
+{area:'Historia',word:'Mesoamérica',type:'order',parts:['Me','so','a','mé','ri','ca'],fact:'Mesoamérica fue una gran región cultural del México antiguo y Centroamérica.'},
+{area:'Español',word:'ortografía',type:'doublefill',parts:['or','to','gra','fí','a'],prompt:['or','___','gra','___','a'],answers:['to','fí'],icon:'✍️',clue:'Conjunto de reglas que nos ayuda a escribir correctamente las palabras.',hint:'Tiene cinco sílabas. Faltan la segunda y la cuarta.',fact:'La ortografía establece reglas para escribir correctamente.'},
+{area:'Ciencias',word:'metamorfosis',type:'order',parts:['me','ta','mor','fo','sis'],fact:'La metamorfosis es un cambio importante en la forma de algunos seres vivos durante su desarrollo.'},
+{area:'Cultura mexicana',word:'chinampa',type:'order',parts:['chi','nam','pa'],fact:'Las chinampas son una técnica agrícola tradicional de zonas lacustres de Mesoamérica.'},
+{area:'Geografía',type:'classifyCount',words:[['continente',4],['frontera',3],['península',4]],fact:'Estas palabras aparecen frecuentemente en Geografía.'},
+{area:'Ciencias',type:'match',pairs:[['atmósfera','at-mós-fe-ra'],['energía','e-ner-gí-a'],['organismo','or-ga-nis-mo']],fact:'Atmósfera, energía y organismo son vocabulario científico.'},
+{area:'Historia',type:'multiOrder',items:[['independencia',['in','de','pen','den','cia']],['conquista',['con','quis','ta']],['revolución',['re','vo','lu','ción']]],fact:'Estas palabras son fundamentales para estudiar distintos procesos históricos de México.'},
+{area:'Español',type:'multiOrder',items:[['narración',['na','rra','ción']],['personaje',['per','so','na','je']],['argumento',['ar','gu','men','to']]],fact:'Narración, personaje y argumento son conceptos importantes para leer y escribir textos.'},
+{area:'Integración',type:'multiOrder',items:[['biodiversidad',['bio','di','ver','si','dad']],['civilización',['ci','vi','li','za','ción']],['comunicación',['co','mu','ni','ca','ción']]],fact:'Estas palabras reúnen vocabulario de Ciencias, Historia y Español.'}
+];
+let idx=Number(localStorage.getItem('b1_formativo_idx')||0),
+first=Number(localStorage.getItem('b1_formativo_first')||0),
+tries=0,selected=[],currentItem=0,matchLeft=null,taps=0,classSel=null,classDone=0,matchDone=0,
+autonomous=Number(localStorage.getItem('b1_formativo_autonomous')||0),
+audioUsed=false,hintUsed=false,
+evalStats=JSON.parse(localStorage.getItem('b1_formativo_stats')||'{}'),
+questionStarted=Date.now(),clockInterval=null;
+const app=document.getElementById('app'),bar=document.getElementById('bar'),counter=document.getElementById('counter'),scoreText=document.getElementById('scoreText');
+
+const stageNames=[
+  {from:1,to:5,name:'Reconocer y segmentar'},
+  {from:6,to:10,name:'Construir sílabas'},
+  {from:11,to:15,name:'Analizar separaciones'},
+  {from:16,to:20,name:'Palabras complejas'},
+  {from:21,to:25,name:'Transferencia'}
+];
+function stageForQuestion(q){return Math.min(4,Math.floor((q-1)/5))}
+function saveEval(){localStorage.setItem('b1_formativo_stats',JSON.stringify(evalStats))}
+function startQuestionClock(){
+  questionStarted=Date.now();
+  clearInterval(clockInterval);
+  clockInterval=setInterval(()=>{
+    let el=document.getElementById('liveClock');
+    if(el)el.textContent=Math.max(0,Math.round((Date.now()-questionStarted)/1000))+' s';
+  },1000);
+}
+function markHelp(kind){
+  if(kind==='audio')audioUsed=true;
+  if(kind==='hint')hintUsed=true;
+}
+function recordQuestionResult(){
+  const q=idx+1;
+  const seconds=Math.max(1,Math.round((Date.now()-questionStarted)/1000));
+  evalStats[q]={
+    question:q,
+    stage:stageForQuestion(q),
+    seconds,
+    errors:tries,
+    firstTry:tries===0,
+    audio:!!audioUsed,
+    hint:!!hintUsed,
+    autonomous:tries===0&&!audioUsed&&!hintUsed
+  };
+  saveEval();
+  return seconds;
+}
+function showAdvanceEffect(level='micro'){
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const completed=idx+1;
+  if(level==='micro'){
+    const d=document.createElement('div');d.className='micro-reward';
+    d.innerHTML='<span class="micro-reward__check">✓</span><span>Reto completado</span>';
+    document.body.appendChild(d);setTimeout(()=>d.remove(),650);return;
+  }
+  const stageNum=Math.min(5,Math.ceil(completed/5));
+  const label=['DESCUBRO','CONSTRUYO','ANALIZO','AMPLÍO','TRANSFIERO'][stageNum-1]||'ETAPA';
+  const d=document.createElement('div');d.className='advance-flash stage-reward';
+  d.innerHTML=`<div class="advance-flash__badge">✨ ETAPA COMPLETADA<strong>${label} ✓</strong></div>`;
+  document.body.appendChild(d);setTimeout(()=>d.remove(),960);
+}
+function showFinalCelebration(){
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const d=document.createElement('div');d.className='final-celebration';
+  const colors=['var(--color-pink)','var(--color-lemon)','var(--color-lime)','var(--color-violet)','var(--color-orange)','var(--color-blue-crystal)'];
+  const dots=Array.from({length:28},(_,i)=>{const x=(3+(i*37)%94)+'%';const c=colors[i%colors.length];const delay=((i%7)*.035).toFixed(2)+'s';const rot=((i*29)%180)+'deg';const drift=((i%2?1:-1)*(18+(i%5)*8))+'px';return `<i class="confetti-dot" style="--x:${x};--c:${c};--d:${delay};--r:${rot};--drift:${drift}"></i>`}).join('');
+  d.innerHTML=`${dots}<div class="final-celebration__card"><div class="final-celebration__icon">🏆</div><strong>¡Misión completada!</strong><span>Terminaste los 25 retos. Ahora revisa tu mapa de aprendizaje.</span></div>`;
+  document.body.appendChild(d);setTimeout(()=>d.remove(),1700);
+}
+function transitionNext(callback){
+  const a=document.querySelector('.activity');if(a)a.classList.add('question-out');
+  const completed=idx+1;if(completed<25)showAdvanceEffect(completed%5===0?'stage':'micro');
+  setTimeout(callback,330);
+}
+function elapsedSummary(){
+  let rows=Object.values(evalStats);
+  let total=rows.reduce((a,x)=>a+(x.seconds||0),0);
+  let avg=rows.length?Math.round(total/rows.length):0;
+  return {total,avg,rows};
+}
+
+function speak(w){markHelp('audio');if(!('speechSynthesis' in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(w);u.lang='es-MX';u.rate=.78;speechSynthesis.speak(u)}
+function showHint(){markHelp('hint');let t=tasks[idx],b=document.getElementById('hintBox');if(b){b.style.display='block';b.innerHTML='💡 '+(t.hint||'Pronuncia lentamente y vuelve a intentarlo.')}}
+function saveName(){localStorage.setItem('b1_formativo_name',nameInput.value.trim());syncProfile()}
+function setAvatar(){const arr=['🦉','🦊','🧭','🔬','📚','🌎'];let a=localStorage.getItem('b1_formativo_avatar')||'🦉',i=(arr.indexOf(a)+1)%arr.length;localStorage.setItem('b1_formativo_avatar',arr[i]);syncProfile()}
+function syncProfile(){studentName.textContent=localStorage.getItem('b1_formativo_name')||'Explorador/a';avatar.textContent=localStorage.getItem('b1_formativo_avatar')||'🦉';nameInput.value=localStorage.getItem('b1_formativo_name')||''}
+function sh(a){return [...a].sort(()=>Math.random()-.5)}
+function group(){return Math.min(5,Math.floor(idx/5)+1)}
+function update(){const pct=Math.round(idx/25*100);bar.style.width=pct+'%';bar.classList.remove('progress-pulse');void bar.offsetWidth;bar.classList.add('progress-pulse');counter.textContent=idx<25?`Reto ${idx+1} de 25`:'Bloque completado';scoreText.textContent=`${first} al primer intento · ${autonomous} sin ayuda`;for(let i=1;i<=5;i++){let e=document.getElementById('r'+i);e.className='route-step';if(i<group())e.classList.add('done');if(i===group())e.classList.add('active');if(idx>0&&idx%5===0&&i===group()-1)e.classList.add('milestone-pop')}}
+function shell(tag,title,exp,inst,body){app.innerHTML=`<section class="panel activity"><span class="stage">${tag}</span><span class="timer-chip">⏱️ <span id="liveClock">0 s</span></span><h2>${title}</h2>${exp?`<div class="explain">${exp}</div>`:''}${inst?`<div class="instruction">${inst}</div>`:''}${body}</section>`;setTimeout(()=>document.querySelector('.activity').scrollIntoView({behavior:'smooth',block:'start'}),50)}
+function fb(msg,ok=false){let e=document.getElementById('fb');if(!e)return;e.className='feedback '+(ok?'ok':'no');e.innerHTML=msg}
+function factCard(t){return `<div class="fact">📚 <b>${t.area||'Aprendizaje'}:</b> ${t.fact}</div>`}
+function finish(t,msg){
+ const seconds=recordQuestionResult();
+ if(tries===0)first++;
+ if(tries===0&&!audioUsed&&!hintUsed)autonomous++;
+ localStorage.setItem('b1_formativo_first',first);
+ localStorage.setItem('b1_formativo_autonomous',autonomous);
+ fb('✓ '+msg+`<br><small>Tiempo de este reto: ${seconds} s</small>`,true);
+ clearInterval(clockInterval);
+ setTimeout(()=>{
+   document.querySelector('.activity').insertAdjacentHTML('beforeend',factCard(t));
+   setTimeout(()=>{
+     transitionNext(()=>{
+       idx++;tries=0;selected=[];currentItem=0;classSel=null;classDone=0;matchLeft=null;matchDone=0;
+       audioUsed=false;hintUsed=false;
+       localStorage.setItem('b1_formativo_idx',idx);
+       render()
+     })
+   },1050)
+ },300)
+}
+function wrong(msg){tries++;fb('Todavía no. '+msg+'<br><small>Escucha, observa y vuelve a intentarlo.</small>');const e=document.getElementById('fb');if(e){e.classList.remove('no');void e.offsetWidth;e.classList.add('no')}}
+function wordHeader(w){return `<div class="word">${w}</div><div class="listen-wrap"><button class="listen" onclick="speak('${w}')">🔊 Escuchar palabra <small>· ayuda opcional</small></button></div>`}
+function choices(vals,answer){return `<div class="options">${vals.map(v=>`<button class="choice" onclick="choose(this,'${v}','${answer}')">${v}</button>`).join('')}</div><div id="fb" class="feedback"></div>`}
+function choose(el,v,a){if(v===a){el.classList.add('good');finish(tasks[idx],'Separación correcta: '+a)}else{el.classList.add('bad');el.disabled=true;wrong('Esa separación no corresponde.')}}
+function pick(x,el){
+ if(el.disabled)return;
+ el.disabled=true;
+ selected.push(x);
+ const z=document.getElementById('zone');
+ if(z)z.innerHTML=selected.map(a=>`<span class="chip">${a}</span>`).join(' → ');
+}
+function render(){update();if(idx>=25){clearInterval(clockInterval);return summary();}startQuestionClock();let t=tasks[idx],tag=`RETO ${idx+1} · ${t.area}`;
+ if(t.type==='tapcount')shell(tag,`Escucha y cuenta: ${t.word}`,'Empezamos con una palabra corta para reconocer que una palabra puede dividirse en partes.',`Escucha ${t.word.toUpperCase()} y toca una vez por cada sílaba.`,wordHeader(t.word)+`<div class="taparea"><button class="tapbtn" onclick="tapCount()">👏 TOCAR</button></div><div style="text-align:center"><b id="tapN">0 toques</b></div><div style="text-align:center;margin-top:10px"><button class="btn btn-lime" onclick="checkTap()">Comprobar</button></div><div id="fb" class="feedback"></div>`);
+ else if(t.type==='order'){selected=[];shell(tag,`Construye: ${t.word}`,'Las sílabas están mezcladas. Debes reconstruir la palabra.',`Toca las sílabas en el orden correcto.`,wordHeader(t.word)+`<div class="chips">${sh(t.parts).map(x=>`<button class="chip" onclick="pick('${x}',this)">${x}</button>`).join('')}</div><div id="zone" class="zone">Tu palabra aparecerá aquí</div><div style="text-align:center;margin-top:10px"><button class="btn btn-lime" onclick="checkOrder()">Comprobar</button></div><div id="fb" class="feedback"></div>`)}
+ else if(t.type==='chooseSplit')shell(tag,`Detective silábico: ${t.word}`,'La palabra aparece completa. Ahora debes reconocer su separación correcta.','Escúchala y elige la opción correcta.',wordHeader(t.word)+choices(sh(t.options),t.parts.join('-')));
+ else if(t.type==='fill')shell(tag,'Reconoce el concepto y completa la palabra','En esta evaluación no mostramos la palabra escrita. Debes recuperar el concepto y completar su separación.','Observa la pista. Escribe solamente la sílaba que falta.',
+`<div class="eval-clue"><div class="icon">${t.icon}</div><div class="clue-title">PISTA DE SIGNIFICADO</div><div class="clue-text">${t.clue}</div></div>
+<div class="word" style="font-size:clamp(1.8rem,6vw,3rem)">${t.prompt}</div>
+<div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap"><input id="fill" autocomplete="off" style="padding:13px;border:3px solid var(--blue);border-radius:13px;text-align:center;font-weight:900" placeholder="Sílaba faltante"><button class="btn btn-lime" onclick="checkFill()">Comprobar</button></div>
+<div class="help-row"><button class="help-btn" onclick="speak('${t.word}')">🔊 Escuchar la palabra <small>(se registra como ayuda)</small></button><button id="hintBtn" class="help-btn" onclick="showHint()">💡 Pista de estrategia</button></div>
+<div id="hintBox" class="metric-note" style="display:none"></div><div id="fb" class="feedback"></div>`);
+ else if(t.type==='slidercount'){shell(tag,`Cuenta las sílabas de ${t.word}`,'Ahora pasamos de tocar a estimar cuántas partes escuchas.','Mueve el control hasta el número de sílabas.',wordHeader(t.word)+`<div class="sliderbox"><div class="countlabels"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div><input id="rng" type="range" min="1" max="6" value="3"><div style="text-align:center"><b id="rv">3 sílabas</b></div></div><div style="text-align:center;margin-top:10px"><button class="btn btn-lime" onclick="checkRange()">Comprobar</button></div><div id="fb" class="feedback"></div>`);document.getElementById('rng').oninput=()=>{
+ const r=document.getElementById('rng'),v=document.getElementById('rv');
+ if(r&&v)v.textContent=r.value+' sílabas'
+}}
+ else if(t.type==='doublefill')shell(tag,`Completa dos partes: ${t.word}`,'Ahora debes producir dos sílabas, no solamente una.','Escucha y completa ambos espacios.',wordHeader(t.word)+`<div class="word" style="font-size:clamp(1.7rem,5vw,2.8rem)">${t.prompt.join(' – ')}</div><div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap"><input id="f1" placeholder="1ª sílaba" style="padding:12px;border:3px solid var(--blue);border-radius:12px;text-align:center"><input id="f2" placeholder="2ª sílaba" style="padding:12px;border:3px solid var(--blue);border-radius:12px;text-align:center"><button class="btn btn-lime" onclick="checkDouble()">Comprobar</button></div><div id="fb" class="feedback"></div>`);
+ else if(t.type==='classifyCount')renderClassify(t,tag);else if(t.type==='match')renderMatch(t,tag);else if(t.type==='multiOrder')renderMulti(t,tag)}
+function tapCount(){taps++;tapN.textContent=taps+' toque'+(taps===1?'':'s');const b=document.querySelector('.tapbtn');[b,tapN].forEach(el=>{if(!el)return;el.classList.remove('tap-pulse');void el.offsetWidth;el.classList.add('tap-pulse')})}
+function checkTap(){let t=tasks[idx];if(taps===t.answer){finish(t,`${t.word.toUpperCase()} tiene ${t.answer} sílabas: ${t.parts.join(' – ')}`);taps=0}else{wrong('Vuelve a escuchar y toca una vez por cada sílaba.');taps=0;tapN.textContent='0 toques'}}
+function checkOrder(){
+ let t=tasks[idx];
+ if(selected.join('|')===t.parts.join('|')){
+   finish(t,'Construiste correctamente: '+t.parts.join(' – '));
+ }else{
+   wrong('El orden todavía no forma correctamente la palabra. Revisa la secuencia y vuelve a intentarlo.');
+   selected=[];
+   const z=document.getElementById('zone');
+   if(z)z.innerHTML='Tu palabra aparecerá aquí';
+   document.querySelectorAll('.chips .chip').forEach(b=>{b.disabled=false;b.classList.remove('bad','good')});
+ }
+}
+function checkFill(){
+ let t=tasks[idx],input=document.getElementById('fill');
+ if(input && input.value.trim().toLowerCase()===t.answer.toLowerCase())
+   finish(t,`${t.word.toUpperCase()} se separa ${t.parts.join(' – ')}`);
+ else wrong('La sílaba escrita todavía no completa la palabra. Piensa y vuelve a intentarlo.');
+}
+function checkRange(){
+ let t=tasks[idx],r=document.getElementById('rng');
+ if(r && Number(r.value)===t.answer)
+   finish(t,`${t.word.toUpperCase()} tiene ${t.answer} sílabas: ${t.parts.join(' – ')}`);
+ else wrong('Escúchala nuevamente y cuenta cada parte.');
+}
+function checkDouble(){
+ let t=tasks[idx],a=document.getElementById('f1'),b=document.getElementById('f2');
+ if(a&&b&&a.value.trim().toLowerCase()===t.answers[0]&&b.value.trim().toLowerCase()===t.answers[1])
+   finish(t,`${t.word.toUpperCase()} se separa ${t.parts.join(' – ')}`);
+ else wrong('Una o ambas sílabas todavía no corresponden. Vuelve a analizar la palabra.');
+}
+function renderClassify(t,tag){
+ classSel=null;classDone=0;
+ shell(
+  tag,
+  'Relaciona cada palabra con su número de sílabas',
+  'Ahora se muestra claramente como una relación de columnas.',
+  'Toca una palabra de la izquierda y después el número de sílabas que le corresponde. Un mismo número puede corresponder a más de una palabra.',
+  `<div class="relation-board">
+    <div class="relation-title">🔗 RELACIÓN DE COLUMNAS</div>
+    <div class="relation-grid">
+      <div class="relation-column left">
+        <div class="relation-column-header">PALABRAS</div>
+        ${t.words.map((x,i)=>`<button class="matchbtn relation-item" onclick="classWord(${i},this)">${x[0]}</button>`).join('')}
+      </div>
+      <div class="relation-center">
+        <div class="arrow">↔</div>
+        <small>FORMA<br>LA PAREJA</small>
+      </div>
+      <div class="relation-column right">
+        <div class="relation-column-header">NÚMERO DE SÍLABAS</div>
+        ${sh([3,4,5]).map(n=>`<button class="matchbtn relation-item count-target" onclick="classCount(${n},this)">${n} sílabas</button>`).join('')}
+      </div>
+    </div>
+    <div id="relationProgress" class="relation-help">0 de ${t.words.length} relaciones correctas. Debes completar las tres para avanzar.</div>
+  </div>
+  <div id="fb" class="feedback"></div>`
+ )
+}
+function classWord(i,el){if(el.classList.contains('done'))return;classSel=i;speak(tasks[idx].words[i][0]);document.querySelectorAll('.relation-column.left .matchbtn').forEach(x=>x.classList.remove('sel'));el.classList.add('sel')}
+function classCount(n,el){
+ if(classSel===null){
+   wrong('Primero selecciona una palabra de la columna izquierda.');
+   return;
+ }
+ let t=tasks[idx],w=t.words[classSel];
+ if(n===w[1]){
+   let left=document.querySelectorAll('.relation-column.left .matchbtn');
+   left[classSel].classList.remove('sel');
+   left[classSel].classList.add('done');
+   left[classSel].disabled=true;
+
+   // La categoría de la derecha NO se bloquea: por ejemplo,
+   // continente y península tienen 4 sílabas.
+   el.classList.add('good');
+   setTimeout(()=>el.classList.remove('good'),650);
+
+   classDone++;
+   const p=document.getElementById('relationProgress');
+   if(p)p.innerHTML=`${classDone} de ${t.words.length} relaciones correctas. ${classDone<t.words.length?'Continúa con otra palabra.':'¡Todas correctas!'}`;
+
+   fb(`✓ Correcto: ${w[0]} ↔ ${n} sílabas.`,true);
+   classSel=null;
+
+   // Solo permite avanzar cuando las TRES palabras están resueltas correctamente.
+   if(classDone===t.words.length){
+     setTimeout(()=>finish(t,'Relacionaste correctamente las tres palabras. Ya puedes avanzar.'),500);
+   }
+ }else{
+   el.classList.add('bad');
+   setTimeout(()=>el.classList.remove('bad'),500);
+   wrong(`"${w[0]}" no tiene ${n} sílabas. Vuelve a contarla y elige otra respuesta.`);
+ }
+}
+function renderMatch(t,tag){matchLeft=null;matchDone=0;let right=sh(t.pairs.map((x,i)=>[x[1],i]));shell(tag,'Relaciona palabra y separación','Las respuestas aparecen mezcladas para evitar resolver por posición.','Toca una palabra de la izquierda y después su separación de la derecha.',`<div class="relation-board"><div class="relation-title">🔗 RELACIÓN DE COLUMNAS</div><div class="relation-grid"><div class="relation-column left"><div class="relation-column-header">PALABRAS</div>${t.pairs.map((p,i)=>`<button class="matchbtn relation-item" onclick="pickLeft(${i},this)">${p[0]} &nbsp; 🔊</button>`).join('')}</div><div class="relation-center"><div class="arrow">↔</div><small>BUSCA<br>SU PAREJA</small></div><div class="relation-column right"><div class="relation-column-header">SEPARACIÓN SILÁBICA</div>${right.map(r=>`<button class="matchbtn relation-item" onclick="pickRight(${r[1]},this)">${r[0]}</button>`).join('')}</div></div><div class="relation-help">La posición visual nunca indica la respuesta.</div></div><div id="fb" class="feedback"></div>`)}
+function pickLeft(i,el){if(el.classList.contains('done'))return;matchLeft=i;speak(tasks[idx].pairs[i][0]);document.querySelectorAll('.relation-column.left .matchbtn').forEach(x=>x.classList.remove('sel'));el.classList.add('sel')}
+function pickRight(i,el){if(matchLeft===null)return wrong('Primero elige una palabra de la columna izquierda.');if(i===matchLeft){let left=document.querySelectorAll('.relation-column.left .matchbtn');left[i].classList.remove('sel');left[i].classList.add('done');el.classList.add('done');el.disabled=true;matchDone++;fb('✓ Conexión correcta. La pareja quedó marcada.',true);matchLeft=null;if(matchDone===tasks[idx].pairs.length)setTimeout(()=>finish(tasks[idx],'Relacionaste correctamente todas las palabras.'),350)}else wrong('Esa separación pertenece a otra palabra. Prueba otra opción de la derecha.')}
+function renderMulti(t,tag){selected=[];let item=t.items[currentItem],w=item[0],parts=item[1];shell(tag,`Palabra ${currentItem+1} de ${t.items.length}: ${w}`,'Ya estás trabajando con vocabulario nuevo y con menos ayuda.','Reconstruye la palabra sin ver la respuesta.',wordHeader(w)+`<div class="chips">${sh(parts).map(x=>`<button class="chip" onclick="pick('${x}',this)">${x}</button>`).join('')}</div><div id="zone" class="zone">Tu separación</div><div style="text-align:center;margin-top:10px"><button class="btn btn-lime" onclick="checkMulti()">Comprobar</button></div><div id="fb" class="feedback"></div>`)}
+function checkMulti(){let t=tasks[idx],item=t.items[currentItem];if(selected.join('|')===item[1].join('|')){currentItem++;if(currentItem===t.items.length)return finish(t,'Completaste correctamente las tres palabras nuevas.');fb('✓ Correcto. Siguiente palabra.',true);setTimeout(()=>renderMulti(t,`RETO ${idx+1} · ${t.area}`),550)}else{wrong('La separación aún no es correcta.');selected=[];setTimeout(()=>renderMulti(t,`RETO ${idx+1} · ${t.area}`),650)}}
+function summary(){
+ const rows=Object.values(evalStats);
+ const answered=rows.length||25;
+ const firstRate=answered?Math.round(rows.filter(x=>x.firstTry).length/answered*100):0;
+ const autoRate=answered?Math.round(rows.filter(x=>x.autonomous).length/answered*100):0;
+ const totalErrors=rows.reduce((a,x)=>a+(x.errors||0),0);
+ const avgSec=answered?Math.round(rows.reduce((a,x)=>a+(x.seconds||0),0)/answered):0;
+ const helpCount=rows.filter(x=>x.audio||x.hint).length;
+
+ const stages=stageNames.map((st,i)=>{
+   const rr=rows.filter(x=>x.stage===i);
+   const autonomy=rr.length?Math.round(rr.filter(x=>x.autonomous).length/rr.length*100):0;
+   const accuracy=rr.length?Math.round(rr.filter(x=>x.firstTry).length/rr.length*100):0;
+   const avg=rr.length?Math.round(rr.reduce((a,x)=>a+x.seconds,0)/rr.length):0;
+   const errors=rr.reduce((a,x)=>a+x.errors,0);
+   let score=Math.round(accuracy*.55+autonomy*.35+Math.max(0,100-Math.max(0,avg-25)*2)*.10);
+   return {...st,accuracy,autonomy,avg,errors,score};
+ });
+
+ const weak=stages.filter(x=>x.score<70 || x.errors>=4);
+ const transfer=stages[4]||{score:0};
+ const critical=stages.filter(x=>x.score<60);
+
+ // Criterios educativos de avance:
+ // 1) al menos 80% de primer intento;
+ // 2) al menos 65% de resolución autónoma;
+ // 3) etapa final de transferencia >= 75%;
+ // 4) ninguna etapa crítica por debajo de 60%.
+ let decision='continue',decisionTitle='✅ Puede continuar al Bloque 2';
+ let decisionText='Cumple los criterios de dominio del Bloque 1: precisión, autonomía y transferencia suficientes para introducir la sílaba tónica.';
+ if(firstRate>=80 && autoRate>=65 && transfer.score>=75 && critical.length===0){
+   decision='continue';
+ }else if(firstRate>=65 && autoRate>=50 && transfer.score>=60 && critical.length<=2){
+   decision='partial';
+   decisionTitle='🎯 Repasar solo algunas etapas antes de avanzar';
+   decisionText='La base está parcialmente consolidada. Debe reforzar las etapas señaladas y volver a demostrar dominio antes de desbloquear el Bloque 2.';
+ }else{
+   decision='repeat';
+   decisionTitle='↻ Conviene repetir el Bloque 1';
+   decisionText='Todavía no hay evidencia suficiente de dominio estable. Es mejor reforzar segmentación silábica antes de aumentar la dificultad.';
+ }
+
+ const weakText=weak.length
+   ? weak.map(x=>`<b>${x.from}–${x.to}: ${x.name}</b>`).join(', ')
+   : 'No se detectaron etapas críticas.';
+
+ shell(
+  'REPORTE FINAL',
+  'Tu mapa de aprendizaje',
+  'El reporte combina precisión al primer intento, autonomía, errores y tiempo de respuesta. <b>El tiempo nunca decide por sí solo</b>; solo sirve para detectar si una habilidad todavía exige demasiado esfuerzo.',
+  'Revisa la recomendación antes de decidir qué hacer después.',
+  `<div class="performance-strip">
+     <div><b>${firstRate}%</b><span>primer intento</span></div>
+     <div><b>${autoRate}%</b><span>sin ayudas</span></div>
+     <div><b>${avgSec} s</b><span>promedio por reto</span></div>
+   </div>
+
+   <div class="report-hero ${decision}">
+     <div class="small">DECISIÓN PEDAGÓGICA</div>
+     <div class="report-decision">${decisionTitle}</div>
+     <div>${decisionText}</div>
+   </div>
+
+   <div class="skill-report">
+     ${stages.map(x=>`
+       <div class="skill-row">
+         <div><b>Retos ${x.from}–${x.to}</b><br><small>${x.name}</small></div>
+         <div><b>${x.score}%</b><br><small>dominio</small></div>
+         <div>
+           <div class="skill-meter"><span style="width:${x.score}%"></span></div>
+           <small>${x.accuracy}% primer intento · ${x.avg}s prom.</small>
+         </div>
+       </div>`).join('')}
+   </div>
+
+   <div class="recommendation">
+     <b>Qué recomiendo repasar:</b><br>${weakText}
+     <br><br><b>Datos observados:</b> ${totalErrors} errores registrados · ${helpCount} retos con audio o pista.
+     <br><br><b>Criterio de avance:</b> 80% o más al primer intento, 65% o más sin ayudas, transferencia final de 75% o más y ninguna etapa por debajo de 60%.
+     <br><b>El tiempo es secundario:</b> ayuda a detectar esfuerzo, pero nunca bloquea por sí solo el avance.
+   </div>
+
+   <div class="report-actions">
+     ${decision==='continue'
+       ? `<button class="btn btn-blue" onclick="unlockNextBlock()">🔓 Continuar al Bloque 2 →</button>`
+       : decision==='partial'
+       ? `<button class="btn btn-lime" onclick="reviewWeakStages()">🎯 Repasar etapas recomendadas</button><span class="small" style="align-self:center">🔒 Bloque 2 bloqueado hasta demostrar dominio.</span>`
+       : `<button class="btn btn-lime" onclick="resetAll()">↻ Repetir Bloque 1</button><span class="small" style="align-self:center">🔒 Bloque 2 bloqueado hasta demostrar dominio.</span>`}
+     <button class="btn btn-soft" onclick="resetAll()">Reiniciar evaluación</button>
+   </div>`
+ )
+ setTimeout(showFinalCelebration,420);
+}
+function unlockNextBlock(){
+ localStorage.setItem('b1_formativo_mastered','true');
+ alert('✅ Bloque 1 dominado. El Bloque 2 queda desbloqueado.');
+}
+function reviewWeakStages(){
+ const rows=Object.values(evalStats);
+ const weakStages=stageNames.map((st,i)=>{
+   const rr=rows.filter(x=>x.stage===i);
+   const autonomy=rr.length?Math.round(rr.filter(x=>x.autonomous).length/rr.length*100):0;
+   const accuracy=rr.length?Math.round(rr.filter(x=>x.firstTry).length/rr.length*100):0;
+   const errors=rr.reduce((a,x)=>a+x.errors,0);
+   const avg=rr.length?Math.round(rr.reduce((a,x)=>a+x.seconds,0)/rr.length):0;
+   const score=Math.round(accuracy*.55+autonomy*.35+Math.max(0,100-Math.max(0,avg-25)*2)*.10);
+   return {i,score,errors}
+ }).filter(x=>x.score<70||x.errors>=4);
+ const start=weakStages.length?weakStages[0].i*5:0;
+ idx=start;tries=0;selected=[];currentItem=0;audioUsed=false;hintUsed=false;
+ localStorage.setItem('b1_formativo_idx',idx);
+ render()
+}
+function resetAll(){
+ if(!confirm('¿Reiniciar los 25 retos y borrar el reporte actual?'))return;
+ clearInterval(clockInterval);
+ idx=0;first=0;autonomous=0;tries=0;selected=[];currentItem=0;taps=0;
+ classSel=null;classDone=0;matchLeft=null;matchDone=0;audioUsed=false;hintUsed=false;evalStats={};
+ ['b1_formativo_idx','b1_formativo_first','b1_formativo_autonomous','b1_formativo_stats','b1_formativo_mastered'].forEach(k=>localStorage.removeItem(k));
+ render()
+}
+syncProfile();render();
+</script>
+</body></html>
