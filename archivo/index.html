@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#25408F">
+  <title>Archivo Narciso · Curso de Verano</title>
+  <meta name="description" content="Catálogo dinámico de las actividades, rutas y páginas educativas publicadas en el repositorio CursodeVerano de Narciso.">
+  <style>
+    :root{
+      --blue:#25408F;--sky:#BBD6DF;--orange:#F98520;--yellow:#FDDB1B;
+      --green:#05713D;--pink:#F8AEC5;--ink:#17324d;--muted:#5f7185;
+      --paper:#fff;--bg:#f6f9fc;--line:#dfe8ef;--shadow:0 18px 46px rgba(37,64,143,.12)
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:radial-gradient(circle at 0 0,rgba(187,214,223,.48),transparent 28rem),radial-gradient(circle at 100% 0,rgba(253,219,27,.2),transparent 24rem),var(--bg)}
+    a{color:inherit}
+    button,input{font:inherit}
+    .wrap{width:min(1180px,calc(100% - 24px));margin:auto}
+    .top{position:sticky;top:0;z-index:20;background:rgba(246,249,252,.9);backdrop-filter:blur(16px);border-bottom:1px solid rgba(223,232,239,.9)}
+    .topin{min-height:66px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:950;letter-spacing:-.02em;text-decoration:none}
+    .mark{width:38px;height:38px;border-radius:14px;background:conic-gradient(from 210deg,var(--blue),var(--pink),var(--orange),var(--yellow),var(--green),var(--blue));box-shadow:0 8px 22px rgba(37,64,143,.2)}
+    .repo{font-size:.82rem;color:var(--muted);text-decoration:none;font-weight:800}
+    .hero{padding:54px 0 24px}
+    .heroCard{background:linear-gradient(135deg,#fff 0 58%,rgba(187,214,223,.5) 58% 100%);border:1px solid var(--line);border-radius:32px;padding:clamp(26px,6vw,58px);box-shadow:var(--shadow);overflow:hidden;position:relative}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:var(--yellow);font-size:.8rem;font-weight:950;letter-spacing:.04em;text-transform:uppercase}
+    h1{font-size:clamp(2.7rem,9vw,6.3rem);line-height:.9;letter-spacing:-.065em;margin:18px 0 16px;max-width:900px}
+    h1 span{background:linear-gradient(90deg,var(--blue),var(--green),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .lead{font-size:clamp(1rem,2.7vw,1.22rem);line-height:1.65;color:var(--muted);max-width:820px;margin:0}
+    .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+    .stat{padding:10px 13px;border-radius:14px;background:rgba(255,255,255,.88);border:1px solid var(--line);font-weight:900}
+    .toolbar{padding:20px 0 8px}
+    .search{display:grid;grid-template-columns:1fr auto;gap:10px}
+    .search input{min-height:54px;border-radius:17px;border:1px solid var(--line);background:white;padding:0 17px;color:var(--ink);outline:none;box-shadow:0 8px 24px rgba(37,64,143,.06)}
+    .search input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,64,143,.09)}
+    .search button{border:0;border-radius:17px;padding:0 18px;background:var(--blue);color:white;font-weight:900}
+    .chips{display:flex;gap:8px;overflow:auto;padding:12px 0 5px;scrollbar-width:none}
+    .chips::-webkit-scrollbar{display:none}
+    .chip{white-space:nowrap;border:1px solid var(--line);background:white;color:var(--ink);padding:9px 13px;border-radius:999px;font-weight:850;cursor:pointer}
+    .chip.on{background:var(--blue);border-color:var(--blue);color:#fff}
+    .status{min-height:34px;color:var(--muted);font-weight:750;padding:8px 2px}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:10px 0 42px}
+    .card{display:flex;flex-direction:column;min-height:230px;background:white;border:1px solid var(--line);border-radius:24px;padding:20px;box-shadow:0 12px 34px rgba(37,64,143,.07);transition:.2s}
+    .card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+    .meta{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+    .cat{display:inline-flex;align-items:center;max-width:75%;padding:6px 9px;border-radius:999px;background:#eef4f8;font-size:.74rem;font-weight:900;color:var(--blue)}
+    .ext{font-size:.72rem;color:var(--muted);font-weight:850}
+    .card h2{font-size:1.22rem;line-height:1.2;margin:0 0 9px;letter-spacing:-.025em;overflow-wrap:anywhere}
+    .path{font-size:.79rem;line-height:1.4;color:var(--muted);overflow-wrap:anywhere;margin:0 0 16px}
+    .open{margin-top:auto;display:flex;gap:8px}
+    .btn{flex:1;text-align:center;text-decoration:none;min-height:44px;display:grid;place-items:center;border-radius:13px;background:var(--blue);color:white;font-weight:900}
+    .btn.secondary{flex:0 0 46px;background:#eef3f9;color:var(--blue)}
+    .empty{grid-column:1/-1;background:white;border:1px dashed var(--sky);border-radius:24px;padding:32px;text-align:center;color:var(--muted)}
+    .featured{margin:24px 0 8px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .feature{padding:20px;border-radius:22px;text-decoration:none;font-weight:950;min-height:120px;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:0 12px 30px rgba(37,64,143,.08)}
+    .feature small{font-weight:750;opacity:.78;margin-top:4px}
+    .feature:nth-child(1){background:var(--yellow)}.feature:nth-child(2){background:var(--sky)}.feature:nth-child(3){background:var(--pink)}
+    footer{padding:30px 0 72px;color:var(--muted);font-size:.88rem;text-align:center}
+    .loader{display:inline-block;width:18px;height:18px;border-radius:50%;border:3px solid #dce6ee;border-top-color:var(--blue);animation:spin .8s linear infinite;vertical-align:middle;margin-right:8px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.featured{grid-template-columns:1fr}.heroCard{background:linear-gradient(180deg,#fff,rgba(187,214,223,.35))}}
+    @media(max-width:590px){.repo{display:none}.grid{grid-template-columns:1fr}.search{grid-template-columns:1fr}.search button{min-height:48px}.hero{padding-top:30px}.heroCard{border-radius:24px}.card{min-height:205px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap topin">
+    <a class="brand" href="./"><span class="mark" aria-hidden="true"></span><span>Archivo Narciso</span></a>
+    <a class="repo" href="https://github.com/narciso1516/CursodeVerano" target="_blank" rel="noopener">GitHub · CursodeVerano ↗</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="heroCard">
+      <div class="pill">● sincronizado con GitHub</div>
+      <h1>Todo el <span>Curso de Verano</span>, en un solo lugar.</h1>
+      <p class="lead">Este archivo consulta directamente el repositorio público y organiza automáticamente las páginas HTML disponibles. Puedes buscar por tema, grado, actividad o nombre de archivo.</p>
+      <div class="stats">
+        <div class="stat" id="totalStat">Cargando páginas…</div>
+        <div class="stat" id="visibleStat">Preparando catálogo…</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured" aria-label="Accesos destacados">
+    <a class="feature" href="../Curso_de_Verano_2026_Poblado_Tres_FINAL.html"><span>☀️ Curso de Verano 2026</span><small>Landing principal de Poblado Tres</small></a>
+    <a class="feature" href="../verano/"><span>🚀 Acceso corto</span><small>Entrada rápida a la página principal</small></a>
+    <a class="feature" href="../index.html"><span>✍️ Redacción y ortografía</span><small>Ruta por niveles actualmente publicada</small></a>
+  </section>
+
+  <section class="toolbar" aria-label="Buscar actividades">
+    <div class="search">
+      <input id="q" type="search" autocomplete="off" placeholder="Buscar: lectura, fracciones, 5to, inglés, acentuación…" aria-label="Buscar en el archivo">
+      <button id="clear" type="button">Limpiar</button>
+    </div>
+    <div class="chips" id="chips" aria-label="Categorías"></div>
+    <div class="status" id="status"><span class="loader"></span>Consultando GitHub…</div>
+  </section>
+
+  <section class="grid" id="grid" aria-live="polite"></section>
+</main>
+
+<footer class="wrap">Archivo educativo de Luis Alberto Antonio Narciso · Las páginas se abren desde GitHub Pages.</footer>
+
+<script>
+(() => {
+  const OWNER='narciso1516';
+  const REPO='CursodeVerano';
+  const BRANCH='main';
+  const API=`https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`;
+  const PAGES=`https://${OWNER}.github.io/${REPO}/`;
+  const REPO_URL=`https://github.com/${OWNER}/${REPO}/blob/${BRANCH}/`;
+
+  const grid=document.getElementById('grid');
+  const q=document.getElementById('q');
+  const clear=document.getElementById('clear');
+  const chips=document.getElementById('chips');
+  const status=document.getElementById('status');
+  const totalStat=document.getElementById('totalStat');
+  const visibleStat=document.getElementById('visibleStat');
+
+  let files=[];
+  let active='Todos';
+
+  const escapeHtml=s=>String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+  const pageUrl=path=>PAGES+path.split('/').map(encodeURIComponent).join('/');
+  const repoUrl=path=>REPO_URL+path.split('/').map(encodeURIComponent).join('/');
+  const pretty=path=>path.split('/').pop().replace(/\.html?$/i,'').replace(/[_-]+/g,' ').replace(/\s+/g,' ').trim().replace(/\b\w/g,m=>m.toUpperCase());
+
+  function category(path){
+    const s=path.toLowerCase();
+    if(/(?:part|parte|chunk|fragment|backup|copia|old|v\d+).*\.html?$/.test(s) || /_part_\d+/.test(s)) return 'Versiones / técnicos';
+    if(/curso_de_verano_2026|\/verano\//.test(s)) return 'Curso de Verano';
+    if(/acentu|esdru|aguda|grave|ortograf|redaccion|dictado|silaba/.test(s)) return 'Español y ortografía';
+    if(/leer|lectura|mulata|cuento|corto|cine|comprension|escritor/.test(s)) return 'Lectura y comprensión';
+    if(/matem|fraccion|tienda|mercado|supermercado|calculo|numero|problema|algebra|geometr|trigonom/.test(s)) return 'Matemáticas';
+    if(/ingles|english|\bwh\b|present.?continuous|verb|question.?race/.test(s)) return 'Inglés';
+    if(/mision|reto|quiz|test|juego|actividad|concurso/.test(s)) return 'Actividades y juegos';
+    if(/secundaria|prepa|bachiller|media.?superior/.test(s)) return 'Secundaria y media superior';
+    if(/1ro|1er|2do|3ro|4to|5to|6to|primaria/.test(s)) return 'Primaria';
+    return 'Otros';
+  }
+
+  function renderChips(){
+    const cats=['Todos',...new Set(files.map(f=>f.category))];
+    const order=['Todos','Curso de Verano','Lectura y comprensión','Español y ortografía','Matemáticas','Inglés','Primaria','Secundaria y media superior','Actividades y juegos','Versiones / técnicos','Otros'];
+    cats.sort((a,b)=>order.indexOf(a)-order.indexOf(b));
+    chips.innerHTML=cats.map(c=>`<button class="chip ${c===active?'on':''}" data-cat="${escapeHtml(c)}">${escapeHtml(c)}</button>`).join('');
+    chips.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{active=b.dataset.cat;renderChips();render();}));
+  }
+
+  function render(){
+    const term=q.value.trim().toLowerCase();
+    const filtered=files.filter(f=>{
+      const catOk=active==='Todos'||f.category===active;
+      const text=(f.title+' '+f.path+' '+f.category).toLowerCase();
+      return catOk && (!term || text.includes(term));
+    });
+    visibleStat.textContent=`${filtered.length} visibles`;
+    status.textContent=filtered.length?`Mostrando ${filtered.length} de ${files.length} páginas HTML.`:'No encontramos coincidencias con esos filtros.';
+    if(!filtered.length){grid.innerHTML='<div class="empty">Prueba otra palabra o selecciona <strong>Todos</strong>.</div>';return;}
+    grid.innerHTML=filtered.map(f=>`<article class="card">
+      <div class="meta"><span class="cat">${escapeHtml(f.category)}</span><span class="ext">HTML</span></div>
+      <h2>${escapeHtml(f.title)}</h2>
+      <p class="path">${escapeHtml(f.path)}</p>
+      <div class="open">
+        <a class="btn" href="${pageUrl(f.path)}">Abrir actividad →</a>
+        <a class="btn secondary" href="${repoUrl(f.path)}" target="_blank" rel="noopener" title="Ver código en GitHub" aria-label="Ver código en GitHub">&lt;/&gt;</a>
+      </div>
+    </article>`).join('');
+  }
+
+  async function load(){
+    try{
+      const res=await fetch(API,{headers:{'Accept':'application/vnd.github+json'}});
+      if(!res.ok) throw new Error(`GitHub respondió ${res.status}`);
+      const data=await res.json();
+      files=(data.tree||[])
+        .filter(x=>x.type==='blob' && /\.html?$/i.test(x.path) && x.path!=='archivo/index.html')
+        .map(x=>({path:x.path,title:pretty(x.path),category:category(x.path)}))
+        .sort((a,b)=>a.category.localeCompare(b.category,'es') || a.title.localeCompare(b.title,'es'));
+      totalStat.textContent=`${files.length} páginas HTML`;
+      renderChips();
+      render();
+    }catch(err){
+      console.error(err);
+      totalStat.textContent='Catálogo temporal';
+      visibleStat.textContent='GitHub no respondió';
+      status.innerHTML='No fue posible consultar el árbol del repositorio en este momento. Los accesos destacados de arriba siguen funcionando. <a href="https://github.com/narciso1516/CursodeVerano" target="_blank" rel="noopener"><strong>Abrir repositorio ↗</strong></a>';
+      grid.innerHTML='<div class="empty">Recarga la página para volver a intentar la sincronización automática.</div>';
+    }
+  }
+
+  q.addEventListener('input',render);
+  clear.addEventListener('click',()=>{q.value='';active='Todos';renderChips();render();q.focus();});
+  load();
+})();
+</script>
+</body>
+</html>
