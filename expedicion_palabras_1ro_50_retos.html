@@ -12,7 +12,6 @@
   <div class="brand"><div class="mascot" id="mascot">🐥</div><div>Expedición de las Palabras<small>1.º de primaria · Individual</small></div></div>
   <div class="hud"><div class="pill">⭐ <strong id="pointsHud">0</strong></div><div class="pill">🏅 <strong id="medalsHud">0</strong></div><div class="pill optional">🎯 <strong id="challengeHud">0/50</strong></div></div>
 </header>
-
 <section id="startScreen" class="card hero">
   <div class="eyebrow">Aventura individual de lectura y palabras</div>
   <h1>Aprende jugando, una palabra a la vez.</h1>
@@ -20,16 +19,13 @@
   <div class="start-row"><input id="studentName" maxlength="28" autocomplete="off" placeholder="Escribe tu nombre"><button id="startBtn" class="btn orange">🚀 Empezar</button></div>
   <div id="startError" class="feedback try"></div>
 </section>
-
 <section id="gameScreen" class="hidden">
   <div class="progress-shell"><div class="progress-label"><span id="progressText">Reto 1 de 50</span><span id="worldText">Primeros pasos</span></div><div class="meter"><div id="progressBar"></div></div></div>
   <div class="worlds" id="worlds"></div>
   <main class="card challenge next-in" id="challengeCard"></main>
 </section>
-
 <section id="reportScreen" class="card hidden"></section>
 </div>
-
 <div id="milestone" class="milestone hidden" role="dialog" aria-modal="true" aria-labelledby="milestoneTitle">
   <div class="milestone-card">
     <div class="big">🎉</div>
@@ -44,7 +40,6 @@
     </div>
   </div>
 </div>
-
 <div id="confirmFinish" class="milestone hidden" role="dialog" aria-modal="true" aria-labelledby="confirmFinishTitle">
   <div class="milestone-card">
     <div class="big">🤔</div>
@@ -58,7 +53,18 @@
     </div>
   </div>
 </div>
-
 <script src="expedicion_palabras_1ro.js"></script>
+<script>
+(function(){
+  const finish=document.getElementById('finish20Btn');
+  const confirm=document.getElementById('confirmFinish');
+  const milestone=document.getElementById('milestone');
+  const yes=document.getElementById('confirmFinishBtn');
+  const no=document.getElementById('cancelFinishBtn');
+  if(finish){finish.onclick=function(){milestone.classList.add('hidden');confirm.classList.remove('hidden');};}
+  if(no){no.onclick=function(){confirm.classList.add('hidden');milestone.classList.remove('hidden');};}
+  if(yes){yes.onclick=function(){confirm.classList.add('hidden');const report=document.getElementById('reportScreen');const game=document.getElementById('gameScreen');if(game)game.classList.add('hidden');if(report){report.classList.remove('hidden');report.innerHTML='<div class="eyebrow">Reporte individual de aprendizaje</div><h2>🏁 ¡Terminaste la meta de hoy!</h2><p>Completaste los <b>20 retos principales</b>. Tu maestro podrá revisar tus logros, intentos y respuestas en el reporte.</p><p class="mini-note">Preparando tu reporte completo…</p>';} setTimeout(function(){document.getElementById('continueReport')?.click(); history.back();},0);};}
+})();
+</script>
 </body>
 </html>
