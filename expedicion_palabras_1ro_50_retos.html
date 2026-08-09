@@ -61,9 +61,10 @@
   const milestone=document.getElementById('milestone');
   const yes=document.getElementById('confirmFinishBtn');
   const no=document.getElementById('cancelFinishBtn');
+  const originalFinish=finish ? finish.onclick : null;
   if(finish){finish.onclick=function(){milestone.classList.add('hidden');confirm.classList.remove('hidden');};}
   if(no){no.onclick=function(){confirm.classList.add('hidden');milestone.classList.remove('hidden');};}
-  if(yes){yes.onclick=function(){confirm.classList.add('hidden');const report=document.getElementById('reportScreen');const game=document.getElementById('gameScreen');if(game)game.classList.add('hidden');if(report){report.classList.remove('hidden');report.innerHTML='<div class="eyebrow">Reporte individual de aprendizaje</div><h2>🏁 ¡Terminaste la meta de hoy!</h2><p>Completaste los <b>20 retos principales</b>. Tu maestro podrá revisar tus logros, intentos y respuestas en el reporte.</p><p class="mini-note">Preparando tu reporte completo…</p>';} setTimeout(function(){document.getElementById('continueReport')?.click(); history.back();},0);};}
+  if(yes){yes.onclick=function(){confirm.classList.add('hidden');if(originalFinish)originalFinish.call(finish);};}
 })();
 </script>
 </body>
