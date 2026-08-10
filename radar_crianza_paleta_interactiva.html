@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Radar de Crianza · Curso de Verano</title>
+<style>
+:root{
+  --bg:#fffaf6;--card:#ffffff;--ink:#153b4d;--muted:#60717b;
+  --primary:#185D79;--accent:#FF9322;--ok:#6FE4CC;--lime:#C8DB2A;
+  --pink:#FF7BAD;--pink-strong:#EF4686;--warn:#FF9322;--line:#dbe8ec;
+  --soft-blue:#eef8fb;--soft-mint:#effcf8;--soft-pink:#fff1f7;--soft-orange:#fff5ea;
+}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:
+  radial-gradient(circle at 10% 0%,rgba(255,123,173,.16),transparent 28%),
+  radial-gradient(circle at 95% 8%,rgba(111,228,204,.20),transparent 30%),
+  linear-gradient(180deg,#fffaf6 0,#f8fcfb 38%,#fffaf6 100%);color:var(--ink)}
+.wrap{max-width:760px;margin:auto;padding:18px 14px 48px}.hero{padding:18px 6px 10px}.eyebrow{font-weight:800;color:var(--primary);font-size:.82rem;letter-spacing:.08em;text-transform:uppercase}.hero h1{font-size:clamp(2rem,8vw,3.4rem);line-height:.98;margin:.35rem 0 .8rem}.hero p{color:var(--muted);font-size:1rem;line-height:1.55;margin:0}
+.card{background:rgba(255,255,255,.97);border:1px solid var(--line);border-radius:26px;padding:22px;box-shadow:0 18px 45px rgba(24,93,121,.10);margin-top:16px;position:relative;overflow:hidden}.card:before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--pink),var(--accent),var(--ok),var(--lime));opacity:.9}.hidden{display:none!important}
+.note{padding:13px 15px;border-radius:16px;background:var(--soft-blue);color:#365567;font-size:.92rem;line-height:1.45;border:1px solid rgba(24,93,121,.08)}.fields{display:grid;gap:12px;margin-top:16px}.fields input,.fields select,.fields textarea{width:100%;border:1px solid var(--line);border-radius:14px;padding:14px;font:inherit;background:#fff;color:var(--ink)}
+button{border:0;border-radius:16px;padding:14px 18px;font-weight:800;font-size:1rem;cursor:pointer;min-height:48px;transition:transform .16s ease,box-shadow .16s ease,filter .16s ease}button:active{transform:scale(.97)}button:focus-visible{outline:3px solid rgba(111,228,204,.55);outline-offset:3px}.primary{background:linear-gradient(135deg,var(--primary),#237da0);color:white;box-shadow:0 8px 20px rgba(24,93,121,.18)}.primary:active{box-shadow:0 4px 12px rgba(24,93,121,.15)}.ghost{background:var(--soft-blue);color:var(--ink);border:1px solid rgba(24,93,121,.08)}.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1}
+.progress{height:11px;background:#eaf2f4;border-radius:999px;overflow:hidden;margin:8px 0 18px;box-shadow:inset 0 1px 2px rgba(24,93,121,.06)}.progress>div{height:100%;background:linear-gradient(90deg,var(--ok),var(--lime));width:0%;transition:width .34s cubic-bezier(.2,.8,.2,1);position:relative}.progress>div:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:translateX(-100%);animation:progressShine 1.8s ease-in-out infinite}.kicker{color:var(--muted);font-size:.9rem;font-weight:700}.question{font-size:1.35rem;line-height:1.35;font-weight:850;margin:12px 0 20px;transform-origin:center;will-change:transform,opacity}.question.question-enter{animation:questionIn .32s cubic-bezier(.2,.8,.2,1)}
+.dialWrap{display:grid;place-items:center;padding:8px 0 2px}.dial{width:260px;height:260px;border-radius:50%;background:conic-gradient(from -120deg,var(--ok) calc(var(--v)*1%),#e7f0f2 0);display:grid;place-items:center;position:relative;box-shadow:inset 0 0 0 18px #fff,0 12px 35px rgba(24,93,121,.12);transition:transform .16s ease,box-shadow .2s ease,background .25s ease;will-change:transform}.dial.is-changing{transform:scale(1.025);box-shadow:inset 0 0 0 18px #fff,0 16px 40px rgba(24,93,121,.18),0 0 0 7px rgba(111,228,204,.14)}.dial:before{content:"";position:absolute;inset:32px;border-radius:50%;background:white;border:1px solid var(--line)}.dialContent{position:relative;z-index:2;text-align:center;padding:20px}.dialValue{font-size:1.12rem;font-weight:900}.dialHint{font-size:.78rem;color:var(--muted);margin-top:6px}.range{width:100%;accent-color:var(--pink-strong);margin-top:20px;min-height:34px;touch-action:pan-y}.labels{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);gap:4px;margin-top:5px}.labels span{width:20%;text-align:center}
+.resultGrid{display:grid;gap:10px;margin:16px 0}.metric{border:1px solid var(--line);border-radius:17px;padding:14px;background:linear-gradient(180deg,#fff,var(--soft-blue));animation:metricIn .42s ease both}.metricTop{display:flex;justify-content:space-between;gap:10px;font-weight:850}.bar{height:9px;background:#e8f0f2;border-radius:999px;overflow:hidden;margin-top:10px}.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--ok),var(--lime));border-radius:inherit;transform-origin:left;animation:barGrow .75s cubic-bezier(.2,.8,.2,1) both}.reco{border-left:5px solid var(--accent);background:var(--soft-orange);border-radius:14px;padding:14px;margin:10px 0;line-height:1.45;animation:recoIn .45s ease both}.shareBox{background:var(--soft-mint);border:1px solid rgba(111,228,204,.48);border-radius:18px;padding:16px;white-space:pre-line;line-height:1.5;animation:shareReveal .55s cubic-bezier(.2,.8,.2,1)}.mini{font-size:.83rem;color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:.8rem;margin-top:22px}.badge{display:inline-flex;align-items:center;gap:6px;background:var(--soft-pink);color:#963459;padding:8px 11px;border-radius:999px;font-size:.83rem;font-weight:800;border:1px solid rgba(239,70,134,.12)}
+@keyframes questionIn{from{opacity:0;transform:translateX(18px) scale(.99)}to{opacity:1;transform:none}}
+@keyframes metricIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes recoIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes shareReveal{from{opacity:0;transform:translateY(12px) scale(.99)}to{opacity:1;transform:none}}
+@keyframes progressShine{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+@keyframes finishPop{0%{opacity:0;transform:translateY(14px) scale(.985)}65%{opacity:1;transform:translateY(-2px) scale(1.005)}100%{opacity:1;transform:none}}
+.results-reveal{animation:finishPop .72s cubic-bezier(.2,.8,.2,1)}
+@media(max-width:520px){.card{padding:18px}.dial{width:230px;height:230px}.question{font-size:1.2rem}.row{flex-direction:column}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}.progress>div:after{display:none}}
+/* Footer de autor: estilos aislados para no interferir con la interfaz existente */
+.laan-author-footer{
+  width:100%;
+  border-top:1px solid var(--line);
+  background:rgba(255,255,255,.72);
+  color:var(--ink);
+}
+.laan-author-footer__inner{
+  max-width:760px;
+  margin:0 auto;
+  padding:28px 20px calc(28px + env(safe-area-inset-bottom));
+}
+.laan-author-footer__label{
+  margin:0 0 7px;
+  color:var(--primary);
+  font-size:.76rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.laan-author-footer__name{
+  margin:0;
+  font-size:1.08rem;
+  line-height:1.35;
+  font-weight:850;
+}
+.laan-author-footer__description{
+  max-width:680px;
+  margin:10px 0 0;
+  color:var(--muted);
+  font-size:.88rem;
+  line-height:1.6;
+}
+.laan-author-footer__phrase{
+  margin:12px 0 0;
+  color:var(--muted);
+  font-size:.8rem;
+  font-style:italic;
+  line-height:1.5;
+}
+.laan-author-footer__actions{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid var(--line);
+}
+.laan-author-footer__copyright{
+  margin:0;
+  color:var(--muted);
+  font-size:.76rem;
+  line-height:1.45;
+}
+.laan-author-footer__link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  padding:10px 15px;
+  border:1px solid var(--primary);
+  border-radius:14px;
+  background:transparent;
+  color:var(--primary);
+  font-size:.84rem;
+  font-weight:800;
+  line-height:1.2;
+  text-decoration:none;
+  transition:background-color .18s ease,color .18s ease,transform .18s ease;
+}
+.laan-author-footer__link:hover{
+  background:var(--primary);
+  color:#fff;
+  transform:translateY(-1px);
+}
+.laan-author-footer__link:focus-visible{
+  outline:3px solid rgba(111,228,204,.45);
+  outline-offset:3px;
+}
+@media(max-width:520px){
+  .laan-author-footer__inner{padding-left:14px;padding-right:14px}
+  .laan-author-footer__actions{align-items:stretch;flex-direction:column}
+  .laan-author-footer__link{width:100%}
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="eyebrow">Curso de Verano · Familias</div>
+    <h1>Radar de Crianza</h1>
+    <p>Una actividad privada para reflexionar sobre cómo acompañas a tu hijo o hija. Al final recibirás recomendaciones personales y podrás generar un resumen breve, de solo 5 líneas, para compartir con el maestro.</p>
+  </section>
+
+  <section id="start" class="card">
+    <span class="badge">🔒 Tus respuestas son privadas</span>
+    <div class="note" style="margin-top:14px">Esto no es una prueba psicológica ni califica si eres “buen” o “mal” padre o madre. Es una herramienta educativa de autorreflexión.</div>
+    <div class="fields">
+      <input id="child" placeholder="Nombre del alumno o alumna (opcional)">
+      <select id="group"><option value="">Grupo (opcional)</option><option>Ribosomas</option><option>Organelos</option><option>Neutrones</option></select>
+    </div>
+    <button class="primary" style="width:100%;margin-top:16px" onclick="begin()">Comenzar</button>
+  </section>
+
+  <section id="quiz" class="card hidden">
+    <div class="kicker" id="count"></div>
+    <div class="progress"><div id="prog"></div></div>
+    <div class="question" id="qtext" aria-live="polite"></div>
+    <div class="dialWrap">
+      <div class="dial" id="dial" style="--v:50">
+        <div class="dialContent"><div class="dialValue" id="dialValue">A veces</div><div class="dialHint">Mueve la rueda con el control</div></div>
+      </div>
+    </div>
+    <input class="range" id="range" type="range" min="1" max="5" value="3" step="1" oninput="updateDial()">
+    <div class="labels"><span>Nunca</span><span>Casi nunca</span><span>A veces</span><span>Casi siempre</span><span>Siempre</span></div>
+    <div class="row" style="margin-top:20px"><button class="ghost" onclick="prev()">Atrás</button><button class="primary" onclick="next()">Siguiente</button></div>
+  </section>
+
+  <section id="results" class="card hidden">
+    <div class="eyebrow">Resultado privado</div>
+    <h2 style="font-size:2rem;margin:.4rem 0">Tu radar personal</h2>
+    <p class="mini">Los porcentajes resumen tus propias respuestas; no representan un diagnóstico clínico.</p>
+    <div id="metrics" class="resultGrid"></div>
+    <h3>Dos áreas para fortalecer</h3>
+    <div id="recommendations"></div>
+    <div class="note" style="margin-top:14px">Esta parte es solo para ti. El maestro no verá tus respuestas ni tus porcentajes.</div>
+    <button class="primary" style="width:100%;margin-top:16px" onclick="showTeacher()">Crear resumen para el maestro</button>
+  </section>
+
+  <section id="teacher" class="card hidden">
+    <div class="eyebrow">Solo lo que tú decidas compartir</div>
+    <h2 style="margin:.4rem 0">Resumen para el maestro</h2>
+    <p class="mini">Responde estas preguntas pensando en cómo apoyar mejor a tu hijo/a durante el curso. Con esto generaremos solo 5 líneas.</p>
+    <div class="fields">
+      <select id="support"><option value="">¿Qué te gustaría que fortalezca más?</option><option>Lectura</option><option>Matemáticas</option><option>Seguridad al participar</option><option>Seguir instrucciones</option><option>Convivencia</option><option>Autonomía</option><option>Manejo de frustración</option><option>Expresar lo que siente</option></select>
+      <select id="learn"><option value="">¿Qué suele ayudarle más para aprender?</option><option>Que le expliquen otra vez</option><option>Ver un ejemplo y luego intentarlo</option><option>Intentarlo solo/a primero</option><option>Trabajar con otro compañero</option><option>Recibir motivación y reconocimiento</option><option>Tener un poco más de tiempo</option></select>
+      <textarea id="observe" rows="3" placeholder="Algo que te gustaría que el maestro observe (opcional)"></textarea>
+      <textarea id="commit" rows="3" placeholder="Un compromiso familiar para esta semana (opcional)"></textarea>
+      <textarea id="important" rows="3" placeholder="Algo importante sobre tu hijo/a que consideres útil compartir (opcional)"></textarea>
+    </div>
+    <button class="primary" style="width:100%;margin-top:16px" onclick="makeShare()">Generar mis 5 líneas</button>
+  </section>
+
+  <section id="share" class="card hidden">
+    <div class="eyebrow">Listo para compartir</div>
+    <h2 style="margin:.4rem 0">Texto de 5 líneas</h2>
+    <div id="shareText" class="shareBox"></div>
+    <div class="row" style="margin-top:16px"><button class="ghost" onclick="copyText()">Copiar texto</button><button class="primary" onclick="restart()">Volver a empezar</button></div>
+    <p class="mini" style="margin-top:12px">Este resumen no incluye tus respuestas privadas ni tus porcentajes.</p>
+  </section>
+
+  <footer>Herramienta educativa de reflexión familiar · Curso de Verano</footer>
+</div>
+<footer class="laan-author-footer" aria-label="Información del autor">
+  <div class="laan-author-footer__inner">
+    <p class="laan-author-footer__label">Autor</p>
+    <p class="laan-author-footer__name">Luis Alberto Antonio Narciso</p>
+    <p class="laan-author-footer__description">Ingeniero en Electrónica y profesional de Quality Assurance, automatización de pruebas y tecnología educativa. Desarrolla experiencias web interactivas orientadas al aprendizaje, combinando educación, tecnología, diseño y herramientas digitales.</p>
+    <p class="laan-author-footer__phrase">“Recurso diseñado y desarrollado por Luis Alberto Antonio Narciso”.</p>
+    <div class="laan-author-footer__actions">
+      <p class="laan-author-footer__copyright">© 2026 Luis Alberto Antonio Narciso</p>
+      <a class="laan-author-footer__link" href="https://narciso1516.github.io/narcisotesting.com/" target="_blank" rel="noopener noreferrer">Conocer al autor</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const qs=[
+['Escucho a mi hijo/a hasta que termina de hablar, aunque no esté de acuerdo.','Comunicación'],['Dedico un momento del día a preguntarle cómo se siente.','Vínculo'],['Mi hijo/a puede contarme un error sin sentir miedo de mi reacción.','Vínculo'],['Reconozco su esfuerzo aunque el resultado no sea perfecto.','Vínculo'],['Le demuestro cariño de una manera que él/ella recibe cómodamente.','Vínculo'],['Cuando me cuenta un problema, intento comprender antes de darle un sermón.','Comunicación'],['Le explico por qué existe una regla, además de pedir que la cumpla.','Límites'],['Cumplo las consecuencias que previamente acordamos.','Límites'],['Evito amenazar con castigos que sé que no voy a cumplir.','Límites'],['Las reglas importantes de nuestra casa son claras para mi hijo/a.','Límites'],['Le permito intentar resolver problemas antes de intervenir.','Autonomía'],['Le permito tomar decisiones apropiadas para su edad.','Autonomía'],['Puedo aceptar que haga algunas cosas de manera diferente a como yo las haría.','Autonomía'],['Evito hacer por él/ella cosas que ya puede hacer solo/a.','Autonomía'],['Le permito equivocarse cuando hacerlo no representa un peligro.','Autonomía'],['Cuando estoy muy enojado/a, logro evitar insultar o humillar.','Emociones'],['Puedo reconocer ante mi hijo/a cuando yo me equivoqué.','Emociones'],['Después de un conflicto, intento hablar nuevamente cuando estamos tranquilos.','Emociones'],['Evito utilizar el silencio o retirar afecto como forma de castigo.','Emociones'],['Evito comparar a mi hijo/a con hermanos, compañeros u otros niños.','Emociones'],['Escucho sus razones antes de decidir una consecuencia.','Comunicación'],['Mi hijo/a puede decirme que no está de acuerdo conmigo respetuosamente.','Comunicación'],['Evito burlarme de sus miedos, gustos o emociones.','Comunicación'],['En casa enseñamos que niñas y niños merecen las mismas oportunidades.','Igualdad'],['Evito decir que una actividad, profesión, color o juguete es “de niño” o “de niña”.','Igualdad'],['Enseño que tanto niños como niñas pueden ser fuertes, sensibles, líderes y cuidadores.','Igualdad'],['Las responsabilidades de casa no se asignan solamente por ser niño o niña.','Igualdad'],['Animo a mi hija a expresar sus ideas, poner límites y defender respetuosamente lo que piensa.','Igualdad'],['Enseño a mi hijo a respetar cuando otra persona establece un límite.','Igualdad'],['Le hago saber que puede acudir a mí cuando tenga un problema serio, incluso si cometió un error.','Vínculo']
+];
+const labels=['','Nunca','Casi nunca','A veces','Casi siempre','Siempre']; let i=0; const ans=Array(qs.length).fill(3);
+function begin(){document.getElementById('start').classList.add('hidden');document.getElementById('quiz').classList.remove('hidden');render()}
+function render(){document.getElementById('count').textContent=`Pregunta ${i+1} de ${qs.length} · ${qs[i][1]}`;document.getElementById('prog').style.width=`${((i+1)/qs.length)*100}%`;const q=document.getElementById('qtext');q.classList.remove('question-enter');void q.offsetWidth;q.textContent=qs[i][0];q.classList.add('question-enter');document.getElementById('range').value=ans[i];updateDial(false)}
+function updateDial(feedback=true){let v=+document.getElementById('range').value;ans[i]=v;document.getElementById('dialValue').textContent=labels[v];const dial=document.getElementById('dial');dial.style.setProperty('--v',(v-1)*25);if(feedback){dial.classList.remove('is-changing');void dial.offsetWidth;dial.classList.add('is-changing');clearTimeout(window.__dialTimer);window.__dialTimer=setTimeout(()=>dial.classList.remove('is-changing'),180)}}
+function next(){if(i<qs.length-1){i++;render();scrollTo({top:0,behavior:'smooth'})}else finish()}
+function prev(){if(i>0){i--;render()}}
+function finish(){document.getElementById('quiz').classList.add('hidden');const results=document.getElementById('results');results.classList.remove('hidden');results.classList.remove('results-reveal');void results.offsetWidth;results.classList.add('results-reveal');const groups={};qs.forEach((q,idx)=>{groups[q[1]]??=[];groups[q[1]].push(ans[idx])});const scores=Object.entries(groups).map(([k,a])=>[k,Math.round(((a.reduce((x,y)=>x+y,0)-a.length)/(a.length*4))*100)]).sort((a,b)=>a[1]-b[1]);const emoji={'Vínculo':'❤️','Comunicación':'👂','Límites':'🧭','Autonomía':'🌱','Emociones':'🧠','Igualdad':'⚖️'};document.getElementById('metrics').innerHTML=scores.map(([k,s],idx)=>`<div class="metric" style="animation-delay:${idx*70}ms"><div class="metricTop"><span>${emoji[k]} ${k}</span><span>${s}%</span></div><div class="bar"><i style="width:${s}%;animation-delay:${120+idx*70}ms"></i></div></div>`).join('');const advice={
+'Vínculo':'Reserva 10 minutos de atención exclusiva y pregúntale cómo estuvo su día sin corregir ni interrogar.','Comunicación':'Antes de aconsejar, prueba preguntar: “¿Quieres que te escuche o que pensemos una solución?”.','Límites':'Elige pocas reglas claras, explica el motivo y aplica consecuencias conocidas de manera consistente.','Autonomía':'Antes de ayudar, pregunta: “¿Qué parte puedes intentar tú primero?”.','Emociones':'Cuando haya tensión, pospón la conversación unos minutos y retómala cuando ambos estén más tranquilos.','Igualdad':'Revisa expresiones, tareas y expectativas para que no dependan de si es niño o niña.'};
+document.getElementById('recommendations').innerHTML=scores.slice(0,2).map(([k,s],idx)=>`<div class="reco" style="animation-delay:${420+idx*90}ms"><strong>${emoji[k]} ${k}</strong><br>${advice[k]}</div>`).join('');scrollTo({top:0,behavior:'smooth'})}
+function showTeacher(){document.getElementById('results').classList.add('hidden');document.getElementById('teacher').classList.remove('hidden');scrollTo({top:0,behavior:'smooth'})}
+function makeShare(){const child=document.getElementById('child').value.trim()||'Mi hijo/a';const group=document.getElementById('group').value;const support=document.getElementById('support').value||'seguir fortaleciendo sus aprendizajes y confianza';const learn=document.getElementById('learn').value||'recibir acompañamiento según la actividad';const observe=document.getElementById('observe').value.trim()||'Observar cómo participa, pide ayuda y resuelve actividades.';const commit=document.getElementById('commit').value.trim()||'Acompañar en casa con constancia y reconocer su esfuerzo.';const important=document.getElementById('important').value.trim()||'Agradezco cualquier observación que ayude a acompañarlo/a mejor.';const lines=[`${child}${group?' · '+group:''}: nos gustaría fortalecer ${support.toLowerCase()}.`,`Suele aprender mejor al ${learn.charAt(0).toLowerCase()+learn.slice(1)}.`,`Me gustaría que durante el curso se observe: ${observe}`,`En casa nos comprometemos a: ${commit}`,`También considero importante compartir: ${important}`];document.getElementById('shareText').textContent=lines.join('\n');document.getElementById('teacher').classList.add('hidden');document.getElementById('share').classList.remove('hidden');scrollTo({top:0,behavior:'smooth'})}
+function copyText(){navigator.clipboard.writeText(document.getElementById('shareText').textContent).then(()=>alert('Texto copiado.'))}
+function restart(){location.reload()}
+</script>
+</body>
+</html>
