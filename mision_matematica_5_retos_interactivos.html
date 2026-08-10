@@ -1,0 +1,2542 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Misión Matemática — 1.º y 2.º de Primaria</title>
+<style>
+  :root{
+    --bg:#f6fbff; --card:#ffffff; --ink:#17324d; --muted:#60758a;
+    --primary:#5b67f1; --secondary:#20b8a6; --accent:#ffb84d;
+    --ok:#2fa36b; --bad:#d95b69; --line:#dfeaf3; --shadow:0 12px 34px rgba(23,50,77,.12);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,ui-rounded,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,#edf8ff,#fbfdff 38%,#f7f9ff);color:var(--ink)}
+  button{font:inherit}
+  .app{max-width:920px;margin:auto;padding:18px 16px 80px}
+  .hero{background:linear-gradient(135deg,#5b67f1,#7d66f2);color:white;border-radius:28px;padding:24px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-50px;top:-70px;background:rgba(255,255,255,.13)}
+  .hero h1{margin:0 0 8px;font-size:clamp(28px,6vw,46px)}
+  .hero p{margin:0;max-width:680px;line-height:1.5}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .chip{background:rgba(255,255,255,.18);padding:7px 11px;border-radius:999px;font-size:13px}
+  .toolbar{display:flex;gap:10px;align-items:center;margin:18px 0;position:sticky;top:8px;z-index:5;background:rgba(246,251,255,.88);backdrop-filter:blur(10px);padding:10px;border-radius:18px;border:1px solid rgba(223,234,243,.9)}
+  .bar{height:10px;background:#e7eef6;border-radius:999px;overflow:hidden;flex:1}
+  .bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--secondary),var(--primary));transition:.35s}
+  .counter{font-weight:800;font-size:14px;white-space:nowrap}
+  .screen{display:none}
+  .screen.active{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:.25;transform:translateY(7px)}to{opacity:1;transform:none}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow);margin:14px 0}
+  .eyebrow{font-weight:900;color:var(--primary);font-size:13px;text-transform:uppercase;letter-spacing:.08em}
+  h2{font-size:clamp(24px,5vw,36px);margin:6px 0 10px}
+  h3{font-size:20px;margin:14px 0 8px}
+  .muted{color:var(--muted);line-height:1.55}
+  .interaction{border:2px dashed #cfd9ff;border-radius:20px;padding:18px;background:#f9faff;margin-top:16px}
+  .big-number{font-size:clamp(42px,12vw,80px);font-weight:900;text-align:center;letter-spacing:.02em;margin:8px 0 16px}
+  .options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .opt,.primary,.secondary{border:0;border-radius:16px;padding:14px 16px;font-weight:900;cursor:pointer;transition:.18s}
+  .opt{background:white;border:2px solid var(--line);color:var(--ink)}
+  .opt:hover{transform:translateY(-2px);border-color:#b8c5ff}
+  .opt.correct{background:#e8f8ef;border-color:#8bd0ac;color:#176844}
+  .opt.wrong{background:#fff0f2;border-color:#f0a7b0;color:#a53a47}
+  .primary{background:linear-gradient(135deg,var(--primary),#7a69f6);color:white;box-shadow:0 8px 18px rgba(91,103,241,.23)}
+  .secondary{background:#edf1ff;color:#3e4bd3}
+  .nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+  .feedback{min-height:28px;font-weight:800;margin-top:12px}
+  .example-tag{display:inline-flex;align-items:center;gap:7px;background:#fff5df;color:#80520b;padding:7px 10px;border-radius:999px;font-weight:800;font-size:13px}
+  .exercise-tag{display:inline-flex;align-items:center;gap:7px;background:#e9f9f6;color:#126f65;padding:7px 10px;border-radius:999px;font-weight:800;font-size:13px}
+  .numberline{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .num{min-width:50px;padding:12px;border-radius:13px;background:white;border:2px solid var(--line);text-align:center;font-weight:900}
+  .place{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .place div{padding:16px;border-radius:16px;text-align:center;font-weight:900}
+  .c{background:#fff2d7}.d{background:#e9f9f6}.u{background:#edf1ff}
+  .objects{font-size:34px;line-height:1.5;text-align:center;word-break:break-word}
+  .groups{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:12px 0}
+  .group{padding:12px 16px;background:#f2f5ff;border-radius:16px;font-size:30px}
+  .fraction{width:190px;height:190px;border-radius:50%;margin:10px auto;background:conic-gradient(var(--accent) 0 50%, #edf1f5 50% 100%);border:8px solid white;box-shadow:0 0 0 2px var(--line)}
+  .shapes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .shape-btn{font-size:50px;padding:18px;border-radius:18px;background:white;border:2px solid var(--line);cursor:pointer}
+  .money{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;font-size:24px}
+  .logic{font-size:36px;font-weight:900;text-align:center;letter-spacing:.15em}
+  .question-list{display:grid;gap:12px}
+  .q{padding:15px;border-radius:17px;border:1px solid var(--line);background:#fbfdff}
+  .level{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+  .basic{color:#268858}.mid{color:#b57b10}.adv{color:#b04454}
+  .summary{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+  .sumcard{padding:16px;border-radius:18px;background:#f9fbff;border:1px solid var(--line)}
+  @media(max-width:620px){.options,.shapes,.place{grid-template-columns:1fr}.hero{padding:20px}.card{padding:18px}.summary{grid-template-columns:1fr}}
+
+  .drag-bank{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:18px 0}
+  .token{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-weight:900;color:white;cursor:grab;user-select:none;box-shadow:0 8px 18px rgba(0,0,0,.12);touch-action:none}
+  .token:active{cursor:grabbing;transform:scale(.97)}
+  .blue{background:#246bfd}.red{background:#ef4444}.green{background:#22a447}
+  .drop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+  .drop-zone{min-height:145px;border-radius:22px;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px dashed transparent;transition:.18s}
+  .drop-zone.drag-over{transform:scale(1.02);filter:brightness(.98)}
+  .blue-zone{background:#eaf1ff;border-color:#6fa0ff}
+  .red-zone{background:#fff0f0;border-color:#f58a8a}
+  .green-zone{background:#eefaf1;border-color:#7acb8e}
+  .zone-title{font-weight:900;font-size:14px;letter-spacing:.06em}
+  .zone-symbol{font-size:40px;font-weight:900;line-height:1;margin:8px}
+  .zone-count{font-weight:800;font-size:13px;color:var(--muted)}
+  .number-builder{display:flex;justify-content:center;gap:10px;margin:18px 0}
+  .digit{width:74px;height:86px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:46px;font-weight:900;color:white;box-shadow:0 10px 20px rgba(23,50,77,.12)}
+  .blue-digit{background:#246bfd}.red-digit{background:#ef4444}.green-digit{background:#22a447}
+  .read-together{padding:15px 16px;background:#fff8e8;border-radius:16px;border:1px solid #f4d694;line-height:1.5;text-align:center}
+  .builder-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .color-legend{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+  .legend-dot{display:inline-block;width:16px;height:16px;border-radius:50%;vertical-align:-2px;margin-right:6px}
+  .blue-dot{background:#246bfd}.red-dot{background:#ef4444}.green-dot{background:#22a447}
+  @media(max-width:620px){.drop-grid{grid-template-columns:1fr}.drop-zone{min-height:110px}.token{width:58px;height:58px}.digit{width:64px;height:76px}}
+
+
+  .request-panel{margin:14px 0 18px;padding:16px;border-radius:18px;background:#fff;border:1px solid var(--line)}
+  .request-title{font-weight:900;font-size:16px}
+  .request-buttons{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .request-btn{border:0;border-radius:15px;padding:12px 15px;font-weight:900;color:#fff;cursor:pointer;box-shadow:0 8px 16px rgba(0,0,0,.10)}
+  .blue-request{background:#246bfd}.red-request{background:#ef4444}.green-request{background:#22a447}
+  .total-value-box{margin:16px auto;padding:18px;border-radius:20px;background:#13283f;color:#fff;text-align:center;max-width:460px;box-shadow:0 10px 22px rgba(19,40,63,.18)}
+  .total-label{font-size:12px;letter-spacing:.12em;font-weight:900;opacity:.8}
+  .total-number{font-size:58px;font-weight:1000;line-height:1.05;margin:7px 0}
+  .total-breakdown{font-size:14px;opacity:.9;margin-bottom:12px}
+  .speak-btn{border:0;border-radius:14px;background:#fff;color:#17324d;padding:10px 14px;font-weight:900;cursor:pointer}
+
+
+.token.selected-token{outline:5px solid #ffd65a;transform:scale(1.06)}
+
+  .fruit-operation{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}
+  .fruit-box{padding:16px;border-radius:20px;background:#fff;border:2px solid var(--line);text-align:center}
+  .fruit-label{font-weight:900;margin-bottom:8px}
+  .fruit-grid{font-size:34px;line-height:1.5;letter-spacing:3px}
+  .op-sign{font-size:44px;font-weight:900;text-align:center}
+  .mini-fruits{font-size:27px;line-height:1.5;margin:8px 0}
+  .column-sim{max-width:360px;margin:16px auto;padding:18px;border-radius:20px;background:#fff;border:2px solid var(--line)}
+  .place-headers,.column-row{display:grid;grid-template-columns:1fr 1fr;text-align:center;gap:12px}
+  .place-headers span{font-size:13px;font-weight:900;color:var(--muted)}
+  .column-row span{font-size:42px;font-weight:900;padding:8px}
+  .result-row span{color:var(--primary)}
+  .sim-line{height:4px;background:var(--ink);border-radius:4px;margin:6px 0}
+  .step-card{padding:14px 16px;border-radius:16px;background:#eef4ff;border:1px solid #cbd8ff;font-weight:850;line-height:1.45;margin:12px 0}
+  .crossed{opacity:.28;text-decoration:line-through 4px}
+  @media(max-width:620px){.fruit-operation{grid-template-columns:1fr}.op-sign{font-size:36px}.fruit-grid{font-size:30px}}
+
+
+  .sim-controls{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+  .sim-controls label{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;font-weight:850}
+  .sim-controls input{width:100%;margin:10px 0}
+  .sim-controls select{width:100%;padding:10px;border-radius:12px;border:1px solid var(--line);margin-top:8px}
+  .group-visual{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:18px 0}
+  .sim-group{min-width:110px;min-height:86px;border-radius:18px;background:#fff;border:2px solid #dfeaf3;padding:12px;text-align:center;font-size:28px;box-shadow:0 8px 18px rgba(23,50,77,.08)}
+  .group-equation{font-size:34px;font-weight:950;margin:8px 0}
+  .groups-guide{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:15px 0}
+  .guide-group{padding:14px;border-radius:18px;background:#fff;border:2px solid var(--line);font-size:30px}
+  .share-source{margin:16px 0;padding:15px;border-radius:18px;background:#fff;border:2px dashed #b9cae6}
+  .share-source-title{font-weight:900;margin-bottom:8px}
+  .share-source-visual{font-size:26px;line-height:1.5;word-break:break-word}
+  .share-people{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:18px 0;width:100%}
+  .share-person{background:#fff;border:2px solid var(--line);border-radius:18px;padding:12px;text-align:center}
+  .share-person .avatar{font-size:34px}
+  .share-person .received{font-size:23px;line-height:1.4;margin-top:8px}
+  @media(max-width:700px){.sim-controls{grid-template-columns:1fr}}
+@media(max-width:760px){.share-people{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:520px){.share-people{grid-template-columns:1fr;}}
+
+
+
+  /* Footer de autor: estilos aislados */
+  .laa-author-footer{
+    margin-top:32px;
+    padding:0 16px 28px;
+  }
+  .laa-author-footer__inner{
+    max-width:920px;
+    margin:0 auto;
+    background:var(--card,#ffffff);
+    border:1px solid var(--line,#dfeaf3);
+    border-radius:22px;
+    box-shadow:0 10px 26px rgba(23,50,77,.08);
+    padding:22px;
+    color:var(--ink,#17324d);
+  }
+  .laa-author-footer__eyebrow{
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:.10em;
+    text-transform:uppercase;
+    color:var(--primary,#5b67f1);
+    margin-bottom:6px;
+  }
+  .laa-author-footer__name{
+    margin:0 0 8px;
+    font-size:clamp(20px,4vw,28px);
+    line-height:1.2;
+  }
+  .laa-author-footer__description{
+    margin:0;
+    color:var(--muted,#60758a);
+    line-height:1.6;
+    font-size:15px;
+  }
+  .laa-author-footer__phrase{
+    margin:14px 0 0;
+    font-size:14px;
+    font-weight:700;
+    color:var(--ink,#17324d);
+  }
+  .laa-author-footer__actions{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    flex-wrap:wrap;
+    margin-top:18px;
+    padding-top:16px;
+    border-top:1px solid var(--line,#dfeaf3);
+  }
+  .laa-author-footer__button{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:44px;
+    padding:11px 16px;
+    border-radius:14px;
+    background:linear-gradient(135deg,var(--primary,#5b67f1),#7a69f6);
+    color:#fff;
+    text-decoration:none;
+    font-weight:900;
+    box-shadow:0 8px 18px rgba(91,103,241,.18);
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .laa-author-footer__button:hover{
+    transform:translateY(-1px);
+    box-shadow:0 10px 22px rgba(91,103,241,.24);
+  }
+  .laa-author-footer__button:focus-visible{
+    outline:3px solid rgba(91,103,241,.28);
+    outline-offset:3px;
+  }
+  .laa-author-footer__copy{
+    margin:0;
+    color:var(--muted,#60758a);
+    font-size:13px;
+  }
+  @media(max-width:620px){
+    .laa-author-footer{
+      padding:0 16px 22px;
+    }
+    .laa-author-footer__inner{
+      padding:18px;
+      border-radius:18px;
+    }
+    .laa-author-footer__actions{
+      align-items:stretch;
+      flex-direction:column;
+    }
+    .laa-author-footer__button{
+      width:100%;
+    }
+  }
+
+
+/* =========================================================
+   SISTEMA VISUAL EDUCATIVO — PALETA DEFINIDA POR EL USUARIO
+   Intervención visual aislada: no modifica lógica ni contenido
+   ========================================================= */
+
+:root{
+  /* Paleta */
+  --edu-navy:#193679;
+  --edu-blue:#0E7EB6;
+  --edu-pink:#FC668C;
+  --edu-mustard:#C7B249;
+  --edu-orange:#FF8127;
+  --edu-yellow:#FFC904;
+  --edu-sky:#7DB6E2;
+
+  /* Funciones del sistema */
+  --color-primary:var(--edu-navy);
+  --color-secondary:var(--edu-blue);
+  --color-accent:var(--edu-yellow);
+  --color-accent-warm:var(--edu-orange);
+  --color-background:var(--edu-sky);
+  --color-surface:#ffffff; /* excepción de accesibilidad para lectura */
+  --color-text:var(--edu-navy);
+  --color-muted:var(--edu-navy);
+  --color-info:var(--edu-blue);
+  --color-correct:var(--edu-blue);
+  --color-error:var(--edu-pink);
+  --color-warning:var(--edu-yellow);
+
+  /* Compatibilidad con variables existentes */
+  --bg:var(--color-background);
+  --card:var(--color-surface);
+  --ink:var(--color-text);
+  --muted:var(--color-muted);
+  --primary:var(--color-primary);
+  --secondary:var(--color-secondary);
+  --accent:var(--color-accent);
+  --ok:var(--color-correct);
+  --bad:var(--color-error);
+  --line:color-mix(in srgb,var(--edu-sky) 58%, white);
+  --shadow:0 14px 34px rgba(25,54,121,.14);
+
+  /* Tipografía existente, solo jerarquía */
+  --text-h1:clamp(2.2rem,6vw,3rem);
+  --text-h2:clamp(1.7rem,4.5vw,2.2rem);
+  --text-h3:clamp(1.25rem,3vw,1.55rem);
+  --text-body:clamp(1rem,2.2vw,1.08rem);
+  --text-small:clamp(.85rem,1.8vw,.95rem);
+
+  /* Espaciado */
+  --space-xs:.4rem;
+  --space-sm:.75rem;
+  --space-md:1.1rem;
+  --space-lg:1.6rem;
+  --space-xl:2.2rem;
+}
+
+/* Fondo general: dominante visual */
+body{
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb,var(--edu-sky) 42%, white),
+      color-mix(in srgb,var(--edu-sky) 18%, white) 42%,
+      #ffffff 100%
+    );
+  color:var(--color-text);
+  font-size:var(--text-body);
+  line-height:1.55;
+}
+
+/* Jerarquía tipográfica */
+.hero h1,
+h1{
+  font-size:var(--text-h1);
+  line-height:1.08;
+  letter-spacing:-.02em;
+  font-weight:900;
+}
+h2{
+  font-size:var(--text-h2);
+  line-height:1.16;
+  letter-spacing:-.015em;
+  font-weight:900;
+}
+h3{
+  font-size:var(--text-h3);
+  line-height:1.25;
+  font-weight:850;
+}
+h4{
+  font-size:clamp(1.08rem,2.4vw,1.28rem);
+  line-height:1.3;
+  font-weight:850;
+}
+p,
+.muted{
+  font-size:var(--text-body);
+}
+small,
+.zone-count,
+.level,
+.total-label,
+.eyebrow{
+  font-size:var(--text-small);
+}
+
+/* Identidad principal */
+.hero{
+  background:linear-gradient(135deg,var(--edu-navy),var(--edu-blue));
+  color:#fff;
+  border:0;
+  box-shadow:0 18px 42px rgba(25,54,121,.22);
+}
+.hero:after{
+  background:color-mix(in srgb,var(--edu-yellow) 28%, transparent);
+}
+.hero .eyebrow{
+  color:var(--edu-yellow)!important;
+}
+.chip{
+  background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.22);
+  color:#fff;
+}
+
+/* Navegación y progreso */
+.toolbar{
+  background:rgba(255,255,255,.92);
+  border-color:color-mix(in srgb,var(--edu-sky) 48%, white);
+  box-shadow:0 8px 22px rgba(25,54,121,.08);
+}
+.bar{
+  background:color-mix(in srgb,var(--edu-sky) 35%, white);
+}
+.bar span{
+  background:linear-gradient(90deg,var(--edu-yellow),var(--edu-orange));
+}
+.counter{
+  color:var(--edu-navy);
+}
+
+/* Superficies */
+.card{
+  background:#fff;
+  border-color:color-mix(in srgb,var(--edu-sky) 48%, white);
+  box-shadow:0 12px 30px rgba(25,54,121,.10);
+}
+.interaction{
+  background:color-mix(in srgb,var(--edu-sky) 13%, white);
+  border-color:color-mix(in srgb,var(--edu-blue) 45%, white);
+}
+.q,
+.sumcard,
+.fruit-box,
+.column-sim,
+.sim-controls label,
+.sim-group,
+.share-source,
+.share-person,
+.guide-group{
+  background:#fff;
+  border-color:color-mix(in srgb,var(--edu-sky) 55%, white);
+}
+
+/* Etiquetas semánticas */
+.eyebrow{
+  color:var(--edu-blue);
+  font-weight:900;
+}
+.example-tag{
+  background:color-mix(in srgb,var(--edu-yellow) 28%, white);
+  color:var(--edu-navy);
+  border:1px solid color-mix(in srgb,var(--edu-yellow) 60%, white);
+}
+.exercise-tag{
+  background:color-mix(in srgb,var(--edu-sky) 28%, white);
+  color:var(--edu-navy);
+  border:1px solid color-mix(in srgb,var(--edu-blue) 35%, white);
+}
+.level.basic{color:var(--edu-blue)}
+.level.mid{color:var(--edu-orange)}
+.level.adv{color:var(--edu-pink)}
+
+/* Botones: primario / secundario / terciario */
+.primary{
+  background:var(--edu-navy);
+  color:#fff;
+  box-shadow:0 8px 18px rgba(25,54,121,.22);
+}
+.primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 22px rgba(25,54,121,.28);
+}
+.secondary{
+  background:var(--edu-yellow);
+  color:var(--edu-navy);
+  border:1px solid color-mix(in srgb,var(--edu-mustard) 60%, white);
+}
+.secondary:hover{
+  background:var(--edu-orange);
+  color:var(--edu-navy);
+}
+.opt{
+  background:#fff;
+  border-color:color-mix(in srgb,var(--edu-sky) 60%, white);
+  color:var(--edu-navy);
+}
+.opt:hover{
+  border-color:var(--edu-blue);
+  background:color-mix(in srgb,var(--edu-sky) 15%, white);
+}
+.opt:focus-visible,
+.primary:focus-visible,
+.secondary:focus-visible,
+.request-btn:focus-visible,
+.shape-btn:focus-visible,
+.speak-btn:focus-visible{
+  outline:4px solid color-mix(in srgb,var(--edu-yellow) 72%, white);
+  outline-offset:3px;
+}
+.opt.correct{
+  background:color-mix(in srgb,var(--edu-sky) 28%, white);
+  border-color:var(--edu-blue);
+  color:var(--edu-navy);
+}
+.opt.wrong{
+  background:color-mix(in srgb,var(--edu-pink) 20%, white);
+  border-color:var(--edu-pink);
+  color:var(--edu-navy);
+}
+
+/* Retroalimentación */
+.feedback{
+  color:var(--edu-navy);
+  font-weight:850;
+  min-height:30px;
+}
+.step-card{
+  background:color-mix(in srgb,var(--edu-sky) 24%, white);
+  border-color:color-mix(in srgb,var(--edu-blue) 38%, white);
+  color:var(--edu-navy);
+}
+
+/* Valor posicional: conserva diferenciación clara usando la nueva paleta */
+.blue,
+.blue-digit,
+.blue-request{
+  background:var(--edu-navy);
+}
+.red,
+.red-digit,
+.red-request{
+  background:var(--edu-pink);
+  color:var(--edu-navy);
+}
+.green,
+.green-digit,
+.green-request{
+  background:var(--edu-yellow);
+  color:var(--edu-navy);
+}
+.blue-zone{
+  background:color-mix(in srgb,var(--edu-sky) 28%, white);
+  border-color:var(--edu-navy);
+}
+.red-zone{
+  background:color-mix(in srgb,var(--edu-pink) 18%, white);
+  border-color:var(--edu-pink);
+}
+.green-zone{
+  background:color-mix(in srgb,var(--edu-yellow) 22%, white);
+  border-color:var(--edu-mustard);
+}
+.blue-dot{background:var(--edu-navy)}
+.red-dot{background:var(--edu-pink)}
+.green-dot{background:var(--edu-yellow)}
+
+.token.selected-token{
+  outline-color:var(--edu-orange);
+}
+
+/* Paneles de lectura / resultados */
+.total-value-box{
+  background:var(--edu-navy);
+  color:#fff;
+  box-shadow:0 12px 28px rgba(25,54,121,.20);
+}
+.total-breakdown{
+  color:#fff;
+}
+.speak-btn{
+  background:var(--edu-yellow);
+  color:var(--edu-navy);
+}
+.read-together{
+  background:color-mix(in srgb,var(--edu-yellow) 24%, white);
+  border-color:color-mix(in srgb,var(--edu-mustard) 60%, white);
+  color:var(--edu-navy);
+}
+
+/* Simuladores */
+.sim-line{
+  background:var(--edu-navy);
+}
+.result-row span{
+  color:var(--edu-blue);
+}
+.group-equation{
+  color:inherit;
+}
+.request-panel{
+  border-color:color-mix(in srgb,var(--edu-sky) 52%, white);
+}
+.request-btn{
+  min-height:46px;
+}
+.blue-request{
+  background:var(--edu-navy);
+  color:#fff;
+}
+.red-request{
+  background:var(--edu-pink);
+  color:var(--edu-navy);
+}
+.green-request{
+  background:var(--edu-yellow);
+  color:var(--edu-navy);
+}
+
+/* Elementos visuales */
+.num{
+  border-color:color-mix(in srgb,var(--edu-sky) 60%, white);
+  color:var(--edu-navy);
+}
+.c{
+  background:color-mix(in srgb,var(--edu-yellow) 30%, white);
+}
+.d{
+  background:color-mix(in srgb,var(--edu-pink) 18%, white);
+}
+.u{
+  background:color-mix(in srgb,var(--edu-sky) 28%, white);
+}
+.fraction{
+  background:conic-gradient(var(--edu-yellow) 0 50%, color-mix(in srgb,var(--edu-sky) 24%, white) 50% 100%);
+  border-color:#fff;
+}
+.shape-btn{
+  background:#fff;
+  border-color:color-mix(in srgb,var(--edu-sky) 60%, white);
+}
+
+/* Instrucciones: mayor peso pedagógico */
+.interaction > .muted:first-of-type,
+.card > .muted:first-of-type{
+  color:var(--edu-navy);
+  font-weight:650;
+}
+.interaction h3{
+  color:var(--edu-navy);
+}
+.fruit-label,
+.zone-title,
+.share-source-title,
+.request-title{
+  color:var(--edu-navy);
+}
+
+/* Footer integrado */
+.laa-author-footer__inner{
+  background:var(--edu-navy);
+  border-color:var(--edu-navy);
+  color:#fff;
+}
+.laa-author-footer__eyebrow{
+  color:var(--edu-yellow);
+}
+.laa-author-footer__description,
+.laa-author-footer__copy{
+  color:#fff;
+  opacity:.88;
+}
+.laa-author-footer__phrase{
+  color:#fff;
+}
+.laa-author-footer__actions{
+  border-top-color:rgba(255,255,255,.18);
+}
+.laa-author-footer__button{
+  background:var(--edu-yellow);
+  color:var(--edu-navy);
+  box-shadow:none;
+}
+.laa-author-footer__button:hover{
+  background:var(--edu-orange);
+  color:var(--edu-navy);
+}
+
+/* Responsive y targets táctiles */
+button,
+a.laa-author-footer__button,
+select{
+  min-height:44px;
+}
+@media(max-width:620px){
+  .app{
+    padding-left:12px;
+    padding-right:12px;
+  }
+  .card{
+    border-radius:20px;
+  }
+  .interaction{
+    border-radius:18px;
+  }
+  .opt,
+  .primary,
+  .secondary,
+  .request-btn{
+    min-height:48px;
+  }
+}
+
+
+/* =========================================================
+   EXCEPCIÓN PEDAGÓGICA — VALOR POSICIONAL
+   Se conserva el código de color original:
+   Centenas = azul | Decenas = rojo | Unidades = verde
+   ========================================================= */
+
+:root{
+  --pv-centenas:#246BFD;
+  --pv-decenas:#EF4444;
+  --pv-unidades:#22A447;
+}
+
+/* Fichas */
+.blue,
+.blue-digit,
+.blue-request{
+  background:var(--pv-centenas)!important;
+  color:#fff!important;
+}
+.red,
+.red-digit,
+.red-request{
+  background:var(--pv-decenas)!important;
+  color:#fff!important;
+}
+.green,
+.green-digit,
+.green-request{
+  background:var(--pv-unidades)!important;
+  color:#fff!important;
+}
+
+/* Cajas de centenas, decenas y unidades */
+.blue-zone{
+  background:#EAF1FF!important;
+  border-color:var(--pv-centenas)!important;
+}
+.red-zone{
+  background:#FFF0F0!important;
+  border-color:var(--pv-decenas)!important;
+}
+.green-zone{
+  background:#EEFAF1!important;
+  border-color:var(--pv-unidades)!important;
+}
+
+/* Leyenda */
+.blue-dot{
+  background:var(--pv-centenas)!important;
+}
+.red-dot{
+  background:var(--pv-decenas)!important;
+}
+.green-dot{
+  background:var(--pv-unidades)!important;
+}
+
+/* Bloques visuales de C-D-U */
+.c{
+  background:#EAF1FF!important;
+  color:#193679!important;
+}
+.d{
+  background:#FFF0F0!important;
+  color:#8E1F2D!important;
+}
+.u{
+  background:#EEFAF1!important;
+  color:#176A34!important;
+}
+
+/* Letras y títulos dentro de las zonas */
+.blue-zone .zone-title,
+.blue-zone .zone-symbol{
+  color:var(--pv-centenas)!important;
+}
+.red-zone .zone-title,
+.red-zone .zone-symbol{
+  color:var(--pv-decenas)!important;
+}
+.green-zone .zone-title,
+.green-zone .zone-symbol{
+  color:var(--pv-unidades)!important;
+}
+
+/* Ficha seleccionada sigue siendo visible */
+.token.selected-token{
+  outline:5px solid #FFC904!important;
+  outline-offset:2px;
+}
+
+
+/* Simulador de polígonos — Misión 8 */
+.polygon-lab{
+  margin-top:22px;
+}
+.polygon-stage{
+  max-width:520px;
+  margin:16px auto;
+  background:#fff;
+  border:2px solid color-mix(in srgb,var(--edu-sky) 58%,white);
+  border-radius:22px;
+  padding:10px;
+}
+.polygon-svg{
+  display:block;
+  width:100%;
+  height:auto;
+}
+.polygon-control{
+  max-width:520px;
+  margin:14px auto;
+  padding:16px;
+  background:#fff;
+  border:1px solid color-mix(in srgb,var(--edu-sky) 55%,white);
+  border-radius:18px;
+}
+.polygon-control label{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  color:var(--edu-navy);
+  font-weight:850;
+}
+.polygon-control input[type="range"]{
+  width:100%;
+  margin:15px 0 6px;
+  accent-color:var(--edu-orange);
+}
+.polygon-range-labels{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  color:var(--edu-navy);
+  font-size:.85rem;
+  text-align:center;
+  font-weight:800;
+}
+.polygon-readout{
+  max-width:520px;
+  margin:14px auto;
+  padding:16px;
+  background:var(--edu-navy);
+  color:#fff;
+  border-radius:20px;
+  text-align:center;
+}
+.polygon-name{
+  color:var(--edu-yellow);
+  font-size:clamp(1.5rem,4vw,2rem);
+  font-weight:950;
+}
+.polygon-facts{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:10px 0;
+}
+.polygon-facts span{
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:999px;
+  padding:8px 12px;
+}
+.polygon-readout p{
+  margin:8px 0 0;
+  color:#fff;
+}
+.polygon-legend{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin:14px 0;
+  color:var(--edu-navy);
+  font-weight:800;
+}
+.polygon-legend-item{
+  display:inline-flex;
+  gap:7px;
+  align-items:center;
+}
+.polygon-line-sample{
+  display:inline-block;
+  width:34px;
+  height:0;
+  border-top:5px solid var(--edu-blue);
+  border-radius:10px;
+}
+.polygon-hand-sample{
+  font-style:normal;
+}
+.polygon-challenge{
+  max-width:520px;
+  margin:14px auto 0;
+  background:color-mix(in srgb,var(--edu-yellow) 24%,white);
+  border:1px solid color-mix(in srgb,var(--edu-mustard) 60%,white);
+  border-radius:16px;
+  padding:14px;
+  color:var(--edu-navy);
+  line-height:1.5;
+}
+
+
+/* Series visuales — Misión 10 */
+.series-track{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:18px 0;
+}
+.series-card{
+  min-width:62px;
+  min-height:62px;
+  padding:10px 14px;
+  border-radius:16px;
+  background:#fff;
+  border:2px solid color-mix(in srgb,var(--edu-blue) 42%,white);
+  color:var(--edu-navy);
+  font-size:clamp(1.6rem,5vw,2.25rem);
+  font-weight:950;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.series-missing{
+  border-style:dashed;
+  border-color:var(--edu-orange);
+  background:color-mix(in srgb,var(--edu-yellow) 22%,white);
+}
+.series-arrow{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  color:var(--edu-blue);
+  font-size:1.8rem;
+  font-weight:900;
+  line-height:1;
+}
+.series-arrow small{
+  margin-top:3px;
+  font-size:.76rem;
+  color:var(--edu-navy);
+  font-weight:850;
+}
+.series-rule{
+  max-width:560px;
+  margin:12px auto 16px;
+  padding:12px 14px;
+  border-radius:14px;
+  background:color-mix(in srgb,var(--edu-sky) 20%,white);
+  border:1px solid color-mix(in srgb,var(--edu-blue) 32%,white);
+  color:var(--edu-navy);
+  text-align:center;
+}
+.mini-series{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:6px;
+  margin:10px 0;
+}
+.mini-series span{
+  min-width:42px;
+  padding:8px 10px;
+  border-radius:12px;
+  background:#fff;
+  border:1px solid color-mix(in srgb,var(--edu-sky) 58%,white);
+  text-align:center;
+  font-weight:900;
+  color:var(--edu-navy);
+}
+.mini-series i{
+  font-style:normal;
+  color:var(--edu-blue);
+  font-weight:900;
+}
+.mini-series .mini-missing{
+  border:2px dashed var(--edu-orange);
+  background:color-mix(in srgb,var(--edu-yellow) 20%,white);
+}
+@media(max-width:620px){
+  .series-card{
+    min-width:52px;
+    min-height:52px;
+  }
+  .series-arrow{
+    font-size:1.45rem;
+  }
+}
+
+
+/* Reparto manual — controles por persona */
+.manual-share-instruction{
+  margin:14px 0;
+  padding:14px 16px;
+  border-radius:16px;
+  background:color-mix(in srgb,var(--edu-yellow) 23%,white);
+  border:1px solid color-mix(in srgb,var(--edu-mustard) 55%,white);
+  color:var(--edu-navy);
+  line-height:1.5;
+}
+.manual-share-person{
+  transition:border-color .2s ease, background .2s ease;
+}
+.share-person-title{
+  font-weight:850;
+  color:var(--edu-navy);
+}
+.share-counter{
+  display:grid;
+  grid-template-columns:48px minmax(54px,1fr) 48px;
+  align-items:center;
+  gap:7px;
+  margin:10px auto;
+  max-width:180px;
+}
+.share-adjust{
+  width:48px;
+  height:48px;
+  border:0;
+  border-radius:14px;
+  font-size:1.7rem;
+  line-height:1;
+  font-weight:950;
+  cursor:pointer;
+}
+.share-minus{
+  background:color-mix(in srgb,var(--edu-pink) 25%,white);
+  color:var(--edu-navy);
+  border:2px solid var(--edu-pink);
+}
+.share-plus{
+  background:var(--edu-yellow);
+  color:var(--edu-navy);
+  border:2px solid var(--edu-mustard);
+}
+.share-count{
+  min-height:48px;
+  border:2px solid color-mix(in srgb,var(--edu-blue) 40%,white);
+  border-radius:14px;
+  background:#fff;
+  color:var(--edu-navy);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.55rem;
+  font-weight:950;
+}
+.manual-share-person .received{
+  min-height:50px;
+  font-size:1.25rem;
+  overflow-wrap:anywhere;
+}
+.share-balanced{
+  border-color:var(--edu-blue)!important;
+  background:color-mix(in srgb,var(--edu-sky) 15%,white)!important;
+}
+.share-different{
+  border-color:color-mix(in srgb,var(--edu-orange) 55%,white)!important;
+}
+.manual-share-actions{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:14px 0 6px;
+}
+.manual-share-feedback{
+  text-align:center;
+  min-height:30px;
+}
+.remaining-number{
+  font-size:2.1rem;
+  font-weight:950;
+  color:var(--edu-navy);
+}
+.remaining-label{
+  color:var(--edu-navy);
+  font-weight:800;
+  margin-bottom:7px;
+}
+.remaining-icons{
+  font-size:1.45rem;
+  line-height:1.45;
+  overflow-wrap:anywhere;
+}
+@media(max-width:620px){
+  .share-counter{
+    grid-template-columns:52px minmax(58px,1fr) 52px;
+  }
+  .share-adjust{
+    width:52px;
+    height:52px;
+  }
+  .manual-share-actions{
+    flex-direction:column;
+  }
+  .manual-share-actions button{
+    width:100%;
+  }
+}
+
+/* Ajustes de lectura para 1.º y 2.º de primaria */
+.card p, .q, .manual-share-instruction, .step-card{max-width:72ch}
+.q{line-height:1.6}
+@media(max-width:620px){
+  .hero p{font-size:1rem;line-height:1.45}
+  .q{font-size:1.05rem;line-height:1.55}
+  .muted{line-height:1.5}
+  .nav{align-items:stretch}
+  .nav button{flex:1}
+}
+
+
+/* Reparto visual mejorado: selector + personas con controles grandes */
+.share-people{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+.manual-share-person{position:relative;padding:16px 12px 14px;min-height:210px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;}
+.manual-share-person .avatar{font-size:58px;line-height:1;margin:4px 0 8px;filter:drop-shadow(0 5px 8px rgba(25,54,121,.12));}
+.share-person-title{font-size:1rem;margin-bottom:4px;}
+.share-counter{display:grid;grid-template-columns:52px 66px 52px;gap:8px;margin:12px auto 8px;}
+.share-adjust{width:52px;height:52px;border-radius:16px;font-size:1.9rem;}
+.share-count{min-height:52px;font-size:1.7rem;}
+.manual-share-person .received{display:flex;align-items:center;justify-content:center;min-height:58px;width:100%;font-size:1.35rem;line-height:1.35;padding:6px;overflow-wrap:anywhere;}
+.sim-controls select{font-size:1rem;font-weight:800;background:#fff;color:var(--edu-navy);}
+@media(max-width:620px){.share-people{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.manual-share-person{min-height:200px;padding:14px 8px}.manual-share-person .avatar{font-size:50px}.share-counter{grid-template-columns:48px 56px 48px}.share-adjust{width:48px;height:48px}.share-count{min-height:48px}}
+
+/* Simulador de fracciones — pizza y chocolate */
+.fraction-sim{display:grid;gap:16px;margin-top:14px}
+.fraction-food-picker,.fraction-part-picker{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.fraction-choice{border:2px solid color-mix(in srgb,var(--edu-sky) 55%,white);background:#fff;color:var(--edu-navy);border-radius:16px;padding:12px 16px;font-weight:900;cursor:pointer;min-height:48px}
+.fraction-choice.active{border-color:var(--edu-orange);background:color-mix(in srgb,var(--edu-yellow) 22%,white)}
+.fraction-stage{max-width:520px;margin:0 auto;padding:18px;border-radius:22px;background:#fff;border:2px solid color-mix(in srgb,var(--edu-sky) 55%,white);text-align:center}
+.fraction-visual{min-height:240px;display:flex;align-items:center;justify-content:center;margin:8px auto 14px}
+.pizza-visual{width:210px;height:210px;border-radius:50%;position:relative;overflow:hidden;border:9px solid #d89a45;background:#f7c65f;box-shadow:inset 0 0 0 3px rgba(255,255,255,.35)}
+.pizza-visual::after{content:'🍕';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:104px;opacity:.30;pointer-events:none}
+.pizza-visual.whole{background:#f7c65f}
+.pizza-visual.half{background:conic-gradient(var(--edu-orange) 0 50%,#f8efd9 50% 100%)}
+.pizza-visual.quarter{background:conic-gradient(var(--edu-orange) 0 25%,#f8efd9 25% 100%)}
+.pizza-lines{position:absolute;inset:0;pointer-events:none}
+.pizza-lines.half-lines::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:4px;background:#fff;transform:translateX(-2px)}
+.pizza-lines.quarter-lines::before,.pizza-lines.quarter-lines::after{content:'';position:absolute;background:#fff}
+.pizza-lines.quarter-lines::before{left:50%;top:0;bottom:0;width:4px;transform:translateX(-2px)}
+.pizza-lines.quarter-lines::after{top:50%;left:0;right:0;height:4px;transform:translateY(-2px)}
+.chocolate-visual{width:260px;max-width:100%;display:grid;gap:6px;padding:9px;border-radius:16px;background:#6f421f;border:5px solid #4d2b15}
+.chocolate-visual.one{grid-template-columns:1fr}
+.chocolate-visual.two{grid-template-columns:repeat(2,1fr)}
+.chocolate-visual.four{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,1fr)}
+.choco-piece{min-height:92px;border-radius:10px;background:#9a5e2e;border:3px solid #6a3d1e;display:flex;align-items:center;justify-content:center;font-size:42px}
+.choco-piece.selected{background:var(--edu-orange);border-color:var(--edu-yellow)}
+.fraction-name{font-size:clamp(1.6rem,5vw,2.2rem);font-weight:950;color:var(--edu-navy)}
+.fraction-explain{margin:6px auto 0;max-width:480px;color:var(--edu-navy);font-weight:700;line-height:1.45}
+.fraction-simple-question{margin-top:16px;padding:16px;border-radius:18px;background:color-mix(in srgb,var(--edu-sky) 16%,white);border:1px solid color-mix(in srgb,var(--edu-blue) 35%,white)}
+.fraction-simple-question h3{margin-top:0}
+@media(max-width:620px){.fraction-visual{min-height:205px}.pizza-visual{width:185px;height:185px}.chocolate-visual{width:230px}.choco-piece{min-height:78px}.fraction-food-picker,.fraction-part-picker{display:grid;grid-template-columns:1fr 1fr}.fraction-part-picker .fraction-choice:first-child{grid-column:1/-1}}
+
+
+
+/* Cinco retos interactivos por misión */
+.practice-five{margin-top:20px;padding:18px;border-radius:22px;background:#fff;border:2px solid color-mix(in srgb,var(--edu-sky) 48%,white)}
+.practice-five-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.practice-five-head h3{margin:0;color:var(--edu-navy)}
+.practice-five-head p{margin:4px 0 0;color:var(--edu-navy);line-height:1.45}
+.practice-grid{display:grid;gap:14px}
+.practice-item{padding:16px;border-radius:18px;background:color-mix(in srgb,var(--edu-sky) 10%,white);border:1px solid color-mix(in srgb,var(--edu-sky) 52%,white)}
+.practice-item[data-level="1"]{border-left:6px solid var(--edu-blue)}
+.practice-item[data-level="2"]{border-left:6px solid var(--edu-blue)}
+.practice-item[data-level="3"]{border-left:6px solid var(--edu-yellow)}
+.practice-item[data-level="4"]{border-left:6px solid var(--edu-orange)}
+.practice-item[data-level="5"]{border-left:6px solid var(--edu-pink)}
+.practice-kicker{font-size:.86rem;font-weight:900;color:var(--edu-blue);margin-bottom:6px}
+.practice-question{font-size:1.08rem;font-weight:850;color:var(--edu-navy);line-height:1.45;margin-bottom:12px}
+.practice-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.practice-option,.practice-launch{border:2px solid color-mix(in srgb,var(--edu-sky) 55%,white);background:#fff;color:var(--edu-navy);border-radius:14px;padding:11px 12px;font-weight:850;cursor:pointer;min-height:48px}
+.practice-option:hover,.practice-launch:hover{border-color:var(--edu-blue)}
+.practice-option.correct{background:color-mix(in srgb,var(--edu-sky) 25%,white);border-color:var(--edu-blue)}
+.practice-option.wrong{background:color-mix(in srgb,var(--edu-pink) 18%,white);border-color:var(--edu-pink)}
+.practice-launch{background:var(--edu-yellow);border-color:var(--edu-mustard);margin-bottom:10px;width:100%}
+.practice-feedback{min-height:25px;margin-top:9px;font-weight:850;color:var(--edu-navy)}
+.active-sim-challenge{margin:12px 0;padding:12px 14px;border-radius:15px;background:color-mix(in srgb,var(--edu-yellow) 22%,white);border:2px solid var(--edu-orange);color:var(--edu-navy);font-weight:900;text-align:center}
+@media(max-width:620px){.practice-five{padding:14px}.practice-options{grid-template-columns:1fr}.practice-item{padding:14px}.practice-question{font-size:1rem}}
+
+.share-people{grid-template-columns:repeat(3,minmax(0,1fr))!important;}
+@media(max-width:760px){.share-people{grid-template-columns:repeat(2,minmax(0,1fr))!important;}}
+@media(max-width:460px){.share-people{grid-template-columns:1fr!important;}}
+</style>
+</head>
+<body>
+<main class="app">
+<section class="hero">
+<div class="eyebrow" style="color:#fff9c9">Curso de Verano · Matemáticas</div>
+<h1>🚀 Misión Matemática</h1>
+<p>Para alumnos de 1.º y 2.º de primaria que avanzan hacia 3.º. Explora, practica con 5 retos y aprende misión por misión.</p>
+<div class="chips"><span class="chip">📱 Celular</span><span class="chip">📲 Tableta</span><span class="chip">🧠 Aprender antes de evaluar</span><span class="chip">🎯 10 misiones</span></div>
+</section>
+<div class="toolbar"><div class="counter" id="counter">1 / 10</div><div class="bar"><span id="progress"></span></div></div>
+<!-- 1 -->
+<section class="screen active" data-i="0">
+<div class="card">
+<span class="example-tag">👀 EXPLORA</span>
+<div class="eyebrow">Misión 1 · Los números</div>
+<h2>¿Qué número sigue?</h2>
+<p class="muted">Mira los números en orden. Después descubre cuál sigue.</p>
+<div class="interaction">
+<div class="numberline"><div class="num">245</div><div class="num">246</div><div class="num">247</div><div class="num">?</div></div>
+<h3>👉 Toca el número correcto.</h3>
+<div class="options quiz"><button class="opt" data-ok="false">246</button><button class="opt" data-ok="true">248</button><button class="opt" data-ok="false">250</button></div>
+<div class="feedback"></div>
+</div>
+
+<div class="practice-five"><div class="practice-five-head"><div><h3>🧠 Ahora inténtalo tú</h3><p>Empieza con lo más sencillo y avanza poco a poco.</p></div><span class="exercise-tag">5 RETOS</span></div><div class="practice-grid"><div class="practice-item" data-level="1">
+<div class="practice-kicker">Reto 1 de 5</div>
+<div class="practice-question">¿Qué número sigue? <b>6, 7, 8, ___</b></div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="true" type="button">9</button><button class="practice-option" data-practice-ok="false" type="button">10</button><button class="practice-option" data-practice-ok="false" type="button">7</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="2">
+<div class="practice-kicker">Reto 2 de 5</div>
+<div class="practice-question">Completa la serie: <b>24, 25, ___, 27</b></div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">23</button><button class="practice-option" data-practice-ok="true" type="button">26</button><button class="practice-option" data-practice-ok="false" type="button">28</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="3">
+<div class="practice-kicker">Reto 3 de 5</div>
+<div class="practice-question">¿Qué número falta? <b>98, 99, ___, 101</b></div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="true" type="button">100</button><button class="practice-option" data-practice-ok="false" type="button">102</button><button class="practice-option" data-practice-ok="false" type="button">97</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="4">
+<div class="practice-kicker">Reto 4 de 5</div>
+<div class="practice-question">¿Cuál número va después de <b>399</b>?</div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="true" type="button">400</button><button class="practice-option" data-practice-ok="false" type="button">390</button><button class="practice-option" data-practice-ok="false" type="button">499</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="5">
+<div class="practice-kicker">Reto 5 de 5</div>
+<div class="practice-question">Estoy entre 798 y 800. ¿Qué número soy?</div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">797</button><button class="practice-option" data-practice-ok="true" type="button">799</button><button class="practice-option" data-practice-ok="false" type="button">801</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div></div></div><div class="nav"><span></span><button class="primary next">Siguiente misión →</button></div>
+</div>
+</section>
+<!-- 2 -->
+<section class="screen" data-i="1">
+<div class="card">
+<span class="example-tag">🧩 JUEGO MANIPULATIVO</span>
+<div class="eyebrow">Misión 2 · Valor posicional</div>
+<h2>Construye el número tú mismo</h2>
+<p class="muted">Cada ficha tiene su lugar: azul para centenas, rojo para decenas y verde para unidades. Mueve cada ficha a la caja correcta.</p>
+<div class="interaction">
+<h3>Explora · Construye números con fichas</h3>
+<p class="muted">Empieza formando <b>324</b>. Después usa los 5 retos de abajo.</p>
+<div class="drag-bank">
+<div class="token blue" data-type="c" draggable="true">100</div>
+<div class="token blue" data-type="c" draggable="true">100</div>
+<div class="token blue" data-type="c" draggable="true">100</div>
+<div class="token red" data-type="d" draggable="true">10</div>
+<div class="token red" data-type="d" draggable="true">10</div>
+<div class="token green" data-type="u" draggable="true">1</div>
+<div class="token green" data-type="u" draggable="true">1</div>
+<div class="token green" data-type="u" draggable="true">1</div>
+<div class="token green" data-type="u" draggable="true">1</div>
+</div>
+<div class="request-panel">
+<div class="request-title">➕ ¿Necesitas más fichas?</div>
+<p class="muted" style="margin:6px 0 12px">Toca un botón para agregar la ficha que necesites.</p>
+<div class="request-buttons">
+<button class="request-btn blue-request" onclick="addToken('c')" type="button">+ 100 azul</button>
+<button class="request-btn red-request" onclick="addToken('d')" type="button">+ 10 roja</button>
+<button class="request-btn green-request" onclick="addToken('u')" type="button">+ 1 verde</button>
+</div>
+</div>
+<div class="drop-grid">
+<div class="drop-zone blue-zone" data-accept="c">
+<div class="zone-title">CENTENAS</div>
+<div class="zone-symbol">C</div>
+<div class="zone-count" data-count-for="c">0 fichas</div>
+</div>
+<div class="drop-zone red-zone" data-accept="d">
+<div class="zone-title">DECENAS</div>
+<div class="zone-symbol">D</div>
+<div class="zone-count" data-count-for="d">0 fichas</div>
+</div>
+<div class="drop-zone green-zone" data-accept="u">
+<div class="zone-title">UNIDADES</div>
+<div class="zone-symbol">U</div>
+<div class="zone-count" data-count-for="u">0 fichas</div>
+</div>
+</div>
+<div class="number-builder">
+<div class="digit blue-digit" id="digitC">0</div>
+<div class="digit red-digit" id="digitD">0</div>
+<div class="digit green-digit" id="digitU">0</div>
+</div>
+<div class="total-value-box">
+<div class="total-label">NÚMERO QUE ESTÁS FORMANDO</div>
+<div class="total-number" id="totalValue">0</div>
+<div class="total-breakdown" id="totalBreakdown">0 centenas + 0 decenas + 0 unidades</div>
+<button class="speak-btn" onclick="speakCurrentValue()" type="button">🔊 Leer número</button>
+</div>
+<div class="read-together" id="readTogether">
+          🔊 Cuando termines, lee el número en voz alta: <b>“trescientos veinticuatro”</b>.
+        </div>
+<div class="active-sim-challenge" id="placeChallenge">Reto activo: forma 324</div><div class="builder-actions">
+<button class="secondary" onclick="resetPlaceValue()" type="button">↻ Empezar de nuevo</button>
+<button class="primary" onclick="checkPlaceValue()" type="button">✓ Comprobar número</button>
+</div>
+<div class="feedback" id="placeFeedback"></div>
+</div>
+
+
+<div class="practice-five"><div class="practice-five-head"><div><h3>🧠 Construye 5 números</h3><p>Usa las fichas de centenas, decenas y unidades. Toca “Preparar” y luego arma el número arriba.</p></div><span class="exercise-tag">5 RETOS</span></div><div class="practice-grid"><div class="practice-item" data-level="1">
+<div class="practice-kicker">Reto 1 de 5</div>
+<div class="practice-question">Forma <b>124</b>: 1 centena, 2 decenas y 4 unidades.</div>
+<button class="practice-launch" data-sim="place" data-target="124" type="button">🎮 Preparar este reto en el simulador</button><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="2">
+<div class="practice-kicker">Reto 2 de 5</div>
+<div class="practice-question">Forma <b>305</b>. Fíjate qué lugar tiene cero.</div>
+<button class="practice-launch" data-sim="place" data-target="305" type="button">🎮 Preparar este reto en el simulador</button><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="3">
+<div class="practice-kicker">Reto 3 de 5</div>
+<div class="practice-question">Forma <b>470</b>. ¿Qué lugar queda sin fichas?</div>
+<button class="practice-launch" data-sim="place" data-target="470" type="button">🎮 Preparar este reto en el simulador</button><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="4">
+<div class="practice-kicker">Reto 4 de 5</div>
+<div class="practice-question">Forma <b>582</b>. Después léelo en voz alta.</div>
+<button class="practice-launch" data-sim="place" data-target="582" type="button">🎮 Preparar este reto en el simulador</button><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="5">
+<div class="practice-kicker">Reto 5 de 5</div>
+<div class="practice-question">Forma <b>639</b> sin mirar una respuesta escrita.</div>
+<button class="practice-launch" data-sim="place" data-target="639" type="button">🎮 Preparar este reto en el simulador</button><div aria-live="polite" class="practice-feedback"></div>
+</div></div></div><div class="nav"><button class="secondary prev">← Anterior</button><button class="primary next">Siguiente misión →</button></div>
+</div>
+</section>
+<!-- 3 -->
+<section class="screen" data-i="2">
+<div class="card">
+<span class="example-tag">🍎 EXPLORA</span>
+<div class="eyebrow">Misión 3 · Sumas</div>
+<h2>Sumar es juntar cantidades</h2>
+<p class="muted">Mira cuántos objetos hay en cada grupo. Júntalos y cuenta cuántos hay en total.</p>
+<div class="interaction">
+<h3>Explora · Cuenta y junta</h3>
+<div class="fruit-operation">
+<div class="fruit-box">
+<div class="fruit-label">Grupo A · 7 manzanas</div>
+<div class="fruit-grid">🍎🍎🍎🍎🍎🍎🍎</div>
+</div>
+<div class="op-sign">+</div>
+<div class="fruit-box">
+<div class="fruit-label">Grupo B · 5 peras</div>
+<div class="fruit-grid">🍐🍐🍐🍐🍐</div>
+</div>
+</div>
+<div class="big-number">7 + 5 = ?</div>
+<div class="options quiz"><button class="opt" data-ok="false">10</button><button class="opt" data-ok="true">12</button><button class="opt" data-ok="false">13</button></div>
+<div class="feedback"></div>
+</div>
+
+
+<div class="practice-five"><div class="practice-five-head"><div><h3>🧠 5 retos de suma</h3><p>Primero junta cantidades pequeñas; después resuelve sumas mayores.</p></div><span class="exercise-tag">5 RETOS</span></div><div class="practice-grid"><div class="practice-item" data-level="1">
+<div class="practice-kicker">Reto 1 de 5</div>
+<div class="practice-question">🍎🍎 + 🍎🍎🍎 ¿Cuántas manzanas hay en total?</div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">4</button><button class="practice-option" data-practice-ok="true" type="button">5</button><button class="practice-option" data-practice-ok="false" type="button">6</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="2">
+<div class="practice-kicker">Reto 2 de 5</div>
+<div class="practice-question"><b>7 + 6</b> =</div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">12</button><button class="practice-option" data-practice-ok="true" type="button">13</button><button class="practice-option" data-practice-ok="false" type="button">14</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="3">
+<div class="practice-kicker">Reto 3 de 5</div>
+<div class="practice-question"><b>15 + 12</b> =</div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="true" type="button">27</button><button class="practice-option" data-practice-ok="false" type="button">26</button><button class="practice-option" data-practice-ok="false" type="button">28</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="4">
+<div class="practice-kicker">Reto 4 de 5</div>
+<div class="practice-question"><b>28 + 15</b> =</div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">33</button><button class="practice-option" data-practice-ok="true" type="button">43</button><button class="practice-option" data-practice-ok="false" type="button">53</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="5">
+<div class="practice-kicker">Reto 5 de 5</div>
+<div class="practice-question">Ana tiene 36 estampas y recibe 27 más. ¿Cuántas tiene ahora?</div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">53</button><button class="practice-option" data-practice-ok="true" type="button">63</button><button class="practice-option" data-practice-ok="false" type="button">73</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div></div></div><div class="nav"><button class="secondary prev">← Anterior</button><button class="primary next">Siguiente misión →</button></div>
+</div>
+</section>
+<!-- 4 -->
+<section class="screen" data-i="3">
+<div class="card">
+<span class="example-tag">🍪 EXPLORA</span>
+<div class="eyebrow">Misión 4 · Restas</div>
+<h2>Restar es quitar o comparar</h2>
+<p class="muted">Mira cuántos objetos hay. Quita los que indica el ejercicio y cuenta cuántos quedan.</p>
+<div class="interaction">
+<h3>Explora · Quita frutas</h3>
+<div class="fruit-box">
+<div class="fruit-label">Tenemos 9 naranjas</div>
+<div class="fruit-grid removable" id="orangeSet">🍊🍊🍊🍊🍊🍊🍊🍊🍊</div>
+</div>
+<p class="muted">Quitamos 4.</p>
+<button class="secondary" onclick="showSubtractionFruit()" type="button">👆 Quitar 4</button>
+<div class="big-number">9 − 4 = <span id="subFruitResult">?</span></div>
+</div>
+
+
+<div class="practice-five"><div class="practice-five-head"><div><h3>🧠 5 retos de resta</h3><p>Empieza quitando objetos y termina con un problema corto.</p></div><span class="exercise-tag">5 RETOS</span></div><div class="practice-grid"><div class="practice-item" data-level="1">
+<div class="practice-kicker">Reto 1 de 5</div>
+<div class="practice-question">🍪🍪🍪🍪🍪 Quita 2. ¿Cuántas quedan?</div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">2</button><button class="practice-option" data-practice-ok="true" type="button">3</button><button class="practice-option" data-practice-ok="false" type="button">4</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="2">
+<div class="practice-kicker">Reto 2 de 5</div>
+<div class="practice-question"><b>9 − 4</b> =</div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">4</button><button class="practice-option" data-practice-ok="true" type="button">5</button><button class="practice-option" data-practice-ok="false" type="button">6</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="3">
+<div class="practice-kicker">Reto 3 de 5</div>
+<div class="practice-question"><b>18 − 6</b> =</div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">10</button><button class="practice-option" data-practice-ok="true" type="button">12</button><button class="practice-option" data-practice-ok="false" type="button">14</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="4">
+<div class="practice-kicker">Reto 4 de 5</div>
+<div class="practice-question"><b>42 − 17</b> =</div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="true" type="button">25</button><button class="practice-option" data-practice-ok="false" type="button">35</button><button class="practice-option" data-practice-ok="false" type="button">29</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="5">
+<div class="practice-kicker">Reto 5 de 5</div>
+<div class="practice-question">Había 53 canicas y se usaron 28. ¿Cuántas quedaron?</div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="true" type="button">25</button><button class="practice-option" data-practice-ok="false" type="button">35</button><button class="practice-option" data-practice-ok="false" type="button">31</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div></div></div><div class="nav"><button class="secondary prev">← Anterior</button><button class="primary next">Siguiente misión →</button></div>
+</div>
+</section>
+<!-- 5 -->
+<section class="screen" data-i="4">
+<div class="card">
+<span class="example-tag">🧺 SIMULADOR DE GRUPOS</span>
+<div class="eyebrow">Misión 5 · Multiplicación</div>
+<h2>Multiplicar es formar grupos iguales</h2>
+<p class="muted">Primero construimos grupos con objetos. Después contamos cuántos objetos hay en total.</p>
+<div class="interaction"><div class="active-sim-challenge" id="groupChallenge">Explora: cambia los grupos y observa el total.</div>
+<h3>Simulador · Construye grupos iguales</h3>
+<p class="muted">Elige cuántos grupos quieres y cuántos objetos tendrá cada grupo.</p>
+<div class="sim-controls">
+<label>Grupos
+            <input id="groupCount" max="10" min="1" oninput="renderGroups()" type="range" value="3"/>
+<b id="groupCountVal">3</b>
+</label>
+<label>Objetos por grupo
+            <input id="itemsPerGroup" max="10" min="1" oninput="renderGroups()" type="range" value="4"/>
+<b id="itemsPerGroupVal">4</b>
+</label>
+<label>Objeto
+            <select id="groupEmoji" onchange="renderGroups()">
+<option value="🍎">🍎 Manzanas</option>
+<option value="🍐">🍐 Peras</option>
+<option value="🍊">🍊 Naranjas</option>
+<option value="⚽">⚽ Pelotas</option>
+<option value="⭐">⭐ Estrellas</option>
+</select>
+</label>
+</div>
+<div class="group-visual" id="groupVisual"></div>
+<div class="total-value-box">
+<div class="total-label">LEE LA MULTIPLICACIÓN</div>
+<div class="group-equation" id="groupEquation">3 grupos de 4 = 12</div>
+<button class="speak-btn" onclick="speakGroupEquation()" type="button">🔊 Escuchar</button>
+</div>
+</div>
+<div class="interaction">
+<h3>Explora · 4 grupos de 3</h3>
+<div class="groups-guide">
+<div class="guide-group">🍓🍓🍓</div>
+<div class="guide-group">🍓🍓🍓</div>
+<div class="guide-group">🍓🍓🍓</div>
+<div class="guide-group">🍓🍓🍓</div>
+</div>
+<p class="muted">Hay 4 grupos y cada grupo tiene 3 fresas.</p>
+<div class="big-number">4 × 3 = ?</div>
+<div class="options quiz">
+<button class="opt" data-ok="false">7</button>
+<button class="opt" data-ok="true">12</button>
+<button class="opt" data-ok="false">16</button>
+</div>
+<div class="feedback"></div>
+</div>
+
+<div class="practice-five"><div class="practice-five-head"><div><h3>🧠 Construye grupos iguales</h3><p>Prepara cada reto en el simulador y observa el total.</p></div><span class="exercise-tag">5 RETOS</span></div><div class="practice-grid"><div class="practice-item" data-level="1">
+<div class="practice-kicker">Reto 1 de 5</div>
+<div class="practice-question">Forma <b>2 grupos de 3</b>. ¿Cuántos objetos hay?</div>
+<button class="practice-launch" data-groups="2" data-items="3" data-sim="groups" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">5</button><button class="practice-option" data-practice-ok="true" type="button">6</button><button class="practice-option" data-practice-ok="false" type="button">8</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="2">
+<div class="practice-kicker">Reto 2 de 5</div>
+<div class="practice-question">Forma <b>3 grupos de 4</b>. ¿Cuál es el total?</div>
+<button class="practice-launch" data-groups="3" data-items="4" data-sim="groups" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">7</button><button class="practice-option" data-practice-ok="true" type="button">12</button><button class="practice-option" data-practice-ok="false" type="button">14</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="3">
+<div class="practice-kicker">Reto 3 de 5</div>
+<div class="practice-question">Forma <b>4 grupos de 5</b>. ¿Cuál es el total?</div>
+<button class="practice-launch" data-groups="4" data-items="5" data-sim="groups" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">15</button><button class="practice-option" data-practice-ok="true" type="button">20</button><button class="practice-option" data-practice-ok="false" type="button">25</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="4">
+<div class="practice-kicker">Reto 4 de 5</div>
+<div class="practice-question">Forma <b>5 grupos de 6</b>. ¿Cuál es el total?</div>
+<button class="practice-launch" data-groups="5" data-items="6" data-sim="groups" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">25</button><button class="practice-option" data-practice-ok="true" type="button">30</button><button class="practice-option" data-practice-ok="false" type="button">35</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="5">
+<div class="practice-kicker">Reto 5 de 5</div>
+<div class="practice-question">Forma <b>6 grupos de 4</b>. ¿Qué multiplicación ves?</div>
+<button class="practice-launch" data-groups="6" data-items="4" data-sim="groups" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="true" type="button">6 × 4 = 24</button><button class="practice-option" data-practice-ok="false" type="button">6 + 4 = 10</button><button class="practice-option" data-practice-ok="false" type="button">24 − 6 = 18</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div></div></div><div class="nav"><button class="secondary prev">← Anterior</button><button class="primary next">Siguiente misión →</button></div>
+</div>
+</section>
+<!-- 6 -->
+<section class="screen" data-i="5">
+<div class="card">
+<span class="example-tag">🎁 SIMULADOR DE REPARTO</span>
+<div class="eyebrow">Misión 6 · División</div>
+<h2>Dividir es repartir por igual</h2>
+<p class="muted">Elige hasta 50 objetos y repártelos por igual. Si no se pueden repartir todos, deja los que sobran en la caja.</p>
+<div class="interaction"><div class="active-sim-challenge" id="shareChallenge">Explora: reparte los objetos por igual.</div>
+<h3>Simulador · Reparte hasta 50</h3>
+<div class="sim-controls">
+<label>¿Cuántos objetos?
+            <input id="shareTotal" max="50" min="1" oninput="renderSharing()" type="range" value="24"/>
+<b id="shareTotalVal">24</b>
+</label>
+<label>¿Cuántas personas van a recibir?
+            <select aria-label="Selecciona cuántas personas van a recibir" id="sharePeople" onchange="renderSharing()">
+<option selected="" value="2">2 personas</option>
+<option value="3">3 personas</option>
+<option value="4">4 personas</option>
+<option value="5">5 personas</option>
+<option value="6">6 personas</option>
+</select>
+<b id="sharePeopleVal">2</b>
+</label>
+<label>¿Qué vas a repartir?
+            <select aria-label="Selecciona qué objeto vas a repartir" id="shareEmoji" onchange="renderSharing()">
+<option value="🍬">🍬 Dulces</option>
+<option value="🍈">🍈 Melones</option>
+<option value="🧸">🧸 Juguetes</option>
+<option value="🚗">🚗 Carritos</option>
+</select>
+</label>
+</div>
+<div class="share-source">
+<div class="share-source-title">Caja inicial</div>
+<div class="share-source-visual" id="shareSourceVisual"></div>
+</div>
+<div class="manual-share-instruction">
+<b>👆 Ahora reparte tú:</b>
+          primero elige cuántas personas participan y qué objeto repartirás. Después usa <b>+</b> para dar uno y <b>−</b> para devolverlo. La meta es que todos reciban la misma cantidad.
+        </div>
+<div class="share-people" id="sharePeopleVisual"></div>
+<div class="manual-share-actions">
+<button class="primary" id="checkShareBtn" type="button">✓ Comprobar reparto</button>
+<button class="secondary" id="resetShareBtn" type="button">↻ Volver a empezar</button>
+</div>
+<div aria-live="polite" class="feedback manual-share-feedback" id="manualShareFeedback"></div>
+<div class="total-value-box">
+<div class="total-label">ASÍ VA TU REPARTO</div>
+<div class="group-equation" id="shareEquation">Tienes 24 objetos para 6 personas</div>
+<div class="total-breakdown" id="shareRemainder">Reparte los objetos por igual.</div>
+<button class="speak-btn" onclick="speakShareResult()" type="button">🔊 Escuchar</button>
+</div>
+</div>
+<div class="interaction">
+<h3>Explora · 18 entre 3</h3>
+<p class="muted">Mira el ejemplo: 18 objetos repartidos entre 3 niños dan 6 para cada uno.</p>
+<div class="groups-guide">
+<div class="guide-group">👧</div>
+<div class="guide-group">👦</div>
+<div class="guide-group">👧</div>
+</div>
+<div class="big-number">18 ÷ 3 = 6</div>
+<p class="muted">Cada niño recibe 6 objetos.</p>
+</div>
+
+<div class="practice-five"><div class="practice-five-head"><div><h3>🧠 Reparte por igual</h3><p>Carga el reto, reparte con + y −, y usa “Comprobar mi reparto”.</p></div><span class="exercise-tag">5 RETOS</span></div><div class="practice-grid"><div class="practice-item" data-level="1">
+<div class="practice-kicker">Reto 1 de 5</div>
+<div class="practice-question">Reparte <b>8 dulces entre 2 personas</b>.</div>
+<button class="practice-launch" data-emoji="🍬" data-people="2" data-sim="share" data-total="8" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">2 cada uno</button><button class="practice-option" data-practice-ok="true" type="button">4 cada uno</button><button class="practice-option" data-practice-ok="false" type="button">6 cada uno</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="2">
+<div class="practice-kicker">Reto 2 de 5</div>
+<div class="practice-question">Reparte <b>12 carritos entre 3 personas</b>.</div>
+<button class="practice-launch" data-emoji="🚗" data-people="3" data-sim="share" data-total="12" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">3 cada uno</button><button class="practice-option" data-practice-ok="true" type="button">4 cada uno</button><button class="practice-option" data-practice-ok="false" type="button">5 cada uno</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="3">
+<div class="practice-kicker">Reto 3 de 5</div>
+<div class="practice-question">Reparte <b>20 juguetes entre 4 personas</b>.</div>
+<button class="practice-launch" data-emoji="🧸" data-people="4" data-sim="share" data-total="20" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">4 cada uno</button><button class="practice-option" data-practice-ok="true" type="button">5 cada uno</button><button class="practice-option" data-practice-ok="false" type="button">6 cada uno</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="4">
+<div class="practice-kicker">Reto 4 de 5</div>
+<div class="practice-question">Reparte <b>25 melones entre 4 personas</b>. ¿Cuántos sobran?</div>
+<button class="practice-launch" data-emoji="🍈" data-people="4" data-sim="share" data-total="25" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">0</button><button class="practice-option" data-practice-ok="true" type="button">1</button><button class="practice-option" data-practice-ok="false" type="button">2</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="5">
+<div class="practice-kicker">Reto 5 de 5</div>
+<div class="practice-question">Reparte <b>35 dulces entre 6 personas</b>. ¿Cuántos sobran?</div>
+<button class="practice-launch" data-emoji="🍬" data-people="6" data-sim="share" data-total="35" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">3</button><button class="practice-option" data-practice-ok="true" type="button">5</button><button class="practice-option" data-practice-ok="false" type="button">1</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div></div></div><div class="nav"><button class="secondary prev">← Anterior</button><button class="primary next">Siguiente misión →</button></div>
+</div>
+</section>
+<!-- 7 -->
+<section class="screen" data-i="6">
+<div class="card">
+<span class="example-tag">🍕🍫 SIMULADOR DE FRACCIONES</span><div class="eyebrow">Misión 7 · Fracciones</div><h2>Entero, mitad y cuarto</h2>
+<p class="muted">Primero mira cómo se divide un alimento en partes iguales. Después elige cómo quieres verlo.</p>
+<div class="interaction fraction-sim"><div class="active-sim-challenge" id="fractionChallenge">Explora: compara entero, mitad y cuarto.</div>
+<h3>1. Elige qué quieres repartir</h3>
+<div aria-label="Elige pizza o chocolate" class="fraction-food-picker" role="group">
+<button class="fraction-choice active" data-food="pizza" type="button">🍕 Pizza</button>
+<button class="fraction-choice" data-food="chocolate" type="button">🍫 Chocolate</button>
+</div>
+<h3>2. Elige una fracción</h3>
+<div aria-label="Elige entero, mitad o cuarto" class="fraction-part-picker" role="group">
+<button class="fraction-choice" data-fraction="whole" type="button">🟡 Entero · 1</button>
+<button class="fraction-choice active" data-fraction="half" type="button">🌓 Mitad · 1/2</button>
+<button class="fraction-choice" data-fraction="quarter" type="button">◔ Un cuarto · 1/4</button>
+</div>
+<div class="fraction-stage">
+<div aria-live="polite" class="fraction-visual" id="fractionVisual"></div>
+<div class="fraction-name" id="fractionName">Mitad = 1/2</div>
+<p class="fraction-explain" id="fractionExplain">La pizza está dividida en 2 partes iguales. Una de esas partes es la mitad.</p>
+</div>
+<div class="fraction-simple-question">
+<span class="exercise-tag">🎯 PREGUNTA FÁCIL</span>
+<h3 id="fractionQuestion">Si una pizza se divide en 2 partes iguales, ¿cómo se llama una parte?</h3>
+<div class="options quiz">
+<button class="opt" data-ok="false">Un entero</button>
+<button class="opt" data-ok="true">Una mitad · 1/2</button>
+<button class="opt" data-ok="false">Un cuarto · 1/4</button>
+</div>
+<div class="feedback"></div>
+</div>
+</div>
+
+<div class="practice-five"><div class="practice-five-head"><div><h3>🧠 Mira, divide y nombra</h3><p>Usa pizza o chocolate para comprobar cómo se ve cada fracción.</p></div><span class="exercise-tag">5 RETOS</span></div><div class="practice-grid"><div class="practice-item" data-level="1">
+<div class="practice-kicker">Reto 1 de 5</div>
+<div class="practice-question">Mira un alimento completo. ¿Cómo se llama?</div>
+<button class="practice-launch" data-food="pizza" data-part="whole" data-sim="fraction" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="true" type="button">Entero</button><button class="practice-option" data-practice-ok="false" type="button">Mitad</button><button class="practice-option" data-practice-ok="false" type="button">Cuarto</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="2">
+<div class="practice-kicker">Reto 2 de 5</div>
+<div class="practice-question">Divide la pizza en 2 partes iguales. Una parte es…</div>
+<button class="practice-launch" data-food="pizza" data-part="half" data-sim="fraction" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">Un entero</button><button class="practice-option" data-practice-ok="true" type="button">Una mitad</button><button class="practice-option" data-practice-ok="false" type="button">Un cuarto</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="3">
+<div class="practice-kicker">Reto 3 de 5</div>
+<div class="practice-question">Divide el chocolate en 4 partes iguales. Una parte es…</div>
+<button class="practice-launch" data-food="chocolate" data-part="quarter" data-sim="fraction" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">Una mitad</button><button class="practice-option" data-practice-ok="true" type="button">Un cuarto</button><button class="practice-option" data-practice-ok="false" type="button">Un entero</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="4">
+<div class="practice-kicker">Reto 4 de 5</div>
+<div class="practice-question">¿Cuántas mitades forman un entero?</div>
+<button class="practice-launch" data-food="chocolate" data-part="half" data-sim="fraction" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">1</button><button class="practice-option" data-practice-ok="true" type="button">2</button><button class="practice-option" data-practice-ok="false" type="button">4</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="5">
+<div class="practice-kicker">Reto 5 de 5</div>
+<div class="practice-question">¿Cuántos cuartos forman un entero?</div>
+<button class="practice-launch" data-food="pizza" data-part="quarter" data-sim="fraction" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">2</button><button class="practice-option" data-practice-ok="false" type="button">3</button><button class="practice-option" data-practice-ok="true" type="button">4</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div></div></div><div class="nav"><button class="secondary prev">← Anterior</button><button class="primary next">Siguiente misión →</button></div>
+</div>
+</section>
+<!-- 8 -->
+<section class="screen" data-i="7">
+<div class="card">
+<span class="example-tag">🔷 EXPLORA</span><div class="eyebrow">Misión 8 · Geometría</div><h2>Reconoce las figuras</h2>
+<p class="muted">Mira los lados y los vértices de cada figura. Eso te ayudará a reconocerla.</p>
+<div class="interaction"><h3>👉 Toca el triángulo.</h3><div class="shapes quiz"><button class="shape-btn opt" data-ok="false">⬜</button><button class="shape-btn opt" data-ok="true">🔺</button><button class="shape-btn opt" data-ok="false">⚪</button></div><div class="feedback"></div></div>
+
+<div class="interaction polygon-lab"><div class="active-sim-challenge" id="polygonPracticeChallenge">Explora: mueve el control de 3 a 8 lados.</div>
+<span class="example-tag">🦀 SIMULADOR DE POLÍGONOS</span>
+<h3>Haz crecer al Cangrejito Polígono</h3>
+<p class="muted">
+          Mueve el control de 3 a 8. Cada <b>manita marca un vértice</b> y cada parte del contorno marca un <b>lado</b>.
+        </p>
+<div class="polygon-stage">
+<svg aria-labelledby="polygonTitle polygonDesc" class="polygon-svg" id="polygonSvg" role="img" viewbox="0 0 420 360">
+<title id="polygonTitle">Polígono interactivo</title>
+<desc id="polygonDesc">Un personaje con forma de polígono cuyos vértices tienen pequeñas manos.</desc>
+<g id="polygonCharacter"></g>
+</svg>
+</div>
+<div class="polygon-control">
+<label for="polygonSides">
+            Número de lados:
+            <strong id="polygonSidesValue">3</strong>
+</label>
+<input id="polygonSides" max="8" min="3" step="1" type="range" value="3"/>
+<div aria-hidden="true" class="polygon-range-labels">
+<span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span>
+</div>
+</div>
+<div aria-live="polite" class="polygon-readout">
+<div class="polygon-name" id="polygonName">Triángulo</div>
+<div class="polygon-facts">
+<span><b id="polygonSideCount">3</b> lados</span>
+<span><b id="polygonVertexCount">3</b> vértices</span>
+</div>
+<p id="polygonSentence">Tiene 3 lados y 3 vértices.</p>
+</div>
+<div class="polygon-legend">
+<span class="polygon-legend-item"><i class="polygon-line-sample"></i> Cuerpo = lados</span>
+<span class="polygon-legend-item"><i class="polygon-hand-sample">✋</i> Manitas = vértices</span>
+</div>
+<div class="polygon-challenge">
+<b>🎯 Tu reto:</b>
+<span id="polygonChallengeText">Muévelo hasta formar un pentágono. ¿Cuántas manitas tendrá?</span>
+</div>
+</div>
+<div class="practice-five"><div class="practice-five-head"><div><h3>🧠 Haz crecer al polígono</h3><p>Mueve el Cangrejito con cada reto y cuenta lados y manitas.</p></div><span class="exercise-tag">5 RETOS</span></div><div class="practice-grid"><div class="practice-item" data-level="1">
+<div class="practice-kicker">Reto 1 de 5</div>
+<div class="practice-question">Forma un <b>triángulo</b>. ¿Cuántos lados tiene?</div>
+<button class="practice-launch" data-sides="3" data-sim="polygon" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">2</button><button class="practice-option" data-practice-ok="true" type="button">3</button><button class="practice-option" data-practice-ok="false" type="button">4</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="2">
+<div class="practice-kicker">Reto 2 de 5</div>
+<div class="practice-question">Forma una figura de <b>4 lados</b>. ¿Cuántos vértices tiene?</div>
+<button class="practice-launch" data-sides="4" data-sim="polygon" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">3</button><button class="practice-option" data-practice-ok="true" type="button">4</button><button class="practice-option" data-practice-ok="false" type="button">5</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="3">
+<div class="practice-kicker">Reto 3 de 5</div>
+<div class="practice-question">Forma un <b>pentágono</b>. ¿Cuántas manitas ves?</div>
+<button class="practice-launch" data-sides="5" data-sim="polygon" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">4</button><button class="practice-option" data-practice-ok="true" type="button">5</button><button class="practice-option" data-practice-ok="false" type="button">6</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="4">
+<div class="practice-kicker">Reto 4 de 5</div>
+<div class="practice-question">Forma un <b>hexágono</b>. ¿Cuántos lados tiene?</div>
+<button class="practice-launch" data-sides="6" data-sim="polygon" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">5</button><button class="practice-option" data-practice-ok="true" type="button">6</button><button class="practice-option" data-practice-ok="false" type="button">7</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="5">
+<div class="practice-kicker">Reto 5 de 5</div>
+<div class="practice-question">Forma un <b>octágono</b>. ¿Cuántos vértices tiene?</div>
+<button class="practice-launch" data-sides="8" data-sim="polygon" type="button">🎮 Preparar este reto en el simulador</button><div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">6</button><button class="practice-option" data-practice-ok="false" type="button">7</button><button class="practice-option" data-practice-ok="true" type="button">8</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div></div></div><div class="nav"><button class="secondary prev">← Anterior</button><button class="primary next">Siguiente misión →</button></div>
+</div>
+</section>
+<!-- 9 -->
+<section class="screen" data-i="8">
+<div class="card">
+<span class="example-tag">🛒 EXPLORA</span><div class="eyebrow">Misión 9 · Medición, dinero y tiempo</div><h2>Matemáticas de la vida diaria</h2>
+<p class="muted">Usamos las matemáticas para comprar, medir y saber la hora.</p>
+<div class="interaction"><div class="money"><span>🍎 $12</span><span>🍌 $8</span></div><h3>Si compras los dos, ¿cuánto pagas?</h3><div class="options quiz"><button class="opt" data-ok="false">$18</button><button class="opt" data-ok="true">$20</button><button class="opt" data-ok="false">$22</button></div><div class="feedback"></div></div>
+
+<div class="practice-five"><div class="practice-five-head"><div><h3>🧠 5 retos de la vida diaria</h3><p>Practica dinero y tiempo con situaciones cortas.</p></div><span class="exercise-tag">5 RETOS</span></div><div class="practice-grid"><div class="practice-item" data-level="1">
+<div class="practice-kicker">Reto 1 de 5</div>
+<div class="practice-question">🍎 $5 + 🍌 $5. ¿Cuánto pagas?</div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">$5</button><button class="practice-option" data-practice-ok="true" type="button">$10</button><button class="practice-option" data-practice-ok="false" type="button">$15</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="2">
+<div class="practice-kicker">Reto 2 de 5</div>
+<div class="practice-question">Un jugo cuesta $12 y una fruta $8. ¿Cuánto cuestan juntos?</div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">$18</button><button class="practice-option" data-practice-ok="true" type="button">$20</button><button class="practice-option" data-practice-ok="false" type="button">$22</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="3">
+<div class="practice-kicker">Reto 3 de 5</div>
+<div class="practice-question">Tienes $50 y compras algo de $30. ¿Cuánto cambio recibes?</div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">$10</button><button class="practice-option" data-practice-ok="true" type="button">$20</button><button class="practice-option" data-practice-ok="false" type="button">$30</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="4">
+<div class="practice-kicker">Reto 4 de 5</div>
+<div class="practice-question">El reloj marca <b>3:30</b>. ¿Qué significa?</div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">Las tres en punto</button><button class="practice-option" data-practice-ok="true" type="button">Tres y media</button><button class="practice-option" data-practice-ok="false" type="button">Cuatro en punto</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="5">
+<div class="practice-kicker">Reto 5 de 5</div>
+<div class="practice-question">Un juguete cuesta $78. Pagas con $100. ¿Cuánto cambio recibes?</div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">$12</button><button class="practice-option" data-practice-ok="true" type="button">$22</button><button class="practice-option" data-practice-ok="false" type="button">$32</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div></div></div><div class="nav"><button class="secondary prev">← Anterior</button><button class="primary next">Siguiente misión →</button></div>
+</div>
+</section>
+<!-- 10 -->
+<section class="screen" data-i="9">
+<div class="card">
+<span class="example-tag">🕵️ EXPLORA</span><div class="eyebrow">Misión 10 · Razonamiento</div><h2>Piensa como detective</h2>
+<p class="muted">Antes de calcular, busca pistas y patrones. Después decide qué hacer.</p>
+<div class="interaction">
+<span class="example-tag">🔢 SERIE VISUAL</span>
+<h3>Mira cómo cambia la serie</h3>
+<p class="muted">Mira las flechas. Te muestran cuánto aumenta cada número.</p>
+<div aria-label="Serie 2, 4, 6, 8, espacio por completar" class="series-track">
+<div class="series-card">2</div>
+<div class="series-arrow">→<small>+2</small></div>
+<div class="series-card">4</div>
+<div class="series-arrow">→<small>+2</small></div>
+<div class="series-card">6</div>
+<div class="series-arrow">→<small>+2</small></div>
+<div class="series-card">8</div>
+<div class="series-arrow">→<small>+2</small></div>
+<div class="series-card series-missing">?</div>
+</div>
+<div class="series-rule">
+<b>Regla de la serie:</b> sumar 2 cada vez.
+        </div>
+<h3>¿Qué número sigue?</h3>
+<div class="options quiz">
+<button class="opt" data-ok="false">9</button>
+<button class="opt" data-ok="true">10</button>
+<button class="opt" data-ok="false">12</button>
+</div>
+<div class="feedback"></div>
+</div>
+<div class="interaction">
+<span class="example-tag">👀 OTRA SERIE</span>
+<h3>Ahora una serie que crece de 5 en 5</h3>
+<div aria-label="Serie 5, 10, 15, 20, espacio por completar" class="series-track">
+<div class="series-card">5</div>
+<div class="series-arrow">→<small>+5</small></div>
+<div class="series-card">10</div>
+<div class="series-arrow">→<small>+5</small></div>
+<div class="series-card">15</div>
+<div class="series-arrow">→<small>+5</small></div>
+<div class="series-card">20</div>
+<div class="series-arrow">→<small>+5</small></div>
+<div class="series-card series-missing">?</div>
+</div>
+<div class="series-rule">
+<b>Pregunta:</b> ¿cuánto aumenta la serie en cada paso?
+        </div>
+</div>
+
+<div class="summary"><div class="sumcard"><b>🎯 Lo que ya practicaste</b><p class="muted">Números, operaciones, multiplicación, división, fracciones, geometría, dinero y lógica.</p></div><div class="sumcard"><b>🚀 Puedes seguir practicando</b><p class="muted">Vuelve a una misión y repítela para reforzar lo que aprendiste.</p></div></div>
+<div class="practice-five"><div class="practice-five-head"><div><h3>🧠 5 series para detectives</h3><p>Mira cuánto cambia cada número y encuentra el que sigue.</p></div><span class="exercise-tag">5 RETOS</span></div><div class="practice-grid"><div class="practice-item" data-level="1">
+<div class="practice-kicker">Reto 1 de 5</div>
+<div class="practice-question"><b>2, 4, 6, 8, ___</b></div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">9</button><button class="practice-option" data-practice-ok="true" type="button">10</button><button class="practice-option" data-practice-ok="false" type="button">12</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="2">
+<div class="practice-kicker">Reto 2 de 5</div>
+<div class="practice-question"><b>5, 10, 15, 20, ___</b></div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">21</button><button class="practice-option" data-practice-ok="true" type="button">25</button><button class="practice-option" data-practice-ok="false" type="button">30</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="3">
+<div class="practice-kicker">Reto 3 de 5</div>
+<div class="practice-question"><b>10, 20, 30, 40, ___</b></div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">45</button><button class="practice-option" data-practice-ok="true" type="button">50</button><button class="practice-option" data-practice-ok="false" type="button">60</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="4">
+<div class="practice-kicker">Reto 4 de 5</div>
+<div class="practice-question"><b>20, 18, 16, 14, ___</b></div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="true" type="button">12</button><button class="practice-option" data-practice-ok="false" type="button">13</button><button class="practice-option" data-practice-ok="false" type="button">16</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div><div class="practice-item" data-level="5">
+<div class="practice-kicker">Reto 5 de 5</div>
+<div class="practice-question"><b>3, 6, 9, 12, ___</b></div>
+<div class="practice-options"><button class="practice-option" data-practice-ok="false" type="button">14</button><button class="practice-option" data-practice-ok="true" type="button">15</button><button class="practice-option" data-practice-ok="false" type="button">16</button></div><div aria-live="polite" class="practice-feedback"></div>
+</div></div></div><div class="nav"><button class="secondary prev">← Anterior</button><button class="primary" onclick="go(0)">↻ Volver al inicio</button></div>
+</div>
+</section>
+</main>
+<script>
+let current=0;
+let placeValueTarget=324;
+const screens=[...document.querySelectorAll('.screen')];
+function go(i){
+ current=Math.max(0,Math.min(screens.length-1,i));
+ screens.forEach((s,n)=>s.classList.toggle('active',n===current));
+ document.getElementById('counter').textContent=(current+1)+' / '+screens.length;
+ document.getElementById('progress').style.width=((current+1)/screens.length*100)+'%';
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.next').forEach(b=>b.addEventListener('click',()=>go(current+1)));
+document.querySelectorAll('.prev').forEach(b=>b.addEventListener('click',()=>go(current-1)));
+document.querySelectorAll('.quiz').forEach(q=>{
+ q.addEventListener('click',e=>{
+   const b=e.target.closest('[data-ok]');
+   if(!b)return;
+   const fb=q.parentElement.querySelector('.feedback');
+   if(b.dataset.ok==='true'){
+     b.classList.add('correct'); fb.textContent='✨ ¡Correcto! Continúa cuando estés listo.';
+   }else{
+     b.classList.add('wrong'); fb.textContent='💡 Casi. Mira otra vez y prueba una respuesta diferente.';
+     setTimeout(()=>b.classList.remove('wrong'),700);
+   }
+ });
+});
+go(0);
+
+let draggedToken = null;
+
+document.addEventListener('dragstart', e=>{
+  const t=e.target.closest('.token');
+  if(!t)return;
+  draggedToken=t;
+  e.dataTransfer.setData('text/plain', t.dataset.type);
+});
+
+document.querySelectorAll('.drop-zone').forEach(zone=>{
+  zone.addEventListener('dragover', e=>{e.preventDefault();zone.classList.add('drag-over')});
+  zone.addEventListener('dragleave', ()=>zone.classList.remove('drag-over'));
+  zone.addEventListener('drop', e=>{
+    e.preventDefault();
+    zone.classList.remove('drag-over');
+    if(!draggedToken)return;
+    if(zone.dataset.accept===draggedToken.dataset.type){
+      zone.appendChild(draggedToken);
+      updatePlaceValue();
+    }else{
+      const fb=document.getElementById('placeFeedback');
+      if(fb) fb.textContent='💡 Esa ficha pertenece a otra casa. Mira el color e inténtalo otra vez.';
+    }
+  });
+});
+
+function updatePlaceValue(){
+  const counts={c:0,d:0,u:0};
+  document.querySelectorAll('.drop-zone').forEach(zone=>{
+    const type=zone.dataset.accept;
+    counts[type]=zone.querySelectorAll('.token').length;
+  });
+
+  const c=document.getElementById('digitC');
+  const d=document.getElementById('digitD');
+  const u=document.getElementById('digitU');
+  if(c)c.textContent=counts.c;
+  if(d)d.textContent=counts.d;
+  if(u)u.textContent=counts.u;
+
+  document.querySelectorAll('[data-count-for]').forEach(el=>{
+    const n=counts[el.dataset.countFor];
+    el.textContent=n+' '+(n===1?'ficha':'fichas');
+  });
+
+  const total=(counts.c*100)+(counts.d*10)+counts.u;
+  const totalValue=document.getElementById('totalValue');
+  const totalBreakdown=document.getElementById('totalBreakdown');
+  if(totalValue) totalValue.textContent=total;
+  if(totalBreakdown){
+    totalBreakdown.textContent=
+      counts.c+' '+(counts.c===1?'centena':'centenas')+
+      ' + '+counts.d+' '+(counts.d===1?'decena':'decenas')+
+      ' + '+counts.u+' '+(counts.u===1?'unidad':'unidades');
+  }
+
+  const read=document.getElementById('readTogether');
+  if(read){
+    read.innerHTML='🔊 Lee en voz alta el número que formaste: <b>'+numberToSpanish(total)+'</b>.';
+  }
+}
+
+function resetPlaceValue(){
+  const bank=document.querySelector('.drag-bank');
+  if(!bank)return;
+  document.querySelectorAll('.drop-zone .token').forEach(t=>bank.appendChild(t));
+  updatePlaceValue();
+  const fb=document.getElementById('placeFeedback');
+  if(fb)fb.textContent='';
+}
+
+function checkPlaceValue(){
+  const c=+document.getElementById('digitC').textContent;
+  const d=+document.getElementById('digitD').textContent;
+  const u=+document.getElementById('digitU').textContent;
+  const fb=document.getElementById('placeFeedback');
+  if((c*100+d*10+u)===placeValueTarget){
+    fb.textContent='✨ ¡Correcto! Formaste 324. Ahora léelo en voz alta: trescientos veinticuatro.';
+  }else{
+    fb.textContent='🔎 Revisa cada caja: centenas, decenas y unidades. Después inténtalo otra vez.';
+  }
+}
+
+
+function prepareToken(token){
+  token.setAttribute('draggable','true');
+  token.addEventListener('dragstart', e=>{
+    draggedToken=token;
+    e.dataTransfer.setData('text/plain', token.dataset.type);
+  });
+  // Tap support for mobile: tap a token, then tap a target zone
+  token.addEventListener('click', ()=>{
+    document.querySelectorAll('.token').forEach(t=>t.classList.remove('selected-token'));
+    token.classList.add('selected-token');
+    draggedToken=token;
+  });
+}
+
+document.querySelectorAll('.token').forEach(prepareToken);
+
+document.querySelectorAll('.drop-zone').forEach(zone=>{
+  zone.addEventListener('click', ()=>{
+    if(draggedToken && draggedToken.classList.contains('selected-token')){
+      if(zone.dataset.accept===draggedToken.dataset.type){
+        zone.appendChild(draggedToken);
+        draggedToken.classList.remove('selected-token');
+        draggedToken=null;
+        updatePlaceValue();
+      }else{
+        const fb=document.getElementById('placeFeedback');
+        if(fb) fb.textContent='💡 Esa ficha pertenece a otra casa. Mira el color e inténtalo otra vez.';
+      }
+    }
+  });
+});
+
+function addToken(type){
+  const bank=document.querySelector('.drag-bank');
+  if(!bank)return;
+  const token=document.createElement('div');
+  token.className='token ' + (type==='c'?'blue':type==='d'?'red':'green');
+  token.dataset.type=type;
+  token.textContent=type==='c'?'100':type==='d'?'10':'1';
+  prepareToken(token);
+  bank.appendChild(token);
+  const fb=document.getElementById('placeFeedback');
+  if(fb) fb.textContent='➕ Ficha agregada. Ahora muévela a la caja de su color.';
+}
+
+function numberToSpanish(n){
+  try{
+    // Lightweight wording for common classroom range
+    const unidades=['cero','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez','once','doce','trece','catorce','quince','dieciséis','diecisiete','dieciocho','diecinueve','veinte'];
+    if(n<=20) return unidades[n];
+    if(n<100){
+      const tens=['','','veinte','treinta','cuarenta','cincuenta','sesenta','setenta','ochenta','noventa'];
+      const d=Math.floor(n/10), u=n%10;
+      if(d===2 && u>0){
+        const veinti=['','veintiuno','veintidós','veintitrés','veinticuatro','veinticinco','veintiséis','veintisiete','veintiocho','veintinueve'];
+        return veinti[u];
+      }
+      return u===0?tens[d]:tens[d]+' y '+unidades[u];
+    }
+    if(n<1000){
+      const c=Math.floor(n/100), rest=n%100;
+      let head='';
+      if(c===1) head=rest===0?'cien':'ciento';
+      else head=['','','doscientos','trescientos','cuatrocientos','quinientos','seiscientos','setecientos','ochocientos','novecientos'][c];
+      return rest===0?head:head+' '+numberToSpanish(rest);
+    }
+    return String(n);
+  }catch(e){ return String(n); }
+}
+
+function speakCurrentValue(){
+  const val=Number(document.getElementById('totalValue')?.textContent||0);
+  const text=numberToSpanish(val);
+  if('speechSynthesis' in window){
+    speechSynthesis.cancel();
+    const utter=new SpeechSynthesisUtterance(text);
+    utter.lang='es-MX';
+    utter.rate=.85;
+    speechSynthesis.speak(utter);
+  }
+}
+
+
+function sumStepOne(ans){
+  const fb=document.getElementById('sumSimFeedback');
+  if(ans!==12){ fb.textContent='💡 Cuenta 7 y después agrega 5 más. Inténtalo otra vez.'; return; }
+  document.getElementById('sumUnits').textContent='2';
+  document.getElementById('sumStepText').innerHTML='Paso 2: 12 unidades = <b>1 decena y 2 unidades</b>. Llevamos 1 decena. Ahora: 2 + 1 + 1 = ?';
+  document.getElementById('sumStep1').style.display='none';
+  document.getElementById('sumStep2').style.display='grid';
+  fb.textContent='✨ Muy bien. Quedan 2 unidades y pasamos 1 decena a la siguiente columna.';
+}
+function sumStepTwo(ans){
+  const fb=document.getElementById('sumSimFeedback');
+  if(ans!==4){ fb.textContent='💡 No olvides sumar también la decena que pasamos. Inténtalo otra vez.'; return; }
+  document.getElementById('sumTens').textContent='4';
+  document.getElementById('sumStep2').style.display='none';
+  document.getElementById('sumStepText').innerHTML='🎉 Resultado: <b>27 + 15 = 42</b>.';
+  fb.textContent='✨ ¡Muy bien! Resolviste la suma paso a paso.';
+}
+
+function showSubtractionFruit(){
+  const el=document.getElementById('orangeSet');
+  if(!el)return;
+  el.innerHTML='<span class="crossed">🍊🍊🍊🍊</span>🍊🍊🍊🍊🍊';
+  document.getElementById('subFruitResult').textContent='5';
+}
+
+function subBorrow(needsBorrow){
+  const fb=document.getElementById('subSimFeedback');
+  if(!needsBorrow){ fb.textContent='💡 2 es menor que 7. Necesitamos cambiar una decena por 10 unidades.'; return; }
+  document.getElementById('subTopTens').textContent='3';
+  document.getElementById('subTopUnits').textContent='12';
+  document.getElementById('subStepText').innerHTML='Cambiamos 1 decena: ahora tenemos <b>3 decenas y 12 unidades</b>. Paso 2: 12 − 7 = ?';
+  document.getElementById('subStep1').style.display='none';
+  document.getElementById('subStep2').style.display='grid';
+  fb.textContent='✨ Correcto. Cambiaste 1 decena por 10 unidades.';
+}
+function subUnits(ans){
+  const fb=document.getElementById('subSimFeedback');
+  if(ans!==5){ fb.textContent='💡 Empieza en 12 y cuenta 7 pasos hacia atrás.'; return; }
+  document.getElementById('subUnitsResult').textContent='5';
+  document.getElementById('subStepText').innerHTML='Paso 3: ahora restamos las decenas: <b>3 − 1 = ?</b>';
+  document.getElementById('subStep2').style.display='none';
+  document.getElementById('subStep3').style.display='grid';
+  fb.textContent='✨ Muy bien. Ya resolviste las unidades.';
+}
+function subTens(ans){
+  const fb=document.getElementById('subSimFeedback');
+  if(ans!==2){ fb.textContent='💡 Mira las decenas: tienes 3 y debes quitar 1. Inténtalo otra vez.'; return; }
+  document.getElementById('subTensResult').textContent='2';
+  document.getElementById('subStep3').style.display='none';
+  document.getElementById('subStepText').innerHTML='🎉 Resultado: <b>42 − 17 = 25</b>.';
+  fb.textContent='✨ ¡Muy bien! Resolviste la resta paso a paso.';
+}
+
+
+function renderGroups(){
+  const g=+document.getElementById('groupCount').value;
+  const n=+document.getElementById('itemsPerGroup').value;
+  const emoji=document.getElementById('groupEmoji').value;
+  document.getElementById('groupCountVal').textContent=g;
+  document.getElementById('itemsPerGroupVal').textContent=n;
+  const wrap=document.getElementById('groupVisual');
+  if(!wrap)return;
+  wrap.innerHTML='';
+  for(let i=0;i<g;i++){
+    const box=document.createElement('div');
+    box.className='sim-group';
+    box.innerHTML='<div style="font-size:12px;font-weight:900;color:#60758a">Grupo '+(i+1)+'</div><div>'+emoji.repeat(n)+'</div>';
+    wrap.appendChild(box);
+  }
+  document.getElementById('groupEquation').textContent=g+' grupos de '+n+' = '+(g*n);
+}
+function speakGroupEquation(){
+  const txt=document.getElementById('groupEquation').textContent;
+  if('speechSynthesis' in window){
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(txt);
+    u.lang='es-MX';u.rate=.85;speechSynthesis.speak(u);
+  }
+}
+
+let manualShareCounts = [];
+
+function renderSharing(){
+  const total = +document.getElementById('shareTotal').value;
+  const people = +document.getElementById('sharePeople').value;
+  const emoji = document.getElementById('shareEmoji').value;
+
+  document.getElementById('shareTotalVal').textContent = total;
+  document.getElementById('sharePeopleVal').textContent = people;
+
+  // Reinicia el reparto cada vez que cambia total, personas u objeto.
+  manualShareCounts = Array(people).fill(0);
+
+  const src = document.getElementById('shareSourceVisual');
+  if(src) src.textContent = emoji.repeat(total);
+
+  const area = document.getElementById('sharePeopleVisual');
+  if(area){
+    area.innerHTML = '';
+    for(let i=0;i<people;i++){
+      const p = document.createElement('div');
+      p.className = 'share-person manual-share-person';
+      p.innerHTML =
+        '<div class="avatar" aria-hidden="true">🥸</div>'+
+        '<div class="share-person-title">Persona '+(i+1)+'</div>'+
+        '<div class="share-counter" aria-label="Cantidad para persona '+(i+1)+'">'+
+          '<button type="button" class="share-adjust share-minus" data-person="'+i+'" data-delta="-1" aria-label="Quitar uno a persona '+(i+1)+'">−</button>'+
+          '<output class="share-count" id="shareCount'+i+'">0</output>'+
+          '<button type="button" class="share-adjust share-plus" data-person="'+i+'" data-delta="1" aria-label="Dar uno a persona '+(i+1)+'">+</button>'+
+        '</div>'+
+        '<div class="received" id="shareObjects'+i+'">Todavía no tiene objetos</div>';
+      area.appendChild(p);
+    }
+
+    area.querySelectorAll('.share-adjust').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        adjustManualShare(+btn.dataset.person, +btn.dataset.delta);
+      });
+    });
+  }
+
+  updateManualShareDisplay();
+}
+
+function adjustManualShare(personIndex, delta){
+  const total = +document.getElementById('shareTotal').value;
+  const distributed = manualShareCounts.reduce((a,b)=>a+b,0);
+
+  if(delta > 0 && distributed >= total){
+    showManualShareFeedback('📦 Ya no quedan objetos en la caja.');
+    return;
+  }
+
+  if(delta < 0 && manualShareCounts[personIndex] <= 0){
+    showManualShareFeedback('💡 Esa persona todavía no tiene objetos para quitar.');
+    return;
+  }
+
+  manualShareCounts[personIndex] += delta;
+  updateManualShareDisplay();
+}
+
+function updateManualShareDisplay(){
+  const total = +document.getElementById('shareTotal').value;
+  const people = +document.getElementById('sharePeople').value;
+  const emoji = document.getElementById('shareEmoji').value;
+  const distributed = manualShareCounts.reduce((a,b)=>a+b,0);
+  const remaining = total - distributed;
+
+  manualShareCounts.forEach((count,i)=>{
+    const countEl = document.getElementById('shareCount'+i);
+    const objectsEl = document.getElementById('shareObjects'+i);
+    if(countEl) countEl.textContent = count;
+    if(objectsEl){
+      objectsEl.textContent = count ? emoji.repeat(count)+'  ('+count+')' : 'Todavía no tiene objetos';
+    }
+  });
+
+  const src = document.getElementById('shareSourceVisual');
+  if(src){
+    src.innerHTML =
+      '<div class="remaining-number">'+remaining+'</div>'+
+      '<div class="remaining-label">'+(remaining===1?'objeto restante':'objetos restantes')+'</div>'+
+      '<div class="remaining-icons">'+(remaining ? emoji.repeat(remaining) : '✅ Caja vacía')+'</div>';
+  }
+
+  const each = Math.floor(total/people);
+  const remainder = total % people;
+  document.getElementById('shareEquation').textContent =
+    'Tienes '+total+' objetos para '+people+' personas';
+
+  const result = document.getElementById('shareRemainder');
+  const allEqual = manualShareCounts.every(v=>v===manualShareCounts[0]);
+  if(allEqual && manualShareCounts[0]===each && remaining===remainder){
+    result.textContent = remainder===0
+      ? '✨ ¡Reparto igual! Cada persona tiene '+each+' y no sobra ninguno.'
+      : '✨ Cada persona tiene '+each+' y quedan '+remainder+' en la caja.';
+  }else if(remaining > remainder){
+    result.textContent = 'Quedan '+remaining+' en la caja. Sigue repartiendo por igual.';
+  }else if(remaining < remainder){
+    result.textContent = 'Repartiste de más. Devuelve objetos para dejar el sobrante en la caja.';
+  }else{
+    result.textContent = '🔎 Revisa que todas las personas tengan la misma cantidad.';
+  }
+
+  updateSharePersonStates();
+}
+
+function updateSharePersonStates(){
+  document.querySelectorAll('.manual-share-person').forEach((card,i)=>{
+    card.classList.remove('share-balanced','share-different');
+    if(manualShareCounts.length < 2) return;
+    const max = Math.max(...manualShareCounts);
+    const min = Math.min(...manualShareCounts);
+    if(max === min && max > 0){
+      card.classList.add('share-balanced');
+    } else if(manualShareCounts[i] > 0){
+      card.classList.add('share-different');
+    }
+  });
+}
+
+function checkManualSharing(){
+  const total = +document.getElementById('shareTotal').value;
+  const people = +document.getElementById('sharePeople').value;
+  const distributed = manualShareCounts.reduce((a,b)=>a+b,0);
+  const remaining = total-distributed;
+  const each = Math.floor(total/people);
+  const remainder = total%people;
+
+  if(remainder === 0){
+    if(remaining > 0){
+      showManualShareFeedback('📦 Todavía quedan '+remaining+' por repartir.');
+      return;
+    }
+    const correct = manualShareCounts.every(v=>v===each);
+    showManualShareFeedback(
+      correct
+        ? '✨ ¡Correcto! '+total+' ÷ '+people+' = '+each+'. Todos recibieron lo mismo.'
+        : '🔎 Revisa las personas: todos deben tener la misma cantidad.'
+    );
+  }else{
+    const correct = manualShareCounts.every(v=>v===each) && remaining===remainder;
+    showManualShareFeedback(
+      correct
+        ? '✨ ¡Correcto! Cada persona recibe '+each+' y quedan '+remainder+' en la caja.'
+        : remaining < remainder
+          ? '💡 Repartiste de más. Devuelve objetos hasta que todos tengan lo mismo y el sobrante quede en la caja.'
+          : '📦 Sigue repartiendo por igual. Al final deben quedar '+remainder+' en la caja.'
+    );
+  }
+}
+
+function resetManualSharing(){
+  manualShareCounts = manualShareCounts.map(()=>0);
+  updateManualShareDisplay();
+  showManualShareFeedback('');
+}
+
+function showManualShareFeedback(text){
+  let fb = document.getElementById('manualShareFeedback');
+  if(!fb){
+    const area = document.getElementById('sharePeopleVisual');
+    fb = document.createElement('div');
+    fb.id = 'manualShareFeedback';
+    fb.className = 'feedback manual-share-feedback';
+    area.insertAdjacentElement('afterend', fb);
+  }
+  fb.textContent = text;
+}
+
+function animateSharing(){
+  // Se conserva el nombre de la función por compatibilidad,
+  // pero ahora el niño realiza el reparto manualmente.
+  checkManualSharing();
+}
+
+function renderSharingResultOnly(){
+  updateManualShareDisplay();
+}
+
+function speakShareResult(){
+  const txt = document.getElementById('shareEquation').textContent+'. '+
+              document.getElementById('shareRemainder').textContent;
+  if('speechSynthesis' in window){
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(txt);
+    u.lang='es-MX';
+    u.rate=.85;
+    speechSynthesis.speak(u);
+  }
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  if(document.getElementById('groupCount')) renderGroups();
+  if(document.getElementById('shareTotal')) renderSharing();
+  const checkShareBtn=document.getElementById('checkShareBtn');
+  const resetShareBtn=document.getElementById('resetShareBtn');
+  if(checkShareBtn) checkShareBtn.addEventListener('click',checkManualSharing);
+  if(resetShareBtn) resetShareBtn.addEventListener('click',resetManualSharing);
+});
+
+
+/* Simulador de polígonos */
+(function(){
+  const slider = document.getElementById('polygonSides');
+  if(!slider) return;
+
+  const names = {
+    3:'Triángulo',
+    4:'Cuadrilátero',
+    5:'Pentágono',
+    6:'Hexágono',
+    7:'Heptágono',
+    8:'Octágono'
+  };
+
+  const challenges = {
+    3:'Muévelo hasta formar un pentágono. ¿Cuántas manitas ves?',
+    4:'Ahora busca el hexágono. ¿Cuántos lados agregaste?',
+    5:'Forma un octágono y cuenta sus manitas una por una.',
+    6:'Baja hasta un triángulo. ¿Cuántos vértices tiene ahora?',
+    7:'¿Qué figura aparece si agregas un lado más?',
+    8:'Llegaste al octágono. Ahora vuelve a 4 lados y compara las dos figuras.'
+  };
+
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const group = document.getElementById('polygonCharacter');
+
+  function pt(cx, cy, r, angle){
+    return {
+      x: cx + r * Math.cos(angle),
+      y: cy + r * Math.sin(angle)
+    };
+  }
+
+  function addSvg(tag, attrs, parent=group){
+    const el = document.createElementNS(svgNS, tag);
+    for(const [k,v] of Object.entries(attrs)) el.setAttribute(k,v);
+    parent.appendChild(el);
+    return el;
+  }
+
+  function renderPolygon(){
+    const n = Number(slider.value);
+    document.getElementById('polygonSidesValue').textContent = n;
+    document.getElementById('polygonName').textContent = names[n];
+    document.getElementById('polygonSideCount').textContent = n;
+    document.getElementById('polygonVertexCount').textContent = n;
+    document.getElementById('polygonSentence').textContent =
+      'Tiene ' + n + ' lados y ' + n + ' vértices.';
+    document.getElementById('polygonChallengeText').textContent = challenges[n];
+
+    group.innerHTML = '';
+
+    const cx = 210, cy = 185;
+    const radius = n <= 4 ? 112 : 122;
+    const start = -Math.PI/2;
+    const points = [];
+    for(let i=0;i<n;i++){
+      points.push(pt(cx,cy,radius,start+(Math.PI*2*i/n)));
+    }
+
+    // soft shadow
+    addSvg('ellipse',{
+      cx:210, cy:326, rx:108, ry:14,
+      fill:'#193679', opacity:'.10'
+    });
+
+    // body polygon
+    addSvg('polygon',{
+      points:points.map(p=>`${p.x},${p.y}`).join(' '),
+      fill:'#7DB6E2',
+      stroke:'#0E7EB6',
+      'stroke-width':'8',
+      'stroke-linejoin':'round'
+    });
+
+    // vertex hands + arms
+    points.forEach((p)=>{
+      const dx = p.x-cx, dy = p.y-cy;
+      const mag = Math.sqrt(dx*dx+dy*dy) || 1;
+      const ux = dx/mag, uy = dy/mag;
+      const hx = p.x + ux*22;
+      const hy = p.y + uy*22;
+
+      addSvg('line',{
+        x1:p.x, y1:p.y, x2:hx, y2:hy,
+        stroke:'#193679','stroke-width':'5','stroke-linecap':'round'
+      });
+
+      const hand = addSvg('text',{
+        x:hx, y:hy+7,
+        'font-size':'24',
+        'text-anchor':'middle'
+      });
+      hand.textContent='✋';
+    });
+
+    // eyes
+    addSvg('circle',{cx:184,cy:172,r:10,fill:'#193679'});
+    addSvg('circle',{cx:236,cy:172,r:10,fill:'#193679'});
+    addSvg('circle',{cx:181,cy:169,r:3,fill:'#fff'});
+    addSvg('circle',{cx:233,cy:169,r:3,fill:'#fff'});
+
+    // smile / crab-like friendly face
+    addSvg('path',{
+      d:'M178 210 Q210 236 242 210',
+      fill:'none',stroke:'#193679','stroke-width':'6','stroke-linecap':'round'
+    });
+
+    // tiny cheek accents
+    addSvg('circle',{cx:164,cy:202,r:7,fill:'#FC668C',opacity:'.85'});
+    addSvg('circle',{cx:256,cy:202,r:7,fill:'#FC668C',opacity:'.85'});
+
+    // side labels on larger screens: midpoint dots emphasizing sides
+    points.forEach((p,i)=>{
+      const q = points[(i+1)%n];
+      addSvg('circle',{
+        cx:(p.x+q.x)/2,
+        cy:(p.y+q.y)/2,
+        r:'5',
+        fill:'#FFC904',
+        stroke:'#193679',
+        'stroke-width':'2'
+      });
+    });
+
+    const desc = document.getElementById('polygonDesc');
+    desc.textContent = names[n] + ' con ' + n + ' lados y ' + n +
+      ' vértices. Cada vértice tiene una manita.';
+  }
+
+  slider.addEventListener('input', renderPolygon);
+  renderPolygon();
+})();
+
+
+// Simulador sencillo de fracciones: pizza o chocolate
+(function(){
+  let fractionFood='pizza';
+  let fractionPart='half';
+
+  const partInfo={
+    whole:{name:'Entero = 1',parts:1,text:'Está completo. Un entero es todo el alimento.'},
+    half:{name:'Mitad = 1/2',parts:2,text:'Está dividido en 2 partes iguales. Una parte es la mitad.'},
+    quarter:{name:'Un cuarto = 1/4',parts:4,text:'Está dividido en 4 partes iguales. Una parte es un cuarto.'}
+  };
+
+  function renderFractionSimulator(){
+    const visual=document.getElementById('fractionVisual');
+    const name=document.getElementById('fractionName');
+    const explain=document.getElementById('fractionExplain');
+    if(!visual||!name||!explain) return;
+    const info=partInfo[fractionPart];
+    const foodName=fractionFood==='pizza'?'pizza':'chocolate';
+
+    if(fractionFood==='pizza'){
+      const cls=fractionPart==='whole'?'whole':fractionPart==='half'?'half':'quarter';
+      const lineCls=fractionPart==='half'?'half-lines':fractionPart==='quarter'?'quarter-lines':'';
+      visual.innerHTML='<div class="pizza-visual '+cls+'" role="img" aria-label="'+info.name+' de una pizza"><div class="pizza-lines '+lineCls+'"></div></div>';
+    }else{
+      const gridCls=info.parts===1?'one':info.parts===2?'two':'four';
+      let pieces='';
+      for(let i=0;i<info.parts;i++){
+        pieces+='<div class="choco-piece '+(i===0?'selected':'')+'">🍫</div>';
+      }
+      visual.innerHTML='<div class="chocolate-visual '+gridCls+'" role="img" aria-label="'+info.name+' de un chocolate">'+pieces+'</div>';
+    }
+    name.textContent=info.name;
+    explain.textContent=(fractionPart==='whole'?'El '+foodName+' está completo. ': 'El '+foodName+' '+(fractionPart==='half'?'se divide en 2 partes iguales. ':'se divide en 4 partes iguales. '))+info.text;
+  }
+
+  document.querySelectorAll('[data-food]').forEach(btn=>btn.addEventListener('click',()=>{
+    fractionFood=btn.dataset.food;
+    document.querySelectorAll('[data-food]').forEach(b=>b.classList.toggle('active',b===btn));
+    renderFractionSimulator();
+  }));
+  document.querySelectorAll('[data-fraction]').forEach(btn=>btn.addEventListener('click',()=>{
+    fractionPart=btn.dataset.fraction;
+    document.querySelectorAll('[data-fraction]').forEach(b=>b.classList.toggle('active',b===btn));
+    renderFractionSimulator();
+  }));
+  renderFractionSimulator();
+})();
+
+
+
+// Práctica interactiva de 5 retos
+function practiceFeedback(item, ok){
+  const fb=item.querySelector('.practice-feedback');
+  if(!fb) return;
+  fb.textContent=ok?'✅ ¡Muy bien! Puedes seguir con el siguiente reto.':'💡 Casi. Mira otra vez y vuelve a intentarlo.';
+}
+
+document.addEventListener('click',(e)=>{
+  const opt=e.target.closest('.practice-option');
+  if(opt){
+    const item=opt.closest('.practice-item');
+    item.querySelectorAll('.practice-option').forEach(b=>b.classList.remove('correct','wrong'));
+    const ok=opt.dataset.practiceOk==='true';
+    opt.classList.add(ok?'correct':'wrong');
+    practiceFeedback(item,ok);
+    return;
+  }
+  const launch=e.target.closest('.practice-launch');
+  if(!launch) return;
+  const type=launch.dataset.sim;
+  if(type==='place') loadPlaceChallenge(Number(launch.dataset.target));
+  if(type==='groups') loadGroupChallenge(Number(launch.dataset.groups),Number(launch.dataset.items));
+  if(type==='share') loadShareChallenge(Number(launch.dataset.total),Number(launch.dataset.people),launch.dataset.emoji);
+  if(type==='fraction') loadFractionChallenge(launch.dataset.food,launch.dataset.part);
+  if(type==='polygon') loadPolygonChallenge(Number(launch.dataset.sides));
+});
+
+function scrollToElement(el){ if(el) el.scrollIntoView({behavior:'smooth',block:'center'}); }
+
+function loadPlaceChallenge(target){
+  placeValueTarget=target;
+  resetPlaceValue();
+  const c=Math.floor(target/100), d=Math.floor((target%100)/10), u=target%10;
+  const need={c,d,u};
+  ['c','d','u'].forEach(type=>{
+    let count=document.querySelectorAll('.drag-bank .token[data-type="'+type+'"]').length;
+    while(count<need[type]){ addToken(type); count++; }
+  });
+  const banner=document.getElementById('placeChallenge');
+  if(banner) banner.textContent='🎯 Reto activo: forma '+target+' con centenas, decenas y unidades.';
+  const fb=document.getElementById('placeFeedback'); if(fb) fb.textContent='Construye '+target+' y toca “Comprobar número”.';
+  scrollToElement(document.querySelector('section.screen[data-i="1"] .interaction'));
+}
+
+function loadGroupChallenge(groups,items){
+  const g=document.getElementById('groupCount'), n=document.getElementById('itemsPerGroup');
+  if(g) g.value=groups; if(n) n.value=items; renderGroups();
+  const banner=document.getElementById('groupChallenge');
+  if(banner) banner.textContent='🎯 Reto activo: '+groups+' grupos de '+items+'. Cuenta el total.';
+  scrollToElement(document.querySelector('section.screen[data-i="4"] .interaction'));
+}
+
+function loadShareChallenge(total,people,emoji){
+  const t=document.getElementById('shareTotal'), p=document.getElementById('sharePeople'), em=document.getElementById('shareEmoji');
+  if(t) t.value=total; if(p) p.value=people; if(em) em.value=emoji; renderSharing();
+  const banner=document.getElementById('shareChallenge');
+  if(banner) banner.textContent='🎯 Reto activo: reparte '+total+' objetos entre '+people+' personas por igual.';
+  scrollToElement(document.querySelector('section.screen[data-i="5"] .interaction'));
+}
+
+function loadFractionChallenge(food,part){
+  const foodBtn=document.querySelector('[data-food="'+food+'"]');
+  const partBtn=document.querySelector('[data-fraction="'+part+'"]');
+  if(foodBtn) foodBtn.click(); if(partBtn) partBtn.click();
+  const names={whole:'entero',half:'mitad',quarter:'un cuarto'};
+  const banner=document.getElementById('fractionChallenge');
+  if(banner) banner.textContent='🎯 Reto activo: observa cómo se ve '+names[part]+' usando '+(food==='pizza'?'pizza':'chocolate')+'.';
+  scrollToElement(document.querySelector('section.screen[data-i="6"] .fraction-sim'));
+}
+
+function loadPolygonChallenge(sides){
+  const slider=document.getElementById('polygonSides');
+  if(slider){ slider.value=sides; slider.dispatchEvent(new Event('input',{bubbles:true})); }
+  const banner=document.getElementById('polygonPracticeChallenge');
+  if(banner) banner.textContent='🎯 Reto activo: observa la figura de '+sides+' lados y cuenta sus vértices.';
+  scrollToElement(document.querySelector('section.screen[data-i="7"] .polygon-lab'));
+}
+</script>
+<footer aria-label="Información del autor" class="laa-author-footer">
+<div class="laa-author-footer__inner">
+<div class="laa-author-footer__eyebrow">Autor</div>
+<h2 class="laa-author-footer__name">Luis Alberto Antonio Narciso</h2>
+<p class="laa-author-footer__description">
+      Ingeniero en Electrónica y profesional de Quality Assurance, automatización de pruebas y tecnología educativa.
+      Desarrolla experiencias web interactivas orientadas al aprendizaje, combinando educación, tecnología, diseño y herramientas digitales.
+    </p>
+<p class="laa-author-footer__phrase">“Recurso diseñado y desarrollado por Luis Alberto Antonio Narciso”.</p>
+<div class="laa-author-footer__actions">
+<a class="laa-author-footer__button" href="https://narciso1516.github.io/narcisotesting.com/" rel="noopener noreferrer" target="_blank">Conocer al autor</a>
+<p class="laa-author-footer__copy">© 2026 Luis Alberto Antonio Narciso</p>
+</div>
+</div>
+</footer>
+</body>
+</html>
