@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Misión Matemática — Selecciona tu nivel</title>
+<style>
+:root{
+  --navy:#193679;--blue:#0E7EB6;--pink:#FC668C;--mustard:#C7B249;
+  --orange:#FF8127;--yellow:#FFC904;--sky:#7DB6E2;--white:#fff;
+  --text:#17324d;--muted:#5e7185;--line:#d9e8f3;--shadow:0 12px 30px rgba(25,54,121,.12);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;
+  font-family:Inter,ui-rounded,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:linear-gradient(180deg,#eaf7ff 0,#f7fbff 42%,#fff 100%);
+  color:var(--text);display:flex;align-items:center;justify-content:center;padding:18px;
+}
+.menu-shell{width:min(880px,100%)}
+.hero{
+  background:linear-gradient(135deg,var(--navy),var(--blue));
+  color:#fff;border-radius:28px;padding:26px;box-shadow:var(--shadow);margin-bottom:16px
+}
+.kicker{font-size:.8rem;font-weight:950;letter-spacing:.08em;text-transform:uppercase;color:#fff3a8}
+h1{font-size:clamp(30px,6vw,48px);margin:6px 0 8px}
+.hero p{margin:0;line-height:1.5}
+.card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field label{display:block;font-weight:950;color:var(--navy);margin-bottom:7px}
+.field input{
+  width:100%;border:2px solid var(--line);border-radius:14px;padding:13px 14px;font:inherit;outline:none;color:var(--text)
+}
+.field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,126,182,.12)}
+.level-title{font-weight:950;color:var(--navy);margin:20px 0 10px}
+.levels{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.level-option{position:relative}
+.level-option input{position:absolute;opacity:0;pointer-events:none}
+.level-card{
+  display:block;border:3px solid var(--line);border-radius:20px;padding:18px;background:#fff;cursor:pointer;
+  transition:.18s ease;min-height:140px
+}
+.level-card strong{display:block;font-size:1.35rem;color:var(--navy);margin-bottom:6px}
+.level-card span{color:var(--muted);font-weight:750;line-height:1.45}
+.level-option input:checked + .level-card{
+  border-color:var(--orange);background:#fff8df;transform:translateY(-1px);
+  box-shadow:0 10px 22px rgba(25,54,121,.08)
+}
+.level-icon{font-size:36px;margin-bottom:8px}
+.start{
+  width:100%;border:0;border-radius:16px;padding:15px 18px;margin-top:18px;
+  background:var(--navy);color:#fff;font:inherit;font-weight:950;font-size:1.05rem;cursor:pointer
+}
+.msg{min-height:24px;margin-top:10px;font-weight:900;color:#a23b48;text-align:center}
+.author{margin-top:14px;text-align:center;color:var(--muted);font-size:.86rem}
+@media(max-width:650px){
+  .form-grid,.levels{grid-template-columns:1fr}
+  .hero,.card{border-radius:20px;padding:18px}
+}
+</style>
+</head>
+<body>
+<div class="menu-shell">
+  <section class="hero">
+    <div class="kicker">Curso de Verano · Matemáticas</div>
+    <h1>🚀 Misión Matemática</h1>
+    <p>Escribe tus datos, selecciona tu grado y comienza en el nivel que te corresponde.</p>
+  </section>
+
+  <main class="card">
+    <div class="form-grid">
+      <div class="field">
+        <label for="studentName">👤 Nombre del alumno</label>
+        <input id="studentName" maxlength="60" autocomplete="name" placeholder="Ej. Ana López">
+      </div>
+      <div class="field">
+        <label for="teacherName">🧑‍🏫 Nombre del maestro</label>
+        <input id="teacherName" maxlength="60" autocomplete="name" placeholder="Ej. Maestro Luis">
+      </div>
+    </div>
+
+    <div class="level-title">Selecciona tu grado:</div>
+    <div class="levels">
+      <label class="level-option">
+        <input type="radio" name="grade" value="1" checked>
+        <span class="level-card">
+          <div class="level-icon">🔢</div>
+          <strong>1.º de primaria</strong>
+          <span>Números hasta 50, decenas y unidades, sumas, restas y grupos iguales.</span>
+        </span>
+      </label>
+
+      <label class="level-option">
+        <input type="radio" name="grade" value="2">
+        <span class="level-card">
+          <div class="level-icon">🧠</div>
+          <strong>2.º de primaria</strong>
+          <span>Sucesiones, valor posicional, sumas, restas y multiplicación mediante grupos.</span>
+        </span>
+      </label>
+    </div>
+
+    <button class="start" id="startBtn">Comenzar mi misión →</button>
+    <div class="msg" id="msg"></div>
+  </main>
+
+  <div class="author">Recurso diseñado y desarrollado por Luis Alberto Antonio Narciso.</div>
+</div>
+
+<script>
+document.getElementById('startBtn').onclick=()=>{
+  const student=document.getElementById('studentName').value.trim();
+  const teacher=document.getElementById('teacherName').value.trim();
+  const grade=document.querySelector('input[name="grade"]:checked')?.value;
+  const msg=document.getElementById('msg');
+
+  if(!student || !teacher){
+    msg.textContent='Escribe el nombre del alumno y del maestro para continuar.';
+    return;
+  }
+
+  msg.textContent='';
+  const file=grade==='2'?'segundo_grado.html':'primer_grado.html';
+  const params=new URLSearchParams({alumno:student,maestro:teacher});
+  window.location.href=file+'?'+params.toString();
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,986 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Misión Matemática — 1.º de Primaria</title>
+<style>
+:root{
+  --navy:#193679;--blue:#0E7EB6;--pink:#FC668C;--mustard:#C7B249;
+  --orange:#FF8127;--yellow:#FFC904;--sky:#7DB6E2;--white:#fff;
+  --text:#17324d;--muted:#5e7185;--line:#d9e8f3;--ok:#2f9d68;--bad:#d65b68;
+  --shadow:0 12px 30px rgba(25,54,121,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:Inter,ui-rounded,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:linear-gradient(180deg,#eaf7ff 0,#f7fbff 35%,#fff 100%);
+  color:var(--text)
+}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{max-width:980px;margin:auto;padding:16px 14px 72px}
+.hero{
+  background:linear-gradient(135deg,var(--navy),var(--blue));
+  color:white;border-radius:28px;padding:24px;box-shadow:var(--shadow);margin-bottom:16px
+}
+.hero h1{margin:0 0 8px;font-size:clamp(30px,6vw,48px)}
+.hero p{margin:0;line-height:1.5;max-width:760px}
+.mission-tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:16px 0}
+.mission-tab{
+  border:0;border-radius:16px;padding:12px 8px;background:#fff;color:var(--navy);
+  font-weight:900;border:2px solid var(--line)
+}
+.mission-tab.active{background:var(--yellow);border-color:var(--orange)}
+.mission-tab small{display:block;font-size:.72rem;font-weight:800;margin-top:3px}
+.progress-wrap{
+  position:sticky;top:8px;z-index:10;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);
+  border:1px solid var(--line);border-radius:18px;padding:10px 12px;margin-bottom:14px;box-shadow:0 8px 20px rgba(25,54,121,.08)
+}
+.progress-top{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:900;color:var(--navy)}
+.progress-bar{height:10px;background:#e8f0f6;border-radius:99px;overflow:hidden;margin-top:8px}
+.progress-bar>span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--yellow),var(--orange));transition:.3s}
+.screen{display:none}
+.screen.active{display:block}
+.card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow);margin:14px 0}
+.kicker{font-size:.8rem;font-weight:950;letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
+h2{font-size:clamp(26px,5vw,38px);margin:6px 0 10px}
+h3{font-size:clamp(20px,3.8vw,26px);margin:8px 0 10px}
+.goal{
+  background:#eef8ff;border-left:6px solid var(--blue);border-radius:16px;padding:14px 16px;margin:14px 0;
+  font-weight:800;line-height:1.45
+}
+.lesson-stage{display:none}
+.lesson-stage.active{display:block}
+.example-box{
+  border:3px solid var(--yellow);background:#fffbea;border-radius:24px;padding:18px;margin-top:16px
+}
+.example-title{display:flex;align-items:center;gap:8px;font-weight:950;color:var(--navy);margin-bottom:10px}
+.ready-note{margin-top:14px;padding:12px 14px;background:#eef9f3;border-radius:15px;color:#176844;font-weight:900;display:none}
+.primary,.secondary,.verify,.hint-btn{
+  border:0;border-radius:16px;padding:14px 18px;font-weight:950;min-height:50px
+}
+.primary{background:var(--navy);color:#fff}
+.secondary{background:var(--yellow);color:var(--navy);border:1px solid var(--mustard)}
+.verify{background:var(--blue);color:#fff;width:100%;margin-top:14px}
+.verify:disabled{opacity:.45;cursor:not-allowed}
+.hint-btn{background:#eef3ff;color:var(--navy);width:100%;margin-top:10px}
+.nav-row{display:flex;justify-content:space-between;gap:10px;margin-top:16px}
+.nav-row button{flex:1}
+.challenge-shell{
+  border:3px solid var(--blue);border-radius:24px;padding:18px;background:#f7fbff
+}
+.challenge-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.challenge-count{font-weight:950;color:var(--blue)}
+.challenge-question{
+  font-size:clamp(24px,5vw,34px);font-weight:950;color:var(--navy);line-height:1.25;margin:16px 0
+}
+.answer-options{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.answer{
+  border:2px solid var(--line);background:#fff;color:var(--navy);border-radius:16px;padding:14px;font-weight:900;min-height:54px
+}
+.answer.selected{border-color:var(--orange);background:#fff7da}
+.answer.correct{border-color:var(--ok);background:#eaf8f1}
+.answer.wrong{border-color:var(--bad);background:#fff0f2}
+.feedback{min-height:28px;margin-top:12px;font-weight:900}
+.feedback.ok{color:#176844}.feedback.bad{color:#a23b48}
+.assistant{
+  margin-top:14px;padding:14px 16px;border-radius:18px;background:#f4f1ff;border:1px solid #d7cff7
+}
+.assistant strong{display:block;margin-bottom:5px}
+.assistant-text{line-height:1.45}
+.notebook-overlay{
+  position:fixed;inset:0;background:rgba(13,31,61,.65);display:none;align-items:center;justify-content:center;
+  padding:18px;z-index:999
+}
+.notebook-overlay.show{display:flex}
+.notebook-modal{
+  width:min(520px,100%);background:#fff;border-radius:26px;padding:24px;box-shadow:0 24px 70px rgba(0,0,0,.24);text-align:center
+}
+.notebook-modal .icon{font-size:48px}
+.notebook-main{font-size:clamp(28px,8vw,46px);font-weight:1000;color:var(--navy);margin:12px 0 6px}
+.notebook-sub{font-size:1.08rem;font-weight:850;line-height:1.45}
+.notebook-checks{display:grid;gap:8px;text-align:left;margin:16px 0}
+.notebook-checks label{display:flex;gap:8px;align-items:center;font-weight:800}
+.complete-box{display:none;text-align:center;padding:24px;border:3px solid var(--yellow);border-radius:24px;background:#fffbea}
+.complete-box.show{display:block}
+.complete-box .trophy{font-size:58px}
+.numberline{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:14px 0}
+.num{min-width:58px;padding:12px;border-radius:14px;border:2px solid var(--line);background:#fff;font-size:1.4rem;font-weight:950;text-align:center}
+.place-layout{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:16px 0}
+.place-box{border-radius:20px;padding:14px;text-align:center;border:3px solid transparent;min-height:190px}
+.place-d{background:#fff0f0;border-color:#ef4444}
+.place-u{background:#eaf1ff;border-color:#246bfd}
+.place-title{font-weight:950;font-size:1.05rem}
+.place-symbol{font-size:2rem;font-weight:1000;margin:5px}
+.token-bank{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.token{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-weight:950;user-select:none;touch-action:none}
+.token.d{background:#ef4444;color:#fff}
+.token.u{background:#246bfd;color:#fff}
+.drop-zone{min-height:72px;border:2px dashed rgba(25,54,121,.25);border-radius:15px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-content:flex-start}
+.place-number{text-align:center;font-size:clamp(44px,10vw,74px);font-weight:1000;color:var(--navy);margin-top:10px}
+.sum-columns,.sub-columns{max-width:330px;margin:16px auto;background:#fff;border:2px solid var(--line);border-radius:20px;padding:16px}
+.col-head,.col-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:center}
+.col-head{font-size:.82rem;font-weight:900;color:var(--muted)}
+.col-row{font-size:2.5rem;font-weight:1000}
+.line{height:4px;background:var(--navy);border-radius:99px;margin:5px 0}
+.groups-control{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.groups-control label{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;font-weight:900}
+.groups-control input{width:100%}
+.groups-visual{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:16px 0}
+.group-card{min-width:110px;padding:14px;border:2px solid var(--line);border-radius:18px;background:#fff;font-size:30px;text-align:center}
+.group-equation{text-align:center;font-size:clamp(30px,7vw,48px);font-weight:1000;color:var(--navy)}
+@media(max-width:760px){
+  .mission-tabs{grid-template-columns:repeat(2,1fr)}
+  .place-layout{grid-template-columns:1fr}
+  .answer-options{grid-template-columns:1fr}
+}
+@media(max-width:520px){
+  .app{padding:10px 10px 58px}
+  .hero,.card{border-radius:20px;padding:18px}
+  .nav-row{flex-direction:column}
+  .groups-control{grid-template-columns:1fr}
+}
+
+/* ===== Footer de autor: estilos aislados ===== */
+.laan-author-footer{
+  max-width:980px;
+  margin:18px auto 24px;
+  padding:0 14px;
+}
+.laan-author-footer__card{
+  background:linear-gradient(135deg,var(--navy),var(--blue));
+  color:var(--white);
+  border-radius:24px;
+  padding:22px;
+  box-shadow:var(--shadow);
+  border:1px solid rgba(255,255,255,.14);
+}
+.laan-author-footer__eyebrow{
+  margin:0 0 6px;
+  font-size:.78rem;
+  font-weight:950;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  color:#fff3a8;
+}
+.laan-author-footer__name{
+  margin:0 0 10px;
+  font-size:clamp(20px,4vw,28px);
+  line-height:1.2;
+  font-weight:950;
+}
+.laan-author-footer__description{
+  margin:0;
+  max-width:820px;
+  line-height:1.6;
+  color:rgba(255,255,255,.94);
+}
+.laan-author-footer__phrase{
+  margin:14px 0 0;
+  padding-top:14px;
+  border-top:1px solid rgba(255,255,255,.18);
+  font-size:.92rem;
+  line-height:1.5;
+  color:rgba(255,255,255,.82);
+}
+.laan-author-footer__actions{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-top:16px;
+}
+.laan-author-footer__button{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:46px;
+  padding:12px 17px;
+  border-radius:14px;
+  background:var(--yellow);
+  color:var(--navy);
+  border:1px solid var(--mustard);
+  text-decoration:none;
+  font-weight:950;
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.laan-author-footer__button:hover{
+  transform:translateY(-1px);
+  box-shadow:0 8px 18px rgba(0,0,0,.14);
+}
+.laan-author-footer__button:focus-visible{
+  outline:3px solid var(--white);
+  outline-offset:3px;
+}
+.laan-author-footer__copyright{
+  font-size:.86rem;
+  color:rgba(255,255,255,.78);
+}
+@media(max-width:520px){
+  .laan-author-footer{
+    margin-top:14px;
+    padding:0 10px;
+  }
+  .laan-author-footer__card{
+    border-radius:20px;
+    padding:18px;
+  }
+  .laan-author-footer__actions{
+    align-items:stretch;
+  }
+  .laan-author-footer__button{
+    width:100%;
+  }
+  .laan-author-footer__copyright{
+    width:100%;
+    text-align:center;
+  }
+}
+
+
+/* ===== Seguimiento y reporte pedagógico ===== */
+.student-panel{
+  background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px;
+  margin:0 0 14px;box-shadow:0 8px 20px rgba(25,54,121,.07)
+}
+.student-panel label{display:block;font-weight:950;color:var(--navy);margin-bottom:7px}
+.student-panel input{
+  width:100%;border:2px solid var(--line);border-radius:14px;padding:12px 14px;
+  color:var(--text);background:#fff;outline:none
+}
+.student-panel input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(14,126,182,.12)}
+.mission-tab.locked{opacity:.48;cursor:not-allowed;filter:grayscale(.25)}
+.report-card{
+  background:#fff;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow);margin:14px 0
+}
+.report-hero{
+  background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;border-radius:22px;
+  padding:20px;margin-bottom:16px
+}
+.report-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.report-stat{background:#f7fbff;border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center}
+.report-stat b{display:block;font-size:1.55rem;color:var(--navy)}
+.report-stat span{font-size:.82rem;color:var(--muted);font-weight:800}
+.report-table{width:100%;border-collapse:collapse;margin-top:12px}
+.report-table th,.report-table td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.report-table th{color:var(--navy);font-size:.86rem}
+.report-note{background:#eef8ff;border-left:5px solid var(--blue);border-radius:14px;padding:14px 16px;line-height:1.55;margin-top:14px}
+.report-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.report-actions button{flex:1;min-width:180px}
+.lock-message{margin-top:8px;font-size:.84rem;font-weight:850;color:var(--muted);text-align:center}
+@media(max-width:700px){
+  .report-grid{grid-template-columns:1fr}
+  .report-table{font-size:.88rem}
+}
+@media print{
+  body{background:#fff}
+  .hero,.mission-tabs,.progress-wrap,.student-panel,.laan-author-footer,.notebook-overlay,.report-actions{display:none!important}
+  .app{max-width:none;padding:0}
+  .report-card{box-shadow:none;border:0;margin:0;padding:0}
+  .report-hero{background:#fff!important;color:#000!important;border:2px solid #000}
+  .report-stat{border:1px solid #bbb}
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="hero">
+    <div class="kicker" style="color:#fff3a8">Curso de Verano · Matemáticas</div>
+    <h1>🚀 Misión Matemática — 1.º de Primaria</h1>
+    <p>5 misiones pensadas especialmente para alumnos de 1.º de primaria. Observa, toca, cuenta, comprueba y escribe en tu libreta.</p>
+  </section>
+
+
+  <div class="student-panel" id="studentPanel">
+    <label for="studentName">👤 Nombre del alumno</label>
+    <input id="studentName" type="text" maxlength="60" autocomplete="name" placeholder="Nombre del alumno">
+    <label for="teacherName" style="margin-top:10px">🧑‍🏫 Nombre del maestro</label>
+    <input id="teacherName" type="text" maxlength="60" autocomplete="name" placeholder="Nombre del maestro">
+    <div style="margin-top:10px;font-size:.86rem;font-weight:850;color:var(--muted)">Nivel: 1.º de primaria</div>
+  </div>
+
+  <div class="mission-tabs" id="missionTabs"></div>
+
+  <div class="progress-wrap">
+    <div class="progress-top"><span id="progressText">Misión 1</span><span id="progressPct">0%</span></div>
+    <div class="progress-bar"><span id="progressFill"></span></div>
+  </div>
+
+  <main id="missionRoot"></main>
+</div>
+
+
+<footer class="laan-author-footer" aria-label="Información del autor">
+  <div class="laan-author-footer__card">
+    <p class="laan-author-footer__eyebrow">Autor</p>
+    <h2 class="laan-author-footer__name">Luis Alberto Antonio Narciso</h2>
+    <p class="laan-author-footer__description">
+      Ingeniero en Electrónica y profesional de Quality Assurance, automatización de pruebas y tecnología educativa.
+      Desarrolla experiencias web interactivas orientadas al aprendizaje, combinando educación, tecnología, diseño y herramientas digitales.
+    </p>
+    <p class="laan-author-footer__phrase">“Recurso diseñado y desarrollado por Luis Alberto Antonio Narciso”.</p>
+    <div class="laan-author-footer__actions">
+      <a class="laan-author-footer__button"
+         href="https://narciso1516.github.io/narcisotesting.com/"
+         target="_blank"
+         rel="noopener noreferrer">Conocer al autor</a>
+      <span class="laan-author-footer__copyright">© 2026 Luis Alberto Antonio Narciso</span>
+    </div>
+  </div>
+</footer>
+
+
+<div class="notebook-overlay" id="notebookOverlay" role="dialog" aria-modal="true">
+  <div class="notebook-modal">
+    <div class="icon">📒✏️</div>
+    <h2 style="margin:6px 0">Escribe en tu libreta</h2>
+    <div class="notebook-main" id="notebookMain"></div>
+    <div class="notebook-sub" id="notebookSub"></div>
+    <div class="notebook-checks">
+      <label><input type="checkbox" id="checkOne"> Ya lo escribí.</label>
+      <label><input type="checkbox" id="checkTwo"> Ya revisé mi trabajo.</label>
+    </div>
+    <button class="primary" id="notebookContinue" disabled>Continuar</button>
+  </div>
+</div>
+
+<script>
+const missions=[
+{
+ id:1,icon:'🔢',title:'Números del 0 al 50',
+ objective:'Reconocer números, contar hacia adelante y descubrir cuál número falta.',
+ example:{
+   title:'Contamos de uno en uno',
+   text:'Mira: 5, 6, 7, 8, ?',
+   type:'numberline',
+   values:['5','6','7','8','?'],
+   prompt:'¿Qué número sigue?',
+   options:['9','10','11'],
+   answer:'9'
+ },
+ challenges:[
+  {q:'1, 2, ___',options:['3','4','5'],a:'3',note:'1, 2, 3'},
+  {q:'4, 5, ___',options:['6','7','8'],a:'6',note:'4, 5, 6'},
+  {q:'___, 8, 9',options:['6','7','10'],a:'7',note:'7, 8, 9'},
+  {q:'10, ___, 12',options:['9','11','13'],a:'11',note:'10, 11, 12'},
+  {q:'14, 15, ___',options:['16','17','18'],a:'16',note:'14, 15, 16'},
+  {q:'19, ___, 21',options:['18','20','22'],a:'20',note:'19, 20, 21'},
+  {q:'25, 26, ___',options:['27','28','29'],a:'27',note:'25, 26, 27'},
+  {q:'___, 34, 35',options:['32','33','36'],a:'33',note:'33, 34, 35'},
+  {q:'¿Qué número está entre 41 y 43?',options:['40','42','44'],a:'42',note:'41, 42, 43'},
+  {q:'¿Qué número va antes de 50?',options:['48','49','51'],a:'49',note:'49, 50'}
+ ],
+ hint:'Cuenta despacio de uno en uno. Puedes señalar cada número con tu dedo.'
+},
+{
+ id:2,icon:'🟦',title:'Decenas y unidades',
+ objective:'Comprender que 10 unidades forman una decena y construir números de dos cifras.',
+ example:{
+   title:'Construimos 23',
+   text:'23 tiene 2 decenas y 3 unidades.',
+   type:'place',target:23
+ },
+ challenges:[
+  {q:'Forma el número 12.',type:'place',target:12,note:'12 — doce'},
+  {q:'Forma el número 20.',type:'place',target:20,note:'20 — veinte'},
+  {q:'Forma el número 34.',type:'place',target:34,note:'34 — treinta y cuatro'},
+  {q:'Forma el número 41.',type:'place',target:41,note:'41 — cuarenta y uno'},
+  {q:'Construye un número con 2 decenas y 5 unidades.',type:'place',target:25,note:'25 — veinticinco'},
+  {q:'Construye un número con 3 decenas y 0 unidades.',type:'place',target:30,note:'30 — treinta'},
+  {q:'El número 18 tiene ___ decena.',options:['1','8','0'],a:'1',note:'18 — una decena y ocho unidades'},
+  {q:'El número 27 tiene ___ unidades.',options:['2','7','9'],a:'7',note:'27 — dos decenas y siete unidades'},
+  {q:'El número 40 tiene ___ unidades.',options:['4','0','1'],a:'0',note:'40 — cuatro decenas y cero unidades'},
+  {q:'Construye un número con 4 decenas y 6 unidades.',type:'place',target:46,note:'46 — cuarenta y seis'}
+ ],
+ hint:'Recuerda: una decena vale 10 y una unidad vale 1.'
+},
+{
+ id:3,icon:'➕',title:'Sumas sencillas',
+ objective:'Comprender que sumar significa juntar cantidades.',
+ example:{
+   title:'Juntamos 4 + 3',
+   text:'Si tienes 4 objetos y agregas 3 más, ahora tienes 7.',
+   type:'sum',a:4,b:3,result:7
+ },
+ challenges:[
+  {q:'2 + 1 = ___',options:['2','3','4'],a:'3',note:'2 + 1 = 3'},
+  {q:'3 + 2 = ___',options:['4','5','6'],a:'5',note:'3 + 2 = 5'},
+  {q:'5 + 1 = ___',options:['5','6','7'],a:'6',note:'5 + 1 = 6'},
+  {q:'4 + 4 = ___',options:['7','8','9'],a:'8',note:'4 + 4 = 8'},
+  {q:'6 + 3 = ___',options:['8','9','10'],a:'9',note:'6 + 3 = 9'},
+  {q:'7 + 2 = ___',options:['8','9','10'],a:'9',note:'7 + 2 = 9'},
+  {q:'8 + 2 = ___',options:['9','10','11'],a:'10',note:'8 + 2 = 10'},
+  {q:'9 + 4 = ___',options:['12','13','14'],a:'13',note:'9 + 4 = 13'},
+  {q:'Ana tiene 5 lápices y recibe 3 más. ¿Cuántos tiene?',options:['7','8','9'],a:'8',note:'5 + 3 = 8'},
+  {q:'Hay 6 globos y llegan 4 más. ¿Cuántos hay en total?',options:['9','10','11'],a:'10',note:'6 + 4 = 10'}
+ ],
+ hint:'Cuenta la primera cantidad y después agrega la segunda.'
+},
+{
+ id:4,icon:'➖',title:'Restas sencillas',
+ objective:'Comprender que restar significa quitar y descubrir cuánto queda.',
+ example:{
+   title:'Quitamos 2 de 7',
+   text:'Si tienes 7 objetos y quitas 2, quedan 5.',
+   type:'sub',a:7,b:2,result:5
+ },
+ challenges:[
+  {q:'3 − 1 = ___',options:['1','2','3'],a:'2',note:'3 − 1 = 2'},
+  {q:'5 − 2 = ___',options:['2','3','4'],a:'3',note:'5 − 2 = 3'},
+  {q:'6 − 1 = ___',options:['4','5','6'],a:'5',note:'6 − 1 = 5'},
+  {q:'8 − 3 = ___',options:['4','5','6'],a:'5',note:'8 − 3 = 5'},
+  {q:'9 − 4 = ___',options:['4','5','6'],a:'5',note:'9 − 4 = 5'},
+  {q:'10 − 2 = ___',options:['7','8','9'],a:'8',note:'10 − 2 = 8'},
+  {q:'12 − 3 = ___',options:['8','9','10'],a:'9',note:'12 − 3 = 9'},
+  {q:'15 − 5 = ___',options:['9','10','11'],a:'10',note:'15 − 5 = 10'},
+  {q:'Luis tenía 8 dulces y regaló 3. ¿Cuántos le quedan?',options:['4','5','6'],a:'5',note:'8 − 3 = 5'},
+  {q:'Había 10 pelotas y guardaron 4. ¿Cuántas quedan afuera?',options:['5','6','7'],a:'6',note:'10 − 4 = 6'}
+ ],
+ hint:'Empieza con la cantidad grande y quita uno por uno.'
+},
+{
+ id:5,icon:'👥',title:'Grupos iguales',
+ objective:'Formar grupos iguales y contar cuántos objetos hay en total.',
+ example:{
+   title:'Mira: 2 grupos de 3',
+   text:'Hay 2 grupos y cada grupo tiene 3 objetos. En total hay 6.',
+   type:'groups',groups:2,each:3
+ },
+ challenges:[
+  {q:'Forma 2 grupos de 2 objetos.',type:'groups',groups:2,each:2,a:'4',note:'2 grupos de 2 = 4'},
+  {q:'Forma 3 grupos de 2 objetos.',type:'groups',groups:3,each:2,a:'6',note:'3 grupos de 2 = 6'},
+  {q:'Forma 2 grupos de 4 objetos.',type:'groups',groups:2,each:4,a:'8',note:'2 grupos de 4 = 8'},
+  {q:'Forma 4 grupos de 2 objetos.',type:'groups',groups:4,each:2,a:'8',note:'4 grupos de 2 = 8'},
+  {q:'¿Cuántos objetos hay en 2 grupos de 3?',options:['5','6','7'],a:'6',note:'2 grupos de 3 = 6'},
+  {q:'¿Cuántos objetos hay en 3 grupos de 3?',options:['6','9','12'],a:'9',note:'3 grupos de 3 = 9'},
+  {q:'¿Cuántos objetos hay en 2 grupos de 5?',options:['8','10','12'],a:'10',note:'2 grupos de 5 = 10'},
+  {q:'¿Cuántos objetos hay en 4 grupos de 3?',options:['10','12','14'],a:'12',note:'4 grupos de 3 = 12'},
+  {q:'Hay 3 platos con 2 galletas en cada uno. ¿Cuántas galletas hay?',options:['5','6','7'],a:'6',note:'3 grupos de 2 = 6'},
+  {q:'Hay 2 cajas con 4 juguetes en cada una. ¿Cuántos juguetes hay?',options:['6','8','10'],a:'8',note:'2 grupos de 4 = 8'}
+ ],
+ hint:'Cuenta cuántos grupos hay y después cuenta los objetos de todos los grupos.'
+}
+];
+
+let currentMission=0;
+const states=missions.map(()=>({stage:'intro',challenge:0,done:Array(10).fill(false)}));
+let selectedAnswer=null;
+let placeCounts={d:0,u:0};
+let currentGroupState={groups:1,each:1};
+
+const pedagogy=missions.map(()=>({
+  attempts:Array(10).fill(0),
+  hints:Array(10).fill(0),
+  firstTry:Array(10).fill(false)
+}));
+const evaluationGrade="1.º de primaria";
+
+function loadStudentContext(){
+  const params=new URLSearchParams(window.location.search);
+  const student=params.get('alumno')||'';
+  const teacher=params.get('maestro')||'';
+  const studentInput=document.getElementById('studentName');
+  const teacherInput=document.getElementById('teacherName');
+  if(studentInput && student) studentInput.value=student;
+  if(teacherInput && teacher) teacherInput.value=teacher;
+}
+
+
+function highestUnlockedMission(){
+  for(let i=0;i<states.length;i++){
+    if(!states[i].done.every(Boolean)) return i;
+  }
+  return missions.length-1;
+}
+
+function allActivitiesComplete(){
+  return states.every(s=>s.done.every(Boolean));
+}
+
+function totalAttempts(){
+  return pedagogy.reduce((sum,p)=>sum+p.attempts.reduce((a,b)=>a+b,0),0);
+}
+
+function totalHints(){
+  return pedagogy.reduce((sum,p)=>sum+p.hints.reduce((a,b)=>a+b,0),0);
+}
+
+function totalFirstTry(){
+  return pedagogy.reduce((sum,p)=>sum+p.firstTry.filter(Boolean).length,0);
+}
+
+function levelLabel(firstTryPct, errors, hints){
+  if(firstTryPct>=90 && errors<=5) return 'Dominio sólido';
+  if(firstTryPct>=75) return 'Desempeño esperado';
+  if(firstTryPct>=55) return 'En proceso de consolidación';
+  return 'Requiere acompañamiento';
+}
+
+function missionPedagogicalComment(index){
+  const p=pedagogy[index];
+  const first=p.firstTry.filter(Boolean).length;
+  const attempts=p.attempts.reduce((a,b)=>a+b,0);
+  const errors=Math.max(0,attempts-10);
+  const hints=p.hints.reduce((a,b)=>a+b,0);
+  const pct=Math.round(first/10*100);
+  if(pct>=90 && errors<=2) return 'Resuelve con seguridad y poca necesidad de apoyo.';
+  if(pct>=70) return 'Comprende la habilidad; conviene reforzar algunos procedimientos.';
+  if(pct>=50) return 'Muestra comprensión parcial y mejora con retroalimentación.';
+  return 'Necesita práctica guiada, material visual y repetición gradual.';
+}
+
+function generatePedagogicalReport(){
+  const name=(document.getElementById('studentName')?.value||'Alumno/a').trim()||'Alumno/a';
+  const teacher=(document.getElementById('teacherName')?.value||'No especificado').trim()||'No especificado';
+  const total=missions.length*10;
+  const attempts=totalAttempts();
+  const errors=Math.max(0,attempts-total);
+  const hints=totalHints();
+  const first=totalFirstTry();
+  const firstPct=Math.round(first/total*100);
+  const level=levelLabel(firstPct,errors,hints);
+
+  const rows=missions.map((m,i)=>{
+    const p=pedagogy[i];
+    const firstM=p.firstTry.filter(Boolean).length;
+    const attemptsM=p.attempts.reduce((a,b)=>a+b,0);
+    const errorsM=Math.max(0,attemptsM-10);
+    const hintsM=p.hints.reduce((a,b)=>a+b,0);
+    return `<tr>
+      <td><strong>${m.icon} ${m.title}</strong><br><small>${m.objective}</small></td>
+      <td>${firstM}/10</td>
+      <td>${errorsM}</td>
+      <td>${hintsM}</td>
+      <td>${missionPedagogicalComment(i)}</td>
+    </tr>`;
+  }).join('');
+
+  const strongest=missions.map((m,i)=>({m,i,score:pedagogy[i].firstTry.filter(Boolean).length}))
+    .sort((a,b)=>b.score-a.score)[0];
+  const support=missions.map((m,i)=>({
+      m,i,
+      score:pedagogy[i].firstTry.filter(Boolean).length,
+      errors:Math.max(0,pedagogy[i].attempts.reduce((a,b)=>a+b,0)-10),
+      hints:pedagogy[i].hints.reduce((a,b)=>a+b,0)
+    })).sort((a,b)=>(a.score-b.score)||(b.errors-a.errors)||(b.hints-a.hints))[0];
+
+  let recommendation='';
+  if(firstPct>=90){
+    recommendation='Puede avanzar a retos ligeramente más complejos, manteniendo actividades breves de repaso para conservar fluidez y precisión.';
+  }else if(firstPct>=70){
+    recommendation='Conviene repetir de forma breve las habilidades con más errores y pedir que explique en voz alta cómo llegó a la respuesta.';
+  }else if(firstPct>=50){
+    recommendation='Se recomienda práctica guiada con apoyos visuales, objetos concretos y sesiones cortas, priorizando comprensión antes que velocidad.';
+  }else{
+    recommendation='Se sugiere acompañamiento cercano, menor cantidad de ejercicios por sesión y uso frecuente de material manipulativo, verbalización y ejemplos concretos.';
+  }
+
+  const root=document.getElementById('missionRoot');
+  root.innerHTML=`
+    <section class="screen active">
+      <div class="report-card" id="pedagogicalReport">
+        <div class="report-hero">
+          <div class="kicker" style="color:#fff3a8">Informe final de aprendizaje</div>
+          <h2 style="margin:6px 0">${name}</h2>
+          <p style="margin:0;line-height:1.5">Reporte pedagógico generado al completar todas las actividades de Misión Matemática.</p>
+          <p style="margin:8px 0 0;line-height:1.5"><strong>Nivel:</strong> ${evaluationGrade} &nbsp;·&nbsp; <strong>Maestro:</strong> ${teacher}</p>
+        </div>
+
+        <div class="report-grid">
+          <div class="report-stat"><b>50/50</b><span>Ejercicios completados</span></div>
+          <div class="report-stat"><b>${firstPct}%</b><span>Aciertos al primer intento</span></div>
+          <div class="report-stat"><b>${errors}</b><span>Errores antes de lograrlo</span></div>
+          <div class="report-stat"><b>${hints}</b><span>Pistas utilizadas</span></div>
+          <div class="report-stat"><b>${attempts}</b><span>Intentos totales</span></div>
+          <div class="report-stat"><b>${level}</b><span>Nivel observado</span></div>
+        </div>
+
+        <h3>📘 Desempeño por habilidad</h3>
+        <div style="overflow-x:auto">
+          <table class="report-table">
+            <thead><tr><th>Habilidad</th><th>1.er intento</th><th>Errores</th><th>Pistas</th><th>Lectura pedagógica</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+
+        <div class="report-note">
+          <strong>Fortaleza observada:</strong> ${strongest.m.title}.<br>
+          <strong>Área que conviene reforzar:</strong> ${support.m.title}.<br><br>
+          <strong>Interpretación:</strong> El alumno completó el 100 % de las actividades. Por ello, este informe no usa únicamente “aciertos finales”; considera también la autonomía durante el proceso, especialmente los aciertos al primer intento, los errores previos a la respuesta correcta y el uso de pistas.
+        </div>
+
+        <div class="report-note">
+          <strong>Recomendación pedagógica:</strong> ${recommendation}
+        </div>
+
+        <div class="report-note">
+          <strong>Sugerencia para familia o docente:</strong> Revisar primero el área con mayor necesidad de apoyo y después repetir 3 a 5 ejercicios similares sin presión de tiempo. Valorar que el alumno explique con sus propias palabras qué hizo.
+        </div>
+
+        <div class="report-actions">
+          <button class="primary" onclick="window.print()">🖨️ Imprimir / Guardar como PDF</button>
+          <button class="secondary" onclick="location.reload()">↻ Iniciar nueva evaluación</button>
+        </div>
+      </div>
+    </section>`;
+  document.getElementById('progressText').textContent='Evaluación completada';
+  document.getElementById('progressPct').textContent='100%';
+  document.getElementById('progressFill').style.width='100%';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+
+function missionProgress(m){
+  const done=states[m].done.filter(Boolean).length;
+  return Math.round(done/10*100);
+}
+
+function renderTabs(){
+  const tabs=document.getElementById('missionTabs');
+  tabs.innerHTML='';
+  const unlocked=highestUnlockedMission();
+  missions.forEach((m,i)=>{
+    const b=document.createElement('button');
+    const locked=i>unlocked;
+    b.className='mission-tab'+(i===currentMission?' active':'')+(locked?' locked':'');
+    b.innerHTML=`${m.icon} Misión ${m.id}<small>${m.title}</small>`;
+    b.disabled=locked;
+    b.title=locked?'Completa primero todas las actividades anteriores':'';
+    b.onclick=()=>{
+      if(locked) return;
+      currentMission=i;
+      renderAll();
+    };
+    tabs.appendChild(b);
+  });
+}
+
+function renderAll(){
+  renderTabs();
+  renderMission();
+  updateProgress();
+}
+
+function updateProgress(){
+  const m=missions[currentMission], s=states[currentMission];
+  document.getElementById('progressText').textContent=`Misión ${m.id} · ${m.title}`;
+  document.getElementById('progressPct').textContent=missionProgress(currentMission)+'%';
+  document.getElementById('progressFill').style.width=missionProgress(currentMission)+'%';
+}
+
+function renderMission(){
+  const root=document.getElementById('missionRoot');
+  const m=missions[currentMission], s=states[currentMission];
+  root.innerHTML=`
+    <section class="screen active">
+      <div class="card">
+        <div class="kicker">Misión ${m.id}</div>
+        <h2>${m.icon} ${m.title}</h2>
+        <div class="goal"><strong>🎯 Hoy aprenderás:</strong><br>${m.objective}</div>
+        <div id="stageHost"></div>
+      </div>
+    </section>`;
+  renderStage();
+}
+
+function renderStage(){
+  const host=document.getElementById('stageHost');
+  const m=missions[currentMission], s=states[currentMission];
+  selectedAnswer=null;
+  if(s.stage==='intro'){
+    host.innerHTML=`
+      <div class="example-box">
+        <div class="example-title">👀 Mira el ejemplo</div>
+        <h3>${m.example.title}</h3>
+        <p>${m.example.text}</p>
+        <div id="exampleVisual"></div>
+        <div class="feedback" id="exampleFeedback"></div>
+        <button class="verify" id="checkExample">Comprobar ejemplo</button>
+        <div class="ready-note" id="readyNote">✅ ¡Muy bien! Ya estás listo para hacerlo tú.</div>
+        <button class="primary" id="startPractice" style="display:none;width:100%;margin-top:12px">Ya entendí → comenzar retos</button>
+      </div>`;
+    renderExampleVisual(m.example);
+    document.getElementById('checkExample').onclick=checkExample;
+    document.getElementById('startPractice').onclick=()=>{s.stage='practice';s.challenge=0;renderStage()};
+  } else if(s.stage==='practice'){
+    renderChallenge();
+  } else {
+    host.innerHTML=`
+      <div class="complete-box show">
+        <div class="trophy">🏆</div>
+        <h3>¡Misión completada!</h3>
+        <p>Terminaste los 10 retos de <strong>${m.title}</strong>.</p>
+        <p class="lock-message">${currentMission<missions.length-1?'La siguiente misión ya está disponible.':'Completaste todas las actividades. Ya puedes generar tu informe.'}</p>
+        <button class="primary" id="nextMissionBtn">${currentMission<missions.length-1?'Continuar a la siguiente misión':'Ver informe pedagógico'}</button>
+      </div>`;
+    document.getElementById('nextMissionBtn').onclick=()=>{
+      if(currentMission<missions.length-1){
+        if(!s.done.every(Boolean)) return;
+        currentMission++;
+        states[currentMission].stage='intro';
+        renderAll();
+      }else{
+        if(!allActivitiesComplete()) return;
+        generatePedagogicalReport();
+      }
+    };
+  }
+  updateProgress();
+}
+
+function renderExampleVisual(ex){
+  const el=document.getElementById('exampleVisual');
+  if(ex.type==='numberline'){
+    el.innerHTML=`<div class="numberline">${ex.values.map(v=>`<div class="num">${v}</div>`).join('')}</div>
+      <div class="answer-options">${ex.options.map(o=>`<button class="answer" data-v="${o}">${o}</button>`).join('')}</div>`;
+    bindAnswerButtons();
+  } else if(ex.type==='place'){
+    el.innerHTML=placeSimulatorHTML();
+    initPlaceSimulator(ex.target);
+  } else if(ex.type==='sum'){
+    el.innerHTML=columnHTML(ex.a,ex.b,'+');
+  } else if(ex.type==='sub'){
+    el.innerHTML=columnHTML(ex.a,ex.b,'−');
+  } else if(ex.type==='groups'){
+    el.innerHTML=groupsVisualHTML(ex.groups,ex.each);
+  }
+}
+
+function checkExample(){
+  const m=missions[currentMission], ex=m.example;
+  let ok=false;
+  if(ex.type==='numberline') ok=selectedAnswer===ex.answer;
+  else if(ex.type==='place') ok=(placeCounts.d*10+placeCounts.u)===ex.target;
+  else ok=true;
+  const fb=document.getElementById('exampleFeedback');
+  if(ok){
+    fb.className='feedback ok';
+    fb.textContent='✅ Correcto.';
+    document.getElementById('readyNote').style.display='block';
+    document.getElementById('startPractice').style.display='block';
+  }else{
+    fb.className='feedback bad';
+    fb.textContent='💡 Aún no. Observa el ejemplo y vuelve a intentarlo.';
+  }
+}
+
+function renderChallenge(){
+  const host=document.getElementById('stageHost');
+  const m=missions[currentMission], s=states[currentMission], ch=m.challenges[s.challenge];
+  selectedAnswer=null;
+  host.innerHTML=`
+    <div class="challenge-shell">
+      <div class="challenge-head">
+        <div class="challenge-count">⭐ Reto ${s.challenge+1} de 10</div>
+        <div>${s.done[s.challenge]?'✅ Completado':''}</div>
+      </div>
+      <div class="challenge-question">${ch.q}</div>
+      <div id="challengeTool"></div>
+      <div class="assistant">
+        <strong>🦉 Asistente</strong>
+        <div class="assistant-text" id="assistantText">Piensa primero. Si necesitas ayuda, toca “Necesito una pista”.</div>
+      </div>
+      <button class="hint-btn" id="hintBtn">Necesito una pista</button>
+      <div class="feedback" id="challengeFeedback"></div>
+      <button class="verify" id="verifyChallenge">✓ Comprobar</button>
+      <div class="nav-row">
+        <button class="secondary" id="prevChallenge" ${s.challenge===0?'disabled':''}>← Atrás</button>
+        <button class="primary" id="nextChallenge" ${s.done[s.challenge]?'':'disabled'}>${s.challenge===9?'Terminar misión':'Siguiente →'}</button>
+      </div>
+    </div>`;
+  renderChallengeTool(ch,m.id);
+  document.getElementById('hintBtn').onclick=()=>{
+    pedagogy[currentMission].hints[s.challenge]++;
+    document.getElementById('assistantText').textContent=m.hint;
+  };
+  document.getElementById('verifyChallenge').onclick=()=>verifyChallenge(ch);
+  document.getElementById('prevChallenge').onclick=()=>{if(s.challenge>0){s.challenge--;renderChallenge()}};
+  document.getElementById('nextChallenge').onclick=()=>{
+    if(!s.done[s.challenge]) return;
+    if(s.challenge<9){s.challenge++;renderChallenge()}
+    else{s.stage='complete';renderStage()}
+  };
+}
+
+function renderChallengeTool(ch,missionId){
+  const el=document.getElementById('challengeTool');
+  if(ch.type==='place'){
+    el.innerHTML=placeSimulatorHTML();
+    initPlaceSimulator(ch.target);
+  } else if(ch.type==='groups'){
+    el.innerHTML=groupsChallengeHTML(ch.groups,ch.each);
+    currentGroupState={groups:1,each:1};
+    initGroupsControls();
+  } else if(ch.options){
+    el.innerHTML=`<div class="answer-options">${ch.options.map(o=>`<button class="answer" data-v="${o}">${o}</button>`).join('')}</div>`;
+    bindAnswerButtons();
+  }
+}
+
+function verifyChallenge(ch){
+  const m=missions[currentMission], s=states[currentMission];
+  const p=pedagogy[currentMission];
+  p.attempts[s.challenge]++;
+  let ok=false;
+  if(ch.type==='place'){
+    ok=(placeCounts.d*10+placeCounts.u)===ch.target;
+  } else if(ch.type==='groups'){
+    ok=currentGroupState.groups===ch.groups && currentGroupState.each===ch.each;
+  } else {
+    ok=selectedAnswer===ch.a;
+  }
+  const fb=document.getElementById('challengeFeedback');
+  if(!ok){
+    fb.className='feedback bad';
+    fb.textContent='💡 Todavía no. Usa la pista y vuelve a intentarlo.';
+    document.getElementById('assistantText').textContent=m.hint;
+    return;
+  }
+  if(!s.done[s.challenge] && p.attempts[s.challenge]===1){
+    p.firstTry[s.challenge]=true;
+  }
+  s.done[s.challenge]=true;
+  fb.className='feedback ok';
+  fb.textContent='✅ ¡Correcto!';
+  document.getElementById('nextChallenge').disabled=false;
+  openNotebook(ch.note || ch.q);
+  updateProgress();
+}
+
+function bindAnswerButtons(){
+  document.querySelectorAll('.answer').forEach(btn=>{
+    btn.onclick=()=>{
+      document.querySelectorAll('.answer').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedAnswer=btn.dataset.v;
+    };
+  });
+}
+
+function columnHTML(a,b,sign){
+  const [at,au]=String(a).padStart(2,'0').split('');
+  const [bt,bu]=String(b).padStart(2,'0').split('');
+  return `<div class="${sign==='+'?'sum-columns':'sub-columns'}">
+    <div class="col-head"><span>Decenas</span><span>Unidades</span></div>
+    <div class="col-row"><span>${at}</span><span>${au}</span></div>
+    <div class="col-row"><span>${bt}</span><span>${bu}</span></div>
+    <div class="line"></div>
+    <div style="text-align:center;font-weight:900;color:var(--muted)">Primero unidades, después decenas.</div>
+  </div>`;
+}
+
+function placeSimulatorHTML(){
+  return `
+  <div class="token-bank" id="tokenBank">
+    ${Array.from({length:9},()=>'<div class="token d" draggable="true" data-type="d">10</div>').join('')}
+    ${Array.from({length:9},()=>'<div class="token u" draggable="true" data-type="u">1</div>').join('')}
+  </div>
+  <div class="place-layout">
+    <div class="place-box place-d"><div class="place-title">DECENAS</div><div class="place-symbol">D</div><div class="drop-zone" data-accept="d"></div></div>
+    <div class="place-box place-u"><div class="place-title">UNIDADES</div><div class="place-symbol">U</div><div class="drop-zone" data-accept="u"></div></div>
+  </div>
+  <div class="place-number" id="placeNumber">00</div>
+  <button class="secondary" id="speakPlace" style="width:100%">🔊 Escuchar número</button>`;
+}
+
+function initPlaceSimulator(target){
+  placeCounts={d:0,u:0};
+  let selectedToken=null;
+  const bank=document.getElementById('tokenBank');
+  const tokens=[...document.querySelectorAll('.token')];
+  const zones=[...document.querySelectorAll('.drop-zone')];
+
+  function update(){
+    placeCounts={d:0,u:0};
+    zones.forEach(z=>placeCounts[z.dataset.accept]=z.querySelectorAll('.token').length);
+    document.getElementById('placeNumber').textContent=''+placeCounts.d+placeCounts.u;
+  }
+  function moveToken(token,zone){
+    if(zone.dataset.accept!==token.dataset.type) return;
+    zone.appendChild(token); selectedToken=null; update();
+  }
+  tokens.forEach(t=>{
+    t.addEventListener('dragstart',e=>{selectedToken=t;e.dataTransfer.setData('text/plain',t.dataset.type)});
+    t.addEventListener('click',()=>{
+      if(t.parentElement.classList.contains('drop-zone')){bank.appendChild(t);selectedToken=null;update();return}
+      selectedToken=t;
+    });
+  });
+  zones.forEach(z=>{
+    z.addEventListener('dragover',e=>e.preventDefault());
+    z.addEventListener('drop',e=>{e.preventDefault();if(selectedToken)moveToken(selectedToken,z)});
+    z.addEventListener('click',()=>{if(selectedToken)moveToken(selectedToken,z)});
+  });
+  document.getElementById('speakPlace').onclick=()=>{
+    const n=placeCounts.d*10+placeCounts.u;
+    speak(numberToSpanish(n));
+  };
+  update();
+}
+
+function groupsVisualHTML(groups,each){
+  return `<div class="groups-visual">${Array.from({length:groups},()=>`<div class="group-card">${'●'.repeat(each)}</div>`).join('')}</div>
+  <div class="group-equation">${groups} × ${each} = ${groups*each}</div>`;
+}
+
+function groupsChallengeHTML(groups,each){
+  return `
+  <div class="groups-control">
+    <label>Grupos: <b id="gVal">1</b><input id="gRange" type="range" min="1" max="8" value="1"></label>
+    <label>Objetos por grupo: <b id="eVal">1</b><input id="eRange" type="range" min="1" max="8" value="1"></label>
+  </div>
+  <div class="groups-visual" id="groupsVisual"></div>
+  <div class="group-equation" id="groupsEq">1 × 1 = 1</div>`;
+}
+function initGroupsControls(){
+  const g=document.getElementById('gRange'),e=document.getElementById('eRange');
+  function update(){
+    currentGroupState={groups:+g.value,each:+e.value};
+    document.getElementById('gVal').textContent=g.value;
+    document.getElementById('eVal').textContent=e.value;
+    document.getElementById('groupsVisual').innerHTML=Array.from({length:+g.value},()=>`<div class="group-card">${'●'.repeat(+e.value)}</div>`).join('');
+    document.getElementById('groupsEq').textContent=`${g.value} × ${e.value} = ${+g.value*+e.value}`;
+  }
+  g.oninput=update;e.oninput=update;update();
+}
+
+function openNotebook(text){
+  const parts=String(text).split('—');
+  document.getElementById('notebookMain').textContent=parts[0].trim();
+  document.getElementById('notebookSub').textContent=parts[1]?parts[1].trim():'Copia la operación completa y su resultado.';
+  document.getElementById('checkOne').checked=false;
+  document.getElementById('checkTwo').checked=false;
+  document.getElementById('notebookContinue').disabled=true;
+  document.getElementById('notebookOverlay').classList.add('show');
+}
+function updateNotebookBtn(){
+  document.getElementById('notebookContinue').disabled=!(document.getElementById('checkOne').checked&&document.getElementById('checkTwo').checked);
+}
+document.getElementById('checkOne').onchange=updateNotebookBtn;
+document.getElementById('checkTwo').onchange=updateNotebookBtn;
+document.getElementById('notebookContinue').onclick=()=>document.getElementById('notebookOverlay').classList.remove('show');
+
+function numberToSpanish(n){
+  const u=['cero','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez','once','doce','trece','catorce','quince','dieciséis','diecisiete','dieciocho','diecinueve','veinte','veintiuno','veintidós','veintitrés','veinticuatro','veinticinco','veintiséis','veintisiete','veintiocho','veintinueve'];
+  const tens=['','','treinta','cuarenta','cincuenta','sesenta','setenta','ochenta','noventa'];
+  const hundreds=['','ciento','doscientos','trescientos','cuatrocientos','quinientos','seiscientos','setecientos','ochocientos','novecientos'];
+  if(n<30)return u[n];
+  if(n<100){const t=Math.floor(n/10),r=n%10;return tens[t]+(r?' y '+u[r]:'')}
+  if(n===100)return'cien';
+  const h=Math.floor(n/100),r=n%100;
+  return hundreds[h]+(r?' '+numberToSpanish(r):'');
+}
+function speak(text){
+  if('speechSynthesis' in window){
+    speechSynthesis.cancel();const utter=new SpeechSynthesisUtterance(text);utter.lang='es-MX';utter.rate=.85;speechSynthesis.speak(utter);
+  }
+}
+loadStudentContext();
+renderAll();
+</script>
+</body>
+</html>
