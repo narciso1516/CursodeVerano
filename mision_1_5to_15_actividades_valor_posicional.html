@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Misión 1 — 15 actividades de valor posicional · 5.º Primaria</title>
+<style>
+:root{
+  --navy:#193679;--blue:#2296d2;--red:#e82b32;--green:#70bf2b;--yellow:#fff59a;
+  --orange:#ff8b21;--white:#fff;--text:#17324d;--muted:#64768a;--line:#d9e8f3;
+  --ok:#2f9d68;--bad:#d65b68;--shadow:0 12px 30px rgba(25,54,121,.12)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,ui-rounded,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:linear-gradient(180deg,#eef9ff,#fff 45%);
+  color:var(--text)
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.app{max-width:1180px;margin:auto;padding:16px 14px 70px}
+.hero{
+  background:linear-gradient(135deg,var(--navy),#0e7eb6);
+  color:#fff;border-radius:28px;padding:24px;box-shadow:var(--shadow)
+}
+.hero h1{margin:6px 0 8px;font-size:clamp(30px,6vw,48px)}
+.hero p{margin:0;line-height:1.55;max-width:940px}
+.kicker{font-size:.78rem;font-weight:950;letter-spacing:.08em;text-transform:uppercase;color:#fff3a8}
+.progress{
+  position:sticky;top:8px;z-index:15;background:#fffffff2;backdrop-filter:blur(10px);
+  border:1px solid var(--line);border-radius:18px;padding:10px 12px;margin:14px 0;
+  box-shadow:var(--shadow)
+}
+.ptop{display:flex;justify-content:space-between;gap:12px;font-weight:950;color:var(--navy)}
+.bar{height:10px;background:#eaf0f5;border-radius:99px;overflow:hidden;margin-top:8px}
+.bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffd34f,var(--orange));transition:.3s}
+.card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow)}
+.goal{background:#eef8ff;border-left:6px solid #0e7eb6;border-radius:16px;padding:14px 16px;font-weight:850;line-height:1.55}
+.lesson{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.mini{border:2px solid var(--line);border-radius:16px;padding:14px;line-height:1.5}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.legend span{font-weight:900}
+.dot{width:14px;height:14px;border-radius:4px;display:inline-block;margin-right:5px}
+.green{background:var(--green)}.red{background:var(--red)}.blue{background:var(--blue)}
+.activity-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:16px 0 8px}
+.activity-title{font-size:clamp(24px,4.5vw,34px);font-weight:1000;color:var(--navy)}
+.badge{background:#eef3ff;border-radius:99px;padding:8px 12px;font-weight:900;color:var(--navy)}
+.instruction{background:#fffbea;border:3px solid #ffd34f;border-radius:20px;padding:16px;margin:14px 0;line-height:1.55}
+.target{background:#f7fbff;border:2px solid #bfe1f3;border-radius:20px;padding:16px;margin:14px 0}
+.target small{font-weight:950;color:var(--blue)}
+.target-number{font-size:clamp(34px,8vw,60px);font-weight:1000;color:var(--navy)}
+.target-read{font-weight:850;color:var(--muted);margin-top:4px}
+.place-table{margin:16px 0;border:2px solid #9ba7b2;border-radius:16px;overflow:hidden;background:#fff}
+.group-row,.abbr-row,.digit-row{display:grid;grid-template-columns:repeat(9,1fr)}
+.group{grid-column:span 3;background:var(--yellow);text-align:center;padding:8px;font-weight:1000;border-right:1px solid #9ba7b2}
+.abbr-row div,.digit-row div{text-align:center;border-top:1px solid #9ba7b2;border-right:1px solid #9ba7b2}
+.abbr-row div{color:#fff;font-weight:1000;padding:7px 2px;font-size:.78rem}
+.digit-row div{font-size:1.35rem;font-weight:1000;padding:8px 2px}
+.block-grid{display:grid;grid-template-columns:repeat(9,minmax(86px,1fr));gap:8px}
+.block-col{border:2px solid var(--line);border-radius:16px;padding:10px 8px;background:#fbfdff;min-height:190px}
+.block-col h4{margin:0;text-align:center;color:var(--navy)}
+.value{text-align:center;font-size:.7rem;color:var(--muted);font-weight:800;margin:3px 0 8px}
+.stack{min-height:76px;display:flex;align-items:flex-end;justify-content:center;gap:2px;flex-wrap:wrap;background:#f2f6fa;border-radius:12px;padding:6px}
+.ub{width:18px;height:18px;border-radius:4px;border:1px solid rgba(0,0,0,.08);box-shadow:inset 0 -2px rgba(0,0,0,.12)}
+.controls{display:grid;grid-template-columns:42px 1fr 42px;gap:5px;align-items:center;margin-top:8px}
+.controls button{border:0;border-radius:10px;height:38px;font-weight:1000;font-size:1.2rem}
+.minus{background:#eef2f6;color:var(--navy)}.plus{background:var(--navy);color:#fff}
+.count{height:38px;border:2px solid var(--line);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:1000}
+.current{margin-top:16px;background:#f7fbff;border:2px solid #bfe1f3;border-radius:20px;padding:16px;text-align:center}
+.current-number{font-size:clamp(38px,8vw,62px);font-weight:1000;color:var(--navy)}
+.current-read{font-weight:850;color:var(--muted);min-height:26px}
+.decomp{margin-top:8px;font-weight:850;color:var(--navy);line-height:1.5}
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.btn{border:0;border-radius:15px;padding:14px 16px;min-height:50px;font-weight:1000}
+.verify{background:#0e7eb6;color:#fff}.reset{background:#eef3ff;color:var(--navy)}.speak{background:#ffd34f;color:var(--navy)}
+.primary{background:var(--navy);color:#fff}.secondary{background:#ffd34f;color:var(--navy)}
+.feedback{min-height:32px;margin-top:12px;font-weight:950}.ok{color:#176844}.bad{color:#a23b48}
+.assistant{margin-top:12px;background:#f4f1ff;border:1px solid #d7cff7;border-radius:16px;padding:14px}
+.notebook{
+  margin-top:16px;background:#fff;border:3px solid #7db6e2;border-radius:20px;padding:16px;
+  display:none
+}
+.notebook.show{display:block}
+.notebook h3{margin:0 0 10px;color:var(--navy)}
+.notebook-list{display:grid;gap:9px}
+.notebook-item{background:#f7fbff;border:1px solid var(--line);border-radius:12px;padding:10px;line-height:1.5}
+.notebook-checks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.notebook-checks label{display:flex;align-items:center;gap:7px;background:#eef9f3;border-radius:12px;padding:10px;font-weight:850}
+.nav{display:flex;gap:10px;margin-top:14px}.nav button{flex:1}
+button:disabled{opacity:.42;cursor:not-allowed}
+.input-zone{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.input-zone label{font-weight:900;color:var(--navy)}
+.input-zone input,.input-zone textarea{width:100%;margin-top:6px;border:2px solid var(--line);border-radius:12px;padding:11px}
+.finish{text-align:center;background:#fffbea;border:3px solid #ffd34f;border-radius:22px;padding:24px}
+.finish .trophy{font-size:58px}
+footer{max-width:1180px;margin:18px auto 24px;padding:0 14px}
+.foot{background:linear-gradient(135deg,var(--navy),#0e7eb6);color:#fff;border-radius:22px;padding:20px}
+.foot a{display:inline-block;margin-top:12px;background:#ffd34f;color:var(--navy);text-decoration:none;font-weight:950;padding:11px 15px;border-radius:12px}
+
+@media(max-width:1000px){.block-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:720px){
+  .lesson,.actions,.notebook-checks,.input-zone{grid-template-columns:1fr}
+  .block-grid{grid-template-columns:1fr}
+  .nav{flex-direction:column}
+  .abbr-row div{font-size:.58rem}
+  .digit-row div{font-size:1rem}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+<section class="hero">
+  <div class="kicker">Curso de Verano · Matemáticas · 5.º de Primaria</div>
+  <h1>🧱 Misión 1 · Valor posicional en acción</h1>
+  <p>15 actividades para armar, desarmar, localizar cifras, leer, escribir y explicar números grandes. En todas las actividades debes registrar el trabajo en tu libreta.</p>
+</section>
+
+<div class="progress">
+  <div class="ptop"><span id="progressText">Actividad 1 de 15</span><span id="progressPct">0%</span></div>
+  <div class="bar"><span id="progressFill"></span></div>
+</div>
+
+<section class="card">
+  <div class="goal">
+    <strong>🎯 Propósito:</strong> reconocer y comprender CMM, DMM, UMM, CM, DM, UM, C, D y U; construir números, leerlos correctamente, descomponerlos y explicar el valor de cada cifra.
+  </div>
+
+  <div class="lesson">
+    <div class="mini">
+      <strong>📚 Periodos</strong><br>
+      MILLONES: CMM · DMM · UMM<br>
+      MILES: CM · DM · UM<br>
+      UNIDADES: C · D · U
+    </div>
+    <div class="mini">
+      <strong>🎨 Código de color</strong>
+      <div class="legend">
+        <span><i class="dot green"></i>Centenas</span>
+        <span><i class="dot red"></i>Decenas</span>
+        <span><i class="dot blue"></i>Unidades</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="activityHost"></div>
+</section>
+</div>
+
+<footer>
+  <div class="foot">
+    <strong>Autor · Luis Alberto Antonio Narciso</strong><br>
+    Recurso educativo interactivo para comprender el valor posicional en 5.º de primaria.<br>
+    <a href="https://narciso1516.github.io/narcisotesting.com/" target="_blank" rel="noopener noreferrer">Conocer al autor</a>
+  </div>
+</footer>
+
+<script>
+const places=[
+  ['CMM',100000000,'green','centena de millón'],
+  ['DMM',10000000,'red','decena de millón'],
+  ['UMM',1000000,'blue','unidad de millón'],
+  ['CM',100000,'green','centena de millar'],
+  ['DM',10000,'red','decena de millar'],
+  ['UM',1000,'blue','unidad de millar'],
+  ['C',100,'green','centena'],
+  ['D',10,'red','decena'],
+  ['U',1,'blue','unidad']
+];
+
+const activities=[
+  {type:'build',title:'Construye el número',n:480000000,read:'Cuatrocientos ochenta millones',prompt:'Construye 480 000 000 con bloques.'},
+  {type:'find',title:'Busca la cifra',n:572341000,read:'Quinientos setenta y dos millones trescientos cuarenta y un mil',prompt:'¿Qué cifra está en DMM?',place:1,answer:'7'},
+  {type:'change',title:'¿Qué pasa si agrego?',n:356241168,read:'Trescientos cincuenta y seis millones doscientos cuarenta y un mil ciento sesenta y ocho',prompt:'Construye el número y agrega 1 bloque en UM.',target:356242168},
+  {type:'disassemble',title:'Desarma el número',n:356241168,read:'Trescientos cincuenta y seis millones doscientos cuarenta y un mil ciento sesenta y ocho',prompt:'Construye el número y después quita bloques hasta obtener 356 000 000.',target:356000000},
+  {type:'build',title:'Completa las posiciones',n:405072019,read:'Cuatrocientos cinco millones setenta y dos mil diecinueve',prompt:'Construye el número observando cuidadosamente los ceros.'},
+  {type:'dictation',title:'Dictado matemático',n:360000000,read:'Trescientos sesenta millones',prompt:'Escucha el número y constrúyelo.'},
+  {type:'read',title:'Del número a la lectura',n:405072019,read:'Cuatrocientos cinco millones setenta y dos mil diecinueve',prompt:'Construye el número y comprueba cómo se lee.'},
+  {type:'textToNumber',title:'Del texto al número',n:702003406,read:'Setecientos dos millones tres mil cuatrocientos seis',prompt:'Lee el nombre y construye el número correspondiente.'},
+  {type:'error',title:'Encuentra y corrige el error',n:624319000,read:'Seiscientos veinticuatro millones trescientos diecinueve mil',prompt:'Construye correctamente 624 319 000. Imagina que un compañero puso una cifra en la columna equivocada y corrígela.'},
+  {type:'compare',title:'Mayor o menor',n:356421168,read:'Trescientos cincuenta y seis millones cuatrocientos veintiún mil ciento sesenta y ocho',prompt:'Construye el mayor de estos dos números: 356 241 168 y 356 421 168.',extra:'356 241 168'},
+  {type:'order',title:'Ordena tres números',n:451902000,read:'Cuatrocientos cincuenta y un millones novecientos dos mil',prompt:'Construye el mayor de: 451 209 000 · 451 290 000 · 451 902 000.'},
+  {type:'decompose',title:'Descomposición completa',n:356241168,read:'Trescientos cincuenta y seis millones doscientos cuarenta y un mil ciento sesenta y ocho',prompt:'Construye y observa la descomposición completa.'},
+  {type:'conditions',title:'Inventa con condiciones',n:508000049,read:'Quinientos ocho millones cuarenta y nueve',prompt:'Construye un número con 5 en CMM, 8 en UMM, 4 en D y 9 en U.'},
+  {type:'changeDigit',title:'Cambia una sola cifra',n:356249168,read:'Trescientos cincuenta y seis millones doscientos cuarenta y nueve mil ciento sesenta y ocho',prompt:'Parte de 356 241 168 y cambia solo la UM de 1 a 9.'},
+  {type:'teacher',title:'Explica como maestro',n:859341265,read:'Ochocientos cincuenta y nueve millones trescientos cuarenta y un mil doscientos sesenta y cinco',prompt:'Construye el número y prepárate para explicarlo como si fueras el maestro.'}
+];
+
+let idx=0;
+let counts=Array(9).fill(0);
+let done=Array(activities.length).fill(false);
+
+const fmt=n=>n.toLocaleString('es-MX');
+const digits=n=>String(n).padStart(9,'0').split('').map(Number);
+
+function placeTableHTML(n){
+  return `<div class="place-table">
+    <div class="group-row">
+      <div class="group">MILLONES</div><div class="group">MILES</div><div class="group">UNIDADES</div>
+    </div>
+    <div class="abbr-row">
+      <div class="green">CMM</div><div class="red">DMM</div><div class="blue">UMM</div>
+      <div class="green">CM</div><div class="red">DM</div><div class="blue">UM</div>
+      <div class="green">C</div><div class="red">D</div><div class="blue">U</div>
+    </div>
+    <div class="digit-row">${digits(n).map(d=>`<div>${d}</div>`).join('')}</div>
+  </div>`;
+}
+
+function buildTarget(a){
+  if(a.type==='dictation'){
+    return `<div class="target"><small>ESCUCHA Y CONSTRUYE</small><div class="target-read">No mires el número todavía. Usa el botón “Escuchar consigna”.</div></div>`;
+  }
+  if(a.type==='textToNumber'){
+    return `<div class="target"><small>SE LEE</small><div class="target-read" style="font-size:1.1rem">${a.read}</div></div>`;
+  }
+  if(a.type==='compare'){
+    return `<div class="target"><small>COMPARA</small><div class="target-number" style="font-size:2rem">${a.extra} &nbsp; vs &nbsp; ${fmt(a.n)}</div></div>`;
+  }
+  return `<div class="target"><small>NÚMERO DE TRABAJO</small><div class="target-number">${fmt(a.n)}</div><div class="target-read">${a.read}</div></div>`;
+}
+
+function renderBlocks(){
+  const grid=document.getElementById('blockGrid');
+  grid.innerHTML='';
+  places.forEach((p,i)=>{
+    const c=document.createElement('div');
+    c.className='block-col';
+    c.innerHTML=`<h4>${p[0]}</h4><div class="value">${fmt(p[1])}</div>
+      <div class="stack" id="stack${i}"></div>
+      <div class="controls">
+        <button class="minus" type="button">−</button>
+        <div class="count" id="count${i}">${counts[i]}</div>
+        <button class="plus" type="button">+</button>
+      </div>`;
+    c.querySelector('.minus').addEventListener('click',()=>{if(counts[i]>0){counts[i]--;updateBlocks()}});
+    c.querySelector('.plus').addEventListener('click',()=>{if(counts[i]<9){counts[i]++;updateBlocks()}});
+    grid.appendChild(c);
+  });
+  updateBlocks();
+}
+
+function currentValue(){return counts.reduce((s,c,i)=>s+c*places[i][1],0)}
+
+function updateBlocks(){
+  places.forEach((p,i)=>{
+    const st=document.getElementById('stack'+i),ct=document.getElementById('count'+i);
+    if(!st)return;
+    st.innerHTML='';
+    for(let k=0;k<counts[i];k++){
+      const b=document.createElement('div');
+      b.className='ub '+p[2];
+      st.appendChild(b);
+    }
+    ct.textContent=counts[i];
+  });
+  const n=currentValue();
+  document.getElementById('currentNumber').textContent=fmt(n);
+  document.getElementById('currentRead').textContent=numberToSpanish(n);
+  const parts=[];
+  counts.forEach((c,i)=>{if(c)parts.push(fmt(c*places[i][1]))});
+  document.getElementById('decomp').textContent=parts.length?parts.join(' + '):'0';
+}
+
+function expectedFor(a){
+  if(a.type==='change'||a.type==='disassemble') return a.target;
+  return a.n;
+}
+
+function notebookContent(a){
+  const n=expectedFor(a);
+  let special='';
+  if(a.type==='find') special=`<div class="notebook-item"><strong>4.</strong> Escribe: “La cifra ${a.answer} está en ${places[a.place][0]} y vale ${fmt(Number(a.answer)*places[a.place][1])}”.</div>`;
+  if(a.type==='change') special=`<div class="notebook-item"><strong>4.</strong> Escribe el número antes y después del cambio y explica qué posición cambió.</div>`;
+  if(a.type==='disassemble') special=`<div class="notebook-item"><strong>4.</strong> Anota qué bloques quitaste para llegar al nuevo número.</div>`;
+  if(a.type==='compare') special=`<div class="notebook-item"><strong>4.</strong> Escribe los dos números y explica por qué ${fmt(a.n)} es mayor.</div>`;
+  if(a.type==='order') special=`<div class="notebook-item"><strong>4.</strong> Ordena en tu libreta: 451 209 000 &lt; 451 290 000 &lt; 451 902 000.</div>`;
+  if(a.type==='teacher') special=`<div class="notebook-item"><strong>4.</strong> Explica con tus palabras qué representa cada cifra y cuál tiene mayor valor.</div>`;
+  return `<div class="notebook-list">
+    <div class="notebook-item"><strong>1. Cómo se escribe:</strong> ${fmt(n)}</div>
+    <div class="notebook-item"><strong>2. Cómo se lee:</strong> ${numberToSpanish(n)}</div>
+    <div class="notebook-item"><strong>3. Descomposición:</strong> ${decompositionFor(n)}</div>
+    ${special}
+  </div>`;
+}
+
+function render(){
+  const a=activities[idx];
+  counts=Array(9).fill(0);
+  progressText.textContent=`Actividad ${idx+1} de 15 · ${a.title}`;
+  const pct=Math.round(done.filter(Boolean).length/15*100);
+  progressPct.textContent=pct+'%';
+  progressFill.style.width=pct+'%';
+
+  activityHost.innerHTML=`
+    <div class="activity-head">
+      <div class="activity-title">${idx+1}. ${a.title}</div>
+      <div class="badge">⭐ ${idx+1}/15</div>
+    </div>
+
+    <div class="instruction"><strong>📌 Consigna:</strong> ${a.prompt}</div>
+
+    ${buildTarget(a)}
+    ${placeTableHTML(a.type==='dictation'?0:a.n)}
+
+    <h3>🧱 Arma o modifica el número</h3>
+    <div class="block-grid" id="blockGrid"></div>
+
+    <div class="current">
+      <div style="font-weight:900;color:var(--blue)">LO QUE ESTÁS CONSTRUYENDO</div>
+      <div class="current-number" id="currentNumber">0</div>
+      <div class="current-read" id="currentRead">cero</div>
+      <div class="decomp" id="decomp">0</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn reset" id="resetBtn" type="button">↻ Reiniciar</button>
+      <button class="btn speak" id="speakBtn" type="button">${a.type==='dictation'?'🔊 Escuchar consigna':'🔊 Escuchar lo construido'}</button>
+      <button class="btn verify" id="verifyBtn" type="button">✓ Comprobar</button>
+    </div>
+
+    <div class="assistant">
+      <strong>🦉 Asistente</strong>
+      <div id="assistantText">Trabaja de izquierda a derecha. Observa el periodo y después la posición.</div>
+    </div>
+    <div class="feedback" id="feedback"></div>
+
+    <div class="notebook" id="notebook">
+      <h3>📒 Ahora, obligatoriamente, escríbelo en tu libreta</h3>
+      ${notebookContent(a)}
+      <div class="notebook-checks">
+        <label><input type="checkbox" id="checkWrite"> Ya escribí el número.</label>
+        <label><input type="checkbox" id="checkRead"> Ya escribí cómo se lee.</label>
+        <label><input type="checkbox" id="checkDecomp"> Ya escribí la descomposición.</label>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="btn secondary" id="prevBtn" type="button" ${idx===0?'disabled':''}>← Actividad anterior</button>
+      <button class="btn primary" id="nextBtn" type="button" disabled>${idx===14?'Terminar misión':'Siguiente actividad →'}</button>
+    </div>`;
+
+  renderBlocks();
+
+  resetBtn.addEventListener('click',()=>{
+    counts=Array(9).fill(0);
+    updateBlocks();
+    feedback.textContent='';
+  });
+
+  speakBtn.addEventListener('click',()=>{
+    if(a.type==='dictation') speak(a.read);
+    else speak(numberToSpanish(currentValue()));
+  });
+
+  verifyBtn.addEventListener('click',()=>{
+    const expected=expectedFor(a);
+    const v=currentValue();
+
+    if(v!==expected){
+      feedback.className='feedback bad';
+      feedback.textContent='💡 Aún no coincide. Revisa cifra por cifra.';
+      const t=digits(expected),c=digits(v),f=t.findIndex((d,i)=>d!==c[i]);
+      if(f>=0) assistantText.textContent=`Revisa ${places[f][0]} (${places[f][3]}). Necesitas ${t[f]} bloque(s) en esa columna.`;
+      return;
+    }
+
+    done[idx]=true;
+    feedback.className='feedback ok';
+    feedback.textContent='✅ ¡Correcto! Ahora debes registrar todo en tu libreta.';
+    assistantText.textContent='Muy bien. Comprueba cómo se escribe, cómo se lee y cómo se descompone.';
+    notebook.classList.add('show');
+    updateNextState();
+    const pct=Math.round(done.filter(Boolean).length/15*100);
+    progressPct.textContent=pct+'%';
+    progressFill.style.width=pct+'%';
+  });
+
+  [checkWrite,checkRead,checkDecomp].forEach(ch=>ch.addEventListener('change',updateNextState));
+
+  prevBtn.addEventListener('click',()=>{if(idx>0){idx--;render()}});
+  nextBtn.addEventListener('click',()=>{
+    if(nextBtn.disabled)return;
+    if(idx<14){idx++;render()}else finish();
+  });
+}
+
+function updateNextState(){
+  const n=document.getElementById('nextBtn');
+  if(!n)return;
+  const notebook=document.getElementById('notebook');
+  const ready=done[idx] &&
+    document.getElementById('checkWrite')?.checked &&
+    document.getElementById('checkRead')?.checked &&
+    document.getElementById('checkDecomp')?.checked;
+  n.disabled=!ready;
+}
+
+function decompositionFor(n){
+  const ds=digits(n),parts=[];
+  ds.forEach((d,i)=>{if(d)parts.push(fmt(d*places[i][1]))});
+  return parts.length?parts.join(' + '):'0';
+}
+
+function finish(){
+  progressText.textContent='Misión completada';
+  progressPct.textContent='100%';
+  progressFill.style.width='100%';
+
+  activityHost.innerHTML=`
+    <div class="finish">
+      <div class="trophy">🏆</div>
+      <h2>¡Terminaste las 15 actividades!</h2>
+      <p>Ya practicaste cómo <strong>armar, desarmar, localizar, comparar, ordenar, leer, escribir y explicar</strong> números grandes.</p>
+      <div class="goal">
+        <strong>📒 Evidencia en tu libreta:</strong><br>
+        Debes tener registrados los 15 números trabajados, cómo se escriben, cómo se leen y su descomposición.
+      </div>
+      <button class="btn primary" id="restartBtn" type="button">↻ Practicar de nuevo</button>
+    </div>`;
+  restartBtn.addEventListener('click',()=>location.reload());
+}
+
+function speak(text){
+  if('speechSynthesis' in window){
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='es-MX';
+    u.rate=.82;
+    speechSynthesis.speak(u);
+  }
+}
+
+function numberToSpanish(n){
+  if(n===0)return'cero';
+  const u=['','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez','once','doce','trece','catorce','quince','dieciséis','diecisiete','dieciocho','diecinueve','veinte','veintiuno','veintidós','veintitrés','veinticuatro','veinticinco','veintiséis','veintisiete','veintiocho','veintinueve'];
+  const t=['','','treinta','cuarenta','cincuenta','sesenta','setenta','ochenta','noventa'];
+  const h=['','ciento','doscientos','trescientos','cuatrocientos','quinientos','seiscientos','setecientos','ochocientos','novecientos'];
+
+  function x(a){
+    if(!a)return'';
+    if(a===100)return'cien';
+    if(a<30)return u[a];
+    if(a<100){
+      const q=Math.floor(a/10),r=a%10;
+      return t[q]+(r?' y '+u[r]:'');
+    }
+    const q=Math.floor(a/100),r=a%100;
+    return h[q]+(r?' '+x(r):'');
+  }
+
+  const m=Math.floor(n/1000000);
+  const k=Math.floor((n%1000000)/1000);
+  const r=n%1000;
+  const p=[];
+
+  if(m)p.push(m===1?'un millón':x(m)+' millones');
+  if(k)p.push(k===1?'mil':x(k)+' mil');
+  if(r)p.push(x(r));
+  return p.join(' ');
+}
+
+render();
+</script>
+</body>
+</html>
