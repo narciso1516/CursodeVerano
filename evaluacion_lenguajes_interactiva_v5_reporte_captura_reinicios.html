@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evaluación Interactiva de Lenguajes</title>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<style>
+:root{
+  --bg:#f7f8fc;--card:#fff;--ink:#20243a;--muted:#667085;--line:#dfe4ef;
+  --accent:#6257e5;--accent2:#eeecff;--ok:#16875a;--bad:#b63d4d;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+.app{max-width:900px;margin:auto;padding:18px}
+header{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;position:sticky;top:8px;z-index:5;box-shadow:0 8px 24px rgba(30,35,70,.07)}
+h1{margin:0 0 5px;font-size:clamp(1.5rem,3vw,2.1rem)}
+.sub{color:var(--muted);margin:0 0 12px}
+.bar{height:12px;background:#eceef5;border-radius:999px;overflow:hidden}
+.bar div{height:100%;width:0;background:var(--accent);transition:.25s}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;font-size:.92rem}
+.pill{padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:#fafbff}
+main{margin-top:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 10px 30px rgba(40,45,80,.06)}
+.section-label{display:inline-block;background:var(--accent2);color:#4b45b5;padding:7px 11px;border-radius:999px;font-weight:800;font-size:.9rem}
+.qnum{color:var(--muted);font-weight:700;margin-top:15px}
+.qtitle{font-size:clamp(1.2rem,2.5vw,1.65rem);font-weight:800;margin:8px 0 14px}
+.reading{background:#fcfcff;border:2px solid var(--line);border-radius:18px;padding:18px;margin:12px 0}
+input[type=text],textarea,select{width:100%;border:2px solid var(--line);border-radius:13px;padding:13px;font-size:1rem;outline:none}
+textarea{min-height:130px;resize:vertical}
+input:focus,textarea:focus,select:focus{border-color:var(--accent)}
+.choices{display:grid;gap:10px}
+.choice{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:14px;padding:13px;cursor:pointer}
+.choice:hover{border-color:#b7b0ff;background:#fbfaff}
+.visual{font-size:4rem;text-align:center;margin:8px}
+.wordchips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.chip{background:#f0f1f7;border:1px solid var(--line);padding:9px 11px;border-radius:11px;font-weight:750}
+.actions{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;margin-top:20px}
+button{border:0;border-radius:13px;padding:11px 16px;font-size:1rem;font-weight:800;cursor:pointer}
+.primary{background:var(--accent);color:white}.secondary{background:#eef0f6;color:var(--ink)}
+.feedback{margin-top:12px;font-weight:800}.ok{color:var(--ok)}.bad{color:var(--bad)}
+.section-intro{text-align:center;padding:26px 10px}
+.section-intro .visual{font-size:5rem}
+.report-card{margin:18px 0;padding:22px;border:2px solid var(--line);border-radius:20px;background:#fff}
+.report-head{text-align:center;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.report-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:14px 0}
+.report-stat{padding:12px;border:1px solid var(--line);border-radius:14px;background:#fafbff}
+.report-stat b{display:block;font-size:1.25rem;margin-top:3px}
+.review{display:grid;gap:10px}
+.review-item{padding:12px;border:1px solid var(--line);border-radius:13px;background:#fbfbfd}
+.hidden{display:none!important}
+
+.example-box{
+  margin:12px 0 15px;
+  padding:13px 15px;
+  border-radius:14px;
+  background:#eef7ff;
+  border:1px solid #b9daf5;
+  color:#27455f;
+}
+.example-box b{color:#17364f}
+.notebook-box{
+  margin-top:14px;
+  padding:14px;
+  border:2px dashed #d1a500;
+  border-radius:15px;
+  background:#fff9db;
+}
+.notebook-title{font-weight:900;margin-bottom:5px;color:#6f5900}
+.notebook-box label{
+  display:flex;align-items:flex-start;gap:10px;margin-top:10px;
+  padding:10px;border-radius:12px;background:#fff;border:1px solid #eadb8f;cursor:pointer
+}
+.notebook-box input[type=checkbox]{margin-top:4px;transform:scale(1.25)}
+
+@media (max-width:600px){.card{padding:18px}.actions button{flex:1}.actions{gap:8px}}
+@media print{header,.actions{display:none}.card{box-shadow:none;border:0}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <h1>📘 Evaluación Interactiva de Lenguajes</h1>
+  <p class="sub">Versión renovada · una actividad a la vez · con evidencias en libreta</p>
+  <div class="bar"><div id="progressBar"></div></div>
+  <div class="meta">
+    <span class="pill">Progreso: <b id="progressText">0%</b></span>
+    <span class="pill">Actividad: <b id="counter">1</b></span>
+    <span class="pill">Guardado automático</span>
+  </div>
+</header>
+
+<main>
+  <div class="card" id="stage"></div>
+</main>
+</div>
+
+<script>
+const readingText = `Los colibríes son aves pequeñas que pueden mover sus alas muy rápido. Se alimentan principalmente del néctar de las flores. Mientras buscan alimento, también ayudan a transportar polen de una flor a otra. Por eso son importantes para muchas plantas. Los colibríes construyen nidos pequeños y suelen colocarlos en ramas protegidas.`;
+
+const items = [
+  {type:"section",section:"Datos personales",icon:"✏️",text:"Empezaremos con información sencilla sobre ti."},
+  {id:"q1",section:"Datos personales",type:"text",prompt:"Escribe tu nombre y apellidos.",objective:"Escritura de datos personales."},
+  {id:"q2",section:"Datos personales",type:"text",prompt:"Escribe el nombre de una persona de tu familia.",objective:"Escritura de nombres propios."},
+  {id:"q3",section:"Datos personales",type:"text",prompt:"Escribe el nombre de una compañera o compañero de tu escuela.",objective:"Escritura de nombres propios."},
+  {id:"q4",notebook:true,section:"Datos personales",type:"text",prompt:"Escribe el nombre de tu comunidad, colonia o localidad.",objective:"Uso de nombres propios."},
+
+  {type:"section",section:"Comprensión lectora",icon:"🐦",text:"Lee el texto sobre el colibrí y contesta con atención."},
+  {id:"q5",section:"Comprensión lectora",type:"reading-vf",prompt:"Los colibríes son aves pequeñas.",answer:"V",objective:"Comprensión literal."},
+  {id:"q6",section:"Comprensión lectora",type:"reading-vf",prompt:"Los colibríes se alimentan principalmente de peces.",answer:"F",objective:"Comprensión literal."},
+  {id:"q7",section:"Comprensión lectora",type:"reading-vf",prompt:"Los colibríes ayudan a transportar polen.",answer:"V",objective:"Comprensión literal."},
+  {id:"q8",section:"Comprensión lectora",type:"reading-vf",prompt:"Los colibríes construyen nidos grandes en el suelo.",answer:"F",objective:"Comprensión literal."},
+  {id:"q9",section:"Comprensión lectora",type:"reading-vf",prompt:"El texto explica por qué los colibríes son importantes para las plantas.",answer:"V",objective:"Idea principal e inferencia sencilla."},
+  {id:"q10",section:"Comprensión lectora",type:"choice",prompt:"¿De qué se alimentan principalmente los colibríes?",options:["De semillas","Del néctar de las flores","De hojas"],answer:"Del néctar de las flores",objective:"Localización de información explícita."},
+  {id:"q11",section:"Comprensión lectora",type:"choice",prompt:"¿Qué ayudan a transportar de una flor a otra?",options:["Polen","Arena","Agua"],answer:"Polen",objective:"Localización de información explícita."},
+  {id:"q12",notebook:true,section:"Comprensión lectora",type:"sentence",prompt:"Ordena las palabras y forma una oración.",words:["flores","visitan","Los","colibríes","las"],answer:"los colibries visitan las flores",objective:"Orden sintáctico de una oración."},
+  {id:"q13",section:"Comprensión lectora",type:"text",prompt:"Escribe una característica del colibrí mencionada en la lectura.",objective:"Recuperación de información y escritura breve."},
+
+  {type:"section",section:"Rimas y vocabulario",icon:"🎵",text:"Ahora trabajaremos con sonidos de palabras y vocabulario."},
+  {id:"q14",notebook:true,section:"Rimas y vocabulario",type:"text",prompt:"Escribe una palabra que rime con “gato”.",objective:"Reconocimiento de rima."},
+  {id:"q15",section:"Rimas y vocabulario",type:"text",prompt:"Escribe otra palabra que rime con “gato”.",objective:"Reconocimiento de rima."},
+  {id:"q16",notebook:true,section:"Rimas y vocabulario",type:"text",prompt:"Escribe una palabra que rime con “camino”.",objective:"Reconocimiento de rima."},
+  {id:"q17",section:"Rimas y vocabulario",type:"text",prompt:"Escribe otra palabra que rime con “camino”.",objective:"Reconocimiento de rima."},
+
+  {id:"q18",notebook:true,section:"Rimas y vocabulario",type:"visualword",emoji:"🐢",answer:"tortuga",objective:"Correspondencia imagen-palabra."},
+  {id:"q19",section:"Rimas y vocabulario",type:"visualword",emoji:"🚲",answer:"bicicleta",objective:"Correspondencia imagen-palabra."},
+  {id:"q20",section:"Rimas y vocabulario",type:"visualword",emoji:"🦋",answer:"mariposa",objective:"Correspondencia imagen-palabra."},
+  {id:"q21",notebook:true,section:"Rimas y vocabulario",type:"visualword",emoji:"🍎",answer:"manzana",objective:"Correspondencia imagen-palabra."},
+  {id:"q22",section:"Rimas y vocabulario",type:"visualword",emoji:"🐘",answer:"elefante",objective:"Correspondencia imagen-palabra."},
+  {id:"q23",section:"Rimas y vocabulario",type:"visualword",emoji:"🚗",answer:"carro",alts:["auto"],objective:"Correspondencia imagen-palabra."},
+  {id:"q24",notebook:true,section:"Rimas y vocabulario",type:"visualword",emoji:"🌞",answer:"sol",objective:"Correspondencia imagen-palabra."},
+  {id:"q25",section:"Rimas y vocabulario",type:"visualword",emoji:"🌳",answer:"arbol",objective:"Correspondencia imagen-palabra."},
+
+  {type:"section",section:"Oraciones y descripción",icon:"📝",text:"Escribe ideas completas y describe lo que observas."},
+  {id:"q26",notebook:true,section:"Oraciones y descripción",type:"visualsentence",emoji:"⚽",prompt:"Inventa una oración sobre esta imagen.",objective:"Producción de oración."},
+  {id:"q27",notebook:true,section:"Oraciones y descripción",type:"visualsentence",emoji:"🌧️☂️",prompt:"Inventa una oración sobre esta imagen.",objective:"Producción de oración."},
+  {id:"q28",notebook:true,section:"Oraciones y descripción",type:"visualsentence",emoji:"🐶🦴",prompt:"Inventa una oración sobre esta imagen.",objective:"Producción de oración."},
+  {id:"q29",section:"Oraciones y descripción",type:"name",emoji:"👧",prompt:"Inventa un nombre propio para esta niña.",objective:"Uso de mayúscula en nombres propios."},
+  {id:"q30",section:"Oraciones y descripción",type:"name",emoji:"👦",prompt:"Inventa un nombre propio para este niño.",objective:"Uso de mayúscula en nombres propios."},
+  {id:"q31",notebook:true,section:"Oraciones y descripción",type:"textarea",emoji:"🐴",prompt:"Describe al caballo. Escribe al menos dos características.",objective:"Descripción mediante adjetivos."},
+  {id:"q32",notebook:true,section:"Oraciones y descripción",type:"textarea",emoji:"🌻",prompt:"Describe el girasol. Escribe al menos dos características.",objective:"Descripción mediante adjetivos."},
+
+  {type:"section",section:"Adjetivos, preguntas y acciones",icon:"💬",text:"Identifica cualidades, formula preguntas y reconoce acciones."},
+  {id:"q33",section:"Adjetivos, preguntas y acciones",type:"text",emoji:"😊",prompt:"Escribe un adjetivo que describa al personaje.",objective:"Uso de adjetivos."},
+  {id:"q34",section:"Adjetivos, preguntas y acciones",type:"text",emoji:"😊",prompt:"Escribe otro adjetivo diferente.",objective:"Uso de adjetivos."},
+  {id:"q35",section:"Adjetivos, preguntas y acciones",type:"text",emoji:"🐰",prompt:"Escribe un adjetivo que describa al conejo.",objective:"Uso de adjetivos."},
+  {id:"q36",section:"Adjetivos, preguntas y acciones",type:"text",emoji:"🐰",prompt:"Escribe otro adjetivo diferente.",objective:"Uso de adjetivos."},
+  {id:"q37",notebook:true,section:"Adjetivos, preguntas y acciones",type:"question",emoji:"🧙",prompt:"Imagina que entrevistas a un mago. Escribe una pregunta que le harías.",objective:"Formulación de preguntas."},
+  {id:"q38",notebook:true,section:"Adjetivos, preguntas y acciones",type:"question",emoji:"🧙",prompt:"Escribe una segunda pregunta para el mago.",objective:"Formulación de preguntas."},
+  {id:"q39",notebook:true,section:"Adjetivos, preguntas y acciones",type:"action",emoji:"🏊",prompt:"¿Qué acción realiza la persona?",answer:"nadar",alts:["nada","nadando"],objective:"Identificación de verbos."},
+  {id:"q40",notebook:true,section:"Adjetivos, preguntas y acciones",type:"action",emoji:"🍳",prompt:"¿Qué acción realiza la persona?",answer:"cocinar",alts:["cocina","cocinando"],objective:"Identificación de verbos."},
+
+  {type:"section",section:"Comprensión en contexto",icon:"🌎",text:"Lee una situación y usa la información para responder."},
+  {id:"q41",section:"Comprensión en contexto",type:"choice",prompt:"Ana y su mamá limpiaron el parque. Encontraron una lata, una botella y una bolsa de plástico. ¿Cuál de estos objetos encontraron?",options:["Una pelota","Una botella","Un libro"],answer:"Una botella",objective:"Comprensión de una situación breve."},
+
+  {type:"section",section:"Producción escrita",icon:"📖",text:"Termina creando una pequeña historia con orden y sentido."},
+  {id:"q42",section:"Producción escrita",type:"story",emoji:"🌱☀️🌧️🌻",prompt:"Observa la secuencia: semilla, sol, lluvia y flor. Escribe un cuento corto con inicio, desarrollo y final.",example:"Ejemplo de cómo empezar: Había una vez una pequeña semilla que estaba debajo de la tierra… No copies el ejemplo; crea tu propia historia.",objective:"Producción narrativa coherente."},
+  {id:"q43",notebook:true,section:"Producción escrita",type:"storypart",prompt:"Escribe una frase que pueda funcionar como inicio de tu cuento.",example:"Ejemplo: Una mañana, Sofía encontró una semilla en el jardín.",objective:"Estructura narrativa: inicio."},
+  {id:"q44",notebook:true,section:"Producción escrita",type:"storypart",prompt:"Escribe una frase que explique qué ocurrió después.",example:"Ejemplo: Después, la regó todos los días y esperó con paciencia.",objective:"Estructura narrativa: desarrollo."},
+  {id:"q45",notebook:true,section:"Producción escrita",type:"storypart",prompt:"Escribe una frase para cerrar la historia.",example:"Ejemplo: Finalmente, nació una hermosa flor y Sofía se puso muy feliz.",objective:"Estructura narrativa: desenlace."},
+
+  {type:"finish",section:"Final"}
+];
+
+let idx = Number(localStorage.getItem("eval_leng_idx") || 0);
+let answers = JSON.parse(localStorage.getItem("eval_leng_answers") || "{}");
+let notebook = JSON.parse(localStorage.getItem("eval_leng_notebook") || "{}");
+let restartCount = Number(localStorage.getItem("eval_leng_restart_count") || 0);
+const stage = document.getElementById("stage");
+
+function norm(s){
+  return (s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim().replace(/[¿?¡!.,]/g,"").replace(/\s+/g," ");
+}
+function realItems(){ return items.filter(i=>i.id); }
+function currentNumber(){
+  const before=items.slice(0,idx+1).filter(i=>i.id).length;
+  return before;
+}
+function save(){
+  localStorage.setItem("eval_leng_idx",idx);
+  localStorage.setItem("eval_leng_answers",JSON.stringify(answers));
+  localStorage.setItem("eval_leng_notebook",JSON.stringify(notebook));
+}
+function updateProgress(){
+  const total=realItems().length;
+  const answered=realItems().filter(i => answers[i.id] && String(answers[i.id]).trim()!=="").length;
+  const pct=Math.round(answered/total*100);
+  document.getElementById("progressBar").style.width=pct+"%";
+  document.getElementById("progressText").textContent=pct+"%";
+  document.getElementById("counter").textContent=Math.min(currentNumber()||1,total)+" de "+total;
+}
+function storeInput(id,val){answers[id]=val;save();updateProgress();}
+function storeNotebook(id,checked){notebook[id]=checked;save();}
+function escapeHtml(s){return String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+
+function render(){
+  const item=items[idx];
+  if(!item){idx=0;save();return render();}
+  updateProgress();
+
+  if(item.type==="section"){
+    stage.innerHTML=`
+      <div class="section-intro">
+        <div class="visual">${item.icon}</div>
+        <span class="section-label">Nueva sección</span>
+        <h2>${item.section}</h2>
+        <p>${item.text}</p>
+      </div>
+      <div class="actions">
+        <button class="secondary" onclick="prev()" ${idx===0?"disabled":""}>← Anterior</button>
+        <button class="primary" onclick="next()">Comenzar sección →</button>
+      </div>`;
+    return;
+  }
+  if(item.type==="finish"){
+    const total=realItems().length;
+    const answered=realItems().filter(i=>answers[i.id]&&String(answers[i.id]).trim()!=="").length;
+    const nbTotal=realItems().filter(i=>i.notebook).length;
+    const nbDone=realItems().filter(i=>i.notebook && notebook[i.id]).length;
+    stage.innerHTML=`
+      <div class="section-intro">
+        <div class="visual">🎉</div>
+        <span class="section-label">Evaluación terminada</span>
+        <h2>¡Has llegado al final!</h2>
+        <p>Contestaste ${answered} de ${total} actividades.</p><p>📓 Actividades de libreta completadas: <b>${nbDone} de ${nbTotal}</b>.</p><p>↺ Reinicios registrados en este dispositivo: <b>${restartCount}</b>.</p>
+      </div>
+      <div class="actions">
+        <button class="secondary" onclick="prev()">← Revisar última</button>
+        <button class="primary" onclick="showReview()">Ver resumen</button>
+      </div>`;
+    return;
+  }
+
+  let body = `<span class="section-label">${item.section}</span>
+    <div class="qnum">Actividad ${currentNumber()} de ${realItems().length}</div>
+    <div class="qtitle">${item.prompt||"Escribe lo que ves."}</div>`;
+
+  if(item.type.startsWith("reading")){
+    body += `<div class="reading"><h3>🐦 EL COLIBRÍ</h3><p>${readingText}</p>
+      <button class="secondary" onclick="speakReading()">🔊 Escuchar lectura</button></div>`;
+  }
+  if(item.emoji) body += `<div class="visual">${item.emoji}</div>`;
+  if(item.example) body += `<div class="example-box"><b>💡 Ejemplo:</b> ${item.example.replace(/^Ejemplo:\s*/,"")}</div>`;
+
+  const val=escapeHtml(answers[item.id]||"");
+  if(item.type==="text"||item.type==="visualword"||item.type==="visualsentence"||item.type==="name"||item.type==="question"||item.type==="action"||item.type==="storypart"){
+    body += `<input type="text" value="${val}" oninput="storeInput('${item.id}',this.value)" placeholder="Escribe tu respuesta">`;
+  } else if(item.type==="textarea"||item.type==="story"){
+    body += `<textarea oninput="storeInput('${item.id}',this.value)" placeholder="Escribe aquí...">${val}</textarea>`;
+  } else if(item.type==="reading-vf"){
+    body += `<div class="choices">
+      <label class="choice"><input type="radio" name="${item.id}" value="V" ${answers[item.id]==="V"?"checked":""} onchange="storeInput('${item.id}',this.value)"> Verdadero</label>
+      <label class="choice"><input type="radio" name="${item.id}" value="F" ${answers[item.id]==="F"?"checked":""} onchange="storeInput('${item.id}',this.value)"> Falso</label>
+      </div>`;
+  } else if(item.type==="choice"){
+    body += `<div class="choices">`+item.options.map(o=>`<label class="choice"><input type="radio" name="${item.id}" value="${escapeHtml(o)}" ${answers[item.id]===o?"checked":""} onchange="storeInput('${item.id}',this.value)"> ${o}</label>`).join("")+`</div>`;
+  } else if(item.type==="sentence"){
+    body += `<div class="wordchips">${item.words.map(w=>`<span class="chip">${w}</span>`).join("")}</div>
+      <input type="text" value="${val}" oninput="storeInput('${item.id}',this.value)" placeholder="Escribe la oración completa">`;
+  }
+
+  if(item.notebook){
+    body += `<div class="notebook-box">
+      <div class="notebook-title">📓 Trabajo en tu libreta</div>
+      <div>Después de responder aquí, <b>escribe también tu respuesta en la libreta</b>. Cuida la letra, mayúsculas y signos cuando correspondan.</div>
+      <label>
+        <input type="checkbox" ${notebook[item.id] ? "checked" : ""} onchange="storeNotebook('${item.id}',this.checked)">
+        <span>Ya escribí esta palabra u oración en mi libreta.</span>
+      </label>
+    </div>`;
+  }
+
+  body += `<div id="feedback" class="feedback"></div>
+  <div class="actions">
+    <button class="secondary" onclick="prev()">← Anterior</button>
+    <button class="primary" onclick="next()">Siguiente →</button>
+  </div>`;
+  stage.innerHTML=body;
+}
+
+function validateCurrent(){
+  const item=items[idx];
+  if(!item.id) return true;
+  const v=(answers[item.id]||"").trim();
+  if(!v){
+    document.getElementById("feedback").innerHTML=`<span class="bad">Escribe o selecciona una respuesta antes de continuar.</span>`;
+    return false;
+  }
+  if(item.notebook && !notebook[item.id]){
+    document.getElementById("feedback").innerHTML=`<span class="bad">Antes de continuar, escribe también tu respuesta en la libreta y marca la casilla.</span>`;
+    return false;
+  }
+  return true;
+}
+function next(){if(!validateCurrent())return; if(idx<items.length-1){idx++;save();render();window.scrollTo({top:0,behavior:"smooth"});}}
+function prev(){if(idx>0){idx--;save();render();window.scrollTo({top:0,behavior:"smooth"});}}
+
+function speakReading(){
+  if(!("speechSynthesis" in window))return;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(new SpeechSynthesisUtterance(readingText));
+}
+
+function showReview(){
+  let autoTotal=0,autoOk=0;
+  const total=realItems().length;
+  const answered=realItems().filter(i=>answers[i.id]&&String(answers[i.id]).trim()!=="").length;
+  const nbTotal=realItems().filter(i=>i.notebook).length;
+  const nbDone=realItems().filter(i=>i.notebook && notebook[i.id]).length;
+  const student=answers.q1 || "Sin nombre";
+  const stamp=new Date().toLocaleString("es-MX");
+
+  const rows=realItems().map(i=>{
+    let mark="Revisión docente";
+    if(i.answer){
+      autoTotal++;
+      const vals=[i.answer,...(i.alts||[])].map(norm);
+      const ok=vals.includes(norm(answers[i.id]||""));
+      if(ok) autoOk++;
+      mark=ok?"✅ Correcta":"❌ Revisar";
+    }
+    const nb=i.notebook ? `<br><small>📓 Libreta: ${notebook[i.id] ? "confirmada" : "pendiente"}</small>` : "";
+    return `<div class="review-item"><b>${i.id.toUpperCase()}</b> · ${i.objective}<br><span>${escapeHtml(answers[i.id]||"Sin respuesta")}</span><br><small>${mark}</small>${nb}</div>`;
+  }).join("");
+
+  stage.innerHTML=`
+    <span class="section-label">Reporte final</span>
+    <div id="captureReport" class="report-card">
+      <div class="report-head">
+        <h2 style="margin:0">📘 Reporte de Evaluación de Lenguajes</h2>
+        <p style="margin:6px 0 0"><b>Alumno:</b> ${escapeHtml(student)}</p>
+        <small>${stamp}</small>
+      </div>
+      <div class="report-grid">
+        <div class="report-stat">Actividades respondidas<b>${answered} / ${total}</b></div>
+        <div class="report-stat">Reactivos objetivos correctos<b>${autoOk} / ${autoTotal}</b></div>
+        <div class="report-stat">Evidencias en libreta<b>${nbDone} / ${nbTotal}</b></div>
+        <div class="report-stat">Reinicios del examen<b>${restartCount}</b></div>
+      </div>
+      <p><b>Observación:</b> las respuestas abiertas requieren revisión docente para valorar claridad, ortografía, uso de mayúsculas, coherencia y calidad de la producción escrita.</p>
+      <h3>Detalle de respuestas</h3>
+      <div class="review">${rows}</div>
+    </div>
+    <div class="actions">
+      <button class="secondary" onclick="render()">← Volver</button>
+      <button class="primary" onclick="captureReport()">📸 Guardar captura del reporte</button>
+      <button class="secondary" onclick="window.print()">🖨️ Imprimir / PDF</button>
+      <button class="secondary" onclick="resetExam()">↺ Reiniciar examen</button>
+    </div>
+    <div id="captureMsg" class="feedback"></div>`;
+}
+
+async function captureReport(){
+  const target=document.getElementById("captureReport");
+  const msg=document.getElementById("captureMsg");
+  if(!target) return;
+  if(typeof html2canvas==="undefined"){
+    msg.innerHTML='<span class="bad">No se pudo cargar la herramienta de captura. Usa “Imprimir / PDF” o toma una captura de pantalla desde el dispositivo.</span>';
+    return;
+  }
+  try{
+    msg.innerHTML='<span class="ok">Preparando captura…</span>';
+    const canvas=await html2canvas(target,{scale:2,backgroundColor:"#ffffff",useCORS:true,logging:false});
+    const link=document.createElement("a");
+    const safeName=(answers.q1||"alumno").trim().replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ_-]+/g,"_");
+    link.download=`reporte_lenguajes_${safeName}.png`;
+    link.href=canvas.toDataURL("image/png");
+    link.click();
+    msg.innerHTML='<span class="ok">✅ Captura del reporte guardada como imagen PNG.</span>';
+  }catch(e){
+    msg.innerHTML='<span class="bad">No fue posible generar la captura en este navegador. Puedes usar “Imprimir / PDF”.</span>';
+  }
+}
+
+function resetExam(){
+  if(confirm("¿Deseas borrar todas las respuestas y comenzar de nuevo? Este reinicio quedará registrado.")){
+    restartCount++;
+    localStorage.setItem("eval_leng_restart_count",restartCount);
+    localStorage.removeItem("eval_leng_idx");
+    localStorage.removeItem("eval_leng_answers");
+    localStorage.removeItem("eval_leng_notebook");
+    idx=0;answers={};notebook={};render();
+  }
+}
+render();
+</script>
+</body>
+</html>
