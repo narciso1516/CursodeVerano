@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Evaluación de Lenguajes 2.º → 3.º · Nueva versión</title>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<style>
+:root{--y:#FFE60F;--c:#FF8037;--b:#4582FF;--p:#603EA2;--ink:#064F70;--muted:#366BBB;--line:#D7E6F7;--bg:#F7FBFF;--ok:#37AE5C;--bad:#C43136}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(#F7FBFF,#FFFFFF);color:var(--ink)}
+.app{max-width:920px;margin:auto;padding:18px}
+header{position:sticky;top:8px;z-index:10;background:linear-gradient(135deg,#fff,#FFF9CC,#EEF7FF);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 10px 28px #4582ff1a}
+h1{margin:0;font-size:clamp(1.5rem,3vw,2.2rem)} .sub{color:var(--muted);margin:5px 0 12px}
+.bar{height:12px;background:#E6EEF9;border-radius:99px;overflow:hidden}.bar div{height:100%;width:0;background:linear-gradient(90deg,var(--y),var(--c),var(--p),var(--b));transition:.25s}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.pill{background:#fff;border:1px solid var(--line);padding:6px 10px;border-radius:99px;font-size:.9rem}
+.card{margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 12px 34px #ff803717}
+.card:before{content:"";display:block;width:82px;height:6px;border-radius:99px;background:linear-gradient(90deg,var(--y),var(--c),var(--p),var(--b));margin-bottom:18px}
+.tag{display:inline-block;background:#EEF6FF;color:#366BBB;border:1px solid #CFE5FF;padding:7px 11px;border-radius:99px;font-weight:850;font-size:.9rem}
+.qnum{margin-top:14px;color:var(--muted);font-weight:750}.prompt{font-size:clamp(1.18rem,2.6vw,1.6rem);font-weight:850;margin:8px 0 14px}
+.reading,.example,.notebook,.info{padding:15px;border-radius:16px;margin:12px 0}.reading{background:#FFF9CC;border:2px solid #FFE60F}.example{background:#EEF6FF;border:1px solid #A9D2FF}.notebook{background:#FFF9CC;border:2px dashed #FFE60F}.info{background:#FFF1EA;border:1px solid #FFD0B8}
+.visual{font-size:4rem;text-align:center;margin:8px}.choices{display:grid;gap:10px}.choice{display:flex;align-items:center;gap:10px;padding:13px;border:1px solid var(--line);border-radius:14px;background:#fff;cursor:pointer}.choice:hover{border-color:var(--c);background:#FFF5EF}
+input[type=text],textarea{width:100%;padding:13px;border:2px solid var(--line);border-radius:13px;font-size:1rem;outline:none}textarea{min-height:135px;resize:vertical}input:focus,textarea:focus{border-color:var(--b);box-shadow:0 0 0 4px #4298e919}
+.chips,.selected{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.chip{padding:9px 11px;border:1px solid #E8D22A;background:#FFF9CC;border-radius:12px;font-weight:800;cursor:pointer}.chip.sel{background:#EEF6FF;border-color:#73B9FF}
+.actions{display:flex;justify-content:space-between;gap:9px;flex-wrap:wrap;margin-top:20px}button{border:0;border-radius:13px;padding:11px 16px;font-weight:850;font-size:1rem;cursor:pointer}.pri,.primary{background:var(--b);color:#fff}.sec,.secondary{background:#FFF1EA;color:#7D3B1A;border:1px solid #FFD0B8}.danger{background:var(--p);color:#fff}
+.feedback{font-weight:850;margin-top:12px}.bad{color:var(--bad)}.ok{color:var(--ok)}
+.report{border:2px solid #CFE5FF;border-radius:20px;padding:20px}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}.stat{padding:12px;border:1px solid var(--line);border-radius:13px;background:#FAFCFF}.stat b{display:block;font-size:1.25rem}.detail{padding:10px;border-bottom:1px solid var(--line)}
+
+.order-panel{
+  margin:14px 0;
+  padding:14px;
+  border-radius:18px;
+  background:#FAFCFF;
+  border:1px solid #D7E6F7;
+}
+.order-help{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:12px 14px;
+  border-radius:14px;
+  background:#EEF7FF;
+  border:1px solid #CFE5FF;
+  margin-bottom:12px;
+  color:#064F70;
+}
+.order-source,
+.order-answer{
+  display:grid;
+  gap:10px;
+}
+.order-item{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-align:left;
+  background:#fff;
+  border:2px solid #D7E6F7;
+  border-radius:15px;
+  padding:13px 14px;
+  color:var(--ink);
+  box-shadow:0 5px 14px rgba(38,50,68,.05);
+}
+.order-item:hover{
+  border-color:var(--b);
+  transform:translateY(-1px);
+}
+.order-item.used{
+  opacity:.45;
+  background:#F2F5FA;
+  text-decoration:line-through;
+}
+.order-number{
+  flex:0 0 34px;
+  width:34px;height:34px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:var(--b);
+  color:white;
+  font-weight:900;
+}
+.order-controls{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+.icon-btn{
+  min-width:44px;
+  padding:9px 11px;
+  background:#F2F7FF;
+  border:1px solid #D7E6F7;
+  color:#064F70;
+}
+.icon-btn:hover{background:#EEF6FF}
+.order-empty{
+  padding:18px;
+  text-align:center;
+  color:var(--muted);
+  border:2px dashed #D7E6F7;
+  border-radius:14px;
+}
+.nav-footer{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:20px;
+}
+.nav-footer .primary,.nav-footer .secondary{
+  width:100%;
+  min-height:48px;
+}
+
+.welcome{
+  text-align:center;
+  padding:10px 4px 4px;
+}
+.welcome-hero{
+  font-size:5rem;
+  margin:6px 0 8px;
+}
+.welcome-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  text-align:left;
+  margin-top:16px;
+}
+.welcome-grid label{
+  font-weight:800;
+  color:#064F70;
+}
+.welcome-grid input{
+  margin-top:6px;
+}
+.test-note{
+  margin-top:14px;
+  padding:13px 15px;
+  border-radius:15px;
+  background:#FFF9CC;
+  border:1px solid #E8D22A;
+  text-align:left;
+}
+@media(max-width:620px){
+  .welcome-grid{grid-template-columns:1fr}
+}
+
+@media(max-width:620px){
+  .order-item{padding:12px}
+  .nav-footer{grid-template-columns:1fr}
+}
+
+@media(max-width:620px){.card{padding:17px}.actions button{flex:1}}
+
+
+/* ===== Apoyos pedagógicos breves: orientan sin revelar respuestas ===== */
+.learning-support{
+  margin:12px 0 14px;
+  padding:13px 15px;
+  border:1px solid #CFE5FF;
+  border-left:5px solid var(--b);
+  border-radius:15px;
+  background:#F4FAFF;
+  color:#064F70;
+  font-size:clamp(1rem,2.4vw,1.08rem);
+  line-height:1.55;
+}
+.learning-support b{color:#366BBB}
+.learning-support .support-example{
+  display:block;
+  margin-top:5px;
+  color:#366BBB;
+}
+
+/* ===== Capa UX/UI infantil responsive (sin alterar contenido académico) ===== */
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{min-width:320px;min-height:100dvh;line-height:1.55;overflow-x:hidden}
+button,input,textarea{font:inherit}button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;min-height:48px}button:active:not(:disabled){transform:scale(.97)}button:disabled{opacity:.48;cursor:not-allowed}
+button:focus-visible,input:focus-visible,textarea:focus-visible,.choice:focus-within{outline:3px solid #163f73;outline-offset:3px}
+.app{width:min(100% - 24px,850px);padding:12px 0 28px}header{top:max(6px,env(safe-area-inset-top));padding:14px 16px;border-radius:20px}header h1{font-size:clamp(1.35rem,5.2vw,2rem);line-height:1.18}header .sub{font-size:clamp(.88rem,3.4vw,1rem);line-height:1.35;margin-bottom:10px}.bar{height:10px}.meta{gap:6px}.pill{padding:5px 9px;font-size:clamp(.78rem,3vw,.9rem)}
+.card{margin-top:12px;padding:clamp(18px,4.5vw,30px);border-radius:22px;min-height:52vh}.card:before{width:64px;height:5px;margin-bottom:15px}.tag{font-size:clamp(.82rem,3.2vw,.92rem);padding:6px 10px}.qnum{margin-top:11px;font-size:clamp(.9rem,3.4vw,1rem)}
+.task-instruction{display:flex;gap:10px;align-items:flex-start;margin:12px 0 8px;padding:11px 13px;border-radius:14px;background:#F5FAFF;border:1px solid #CFE4F7;color:#2C526D;font-size:clamp(1rem,3.8vw,1.08rem);font-weight:750}.task-instruction .task-icon{font-size:1.15em;line-height:1.35;flex:0 0 auto}
+.prompt{font-size:clamp(1.35rem,5.4vw,1.75rem);line-height:1.38;margin:10px 0 16px;letter-spacing:.002em}.reading,.example,.notebook,.info{font-size:clamp(1rem,3.8vw,1.08rem);line-height:1.62}.reading p{margin-bottom:0}.visual{font-size:clamp(4.2rem,19vw,6.5rem);line-height:1.1;margin:14px auto 18px}
+.choices{gap:12px}.choice{width:100%;min-height:56px;padding:14px 15px;border:2px solid var(--line);border-radius:16px;font-size:clamp(1.08rem,4.2vw,1.22rem);line-height:1.35;text-align:left;transition:border-color .16s,background .16s,box-shadow .16s,transform .08s;touch-action:manipulation}.choice:hover{transform:none}.choice:has(input[type=radio]:checked),.choice.sel{border-color:var(--b);background:#EEF7FF;box-shadow:0 0 0 3px #4298e91c}.choice input[type=radio]{width:22px;height:22px;flex:0 0 22px;accent-color:var(--b)}
+input[type=text],textarea{min-height:54px;padding:14px 15px;border-radius:14px;font-size:18px;line-height:1.45;background:#fff;color:var(--ink)}textarea{min-height:160px}input::placeholder,textarea::placeholder{color:#7B8491;opacity:1}
+.feedback{min-height:28px;margin-top:14px;padding:0 2px;font-size:clamp(1rem,3.8vw,1.08rem);line-height:1.45}.feedback:not(:empty){padding:11px 13px;border-radius:13px;background:#FFF7F8;border:1px solid #F0C9D1}.feedback .bad:before{content:"↻ ";font-weight:900}.feedback .ok:before{content:"✓ ";font-weight:900}
+.order-panel{padding:clamp(12px,3.5vw,18px)}.order-help{font-size:clamp(.98rem,3.7vw,1.08rem);line-height:1.5}.order-item{min-height:56px;padding:13px 14px;font-size:clamp(1rem,3.9vw,1.14rem);touch-action:manipulation}.order-item:active:not(:disabled){transform:scale(.985)}.order-controls button,.icon-btn{min-height:48px;min-width:48px}.icon-btn{font-size:1.1rem}
+.notebook label{display:flex;align-items:flex-start;gap:10px;padding:8px 0;cursor:pointer}.notebook input[type=checkbox]{width:24px;height:24px;flex:0 0 24px;accent-color:var(--b)}
+.nav-footer{align-items:stretch;margin-top:22px}.nav-footer button{min-height:54px;padding:13px 16px;font-size:clamp(1.05rem,4vw,1.17rem)}.nav-footer .primary{box-shadow:0 7px 18px #4298e92b}.actions button{min-height:50px}.welcome h2{font-size:clamp(1.55rem,6vw,2rem);margin-bottom:8px}.welcome p{font-size:clamp(1rem,3.8vw,1.08rem)}.welcome-grid input{margin-top:7px}.welcome-hero{font-size:clamp(4rem,19vw,6rem)}.report{overflow-wrap:anywhere}.detail{line-height:1.5}.stats{grid-template-columns:repeat(auto-fit,minmax(135px,1fr))}
+@media (hover:none){.choice:hover,.order-item:hover,.icon-btn:hover{transform:none}}
+@media (max-width:620px){.app{width:min(100% - 16px,850px);padding-top:8px}header{padding:11px 12px;border-radius:17px}header .sub{display:none}.meta .pill:nth-child(3),.meta .pill:nth-child(4){display:none}.card{margin-top:9px;padding:17px 14px 24px;border-radius:18px}.task-instruction{padding:10px 11px}.reading,.example,.notebook,.info{padding:13px}.nav-footer{position:sticky;bottom:0;z-index:8;margin:20px -6px -14px;padding:10px 6px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(to top,#fff 82%,rgba(255,255,255,.88));border-radius:16px 16px 0 0}.nav-footer .secondary{order:1}.nav-footer .primary{order:2}.order-item{gap:9px}.order-item .icon-btn{padding:8px 10px}}
+@media (min-width:621px) and (max-width:900px){.app{width:min(100% - 32px,850px)}.card{padding:28px}.prompt{max-width:760px}.choices{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+@media print{header,.actions{display:none}.card{box-shadow:none;border:0}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <h1>📘 Evaluación de Lenguajes</h1>
+  <div class="sub">2.º de primaria → preparación para 3.º · Nueva versión</div>
+  <div class="bar" role="progressbar" aria-label="Progreso del examen" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="bar"></div></div>
+  <div class="meta">
+    <span class="pill">Progreso: <b id="pct">0%</b></span>
+    <span class="pill">Actividad: <b id="counter">1 de 30</b></span>
+    <span class="pill">💾 Guardado automático</span>
+    <span class="pill">↺ Reinicios: <b id="restartTop">0</b></span>
+  </div>
+</header>
+<div class="card" id="stage"></div>
+</div>
+
+<script>
+const story=`EL FAROL
+Una tarde, Sofía caminaba con su abuelo por una vereda. Cerca de una piedra encontraron un pequeño farol rojo.
+—¿De quién será? —preguntó Sofía.
+Más adelante vieron a un señor que buscaba algo entre los árboles.
+—Perdí mi farol mientras recogía leña —explicó.
+Sofía se lo mostró y el señor sonrió muy contento. Le dio las gracias y continuó su camino. Sofía y su abuelo regresaron a casa felices por haber ayudado.`;
+
+const review=`Título: El viaje de Luna
+Editorial: Horizonte Infantil
+Año: 2025
+Este libro cuenta la aventura de Luna, una niña que viaja con su familia a una isla. Allí aprende sobre animales marinos y descubre por qué es importante cuidar las playas. Es una historia sencilla, divertida y con ilustraciones coloridas.`;
+
+const recipe=`ENSALADA DE FRUTAS
+Ingredientes:
+• 1 manzana
+• 1 plátano
+• 1 naranja
+• 1 taza de uvas
+• Un poco de yogur
+
+Preparación:
+1. Lavar las frutas.
+2. Cortar la manzana, el plátano y la naranja.
+3. Colocar todo en un recipiente.
+4. Agregar las uvas.
+5. Mezclar y servir con un poco de yogur.`;
+
+const A=[
+{id:"q1",s:"Comprensión y secuencia",t:"sequence",p:"Ordena los hechos de la historia «El farol». Toca los enunciados en el orden correcto.",reading:"story",items:["Sofía encontró un farol.","Un señor dijo que lo había perdido.","Sofía devolvió el farol.","Sofía caminaba con su abuelo.","El señor agradeció la ayuda."],answer:["Sofía caminaba con su abuelo.","Sofía encontró un farol.","Un señor dijo que lo había perdido.","Sofía devolvió el farol.","El señor agradeció la ayuda."],o:"Secuencia narrativa"},
+{id:"q2",s:"Comprensión y secuencia",t:"choice",p:"¿De qué color era el farol?",reading:"story",ops:["Azul","Rojo","Verde"],answer:"Rojo",o:"Información explícita"},
+{id:"q3",s:"Comprensión y secuencia",t:"choice",p:"¿Por qué estaba contento el señor?",reading:"story",ops:["Porque encontró su farol","Porque compró comida","Porque empezó a llover"],answer:"Porque encontró su farol",o:"Comprensión inferencial sencilla"},
+{id:"q4",s:"Comprensión y secuencia",t:"text",p:"📓 Escribe una oración que explique qué enseñanza deja la historia.",reading:"story",nb:1,o:"Interpretación y escritura"},
+
+{id:"q5",s:"Preparar una exposición",t:"multi",p:"Selecciona exactamente DOS pasos que conviene realizar antes de exponer un tema.",items:["Elegir un tema","Investigar información","Hablar sin prepararse","Terminar la exposición antes de empezar"],answer:["Elegir un tema","Investigar información"],max:2,o:"Planeación de exposición"},
+{id:"q6",s:"Tipos de texto",t:"choice",p:"Un cuento sobre una princesa y un dragón es un texto…",ops:["Literario","Informativo"],answer:"Literario",o:"Distinguir texto literario e informativo"},
+{id:"q7",s:"Tipos de texto",t:"choice",p:"Un texto que explica cómo viven los pingüinos es…",ops:["Literario","Informativo"],answer:"Informativo",o:"Distinguir texto literario e informativo"},
+
+{id:"q8",s:"Adjetivos",t:"choice",p:"¿Qué adjetivos describen mejor a una jirafa?",visual:"🦒",ops:["Alta, larga y tranquila","Pequeña, redonda y diminuta","Fría, líquida y transparente"],answer:"Alta, larga y tranquila",o:"Adjetivos calificativos"},
+{id:"q9",s:"Orden alfabético",t:"sequence",p:"Ordena alfabéticamente estos nombres.",items:["Mónica","Andrea","Carlos"],answer:["Andrea","Carlos","Mónica"],o:"Orden alfabético"},
+{id:"q10",s:"Segmentación",t:"text",p:"Separa correctamente las palabras y forma una oración: Laniñajuegaconunapelotaamarilla.",answer:"La niña juega con una pelota amarilla.",nb:1,o:"Segmentación de palabras y oración"},
+
+{id:"q11",s:"La reseña",t:"choice",p:"El texto que leerás a continuación es…",reading:"review",ops:["Una reseña","Una receta","Una noticia"],answer:"Una reseña",o:"Identificación de reseña"},
+{id:"q12",s:"La reseña",t:"choice",p:"¿Qué dato NO aparece en la reseña?",reading:"review",ops:["El autor","El título","El año"],answer:"El autor",o:"Reconocimiento de datos bibliográficos"},
+{id:"q13",s:"La reseña",t:"text",p:"¿De qué trata el libro según la reseña?",reading:"review",o:"Comprensión de reseña"},
+
+{id:"q14",s:"La receta",t:"text",p:"Escribe un nombre adecuado para el platillo.",reading:"recipe",answer:"Ensalada de frutas",o:"Título de receta"},
+{id:"q15",s:"La receta",t:"choice",p:"¿Cuál de estos ingredientes aparece en la receta?",reading:"recipe",ops:["Uvas","Arroz","Queso"],answer:"Uvas",o:"Identificación de ingredientes"},
+{id:"q16",s:"La receta",t:"choice",p:"El texto que acabas de leer es…",reading:"recipe",ops:["Una receta","Una leyenda","Una historieta"],answer:"Una receta",o:"Tipo de texto"},
+{id:"q17",s:"La receta",t:"multi",p:"Selecciona las palabras que indican acciones.",reading:"recipe",items:["lavar","cortar","manzana","mezclar","yogur"],answer:["lavar","cortar","mezclar"],o:"Identificación de verbos"},
+
+{id:"q18",s:"Describe alimentos",t:"text",p:"Escribe tres adjetivos para describir una ensalada de frutas.",visual:"🍓🍌🍎",ex:"Ejemplo con otro alimento: sopa → caliente, salada, líquida.",nb:1,o:"Producción de adjetivos"},
+{id:"q19",s:"Cartel publicitario",t:"textarea",p:"📓 Crea un mensaje breve para un cartel que promueva la higiene bucal.",visual:"🪥😁",ex:"Debe tener un mensaje claro y convincente. Ejemplo de otro tema: «¡Cuida el agua, cada gota cuenta!»",nb:1,o:"Producción de cartel"},
+{id:"q20",s:"Leyendas",t:"choice",p:"¿Cuál es una característica de las leyendas?",ops:["Mezclan sucesos reales y fantásticos","Solo contienen recetas","Siempre explican operaciones matemáticas"],answer:"Mezclan sucesos reales y fantásticos",o:"Características de las leyendas"},
+
+{id:"q21",s:"Escribe lo que ves",t:"text",p:"Escribe el nombre de la imagen.",visual:"🚂",answer:"tren",o:"Correspondencia imagen-palabra"},
+{id:"q22",s:"Escribe lo que ves",t:"text",p:"Escribe el nombre de la imagen.",visual:"🧀",answer:"queso",o:"Correspondencia imagen-palabra"},
+{id:"q23",s:"Escribe lo que ves",t:"text",p:"Escribe el nombre de la imagen.",visual:"🛒",answer:"carrito",alts:["carreta","carrito de compras"],o:"Correspondencia imagen-palabra"},
+{id:"q24",s:"Escribe lo que ves",t:"text",p:"Escribe el nombre de la imagen.",visual:"🔨",answer:"martillo",nb:1,o:"Correspondencia imagen-palabra"},
+{id:"q25",s:"Escribe lo que ves",t:"text",p:"Escribe el nombre de la imagen.",visual:"🥄",answer:"cuchara",o:"Correspondencia imagen-palabra"},
+{id:"q26",s:"Escribe lo que ves",t:"text",p:"Escribe el nombre de la imagen.",visual:"🎸",answer:"guitarra",nb:1,o:"Correspondencia imagen-palabra"},
+
+{id:"q27",s:"Reto de escritura",t:"text",p:"Corrige la oración: mañana iremos a visitar a mi abuela",answer:"Mañana iremos a visitar a mi abuela.",nb:1,o:"Mayúscula y punto"},
+{id:"q28",s:"Reto de escritura",t:"sequence",p:"Ordena las palabras para formar una oración.",items:["parque","juega","Ana","en","el"],answer:["Ana","juega","en","el","parque"],nb:1,o:"Orden sintáctico"},
+{id:"q29",s:"Reto de escritura",t:"text",p:"Escribe una pregunta que le harías a una persona que trabaja en una biblioteca.",ex:"Ejemplo con otro oficio: «¿Cuál es tu trabajo favorito?»",nb:1,o:"Formulación de preguntas"},
+{id:"q30",s:"Reto final",t:"textarea",p:"Escribe un pequeño cuento de 4 a 6 oraciones sobre un objeto perdido que vuelve con su dueño.",ex:"Tu cuento debe tener inicio, desarrollo y final.",nb:1,o:"Producción narrativa"}
+];
+
+let index=Number(localStorage.getItem("lengNuevo_index")||0);
+let answers=JSON.parse(localStorage.getItem("lengNuevo_answers")||"{}");
+let notebook=JSON.parse(localStorage.getItem("lengNuevo_notebook")||"{}");
+let restarts=Number(localStorage.getItem("lengNuevo_restarts")||0);
+let studentName=localStorage.getItem("lengNuevo_student")||"";
+let studentGroup=localStorage.getItem("lengNuevo_group")||"";
+let started=localStorage.getItem("lengNuevo_started")==="1";
+let tempSeq=[],tempMulti=[];
+const stage=document.getElementById("stage");
+
+function norm(s){return(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[¿?¡!.,]/g,"").trim().replace(/\s+/g," ")}
+function esc(s){return String(s||"").replace(/[&<>"\']/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m];});}
+function save(){
+ localStorage.setItem("lengNuevo_index",index);
+ localStorage.setItem("lengNuevo_answers",JSON.stringify(answers));
+ localStorage.setItem("lengNuevo_notebook",JSON.stringify(notebook));
+ localStorage.setItem("lengNuevo_student",studentName);
+ localStorage.setItem("lengNuevo_group",studentGroup);
+ localStorage.setItem("lengNuevo_started",started?"1":"0");
+}
+function setA(id,v){answers[id]=v;save();headerUpdate()}
+function setN(id,v){notebook[id]=v;save()}
+function headerUpdate(){
+ const done=A.filter(a=>answers[a.id]!==undefined && String(Array.isArray(answers[a.id])?answers[a.id].join(""):answers[a.id]).trim()!=="").length;
+ const p=Math.round(done/A.length*100);
+ const barEl=document.getElementById("bar");
+ const pctEl=document.getElementById("pct");
+ const countEl=document.getElementById("counter");
+ const restartEl=document.getElementById("restartTop");
+ if(barEl){barEl.style.width=p+"%";barEl.parentElement?.setAttribute("aria-valuenow",String(p));}
+ if(pctEl)pctEl.textContent=p+"%";
+ if(countEl)countEl.textContent=started ? Math.min(index+1,A.length)+" de "+A.length : "Preparación";
+ if(restartEl)restartEl.textContent=restarts;
+}
+function readBox(kind){
+ const txt=kind==="story"?story:kind==="review"?review:recipe;
+ const title=kind==="story"?"📖 EL FAROL":kind==="review"?"📚 RESEÑA":"🍎 RECETA";
+ return `<div class="reading"><b>${title}</b><p>${txt.replace(/\n/g,"<br>")}</p></div>`;
+}
+function renderWelcome(){
+ headerUpdate();
+ stage.innerHTML=`<div class="welcome">
+   <div class="welcome-hero">📘✏️</div>
+   <span class="tag">Antes de comenzar</span>
+   <h2>Evaluación de Lenguajes</h2>
+   <p>Escribe tus datos. Después verás una actividad a la vez.</p>
+   <div class="welcome-grid">
+     <label>Nombre y apellidos
+       <input id="studentNameInput" type="text" value="${esc(studentName)}" placeholder="Escribe tu nombre completo" autocomplete="name" aria-label="Nombre y apellidos">
+     </label>
+     <label>Grado y grupo
+       <input id="studentGroupInput" type="text" value="${esc(studentGroup)}" placeholder="Ejemplo: 2.º A" autocomplete="off" aria-label="Grado y grupo">
+     </label>
+   </div>
+   <div class="test-note"><b>💡 Recuerda:</b> lee con calma. Puedes usar el botón <b>Volver</b> para revisar una actividad. En algunas preguntas también escribirás en tu libreta.</div>
+   <div class="actions" style="justify-content:center">
+     <button type="button" class="pri" onclick="startExam()">Comenzar examen →</button>
+   </div>
+   <div id="welcomeFeedback" class="feedback" role="status" aria-live="polite"></div>
+ </div>`;
+}
+function startExam(){
+ const n=document.getElementById("studentNameInput");
+ const g=document.getElementById("studentGroupInput");
+ studentName=(n?.value||"").trim();
+ studentGroup=(g?.value||"").trim();
+ if(!studentName){
+   document.getElementById("welcomeFeedback").innerHTML='<span class="bad">Escribe tu nombre antes de comenzar.</span>';
+   return;
+ }
+ started=true;
+ save();
+ render();
+}
+
+
+const learningSupports={
+ q1:`<b>💡 Pista:</b> piensa qué pasó <b>primero</b>, qué ocurrió <b>después</b> y qué sucedió <b>al final</b>.<span class="support-example">Ejemplo distinto: «Me desperté → desayuné → fui a la escuela».</span>`,
+ q4:`<b>💡 Para pensar:</b> recuerda lo que hicieron los personajes y pregúntate: <b>¿qué puedo aprender de lo que pasó?</b> Escribe una oración completa.`,
+ q5:`<b>💡 Pista:</b> piensa en las acciones que ayudan a una persona a llegar <b>lista y preparada</b> antes de hablar frente al grupo.`,
+ q6:`<b>💡 Recuerda:</b> un texto puede contar una historia para entretener o puede explicar información sobre un tema. Fíjate en <b>para qué fue escrito</b>.`,
+ q7:`<b>💡 Recuerda:</b> pregúntate si el texto busca <b>contar una historia</b> o <b>explicar datos sobre un tema</b>.`,
+ q8:`<b>💡 Pista:</b> los adjetivos dicen <b>cómo es</b> una persona, animal, objeto o lugar.<span class="support-example">Ejemplo distinto: elefante → grande, pesado.</span>`,
+ q9:`<b>💡 Pista:</b> compara primero la <b>primera letra</b> de cada nombre y sigue el orden A, B, C, D…`,
+ q10:`<b>💡 Pista:</b> busca dónde termina una palabra y comienza la siguiente. Después revisa que la oración se pueda leer con naturalidad.<span class="support-example">Ejemplo distinto: «Elgatoduerme» → separa cada palabra antes de escribir.</span>`,
+ q11:`<b>💡 Pista:</b> observa qué información presenta el texto: título, datos del libro y una explicación u opinión sobre su contenido.`,
+ q12:`<b>💡 Estrategia:</b> revisa una opción a la vez y búscala en el texto. Elige el dato que <b>no encuentres escrito</b>.`,
+ q13:`<b>💡 Para responder:</b> vuelve a leer y localiza <b>quién aparece, adónde va y qué aprende o descubre</b>. Luego explícalo con tus propias palabras.`,
+ q14:`<b>💡 Pista:</b> un buen nombre de platillo debe decir de manera breve <b>qué comida se prepara</b>. Revisa los ingredientes y la preparación.`,
+ q15:`<b>💡 Estrategia:</b> compara cada opción con la lista de <b>Ingredientes</b>. No respondas de memoria: búscala en el texto.`,
+ q16:`<b>💡 Pista:</b> fíjate si el texto tiene <b>ingredientes</b> y <b>pasos de preparación</b>. Esas partes ayudan a reconocer qué tipo de texto es.`,
+ q17:`<b>💡 Recuerda:</b> las palabras de acción indican algo que alguien <b>hace</b>.<span class="support-example">Ejemplo distinto: correr, saltar, escribir.</span>`,
+ q18:`<b>💡 Antes de escribir:</b> piensa en su <b>sabor, color, textura o aspecto</b>. Necesitas palabras que digan cómo es.`,
+ q19:`<b>💡 Para crear tu mensaje:</b> piensa primero <b>qué quieres que haga la persona</b> y exprésalo en una frase corta, clara y fácil de recordar.`,
+ q20:`<b>💡 Pista:</b> piensa en las historias tradicionales que pasan de generación en generación y que pueden combinar cosas que podrían ocurrir con elementos extraordinarios.`,
+ q21:`<b>💡 Observa:</b> mira la imagen completa, di en voz baja qué objeto reconoces y después escribe <b>solo su nombre</b>.`,
+ q22:`<b>💡 Observa:</b> mira su forma y piensa dónde has visto ese objeto o alimento. Después escribe <b>solo su nombre</b>.`,
+ q23:`<b>💡 Observa:</b> piensa <b>para qué sirve</b> el objeto de la imagen; eso puede ayudarte a recordar su nombre.`,
+ q24:`<b>💡 Observa:</b> identifica qué objeto es y piensa <b>para qué se usa</b>. Después escribe su nombre.`,
+ q25:`<b>💡 Observa:</b> piensa dónde se utiliza normalmente el objeto de la imagen y escribe su nombre.`,
+ q26:`<b>💡 Observa:</b> piensa cómo se usa el objeto y qué sonido puede producir. Después escribe su nombre.`,
+ q27:`<b>💡 Revisa dos cosas:</b> ¿cómo debe comenzar una oración? ¿qué signo debe aparecer cuando termina?<span class="support-example">Ejemplo distinto: «hoy hace calor» necesita revisar su inicio y su final.</span>`,
+ q28:`<b>💡 Pista:</b> busca primero <b>quién realiza la acción</b>, después la acción y luego completa la idea.<span class="support-example">Ejemplo distinto: «pelota / Luis / la / patea» → piensa quién hace algo antes de ordenar.</span>`,
+ q29:`<b>💡 Para crear una pregunta:</b> piensa en algo que quieras saber sobre <b>su trabajo, sus actividades o el lugar donde trabaja</b>. Recuerda escribirla como pregunta.`,
+ q30:`<b>💡 Planea antes de escribir:</b> 1) presenta el objeto o personaje, 2) cuenta qué problema ocurre, 3) explica cómo se resuelve. Después revisa que tengas de 4 a 6 oraciones.`
+};
+
+function supportFor(a){
+ return learningSupports[a.id] ? `<div class="learning-support">${learningSupports[a.id]}</div>` : "";
+}
+
+function instructionFor(a){
+ if(a.t==="choice")return ["👆","Toca una respuesta."];
+ if(a.t==="multi")return ["☑️","Toca las opciones que correspondan."];
+ if(a.t==="sequence")return ["🧩","Toca los elementos para colocarlos en orden."];
+ if(a.t==="textarea")return ["✏️","Escribe tu respuesta en el recuadro."];
+ return ["✏️","Escribe tu respuesta."];
+}
+
+function render(){
+ headerUpdate();
+ if(!started){renderWelcome();return}
+ if(index>=A.length){finish();return}
+ const a=A[index];
+ tempSeq=Array.isArray(answers[a.id])?[...answers[a.id]]:[];
+ tempMulti=Array.isArray(answers[a.id])?[...answers[a.id]]:[];
+ const ui=instructionFor(a);
+  let h=`<span class="tag">${a.s}</span><div class="qnum">Actividad ${index+1} de ${A.length}</div><div class="task-instruction" aria-label="Instrucción"><span class="task-icon" aria-hidden="true">${ui[0]}</span><span>${ui[1]}</span></div><div class="prompt">${a.p}</div>${supportFor(a)}`;
+ if(a.reading)h+=readBox(a.reading);
+ if(a.visual)h+=`<div class="visual">${a.visual}</div>`;
+ if(a.ex)h+=`<div class="example"><b>💡 Ejemplo:</b> ${a.ex}</div>`;
+ const v=esc(answers[a.id]||"");
+ if(a.t==="text")h+=`<input type="text" value="${v}" oninput="setA('${a.id}',this.value)" placeholder="Escribe tu respuesta" aria-label="Respuesta escrita" autocomplete="off">`;
+ else if(a.t==="textarea")h+=`<textarea oninput="setA('${a.id}',this.value)" placeholder="Escribe aquí..." aria-label="Respuesta escrita" autocomplete="off">${v}</textarea>`;
+ else if(a.t==="choice")h+=`<div class="choices">${a.ops.map(o=>`<label class="choice"><input type="radio" name="${a.id}" value="${esc(o)}" ${answers[a.id]===o?"checked":""} onchange="setA('${a.id}',this.value)"> ${o}</label>`).join("")}</div>`;
+ else if(a.t==="sequence")h+=`
+ <div class="order-panel">
+   <div class="order-help">
+     <span style="font-size:1.35rem">🧩</span>
+     <div><b>Ordena paso a paso.</b><br>Toca un elemento para enviarlo a tu respuesta. Después puedes subirlo, bajarlo, quitarlo o empezar de nuevo.</div>
+   </div>
+   <div id="orderSource" class="order-source"></div>
+   <h4 style="margin:16px 0 8px">Tu orden</h4>
+   <div id="seqView" class="order-answer"></div>
+   <div class="order-controls">
+     <button class="sec" onclick="undoSeq('${a.id}')">↶ Deshacer</button>
+     <button class="sec" onclick="clearSeq('${a.id}')">🗑️ Empezar de nuevo</button>
+   </div>
+ </div>`;
+ else if(a.t==="multi")h+=`<div class="info"><b>👆 Elige ${a.max||a.answer?.length||"las"} opciones.</b> <span id="multiCount">${tempMulti.length}/${a.max||a.answer?.length||"?"} seleccionadas</span></div><div class="choices">${a.items.map(x=>`<button type="button" class="choice ${tempMulti.includes(x)?"sel":""}" onclick='toggleMulti("${a.id}", ${JSON.stringify(x)}, this)'><span style="font-size:1.25rem">${tempMulti.includes(x)?"☑️":"⬜"}</span><span>${x}</span></button>`).join("")}</div>`;
+ if(a.nb)h+=`<div class="notebook"><b>📓 También en tu libreta</b><p>Escribe tu respuesta a mano y luego marca la casilla.</p><label><input type="checkbox" ${notebook[a.id]?"checked":""} onchange="setN('${a.id}',this.checked)"> Ya lo escribí en mi libreta.</label></div>`;
+ h+=`<div id="feedback" class="feedback" role="status" aria-live="polite"></div><div class="nav-footer"><button type="button" class="secondary" onclick="prev()" ${index===0?"disabled":""}>← Volver</button><button type="button" class="primary" onclick="next()">Continuar →</button></div>`;
+ stage.innerHTML=h;if(a.t==="sequence")renderSeq();
+}
+
+function addSeq(id,x){
+  const a=A[index];
+  if(!tempSeq.includes(x)){
+    tempSeq.push(x);
+    answers[id]=[...tempSeq];
+    save();
+    renderSeq();
+    headerUpdate();
+  }
+}
+function removeSeq(id,pos){
+  tempSeq.splice(pos,1);
+  answers[id]=[...tempSeq];
+  save();
+  renderSeq();
+  headerUpdate();
+}
+function moveSeq(id,pos,dir){
+  const next=pos+dir;
+  if(next<0 || next>=tempSeq.length)return;
+  [tempSeq[pos],tempSeq[next]]=[tempSeq[next],tempSeq[pos]];
+  answers[id]=[...tempSeq];
+  save();
+  renderSeq();
+}
+function undoSeq(id){
+  if(!tempSeq.length)return;
+  tempSeq.pop();
+  answers[id]=[...tempSeq];
+  save();
+  renderSeq();
+  headerUpdate();
+}
+function clearSeq(id){
+  tempSeq=[];
+  answers[id]=[];
+  save();
+  renderSeq();
+  headerUpdate();
+}
+function renderSeq(){
+  const a=A[index];
+  if(!a || a.t!=="sequence")return;
+
+  const source=document.getElementById("orderSource");
+  const view=document.getElementById("seqView");
+
+  if(source){
+    source.innerHTML=a.items.map((x,i)=>{
+      const used=tempSeq.includes(x);
+      return `<button type="button" class="order-item ${used?"used":""}" ${used?"disabled":""}
+        onclick='addSeq("${a.id}", ${JSON.stringify(x)})'>
+        <span style="font-size:1.25rem">${used?"✓":"＋"}</span>
+        <span>${esc(x)}</span>
+      </button>`;
+    }).join("");
+  }
+
+  if(view){
+    if(!tempSeq.length){
+      view.innerHTML=`<div class="order-empty">Todavía no has agregado elementos.</div>`;
+    }else{
+      view.innerHTML=tempSeq.map((x,i)=>`
+        <div class="order-item">
+          <span class="order-number">${i+1}</span>
+          <span style="flex:1">${esc(x)}</span>
+          <button type="button" class="icon-btn" aria-label="Subir" onclick="moveSeq('${a.id}',${i},-1)">↑</button>
+          <button type="button" class="icon-btn" aria-label="Bajar" onclick="moveSeq('${a.id}',${i},1)">↓</button>
+          <button type="button" class="icon-btn" aria-label="Quitar" onclick="removeSeq('${a.id}',${i})">✕</button>
+        </div>`).join("");
+    }
+  }
+}
+function toggleMulti(id,x,btn){
+ const a=A[index];
+ const i=tempMulti.indexOf(x);
+ if(i>=0){
+   tempMulti.splice(i,1);
+ }else{
+   const limit=a.max||((Array.isArray(a.answer))?a.answer.length:Infinity);
+   if(tempMulti.length>=limit){
+     const fb=document.getElementById("feedback");
+     if(fb)fb.innerHTML='<span class="bad">Solo debes seleccionar '+limit+' opciones. Quita una para cambiarla.</span>';
+     return;
+   }
+   tempMulti.push(x);
+ }
+ answers[id]=[...tempMulti];
+ save();
+ render();
+}
+function valid(){
+ const a=A[index],v=answers[a.id];
+ const fb=document.getElementById("feedback");
+ const filled=Array.isArray(v)?v.length>0:String(v||"").trim()!=="";
+ if(!filled){if(fb)fb.innerHTML='<span class="bad">Completa la actividad antes de continuar.</span>';return false}
+ if(a.t==="sequence" && Array.isArray(a.items) && (!Array.isArray(v) || v.length!==a.items.length)){
+   if(fb)fb.innerHTML='<span class="bad">Todavía faltan elementos por ordenar.</span>';
+   return false;
+ }
+ if(a.t==="multi"){
+   const required=a.max||((Array.isArray(a.answer))?a.answer.length:1);
+   if(!Array.isArray(v) || v.length!==required){
+     if(fb)fb.innerHTML='<span class="bad">Debes seleccionar exactamente '+required+' opciones antes de continuar.</span>';
+     return false;
+   }
+ }
+ if(a.nb&&!notebook[a.id]){if(fb)fb.innerHTML='<span class="bad">Escribe también en tu libreta y marca la casilla.</span>';return false}
+ return true
+}
+function next(){if(!valid())return;index++;save();render();scrollTo({top:0,behavior:"smooth"})}
+function prev(){if(index>0){index--;save();render();scrollTo({top:0,behavior:"smooth"})}}
+function finish(){
+ const nbT=A.filter(a=>a.nb).length,nbD=A.filter(a=>a.nb&&notebook[a.id]).length;
+ stage.innerHTML=`<div class="visual">🎉</div><h2>¡Terminaste!</h2><p>Actividades respondidas: <b>${A.filter(a=>answers[a.id]!==undefined).length}/${A.length}</b></p><p>📓 Libreta: <b>${nbD}/${nbT}</b></p><p>↺ Reinicios: <b>${restarts}</b></p><div class="actions"><button type="button" class="sec" onclick="prev()">← Revisar</button><button type="button" class="pri" onclick="report()">Ver reporte final</button></div>`;
+}
+function sameSet(a,b){if(!Array.isArray(a)||a.length!==b.length)return false;const x=[...a].map(norm).sort(),y=[...b].map(norm).sort();return x.every((v,i)=>v===y[i])}
+function report(){
+ let at=0,ok=0;
+ const rows=A.map(a=>{
+  let mark="✍️ Revisión docente",correct=null;
+  if(a.answer!==undefined){at++;
+   if(Array.isArray(a.answer)){correct=a.t==="sequence"?JSON.stringify(answers[a.id]||[])===JSON.stringify(a.answer):sameSet(answers[a.id]||[],a.answer)}
+   else{const allow=[a.answer,...(a.alts||[])].map(norm);correct=allow.includes(norm(answers[a.id]))}
+   if(correct)ok++;mark=correct?"✅ Correcta":"❌ Revisar";
+  }
+  const val=Array.isArray(answers[a.id])?(answers[a.id]||[]).join(" → "):(answers[a.id]||"Sin respuesta");
+  return `<div class="detail"><b>${a.id.toUpperCase()}</b> · ${a.o}<br>${esc(val)}<br><small>${mark}${a.nb?" · 📓 "+(notebook[a.id]?"confirmada":"pendiente"):""}</small></div>`;
+ }).join("");
+ const nbT=A.filter(a=>a.nb).length,nbD=A.filter(a=>a.nb&&notebook[a.id]).length;
+ stage.innerHTML=`<div id="capture" class="report"><h2>📘 Reporte final · Lenguajes 2.º → 3.º</h2><p><b>Alumno:</b> ${esc(studentName||"Sin nombre")}<br><b>Grado y grupo:</b> ${esc(studentGroup||"Sin dato")}<br>${new Date().toLocaleString("es-MX")}</p><div class="stats"><div class="stat">Respondidas<b>${A.filter(a=>answers[a.id]!==undefined).length}/${A.length}</b></div><div class="stat">Objetivas correctas<b>${ok}/${at}</b></div><div class="stat">Libreta<b>${nbD}/${nbT}</b></div><div class="stat">Reinicios<b>${restarts}</b></div></div><p><b>Nota docente:</b> revisa las respuestas abiertas por ortografía, claridad, coherencia, segmentación y uso de mayúsculas.</p>${rows}</div><div class="actions"><button type="button" class="pri" onclick="shot()">📸 Captura</button><button type="button" class="sec" onclick="window.print()">🖨️ PDF</button><button type="button" class="danger" onclick="resetExam()">↺ Reiniciar examen</button></div>`;
+}
+async function shot(){if(typeof html2canvas==="undefined"){alert("Usa Imprimir/PDF.");return}const c=await html2canvas(document.getElementById("capture"),{scale:2,backgroundColor:"#fff"});const a=document.createElement("a");a.download="reporte_lenguajes_"+(studentName||"alumno").replace(/[^a-zA-Z0-9_-]/g,"_")+".png";a.href=c.toDataURL("image/png");a.click()}
+function resetExam(){
+ if(confirm("¿Deseas reiniciar el examen? El reinicio quedará registrado y volverás a la pantalla de inicio.")){
+   restarts++;
+   localStorage.setItem("lengNuevo_restarts",restarts);
+   localStorage.removeItem("lengNuevo_index");
+   localStorage.removeItem("lengNuevo_answers");
+   localStorage.removeItem("lengNuevo_notebook");
+   localStorage.removeItem("lengNuevo_student");
+   localStorage.removeItem("lengNuevo_group");
+   localStorage.removeItem("lengNuevo_started");
+   index=0;answers={};notebook={};studentName="";studentGroup="";started=false;
+   render();
+ }
+}
+render();
+</script>
+</body>
+</html>
