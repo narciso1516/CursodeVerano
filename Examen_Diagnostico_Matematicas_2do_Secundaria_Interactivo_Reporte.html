@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examen Diagnóstico de Matemáticas · 2.º de Secundaria</title>
+<style>
+:root{
+  --bg:#f6f8fc; --panel:#ffffff; --text:#1d2533; --muted:#667085;
+  --accent:#5b66f6; --accent2:#7b61ff; --ok:#16a34a; --bad:#dc2626;
+  --warn:#d97706; --line:#e4e7ec; --shadow:0 12px 28px rgba(34,46,74,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:linear-gradient(180deg,#f8faff,#f4f6fb);color:var(--text);min-height:100vh;
+}
+button,input{font:inherit}
+button{cursor:pointer}
+button:disabled{cursor:default;opacity:.6}
+.app{max-width:980px;margin:auto;padding:18px}
+.header{
+  display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;
+  margin:8px 0 14px
+}
+.title h1{margin:0;font-size:clamp(1.4rem,3vw,2.2rem)}
+.title p{margin:.35rem 0 0;color:var(--muted)}
+.badge{
+  background:#eef0ff;color:#4149c8;padding:7px 11px;border-radius:999px;font-weight:700;font-size:.9rem
+}
+.sticky{
+  position:sticky;top:0;z-index:20;background:rgba(246,248,252,.92);backdrop-filter:blur(10px);
+  padding:10px 0 12px;border-bottom:1px solid rgba(228,231,236,.8)
+}
+.progress-wrap{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+.progress{
+  height:12px;background:#e9ecf4;border-radius:999px;overflow:hidden
+}
+.progress > div{
+  height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .35s ease
+}
+.progress-info{font-weight:800;color:#4b5563;white-space:nowrap}
+.hud{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.hud span{
+  background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:.9rem
+}
+.panel{
+  background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:clamp(16px,3vw,28px);
+  box-shadow:var(--shadow);margin-top:18px;position:relative;overflow:hidden
+}
+.intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label.small{display:block;font-size:.9rem;color:var(--muted);margin-bottom:6px}
+input[type=text],input[type=number]{
+  width:100%;border:1px solid var(--line);border-radius:14px;padding:13px 14px;background:#fff;outline:none;
+  transition:.2s
+}
+input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(91,102,246,.12)}
+.avatar-row{display:flex;gap:8px;flex-wrap:wrap}
+.avatar{
+  border:2px solid transparent;background:#f7f7fb;border-radius:16px;padding:10px 12px;font-size:1.4rem;
+  transition:.18s transform,.18s box-shadow,.18s border-color
+}
+.avatar:hover{transform:translateY(-2px);box-shadow:0 8px 16px rgba(0,0,0,.08)}
+.avatar.selected{border-color:var(--accent);background:#eef0ff}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.btn{
+  border:none;border-radius:14px;padding:12px 16px;font-weight:800;position:relative;overflow:hidden;
+  transition:transform .12s ease,box-shadow .2s ease,filter .2s ease
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 18px rgba(58,65,95,.16)}
+.btn:active{transform:translateY(1px) scale(.98)}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+.btn-secondary{background:#f0f2f8;color:#334155;border:1px solid #e2e8f0}
+.btn-ghost{background:#fff;color:#475569;border:1px solid var(--line)}
+.glow{animation:glow 2.2s ease-in-out infinite}
+.pulse{animation:pulse 1.7s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 0 rgba(91,102,246,0)}50%{box-shadow:0 0 24px rgba(91,102,246,.28)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
+.ripple{
+  position:absolute;border-radius:50%;transform:scale(0);animation:ripple .55s linear;background:rgba(255,255,255,.45);
+  pointer-events:none
+}
+@keyframes ripple{to{transform:scale(4);opacity:0}}
+.question-head{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.area{font-weight:800;color:#4f46e5;background:#eef2ff;padding:7px 10px;border-radius:999px}
+.question{
+  font-size:clamp(1.15rem,2.8vw,1.55rem);font-weight:850;line-height:1.35;margin:18px 0 8px
+}
+.context{color:var(--muted);margin-bottom:16px}
+.options{display:grid;gap:11px}
+.option{
+  border:1px solid var(--line);background:#fff;border-radius:16px;padding:14px 15px;text-align:left;
+  transition:transform .16s ease,box-shadow .16s ease,border-color .2s ease,background .25s ease;
+  position:relative;overflow:hidden
+}
+.option:hover{transform:translateY(-2px) scale(1.005);box-shadow:0 10px 20px rgba(48,56,84,.09)}
+.option:active{transform:translateY(1px) scale(.99)}
+.option.selected{border-color:var(--accent);background:#f1f2ff}
+.option.correct{border-color:#22c55e;background:#ecfdf3}
+.option.wrong{border-color:#ef4444;background:#fff1f2}
+.input-answer{margin-top:8px}
+.feedback{
+  margin-top:16px;padding:14px 16px;border-radius:16px;border:1px solid var(--line);display:none
+}
+.feedback.show{display:block;animation:pop .24s ease}
+.feedback.ok{background:#ecfdf3;border-color:#bbf7d0}
+.feedback.bad{background:#fff7ed;border-color:#fed7aa}
+@keyframes pop{0%{transform:scale(.92);opacity:0}100%{transform:scale(1);opacity:1}}
+.shake{animation:shake .38s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}50%{transform:translateX(7px)}75%{transform:translateX(-4px)}}
+.bounce{animation:bounce .44s ease}
+@keyframes bounce{0%,100%{transform:translateY(0)}45%{transform:translateY(-10px)}70%{transform:translateY(3px)}}
+.icon-result{font-size:1.8rem;display:inline-flex;margin-right:8px;vertical-align:middle}
+.draw-check{animation:drawCheck .35s ease}
+@keyframes drawCheck{0%{transform:scale(.4) rotate(-20deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+.hint{
+  margin-top:12px;border:1px dashed #c7cbee;border-radius:14px;padding:12px;background:#fafaff;display:none
+}
+.hint.show{display:block;animation:reveal .3s ease}
+@keyframes reveal{0%{opacity:0;transform:translateY(-5px)}100%{opacity:1;transform:none}}
+.accordion{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.accordion button{background:none;border:none;padding:0;font-weight:800;color:#4f46e5}
+.accordion-content{display:none;color:#475569;margin-top:8px}
+.accordion.open .accordion-content{display:block;animation:reveal .25s ease}
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px;flex-wrap:wrap}
+.typewriter{min-height:24px;color:#475569;font-size:.95rem}
+.xpbar{height:8px;border-radius:999px;background:#eceff5;overflow:hidden}
+.xpbar>div{height:100%;width:0;background:linear-gradient(90deg,#22c55e,#10b981);transition:width .3s}
+.mascot{
+  position:absolute;right:18px;top:15px;font-size:2rem;filter:drop-shadow(0 5px 8px rgba(0,0,0,.08));
+  transition:transform .25s
+}
+.mascot.happy{transform:rotate(-7deg) scale(1.12)}
+.mascot.sad{transform:rotate(7deg) scale(.95)}
+.particle{position:fixed;pointer-events:none;z-index:999;animation:particle .8s ease-out forwards}
+@keyframes particle{to{transform:translate(var(--x),var(--y)) rotate(160deg) scale(.3);opacity:0}}
+.confetti{position:fixed;width:8px;height:12px;z-index:998;pointer-events:none;animation:fall 1.5s ease-out forwards}
+@keyframes fall{to{transform:translate(var(--dx),100vh) rotate(540deg);opacity:.2}}
+.report-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.metric{
+  border:1px solid var(--line);border-radius:18px;padding:14px;background:#fafbfe
+}
+.metric b{display:block;font-size:1.5rem;margin-top:3px}
+.area-row{margin:14px 0}
+.area-label{display:flex;justify-content:space-between;gap:10px;font-size:.94rem;margin-bottom:5px}
+.mini{height:9px;background:#eceff5;border-radius:999px;overflow:hidden}
+.mini div{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.error-list{display:grid;gap:10px}
+.error-card{border:1px solid var(--line);border-radius:16px;padding:13px}
+.hidden{display:none!important}
+.note{font-size:.9rem;color:var(--muted)}
+.level-banner{
+  margin:12px 0 2px;padding:11px 13px;border-radius:15px;background:linear-gradient(135deg,#f0f4ff,#f4efff);
+  border:1px solid #dfe4ff;font-weight:800
+}
+
+.attempt-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:.94rem}
+.attempt-table th,.attempt-table td{border-bottom:1px solid var(--line);padding:10px 8px;text-align:left;vertical-align:top}
+.attempt-table th{color:#475569;background:#f8fafc}
+.report-box{border:1px solid var(--line);border-radius:18px;padding:16px;background:#fbfcff;margin-top:14px}
+.report-box h3{margin-top:0}
+.summary-list{margin:.5rem 0 0 1.1rem;padding:0}
+.summary-list li{margin:.35rem 0}
+.table-wrap{overflow-x:auto}
+
+@media(max-width:720px){
+  .intro-grid,.report-grid{grid-template-columns:1fr 1fr}
+  .nav .btn{flex:1}
+  .mascot{position:static;display:block;margin-left:auto;width:max-content}
+}
+@media(max-width:470px){
+  .app{padding:12px}.panel{border-radius:18px;padding:16px}
+  .intro-grid,.report-grid{grid-template-columns:1fr}
+  .progress-wrap{grid-template-columns:1fr}
+  .progress-info{white-space:normal}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="title">
+      <h1>Examen Diagnóstico de Matemáticas</h1>
+      <p>2.º de secundaria · evaluación interactiva de conocimientos previos</p>
+    </div>
+    <span class="badge">24 reactivos</span>
+  </header>
+
+  <div class="sticky hidden" id="stickyProgress">
+    <div class="progress-wrap">
+      <div class="progress"><div id="progressFill"></div></div>
+      <div class="progress-info" id="progressText">1 de 24</div>
+    </div>
+    <div class="hud">
+      <span>⭐ XP: <b id="xpText">0</b></span>
+      <span>🔥 Racha: <b id="streakText">0</b></span>
+      <span>🏅 Aciertos: <b id="correctText">0</b></span>
+    </div>
+    <div class="xpbar"><div id="xpFill"></div></div>
+  </div>
+
+  <section class="panel" id="startPanel">
+    <div class="mascot">🧠</div>
+    <h2>Antes de comenzar</h2>
+    <p class="note">El examen permite una segunda oportunidad en respuestas incorrectas y genera un reporte final por áreas.</p>
+    <div class="intro-grid">
+      <div>
+        <label class="small" for="studentName">Nombre del alumno</label>
+        <input id="studentName" type="text" placeholder="Ej. Ana López">
+      </div>
+      <div>
+        <label class="small">Elige un avatar</label>
+        <div class="avatar-row" id="avatarRow">
+          <button class="avatar selected" data-avatar="🧑‍🚀">🧑‍🚀</button>
+          <button class="avatar" data-avatar="🧙">🧙</button>
+          <button class="avatar" data-avatar="🦊">🦊</button>
+          <button class="avatar" data-avatar="🤖">🤖</button>
+        </div>
+      </div>
+    </div>
+    <div class="level-banner">📘 Misión: demostrar lo que ya sabes de 1.º de secundaria.</div>
+    <div class="actions">
+      <button class="btn btn-primary glow ripple-btn" id="startBtn">Comenzar diagnóstico</button>
+    </div>
+  </section>
+
+  <section class="panel hidden" id="quizPanel">
+    <div class="mascot" id="mascot">🧑‍🚀</div>
+    <div class="question-head">
+      <span class="area" id="areaBadge"></span>
+      <span class="badge" id="questionCounter"></span>
+    </div>
+    <div class="typewriter" id="instructionLine"></div>
+    <div class="question" id="questionText"></div>
+    <div class="context" id="questionContext"></div>
+    <div id="answerBox"></div>
+
+    <div class="actions">
+      <button class="btn btn-secondary ripple-btn" id="hintBtn">💡 Necesito una pista</button>
+      <button class="btn btn-primary pulse ripple-btn" id="checkBtn">Verificar respuesta</button>
+    </div>
+
+    <div class="hint" id="hintBox"></div>
+
+    <div class="feedback" id="feedback">
+      <div id="feedbackText"></div>
+      <div class="accordion" id="accordion">
+        <button id="explainBtn" type="button">Ver explicación ▾</button>
+        <div class="accordion-content" id="explanation"></div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <button class="btn btn-ghost ripple-btn" id="prevBtn">← Anterior</button>
+      <button class="btn btn-secondary ripple-btn" id="nextBtn">Siguiente →</button>
+    </div>
+  </section>
+
+  <section class="panel hidden" id="resultPanel">
+    <div class="mascot happy" id="resultMascot">🏆</div>
+    <h2 id="resultTitle">Resultado final</h2>
+    <p id="resultIntro"></p>
+
+    <div class="report-grid">
+      <div class="metric"><span>Aciertos</span><b id="finalScore">0/24</b></div>
+      <div class="metric"><span>Porcentaje</span><b id="finalPercent">0%</b></div>
+      <div class="metric"><span>Intentos totales</span><b id="finalAttempts">0</b></div>
+      <div class="metric"><span>Errores acumulados</span><b id="finalErrors">0</b></div>
+      <div class="metric"><span>Primer intento</span><b id="firstTryCorrect">0</b></div>
+      <div class="metric"><span>Segundo intento</span><b id="secondTryCorrect">0</b></div>
+      <div class="metric"><span>Sin resolver</span><b id="unresolvedCount">0</b></div>
+      <div class="metric"><span>Mejor racha</span><b id="finalStreak">0</b></div>
+    </div>
+
+    <div class="report-box">
+      <h3>Informe diagnóstico</h3>
+      <div id="diagnosticReport"></div>
+    </div>
+
+    <h3>Diagnóstico por área</h3>
+    <div id="areaResults"></div>
+
+    <div class="feedback show" id="finalMessage"></div>
+
+    <h3 id="errorsTitle">Preguntas para reforzar</h3>
+    <div class="error-list" id="errorList"></div>
+
+    <div class="report-box">
+      <h3>Historial de intentos por reactivo</h3>
+      <p class="note">El reporte distingue cuántas veces se intentó cada pregunta y cuántos errores hubo antes de quedar registrada.</p>
+      <div class="table-wrap">
+        <table class="attempt-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Área</th>
+              <th>Intentos</th>
+              <th>Errores</th>
+              <th>Resultado</th>
+            </tr>
+          </thead>
+          <tbody id="attemptTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-secondary ripple-btn" id="retryErrorsBtn">Reintentar solo errores</button>
+      <button class="btn btn-primary ripple-btn" id="restartBtn">Reiniciar examen</button>
+    </div>
+  </section>
+</div>
+
+<script>
+(() => {
+const questions = [
+{area:"Números y operaciones",q:"¿Cuál es el resultado de −7 + 12?",type:"mc",o:["−19","−5","5","19"],ans:"5",hint:"Imagina una recta numérica: inicia en −7 y avanza 12 lugares a la derecha.",exp:"−7 + 12 = 5."},
+{area:"Números y operaciones",q:"¿Cuál es el resultado de (−4)(−6)?",type:"mc",o:["−24","−10","10","24"],ans:"24",hint:"Recuerda la regla de signos al multiplicar dos números negativos.",exp:"Negativo por negativo da positivo: 4 × 6 = 24."},
+{area:"Números y operaciones",q:"Calcula 3/4 + 1/8.",type:"mc",o:["4/12","4/8","7/8","1"],ans:"7/8",hint:"Convierte 3/4 a octavos antes de sumar.",exp:"3/4 = 6/8; entonces 6/8 + 1/8 = 7/8."},
+{area:"Números y operaciones",q:"Calcula 18 ÷ 3 + 2 × 5.",type:"num",ans:16,hint:"Haz primero división y multiplicación; suma al final.",exp:"18 ÷ 3 = 6 y 2 × 5 = 10; 6 + 10 = 16."},
+
+{area:"Proporcionalidad y porcentajes",q:"¿Cuánto es el 15% de 240?",type:"num",ans:36,hint:"Convierte 15% a decimal o calcula primero 10% y 5%.",exp:"0.15 × 240 = 36."},
+{area:"Proporcionalidad y porcentajes",q:"Si 3 cuadernos cuestan $54, ¿cuánto cuestan 5 al mismo precio unitario?",type:"mc",o:["$72","$80","$90","$108"],ans:"$90",hint:"Primero encuentra cuánto cuesta un cuaderno.",exp:"54 ÷ 3 = 18; 18 × 5 = 90."},
+{area:"Proporcionalidad y porcentajes",q:"¿Qué decimal representa 5/8?",type:"mc",o:["0.58","0.625","0.75","0.8"],ans:"0.625",hint:"Divide el numerador entre el denominador.",exp:"5 ÷ 8 = 0.625."},
+{area:"Proporcionalidad y porcentajes",q:"Una playera de $500 tiene 20% de descuento. ¿Cuál es el precio final?",type:"num",ans:400,hint:"Calcula primero cuánto dinero representa el 20%.",exp:"20% de 500 = 100; 500 − 100 = 400."},
+
+{area:"Álgebra y ecuaciones",q:"La expresión «el doble de un número más 3» se representa como:",type:"mc",o:["2x + 3","2(x + 3)","x + 6","3x + 2"],ans:"2x + 3",hint:"Representa el número con x. Primero duplícalo y después suma 3.",exp:"El doble de x es 2x; luego se suman 3 unidades."},
+{area:"Álgebra y ecuaciones",q:"Resuelve: 3x = 21. ¿Cuánto vale x?",type:"num",ans:7,hint:"Despeja x dividiendo ambos lados entre 3.",exp:"x = 21 ÷ 3 = 7."},
+{area:"Álgebra y ecuaciones",q:"Resuelve: 2x + 5 = 17. ¿Cuánto vale x?",type:"num",ans:6,hint:"Primero elimina el +5 y después divide entre 2.",exp:"2x = 12; x = 6."},
+{area:"Álgebra y ecuaciones",q:"Si P = 2a + 2b, ¿qué expresión representa el perímetro de un rectángulo con lados x y 4?",type:"mc",o:["x + 4","2x + 4","2x + 8","4x + 8"],ans:"2x + 8",hint:"Sustituye a por x y b por 4.",exp:"P = 2x + 2(4) = 2x + 8."},
+
+{area:"Geometría y medición",q:"Un rectángulo mide 8 cm de largo y 5 cm de ancho. ¿Cuál es su área en cm²?",type:"num",ans:40,hint:"Área del rectángulo = base × altura.",exp:"8 × 5 = 40 cm²."},
+{area:"Geometría y medición",q:"Un cuadrado tiene lado de 7 cm. ¿Cuál es su perímetro en cm?",type:"num",ans:28,hint:"Un cuadrado tiene cuatro lados iguales.",exp:"4 × 7 = 28 cm."},
+{area:"Geometría y medición",q:"Dos ángulos son suplementarios. Si uno mide 65°, ¿cuánto mide el otro?",type:"mc",o:["25°","65°","115°","295°"],ans:"115°",hint:"Los ángulos suplementarios suman 180°.",exp:"180° − 65° = 115°."},
+{area:"Geometría y medición",q:"Un triángulo tiene base 10 cm y altura 6 cm. ¿Cuál es su área en cm²?",type:"num",ans:30,hint:"Área del triángulo = base × altura ÷ 2.",exp:"10 × 6 ÷ 2 = 30 cm²."},
+
+{area:"Estadística y probabilidad",q:"Calcula la media de: 6, 8, 10 y 12.",type:"num",ans:9,hint:"Suma todos los valores y divide entre la cantidad de datos.",exp:"6 + 8 + 10 + 12 = 36; 36 ÷ 4 = 9."},
+{area:"Estadística y probabilidad",q:"En los datos 2, 4, 4, 5, 7, ¿cuál es la moda?",type:"mc",o:["2","4","5","7"],ans:"4",hint:"Busca el número que se repite más veces.",exp:"El 4 aparece dos veces; es la moda."},
+{area:"Estadística y probabilidad",q:"Al lanzar un dado justo de seis caras, ¿cuál es la probabilidad de obtener un número par?",type:"mc",o:["1/6","1/3","1/2","2/3"],ans:"1/2",hint:"Los resultados pares son 2, 4 y 6.",exp:"Hay 3 resultados favorables de 6: 3/6 = 1/2."},
+{area:"Estadística y probabilidad",q:"En una encuesta: fútbol 12, básquetbol 8, voleibol 5. ¿Cuál categoría tiene mayor frecuencia?",type:"mc",o:["Fútbol","Básquetbol","Voleibol","Todas iguales"],ans:"Fútbol",hint:"Compara las tres frecuencias.",exp:"12 es la frecuencia mayor."},
+
+{area:"Patrones y razonamiento",q:"Completa la sucesión: 5, 9, 13, 17, __.",type:"num",ans:21,hint:"Observa cuánto aumenta cada término.",exp:"La sucesión aumenta de 4 en 4; 17 + 4 = 21."},
+{area:"Patrones y razonamiento",q:"¿Cuál regla genera 4, 7, 10, 13, … si n inicia en 1?",type:"mc",o:["3n","3n + 1","4n − 1","n + 3"],ans:"3n + 1",hint:"Prueba cada regla con n = 1 y n = 2.",exp:"3(1)+1=4 y 3(2)+1=7."},
+{area:"Patrones y razonamiento",q:"La temperatura era 3 °C y bajó 8 °C. ¿Cuál es la temperatura final?",type:"num",ans:-5,hint:"Representa la disminución como una resta: 3 − 8.",exp:"3 − 8 = −5 °C."},
+{area:"Patrones y razonamiento",q:"Un taxi cobra $25 de inicio y $8 por cada kilómetro. ¿Qué expresión da el costo C para x kilómetros?",type:"mc",o:["C = 25x + 8","C = 8x + 25","C = 33x","C = 25x"],ans:"C = 8x + 25",hint:"Hay una cantidad fija y otra que depende de los kilómetros.",exp:"El costo variable es 8x y el fijo es 25: C = 8x + 25."}
+];
+
+const state = {
+  name:"", avatar:"🧑‍🚀", i:0, order:questions.map((_,i)=>i),
+  responses:{}, attempts:{}, correct:{}, locked:{}, xp:0, streak:0, bestStreak:0,
+  hintShown:{}, retryMode:false
+};
+
+const $ = id => document.getElementById(id);
+const startPanel=$("startPanel"), quizPanel=$("quizPanel"), resultPanel=$("resultPanel"),
+sticky=$("stickyProgress"), answerBox=$("answerBox"), feedback=$("feedback"), feedbackText=$("feedbackText"),
+explanation=$("explanation"), hintBox=$("hintBox"), mascot=$("mascot");
+
+function addRipple(e){
+  const el=e.currentTarget;
+  const r=document.createElement("span"); r.className="ripple";
+  const rect=el.getBoundingClientRect();
+  const size=Math.max(rect.width,rect.height);
+  r.style.width=r.style.height=size+"px";
+  r.style.left=(e.clientX-rect.left-size/2)+"px";
+  r.style.top=(e.clientY-rect.top-size/2)+"px";
+  el.appendChild(r); setTimeout(()=>r.remove(),600);
+}
+document.querySelectorAll(".ripple-btn").forEach(b=>b.addEventListener("click",addRipple));
+
+document.querySelectorAll(".avatar").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".avatar").forEach(x=>x.classList.remove("selected"));
+    btn.classList.add("selected"); state.avatar=btn.dataset.avatar;
+  });
+});
+
+function normalize(v){return String(v??"").trim().replace(",",".").replace(/\s+/g," ")}
+function isCorrect(q,v){
+  if(q.type==="num"){
+    const n=Number(normalize(v)); return Number.isFinite(n)&&Math.abs(n-Number(q.ans))<1e-9;
+  }
+  return normalize(v)===normalize(q.ans);
+}
+function currentIndex(){return state.order[state.i]}
+function currentQuestion(){return questions[currentIndex()]}
+
+function typewrite(text){
+  const el=$("instructionLine"); el.textContent="";
+  let i=0; const t=setInterval(()=>{el.textContent+=text[i++]||""; if(i>=text.length)clearInterval(t)},18);
+}
+
+function updateHUD(){
+  const total=state.order.length;
+  $("progressText").textContent=`${state.i+1} de ${total}`;
+  $("progressFill").style.width=`${((state.i+1)/total)*100}%`;
+  $("xpText").textContent=state.xp;
+  $("streakText").textContent=state.streak;
+  $("correctText").textContent=Object.values(state.correct).filter(Boolean).length;
+  $("xpFill").style.width=`${Math.min(100,(state.xp/(questions.length*10))*100)}%`;
+}
+
+function render(){
+  const idx=currentIndex(), q=currentQuestion();
+  $("areaBadge").textContent=q.area;
+  $("questionCounter").textContent=`Reactivo ${state.i+1}`;
+  $("questionText").textContent=q.q;
+  $("questionContext").textContent=state.locked[idx] ? "Respuesta registrada." : "Responde y verifica. Si fallas, tendrás una segunda oportunidad.";
+  mascot.textContent=state.avatar; mascot.className="mascot";
+  answerBox.innerHTML="";
+  feedback.className="feedback";
+  hintBox.className="hint";
+  hintBox.textContent="";
+  $("accordion").classList.remove("open");
+  $("checkBtn").disabled=!!state.locked[idx];
+  $("checkBtn").textContent=state.locked[idx]?"Respuesta registrada":"Verificar respuesta";
+  $("hintBtn").disabled=!!state.locked[idx];
+  $("prevBtn").disabled=state.i===0;
+  $("nextBtn").textContent=state.i===state.order.length-1?"Ver resultados":"Siguiente →";
+  $("nextBtn").classList.toggle("pulse",!!state.locked[idx]);
+
+  if(q.type==="mc"){
+    q.o.forEach(opt=>{
+      const b=document.createElement("button");
+      b.type="button"; b.className="option"; b.textContent=opt;
+      if(state.responses[idx]===opt)b.classList.add("selected");
+      if(state.locked[idx])b.disabled=true;
+      b.addEventListener("click",e=>{
+        if(state.locked[idx])return;
+        answerBox.querySelectorAll(".option").forEach(x=>x.classList.remove("selected"));
+        b.classList.add("selected"); state.responses[idx]=opt;
+        quickVisualTap(b); addLocalRipple(b,e);
+      });
+      answerBox.appendChild(b);
+    });
+  }else{
+    const input=document.createElement("input");
+    input.type="text"; input.inputMode="decimal"; input.className="input-answer";
+    input.placeholder="Escribe tu respuesta numérica";
+    input.value=state.responses[idx]??"";
+    input.disabled=!!state.locked[idx];
+    input.addEventListener("input",()=>state.responses[idx]=input.value);
+    answerBox.appendChild(input);
+  }
+
+  if(state.hintShown[idx]){
+    hintBox.textContent=q.hint; hintBox.classList.add("show");
+  }
+  if(state.locked[idx])showSavedFeedback(idx,q);
+  typewrite(state.retryMode?"Modo refuerzo: vuelve a intentar las preguntas falladas.":"Lee con calma. Tu progreso se guarda durante esta sesión.");
+  updateHUD();
+}
+
+function quickVisualTap(el){el.style.transform="translateY(1px) scale(.99)";setTimeout(()=>el.style.transform="",120)}
+function addLocalRipple(el,e){
+  const r=document.createElement("span");r.className="ripple";r.style.background="rgba(91,102,246,.18)";
+  const rect=el.getBoundingClientRect(),size=Math.max(rect.width,rect.height);
+  r.style.width=r.style.height=size+"px";r.style.left=(e.clientX-rect.left-size/2)+"px";r.style.top=(e.clientY-rect.top-size/2)+"px";
+  el.appendChild(r);setTimeout(()=>r.remove(),600);
+}
+function particles(){
+  for(let i=0;i<10;i++){
+    const p=document.createElement("div");p.className="particle";p.textContent=["✦","★","＋","×"][Math.floor(Math.random()*4)];
+    p.style.left=(50+Math.random()*10-5)+"vw";p.style.top=(40+Math.random()*8-4)+"vh";
+    p.style.setProperty("--x",(Math.random()*180-90)+"px");p.style.setProperty("--y",(Math.random()*-140-30)+"px");
+    document.body.appendChild(p);setTimeout(()=>p.remove(),900);
+  }
+}
+function confetti(){
+  for(let i=0;i<55;i++){
+    const c=document.createElement("div");c.className="confetti";
+    c.style.left=Math.random()*100+"vw";c.style.top="-20px";
+    c.style.background=`hsl(${Math.random()*360} 75% 60%)`;
+    c.style.setProperty("--dx",(Math.random()*180-90)+"px");
+    c.style.animationDelay=(Math.random()*.3)+"s";
+    document.body.appendChild(c);setTimeout(()=>c.remove(),1900);
+  }
+}
+function milestone(){
+  const answered=Object.keys(state.locked).length;
+  if([5,10,15,20].includes(answered)){confetti();}
+}
+
+function showSavedFeedback(idx,q){
+  feedback.classList.add("show",state.correct[idx]?"ok":"bad");
+  if(state.correct[idx]){
+    feedbackText.innerHTML=`<span class="icon-result draw-check">✓</span><strong>Correcto.</strong> ${state.name?`¡Muy bien, ${state.name}!`:"¡Muy bien!"}`;
+  }else{
+    feedbackText.innerHTML=`<span class="icon-result draw-check">✕</span><strong>Respuesta registrada.</strong> Revisa la explicación para reforzar el procedimiento.`;
+  }
+  explanation.textContent=q.exp;
+}
+
+$("hintBtn").addEventListener("click",e=>{
+  addRipple(e); const idx=currentIndex(),q=currentQuestion();
+  state.hintShown[idx]=true;hintBox.textContent=q.hint;hintBox.classList.add("show");
+});
+
+$("explainBtn").addEventListener("click",()=>{
+  $("accordion").classList.toggle("open");
+});
+
+$("checkBtn").addEventListener("click",e=>{
+  addRipple(e);
+  const idx=currentIndex(),q=currentQuestion(),v=state.responses[idx];
+  if(v===undefined||normalize(v)===""){
+    feedback.className="feedback show bad";feedbackText.innerHTML="<strong>Falta una respuesta.</strong> Selecciona o escribe una opción antes de verificar.";
+    feedback.classList.add("shake");setTimeout(()=>feedback.classList.remove("shake"),450);return;
+  }
+  state.attempts[idx]=(state.attempts[idx]||0)+1;
+  const ok=isCorrect(q,v);
+
+  if(ok){
+    state.correct[idx]=true;state.locked[idx]=true;state.xp+=10;state.streak++;state.bestStreak=Math.max(state.bestStreak,state.streak);
+    mascot.classList.add("happy"); answerBox.classList.add("bounce");setTimeout(()=>answerBox.classList.remove("bounce"),500);
+    particles(); milestone(); showSavedFeedback(idx,q);
+  }else if(state.attempts[idx]===1){
+    state.streak=0; mascot.classList.add("sad");
+    feedback.className="feedback show bad shake";
+    feedbackText.innerHTML=`<span class="icon-result draw-check">✕</span><strong>Aún no.</strong> Tienes una segunda oportunidad. Usa una pista si la necesitas.`;
+    explanation.textContent="Intenta de nuevo antes de revisar la solución.";
+    setTimeout(()=>feedback.classList.remove("shake"),450);
+  }else{
+    state.correct[idx]=false;state.locked[idx]=true;state.streak=0;
+    feedback.className="feedback show bad shake";
+    feedbackText.innerHTML=`<span class="icon-result draw-check">✕</span><strong>Vamos a reforzarlo.</strong> Ya puedes revisar la explicación.`;
+    explanation.textContent=q.exp;
+    setTimeout(()=>feedback.classList.remove("shake"),450);
+  }
+  renderAfterCheck(idx,q);
+  updateHUD();
+});
+
+function renderAfterCheck(idx,q){
+  if(state.locked[idx]){
+    if(q.type==="mc"){
+      answerBox.querySelectorAll(".option").forEach(b=>{
+        if(normalize(b.textContent)===normalize(q.ans))b.classList.add("correct");
+        else if(normalize(b.textContent)===normalize(state.responses[idx])&&!state.correct[idx])b.classList.add("wrong");
+        b.disabled=true;
+      });
+    }
+    $("checkBtn").disabled=true;$("checkBtn").textContent="Respuesta registrada";
+    $("nextBtn").classList.add("pulse");
+    showSavedFeedback(idx,q);
+  }
+}
+
+$("prevBtn").addEventListener("click",e=>{
+  addRipple(e);if(state.i>0){state.i--;render()}
+});
+$("nextBtn").addEventListener("click",e=>{
+  addRipple(e);
+  const idx=currentIndex();
+  if(!state.locked[idx]){
+    feedback.className="feedback show bad shake";feedbackText.innerHTML="<strong>Primero verifica tu respuesta.</strong>";
+    setTimeout(()=>feedback.classList.remove("shake"),450);return;
+  }
+  if(state.i<state.order.length-1){state.i++;render();window.scrollTo({top:0,behavior:"smooth"})}
+  else showResults();
+});
+
+$("startBtn").addEventListener("click",e=>{
+  addRipple(e);state.name=$("studentName").value.trim();startPanel.classList.add("hidden");quizPanel.classList.remove("hidden");sticky.classList.remove("hidden");render();
+});
+
+function showResults(){
+  quizPanel.classList.add("hidden");sticky.classList.add("hidden");resultPanel.classList.remove("hidden");
+  const score=questions.map((_,i)=>state.correct[i]).filter(Boolean).length;
+  const pct=Math.round(score/questions.length*100);
+
+  const totalAttempts=questions.reduce((s,_,i)=>s+(state.attempts[i]||0),0);
+  const totalErrors=questions.reduce((s,_,i)=>{
+    const attempts=state.attempts[i]||0;
+    const ok=!!state.correct[i];
+    return s + (ok ? Math.max(0,attempts-1) : attempts);
+  },0);
+  const firstTry=questions.filter((_,i)=>state.correct[i] && (state.attempts[i]||0)===1).length;
+  const secondTry=questions.filter((_,i)=>state.correct[i] && (state.attempts[i]||0)===2).length;
+  const unresolved=questions.filter((_,i)=>!state.correct[i]).length;
+
+  $("resultTitle").textContent=`${state.avatar} ${state.name||"Alumno"}, resultado final`;
+  $("resultIntro").textContent=pct>=85?"Base matemática sólida para comenzar 2.º de secundaria.":pct>=70?"Buen punto de partida; conviene reforzar algunos temas.":pct>=55?"Hay aprendizajes en desarrollo que conviene practicar antes de avanzar.":"Se recomienda reforzar varios contenidos fundamentales de 1.º de secundaria.";
+  $("finalScore").textContent=`${score}/${questions.length}`;
+  $("finalPercent").textContent=pct+"%";
+  $("finalAttempts").textContent=totalAttempts;
+  $("finalErrors").textContent=totalErrors;
+  $("firstTryCorrect").textContent=firstTry;
+  $("secondTryCorrect").textContent=secondTry;
+  $("unresolvedCount").textContent=unresolved;
+  $("finalStreak").textContent=state.bestStreak;
+
+  const areas=[...new Set(questions.map(q=>q.area))];
+  $("areaResults").innerHTML="";
+  const weak=[], strong=[];
+  const areaStats={};
+
+  areas.forEach(area=>{
+    const ids=questions.map((q,i)=>q.area===area?i:-1).filter(i=>i>=0);
+    const hits=ids.filter(i=>state.correct[i]).length;
+    const errors=ids.reduce((s,i)=>{
+      const a=state.attempts[i]||0;
+      return s + (state.correct[i] ? Math.max(0,a-1) : a);
+    },0);
+    const p=Math.round(hits/ids.length*100);
+    areaStats[area]={hits,total:ids.length,p,errors};
+    if(p<70)weak.push(area);
+    if(p>=85)strong.push(area);
+    const row=document.createElement("div");row.className="area-row";
+    row.innerHTML=`<div class="area-label"><span>${area}</span><strong>${hits}/${ids.length} · ${p}% · ${errors} error${errors===1?"":"es"}</strong></div><div class="mini"><div style="width:${p}%"></div></div>`;
+    $("areaResults").appendChild(row);
+  });
+
+  const accuracyFirst = questions.length ? Math.round(firstTry/questions.length*100) : 0;
+  let reportLevel = pct>=85 ? "desempeño sólido" : pct>=70 ? "desempeño adecuado" : pct>=55 ? "desempeño en desarrollo" : "desempeño que requiere refuerzo prioritario";
+
+  let reportHtml = `<p><strong>Resultado general:</strong> ${score} de ${questions.length} reactivos correctos (${pct}%). El alumno realizó <strong>${totalAttempts} intentos</strong> en total y acumuló <strong>${totalErrors} errores</strong>.</p>`;
+  reportHtml += `<ul class="summary-list">`;
+  reportHtml += `<li><strong>${firstTry}</strong> reactivos se resolvieron correctamente al primer intento (${accuracyFirst}%).</li>`;
+  reportHtml += `<li><strong>${secondTry}</strong> reactivos se corrigieron en el segundo intento.</li>`;
+  reportHtml += `<li><strong>${unresolved}</strong> reactivos quedaron sin resolver correctamente después de los intentos disponibles.</li>`;
+  reportHtml += `</ul>`;
+
+  if(strong.length){
+    reportHtml += `<p><strong>Fortalezas:</strong> ${strong.join(", ")}.</p>`;
+  }else{
+    reportHtml += `<p><strong>Fortalezas:</strong> no se identificó todavía un área con dominio igual o superior al 85%; conviene consolidar conocimientos antes de aumentar dificultad.</p>`;
+  }
+
+  if(weak.length){
+    reportHtml += `<p><strong>Áreas prioritarias de refuerzo:</strong> ${weak.join(", ")}.</p>`;
+  }else{
+    reportHtml += `<p><strong>Áreas prioritarias de refuerzo:</strong> no hay áreas por debajo del 70%.</p>`;
+  }
+
+  if(totalErrors===0){
+    reportHtml += `<p><strong>Interpretación:</strong> mostró precisión alta y respondió sin errores. El resultado sugiere ${reportLevel}.</p>`;
+  }else if(totalErrors<=5){
+    reportHtml += `<p><strong>Interpretación:</strong> presentó pocos errores y buena capacidad de autocorrección. El resultado sugiere ${reportLevel}.</p>`;
+  }else if(totalErrors<=12){
+    reportHtml += `<p><strong>Interpretación:</strong> necesitó varios reintentos. Conviene revisar procedimientos, signos, operaciones y lectura cuidadosa de consignas. El resultado sugiere ${reportLevel}.</p>`;
+  }else{
+    reportHtml += `<p><strong>Interpretación:</strong> acumuló un número elevado de errores. Se recomienda reforzar contenidos base mediante ejercicios graduados, explicación paso a paso y nueva evaluación después de la práctica. El resultado sugiere ${reportLevel}.</p>`;
+  }
+
+  $("diagnosticReport").innerHTML=reportHtml;
+
+  $("finalMessage").className="feedback show "+(pct>=70?"ok":"bad");
+  $("finalMessage").innerHTML=weak.length?`<strong>Prioridad de trabajo:</strong> ${weak.join(", ")}.`:"<strong>Resultado equilibrado:</strong> no hay un área por debajo del 70%.";
+
+  const errors=questions.map((q,i)=>!state.correct[i]?i:-1).filter(i=>i>=0);
+  $("errorList").innerHTML="";
+  errors.forEach(i=>{
+    const q=questions[i],card=document.createElement("div");card.className="error-card";
+    const tries=state.attempts[i]||0;
+    card.innerHTML=`<strong>${q.area}</strong><div style="margin-top:5px">${q.q}</div><div class="note" style="margin-top:6px">Intentos: ${tries}. Explicación: ${q.exp}</div>`;
+    $("errorList").appendChild(card);
+  });
+  $("errorsTitle").textContent=errors.length?"Preguntas para reforzar":"Sin errores pendientes";
+  $("retryErrorsBtn").disabled=errors.length===0;
+
+  const tbody=$("attemptTableBody");
+  tbody.innerHTML="";
+  questions.forEach((q,i)=>{
+    const attempts=state.attempts[i]||0;
+    const errorsCount=state.correct[i] ? Math.max(0,attempts-1) : attempts;
+    const result=state.correct[i] ? (attempts===1 ? "Correcta al primer intento" : "Correcta al segundo intento") : "No resuelta";
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${i+1}</td><td>${q.area}</td><td>${attempts}</td><td>${errorsCount}</td><td>${result}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  confetti();
+}
+
+$("retryErrorsBtn").addEventListener("click",e=>{
+  addRipple(e);
+  const errors=questions.map((q,i)=>!state.correct[i]?i:-1).filter(i=>i>=0);
+  if(!errors.length)return;
+  state.retryMode=true;state.order=errors;state.i=0;
+  errors.forEach(i=>{delete state.locked[i];delete state.attempts[i];delete state.responses[i];delete state.hintShown[i]});
+  resultPanel.classList.add("hidden");quizPanel.classList.remove("hidden");sticky.classList.remove("hidden");render();
+});
+
+$("restartBtn").addEventListener("click",e=>{
+  addRipple(e);
+  Object.assign(state,{name:"",avatar:"🧑‍🚀",i:0,order:questions.map((_,i)=>i),responses:{},attempts:{},correct:{},locked:{},xp:0,streak:0,bestStreak:0,hintShown:{},retryMode:false});
+  $("studentName").value="";document.querySelectorAll(".avatar").forEach((x,i)=>x.classList.toggle("selected",i===0));
+  resultPanel.classList.add("hidden");quizPanel.classList.add("hidden");sticky.classList.add("hidden");startPanel.classList.remove("hidden");window.scrollTo({top:0,behavior:"smooth"});
+});
+})();
+</script>
+</body>
+</html>
