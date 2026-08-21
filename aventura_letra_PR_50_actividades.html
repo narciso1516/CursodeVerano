@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>La aventura de PR · 50 actividades</title>
+<style>
+  :root{
+    --bg:#f4fbff;
+    --surface:#ffffff;
+    --ink:#17324d;
+    --muted:#5f7184;
+    --primary:#4e7cff;
+    --primary-dark:#345dd0;
+    --secondary:#18b6a4;
+    --accent:#ffb84d;
+    --pink:#ff7b9c;
+    --good:#1f9d63;
+    --bad:#d94a4a;
+    --line:#dfeaf2;
+    --shadow:0 12px 32px rgba(35,71,103,.12);
+    --radius:24px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family: ui-rounded, "SF Pro Rounded", "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(78,124,255,.14), transparent 28%),
+      radial-gradient(circle at 100% 20%, rgba(24,182,164,.12), transparent 30%),
+      linear-gradient(180deg,#f6fcff 0%,#f7fbff 100%);
+    color:var(--ink);
+    min-height:100vh;
+  }
+  button,input{font:inherit}
+  button{touch-action:manipulation}
+  .app{max-width:1080px;margin:0 auto;padding:18px 16px 34px}
+  .topbar{
+    position:sticky;top:0;z-index:30;
+    margin:-18px -16px 14px;
+    padding:12px 16px;
+    background:rgba(246,252,255,.92);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(223,234,242,.9);
+  }
+  .topbar-inner{max-width:1080px;margin:auto;display:flex;align-items:center;gap:12px}
+  .brand{font-weight:900;letter-spacing:.2px;white-space:nowrap}
+  .progress-wrap{flex:1;display:flex;align-items:center;gap:10px}
+  .progress-track{height:12px;background:#e7eef8;border-radius:999px;overflow:hidden;flex:1}
+  .progress-bar{height:100%;width:2%;background:linear-gradient(90deg,var(--primary),var(--secondary));transition:width .35s ease;border-radius:inherit}
+  .progress-text{font-size:.9rem;font-weight:800;color:var(--muted);min-width:58px;text-align:right}
+  .hero{
+    background:linear-gradient(135deg,#ffffff 0%,#eff6ff 55%,#eefcf8 100%);
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    border-radius:30px;
+    padding:24px;
+    display:grid;
+    grid-template-columns:1.35fr .65fr;
+    gap:22px;
+    align-items:center;
+    overflow:hidden;
+  }
+  .hero h1{font-size:clamp(2rem,5vw,4rem);line-height:.94;margin:0 0 10px;font-weight:1000;letter-spacing:-2px}
+  .pr-bubbles{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+  .bubble{padding:9px 13px;border-radius:14px;font-weight:1000;background:#fff;border:2px solid var(--line);box-shadow:0 6px 14px rgba(35,71,103,.07)}
+  .bubble:nth-child(1){border-color:#9fb8ff}.bubble:nth-child(2){border-color:#91decf}.bubble:nth-child(3){border-color:#ffd27d}.bubble:nth-child(4){border-color:#f6a9bc}.bubble:nth-child(5){border-color:#bca7ff}
+  .hero p{margin:0;color:var(--muted);font-size:1.03rem;line-height:1.55}
+  .hero-art{font-size:clamp(6rem,18vw,12rem);text-align:center;filter:drop-shadow(0 12px 12px rgba(35,71,103,.12))}
+  .start-card{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .field{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px 14px}
+  .field label{display:block;font-size:.82rem;font-weight:900;color:var(--muted);margin-bottom:5px}
+  .field input{width:100%;border:0;outline:none;font-size:1.05rem;font-weight:800;color:var(--ink);background:transparent}
+  .primary-btn,.ghost-btn,.hint-btn,.danger-btn{
+    border:0;border-radius:16px;padding:13px 18px;font-weight:950;cursor:pointer;transition:.18s ease;min-height:48px;
+  }
+  .primary-btn{background:linear-gradient(135deg,var(--primary),#6f8eff);color:white;box-shadow:0 8px 18px rgba(78,124,255,.25)}
+  .primary-btn:hover{transform:translateY(-1px);box-shadow:0 11px 22px rgba(78,124,255,.3)}
+  .primary-btn:active,.ghost-btn:active,.hint-btn:active{transform:scale(.98)}
+  .ghost-btn{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  .hint-btn{background:#fff8e9;color:#7c520d;border:1px solid #f5dca3}
+  .danger-btn{background:#fff1f1;color:#a52e2e;border:1px solid #f4c9c9}
+  .screen{display:none}
+  .screen.active{display:block}
+  .level-strip{display:flex;gap:8px;overflow:auto;padding:4px 2px 12px;scrollbar-width:none}
+  .level-chip{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;font-size:.85rem;font-weight:900;color:var(--muted)}
+  .level-chip.active{color:#fff;background:var(--primary);border-color:var(--primary)}
+  .activity-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:clamp(18px,4vw,32px);min-height:510px;display:flex;flex-direction:column;justify-content:space-between
+  }
+  .activity-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:20px}
+  .eyebrow{font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;font-weight:1000;color:var(--primary);margin-bottom:6px}
+  .activity-title{font-size:clamp(1.45rem,4.2vw,2.25rem);line-height:1.16;margin:0;font-weight:1000;letter-spacing:-.5px}
+  .counter{background:#f2f6fb;border:1px solid var(--line);padding:8px 11px;border-radius:12px;font-weight:900;color:var(--muted);white-space:nowrap}
+  .prompt{font-size:clamp(1.05rem,2.5vw,1.28rem);line-height:1.55;color:var(--ink);margin:12px 0 18px}
+  .big-token{display:inline-flex;align-items:center;justify-content:center;min-width:140px;min-height:100px;padding:14px 24px;border-radius:24px;background:linear-gradient(135deg,#eff4ff,#ecfffb);border:2px solid #cfe0ff;font-size:clamp(2.2rem,8vw,4rem);font-weight:1000;letter-spacing:2px;margin:4px 0 12px}
+  .visual{font-size:clamp(4rem,12vw,7rem);text-align:center;margin:6px 0 10px}
+  .options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+  .option{
+    border:2px solid var(--line);background:#fff;border-radius:18px;padding:15px 16px;min-height:60px;cursor:pointer;
+    font-weight:950;font-size:1.03rem;color:var(--ink);text-align:left;transition:.16s ease;box-shadow:0 4px 10px rgba(35,71,103,.04)
+  }
+  .option:hover{border-color:#aac0ff;transform:translateY(-1px)}
+  .option.selected{border-color:var(--primary);background:#eef3ff;box-shadow:0 0 0 3px rgba(78,124,255,.1)}
+  .option.correct{border-color:#71cf9e;background:#eefcf4;color:#17643f}
+  .option.wrong{border-color:#f0a5a5;background:#fff4f4;color:#9f3131}
+  .answer-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .text-answer{width:100%;border:2px solid var(--line);border-radius:18px;padding:15px 16px;font-weight:850;font-size:1.07rem;outline:none;color:var(--ink);background:#fbfdff}
+  .text-answer:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(78,124,255,.09)}
+  .feedback{margin-top:16px;padding:14px 16px;border-radius:16px;font-weight:850;line-height:1.45;display:none}
+  .feedback.show{display:block}
+  .feedback.good{background:#ecfbf3;border:1px solid #bfe9d1;color:#17643f}
+  .feedback.bad{background:#fff4f4;border:1px solid #f1c5c5;color:#8b2e2e}
+  .feedback.info{background:#fff9e8;border:1px solid #f2dfaa;color:#75520e}
+  .controls{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:24px;flex-wrap:wrap}
+  .controls-left,.controls-right{display:flex;gap:10px;flex-wrap:wrap}
+  .listen-btn{display:inline-flex;align-items:center;gap:8px}
+  .micro-note{color:var(--muted);font-size:.86rem;margin-top:7px}
+  .report-card{background:#fff;border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);padding:24px}
+  .score-ring{width:154px;height:154px;border-radius:50%;display:grid;place-items:center;margin:0 auto 18px;background:conic-gradient(var(--primary) calc(var(--score)*1%),#e7eef8 0);position:relative}
+  .score-ring::after{content:"";position:absolute;inset:14px;background:white;border-radius:50%}
+  .score-ring span{position:relative;z-index:2;font-size:2rem;font-weight:1000}
+  .report-title{text-align:center;margin:0 0 4px;font-size:2rem;font-weight:1000}
+  .report-sub{text-align:center;color:var(--muted);margin:0 0 18px}
+  .report-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}
+  .metric{border:1px solid var(--line);border-radius:18px;padding:14px;background:#fbfdff}
+  .metric b{display:block;font-size:1.25rem;margin-top:3px}
+  .metric span{color:var(--muted);font-size:.86rem;font-weight:800}
+  .skills{margin-top:18px}
+  .skill-row{display:grid;grid-template-columns:150px 1fr 54px;gap:10px;align-items:center;margin:10px 0}
+  .skill-name{font-weight:900}
+  .skill-track{height:11px;background:#edf1f6;border-radius:999px;overflow:hidden}
+  .skill-fill{height:100%;background:linear-gradient(90deg,var(--secondary),var(--primary));border-radius:inherit}
+  .recommendation{margin-top:18px;background:#f6fbff;border:1px solid #dcebf8;border-radius:18px;padding:15px 16px;line-height:1.5}
+  .report-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);opacity:0;background:#17324d;color:#fff;padding:11px 16px;border-radius:14px;font-weight:850;z-index:50;transition:.2s ease;pointer-events:none;box-shadow:0 10px 24px rgba(23,50,77,.24)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .footer-note{text-align:center;color:var(--muted);font-size:.82rem;margin-top:16px}
+  .hidden{display:none!important}
+  @media(max-width:760px){
+    .hero{grid-template-columns:1fr}.hero-art{display:none}.start-card{grid-template-columns:1fr}
+    .activity-card{min-height:600px}.activity-head{align-items:flex-start}.options{grid-template-columns:1fr}
+    .brand{display:none}.progress-text{min-width:52px}.skill-row{grid-template-columns:105px 1fr 48px}.report-grid{grid-template-columns:1fr 1fr}
+    .controls{align-items:stretch}.controls-left,.controls-right{width:100%}.controls button{flex:1}
+  }
+  @media(max-width:420px){
+    .app{padding-left:10px;padding-right:10px}.topbar{margin-left:-10px;margin-right:-10px}
+    .activity-card{padding:17px;border-radius:20px}.report-grid{grid-template-columns:1fr}.skill-row{grid-template-columns:1fr 46px}.skill-track{grid-column:1/3}
+  }
+  @media print{
+    body{background:#fff}.topbar,.level-strip,.controls,.report-actions,.footer-note{display:none!important}.app{max-width:none;padding:0}.screen{display:none!important}#reportScreen{display:block!important}.report-card{box-shadow:none;border:0;padding:0}.score-ring{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">🧠 Aventura PR</div>
+      <div class="progress-wrap">
+        <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+        <div id="progressText" class="progress-text">0 / 50</div>
+      </div>
+    </div>
+  </div>
+
+  <section id="welcomeScreen" class="screen active">
+    <div class="hero">
+      <div>
+        <div class="eyebrow">Lectura y escritura · Primaria</div>
+        <h1>La aventura<br>de la letra <span style="color:var(--primary)">PR</span></h1>
+        <div class="pr-bubbles">
+          <span class="bubble">PRA</span><span class="bubble">PRE</span><span class="bubble">PRI</span><span class="bubble">PRO</span><span class="bubble">PRU</span>
+        </div>
+        <p>50 actividades cortas para reconocer sílabas, formar palabras, comprender oraciones y escribir con <b>PR</b>. Puedes detenerte y continuar después: el progreso se guarda en este dispositivo.</p>
+        <div class="start-card">
+          <div class="field"><label for="studentName">Nombre del alumno</label><input id="studentName" placeholder="Escribe tu nombre" maxlength="40"></div>
+          <div class="field"><label for="studentGrade">Grado</label><input id="studentGrade" placeholder="Ej. 2.º de primaria" maxlength="30"></div>
+        </div>
+        <div class="answer-row">
+          <button id="startBtn" class="primary-btn">🚀 Comenzar aventura</button>
+          <button id="continueBtn" class="ghost-btn hidden">▶️ Continuar progreso</button>
+          <button id="resetBtn" class="danger-btn hidden">↺ Reiniciar</button>
+        </div>
+      </div>
+      <div class="hero-art">📚✨</div>
+    </div>
+    <div class="footer-note">Material educativo interactivo · Uso en celular, tableta o computadora</div>
+  </section>
+
+  <section id="activityScreen" class="screen">
+    <div id="levelStrip" class="level-strip"></div>
+    <article class="activity-card">
+      <div>
+        <div class="activity-head">
+          <div>
+            <div id="levelEyebrow" class="eyebrow"></div>
+            <h2 id="activityTitle" class="activity-title"></h2>
+          </div>
+          <div id="counter" class="counter">1 / 50</div>
+        </div>
+        <div id="activityContent"></div>
+        <div id="feedback" class="feedback"></div>
+      </div>
+      <div class="controls">
+        <div class="controls-left">
+          <button id="prevBtn" class="ghost-btn">← Anterior</button>
+          <button id="hintBtn" class="hint-btn">💡 Pista</button>
+          <button id="listenBtn" class="ghost-btn listen-btn">🔊 Escuchar</button>
+        </div>
+        <div class="controls-right">
+          <button id="checkBtn" class="primary-btn">✓ Comprobar</button>
+          <button id="nextBtn" class="primary-btn hidden">Siguiente →</button>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section id="reportScreen" class="screen">
+    <div class="report-card">
+      <div id="scoreRing" class="score-ring" style="--score:0"><span id="scorePercent">0%</span></div>
+      <h2 class="report-title">Reporte final</h2>
+      <p id="reportStudent" class="report-sub"></p>
+      <div class="report-grid">
+        <div class="metric"><span>Aciertos</span><b id="metricCorrect">0 / 50</b></div>
+        <div class="metric"><span>Calificación</span><b id="metricGrade">0%</b></div>
+        <div class="metric"><span>Intentos acumulados</span><b id="metricAttempts">0</b></div>
+        <div class="metric"><span>Actividades con pista</span><b id="metricHints">0</b></div>
+      </div>
+      <div class="skills">
+        <h3>Desempeño por nivel</h3>
+        <div id="skillsContainer"></div>
+      </div>
+      <div id="recommendation" class="recommendation"></div>
+      <div class="report-actions">
+        <button id="practiceErrorsBtn" class="primary-btn">🔁 Practicar errores</button>
+        <button id="printBtn" class="ghost-btn">🖨️ Imprimir / Guardar PDF</button>
+        <button id="homeBtn" class="ghost-btn">🏠 Volver al inicio</button>
+      </div>
+    </div>
+  </section>
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+const LEVELS = [
+  {name:'Nivel 1 · Descubro PR', short:'🔤 Sílabas', range:[0,9]},
+  {name:'Nivel 2 · Construyo palabras', short:'🧩 Palabras', range:[10,19]},
+  {name:'Nivel 3 · Leo y comprendo', short:'📖 Comprendo', range:[20,29]},
+  {name:'Nivel 4 · Construyo oraciones', short:'✍️ Oraciones', range:[30,39]},
+  {name:'Nivel 5 · Demuestro lo aprendido', short:'🏆 Reto final', range:[40,49]}
+];
+
+const activities = [
+  // Nivel 1: 1-10
+  {level:0,type:'mc',title:'Escucha y reconoce',prompt:'Toca la sílaba que dice “pra”.',speak:'pra',options:['PRI','PRA','PRO','PRE'],answer:'PRA',hint:'Empieza con PR y termina con el sonido de la vocal A.'},
+  {level:0,type:'mc',title:'Encuentra PRE',prompt:'¿Cuál de estas sílabas es PRE?',speak:'pre',options:['PRU','PRO','PRE','PRA'],answer:'PRE',hint:'Busca la vocal E después de PR.'},
+  {level:0,type:'mc',title:'¿Dónde está PRI?',prompt:'Selecciona la sílaba PRI.',speak:'pri',options:['PRA','PRI','PRE','PRU'],answer:'PRI',hint:'PRI termina con el sonido de la vocal I.'},
+  {level:0,type:'mc',title:'Reconoce PRO',prompt:'Toca la sílaba PRO.',speak:'pro',options:['PRO','PRA','PRU','PRE'],answer:'PRO',hint:'PRO termina con O.'},
+  {level:0,type:'mc',title:'Reconoce PRU',prompt:'Toca la sílaba PRU.',speak:'pru',options:['PRE','PRI','PRU','PRA'],answer:'PRU',hint:'PRU termina con U.'},
+  {level:0,type:'mc',title:'Forma PRA',prompt:'PR + A forman…',speak:'PR más A forman PRA',options:['PRE','PRA','PRI','PRO'],answer:'PRA',hint:'Une el sonido PR con la vocal A.'},
+  {level:0,type:'mc',title:'Forma PRE',prompt:'PR + E forman…',speak:'PR más E forman PRE',options:['PRO','PRU','PRE','PRA'],answer:'PRE',hint:'Después de PR va la vocal E.'},
+  {level:0,type:'mc',title:'Forma PRI',prompt:'PR + I forman…',speak:'PR más I forman PRI',options:['PRA','PRI','PRU','PRE'],answer:'PRI',hint:'Busca la combinación que termina en I.'},
+  {level:0,type:'mc',title:'Forma PRO',prompt:'PR + O forman…',speak:'PR más O forman PRO',options:['PRO','PRE','PRI','PRU'],answer:'PRO',hint:'Busca la combinación que termina en O.'},
+  {level:0,type:'mc',title:'Reto de sílabas',prompt:'Escucha y selecciona: “pru”.',speak:'pru',options:['PRA','PRE','PRI','PRU'],answer:'PRU',hint:'La última vocal que escuchas es U.'},
+
+  // Nivel 2: 11-20
+  {level:1,type:'text',title:'Completa la palabra',prompt:'Escribe la sílaba que falta: __cio',display:'__cio',answer:'pre',hint:'La palabra completa es “precio”. Solo escribe la sílaba que falta.',speak:'precio'},
+  {level:1,type:'text',title:'Completa primavera',prompt:'Escribe la sílaba que falta: __mavera',display:'__mavera',answer:'pri',hint:'Piensa en la estación del año con muchas flores.',speak:'primavera'},
+  {level:1,type:'mc',title:'Palabra con PRO',prompt:'¿Cuál palabra empieza con PRO?',options:['precio','profesora','primo','prenda'],answer:'profesora',hint:'Busca la palabra que comienza con las letras P-R-O.',speak:'profesora'},
+  {level:1,type:'mc',title:'Palabra con PRE',prompt:'¿Cuál palabra empieza con PRE?',options:['prueba','primero','prenda','profeta'],answer:'prenda',hint:'PRE suena como el inicio de “prenda”.',speak:'prenda'},
+  {level:1,type:'mc',title:'Palabra con PRI',prompt:'¿Cuál palabra empieza con PRI?',options:['primo','profesión','pronto','prueba'],answer:'primo',hint:'Busca la palabra cuyo inicio suena “pri”.',speak:'primo'},
+  {level:1,type:'mc',title:'¿Qué palabra contiene PRU?',prompt:'Selecciona la palabra que tiene la sílaba PRU.',options:['pradera','prueba','primaria','profeta'],answer:'prueba',hint:'La palabra empieza con “prue…”.',speak:'prueba'},
+  {level:1,type:'text',title:'Completa PROFESIÓN',prompt:'Escribe la sílaba inicial que falta: __fesión',display:'__fesión',answer:'pro',hint:'La palabra completa es “profesión”.',speak:'profesión'},
+  {level:1,type:'text',title:'Completa PRADERA',prompt:'Escribe la sílaba inicial que falta: __dera',display:'__dera',answer:'pra',hint:'La palabra completa es “pradera”.',speak:'pradera'},
+  {level:1,type:'mc',title:'Separa la palabra',prompt:'¿Cuál es la separación correcta de “profesora”?',options:['pro-fe-so-ra','prof-es-ora','profe-so-ra','pr-o-fe-sora'],answer:'pro-fe-so-ra',hint:'Pronuncia despacio: pro · fe · so · ra.',speak:'pro fe so ra'},
+  {level:1,type:'mc',title:'Palabra intrusa',prompt:'¿Cuál palabra NO contiene la combinación PR?',options:['primaria','aprender','pronto','pelota'],answer:'pelota',hint:'Tres palabras tienen las letras P y R juntas.',speak:'primaria, aprender, pronto, pelota'},
+
+  // Nivel 3: 21-30
+  {level:2,type:'mc',title:'Imagen y palabra',prompt:'🌸 ¿Qué palabra corresponde mejor a la imagen?',visual:'🌸',options:['primavera','prenda','precio','primo'],answer:'primavera',hint:'Es una estación del año en la que suelen aparecer muchas flores.',speak:'primavera'},
+  {level:2,type:'mc',title:'Profesora',prompt:'👩‍🏫 ¿Qué palabra corresponde a esta imagen?',visual:'👩‍🏫',options:['profesora','pradera','prueba','primo'],answer:'profesora',hint:'Es una persona que enseña en la escuela.',speak:'profesora'},
+  {level:2,type:'mc',title:'Comprendo “precio”',prompt:'Si una entrada cuesta $50, ¿qué palabra habla de cuánto cuesta algo?',options:['precio','primavera','prenda','primo'],answer:'precio',hint:'Es la cantidad de dinero que cuesta un producto o servicio.',speak:'precio'},
+  {level:2,type:'mc',title:'Comprendo “prenda”',prompt:'👕 ¿Qué palabra puede nombrar una pieza de ropa?',visual:'👕',options:['prenda','profeta','pronto','prueba'],answer:'prenda',hint:'Una camisa o un pantalón son ejemplos de una…',speak:'prenda'},
+  {level:2,type:'mc',title:'Comprendo “primo”',prompt:'¿Cuál palabra nombra a un familiar que puede ser hijo de tu tía o de tu tío?',options:['primo','preso','precio','profesor'],answer:'primo',hint:'Es un miembro de la familia.',speak:'primo'},
+  {level:2,type:'mc',title:'Comprendo “temprano”',prompt:'Si llegas a las 7:00 y la clase empieza a las 8:00, llegaste…',options:['temprano','pronto','preso','primero'],answer:'temprano',hint:'Significa llegar antes de la hora esperada.',speak:'temprano'},
+  {level:2,type:'mc',title:'Comprendo “práctica”',prompt:'Cuando repites una actividad para mejorar, haces…',options:['práctica','pradera','prenda','profesión'],answer:'práctica',hint:'Se hace para aprender o mejorar una habilidad.',speak:'práctica'},
+  {level:2,type:'mc',title:'Comprendo “pradera”',prompt:'🌿 ¿Cuál palabra puede nombrar un terreno amplio cubierto de hierba?',visual:'🌿',options:['pradera','prueba','precio','profesora'],answer:'pradera',hint:'Es un lugar natural con pasto y plantas.',speak:'pradera'},
+  {level:2,type:'mc',title:'Palabras parecidas',prompt:'Completa la idea: “Mi hermana llegó ______ a la meta”.',options:['primero','primera','precio','pradera'],answer:'primera',hint:'“Hermana” es femenino. Busca la palabra que también concuerda en femenino.',speak:'Mi hermana llegó primera a la meta'},
+  {level:2,type:'mc',title:'Mini comprensión',prompt:'Lee: “Priscila practica fútbol después de clases”. ¿Qué practica Priscila?',options:['fútbol','lectura','natación','música'],answer:'fútbol',hint:'La respuesta aparece directamente en la oración.',speak:'Priscila practica fútbol después de clases'},
+
+  // Nivel 4: 31-40
+  {level:3,type:'mc',title:'Completa la oración',prompt:'El ______ de la entrada fue caro.',options:['precio','primo','pronto','profeta'],answer:'precio',hint:'La oración habla de cuánto costó una entrada.',speak:'El precio de la entrada fue caro'},
+  {level:3,type:'mc',title:'Completa la oración',prompt:'En ______ hay flores de muchos colores.',options:['primavera','profesión','prueba','prenda'],answer:'primavera',hint:'Piensa en la estación del año de las flores.',speak:'En primavera hay flores de muchos colores'},
+  {level:3,type:'mc',title:'Completa la oración',prompt:'Mi ______ se vistió de príncipe.',options:['primo','precio','pronto','pradera'],answer:'primo',hint:'La oración habla de un familiar.',speak:'Mi primo se vistió de príncipe'},
+  {level:3,type:'mc',title:'Completa la oración',prompt:'Me levanté ______ para ir a la pradera.',options:['temprano','precio','primaria','preso'],answer:'temprano',hint:'La palabra indica que se levantó antes de lo habitual.',speak:'Me levanté temprano para ir a la pradera'},
+  {level:3,type:'mc',title:'Completa la oración',prompt:'La ______ atiende a primer grado.',options:['profesora','primavera','prenda','prueba'],answer:'profesora',hint:'Es la persona que enseña al grupo.',speak:'La profesora atiende a primer grado'},
+  {level:3,type:'mc',title:'Orden lógico',prompt:'¿Cuál oración está mejor escrita?',options:['Mi mamá llegó primero a la casa.','Primero casa llegó mamá mi la.','Llegó la primero mi casa mamá.','Casa mi mamá primero la llegó.'],answer:'Mi mamá llegó primero a la casa.',hint:'Busca una oración que tenga sentido completo y orden natural.',speak:'Mi mamá llegó primero a la casa'},
+  {level:3,type:'mc',title:'Comprensión de acción',prompt:'“Mi nana exprime naranjas”. ¿Qué hace la nana?',options:['exprime naranjas','compra una prenda','va a la pradera','llega primero'],answer:'exprime naranjas',hint:'Busca el verbo de la oración: “exprime”.',speak:'Mi nana exprime naranjas'},
+  {level:3,type:'mc',title:'Elige la oración',prompt:'¿Cuál oración usa correctamente la palabra “prueba”?',options:['Mañana tengo una prueba de lectura.','La prueba florece en primavera.','Mi prueba es mi primo.','El precio corre rápido.'],answer:'Mañana tengo una prueba de lectura.',hint:'“Prueba” puede significar examen o actividad para comprobar algo.',speak:'Mañana tengo una prueba de lectura'},
+  {level:3,type:'mc',title:'Verdadero o falso',prompt:'Lee: “Llegaré pronto al aeropuerto”. La persona dice que llegará dentro de poco.',options:['Verdadero','Falso'],answer:'Verdadero',hint:'“Pronto” puede significar dentro de poco tiempo.',speak:'Llegaré pronto al aeropuerto'},
+  {level:3,type:'mc',title:'Comprensión de dos ideas',prompt:'Lee: “La profesora llegó temprano y preparó una prueba”. ¿Qué hizo primero?',options:['Llegó temprano','Preparó una prenda','Fue a la pradera','Compró un precio'],answer:'Llegó temprano',hint:'Fíjate en el orden de las acciones de la oración.',speak:'La profesora llegó temprano y preparó una prueba'},
+
+  // Nivel 5: 41-50
+  {level:4,type:'text',title:'Escribe una palabra',prompt:'Escribe una palabra que empiece con PRI. Una respuesta posible aparece en la ficha.',answer:['primo','primero','primaria','primavera','prima'],hint:'Puedes pensar en “pri-mo”, “pri-ma” o “pri-ma-ve-ra”.',speak:'Escribe una palabra que empiece con pri'},
+  {level:4,type:'text',title:'Escribe una palabra',prompt:'Escribe una palabra que empiece con PRO.',answer:['profesora','profesor','profesión','profeta','pronto'],hint:'Piensa en alguien que enseña: “pro-fe-sor…”.',speak:'Escribe una palabra que empiece con pro'},
+  {level:4,type:'text',title:'Completa sin opciones',prompt:'Completa: “En ______ hay flores de muchos colores”.',answer:'primavera',hint:'Es una estación del año.',speak:'En primavera hay flores de muchos colores'},
+  {level:4,type:'text',title:'Completa sin opciones',prompt:'Completa: “Mi ______ se vistió de príncipe”.',answer:'primo',hint:'Es un familiar.',speak:'Mi primo se vistió de príncipe'},
+  {level:4,type:'mc',title:'Detecta el error',prompt:'¿Cuál palabra está escrita de forma incorrecta?',options:['primavera','profesora','prenda','pirmera'],answer:'pirmera',hint:'Compara el orden de las letras PR en cada palabra.',speak:'primavera, profesora, prenda, pirmera'},
+  {level:4,type:'mc',title:'Detecta el error',prompt:'¿Cuál oración tiene una palabra mal escrita?',options:['Priscila practica fútbol.','La profesora llegó temprano.','Mi primo es amable.','La pirmera actividad fue fácil.'],answer:'La pirmera actividad fue fácil.',hint:'La palabra correcta sería “primera”.',speak:'La primera actividad fue fácil'},
+  {level:4,type:'mc',title:'Lectura breve',prompt:'Lee: “Priscila y su primo fueron temprano a la pradera. Allí practicaron fútbol”. ¿A dónde fueron?',options:['A la pradera','A la preparatoria','Al aeropuerto','A la tienda'],answer:'A la pradera',hint:'Busca el lugar mencionado en la primera oración.',speak:'Priscila y su primo fueron temprano a la pradera. Allí practicaron fútbol'},
+  {level:4,type:'mc',title:'Lectura breve',prompt:'Con el mismo texto: ¿qué practicaron?',options:['fútbol','natación','pintura','lectura'],answer:'fútbol',hint:'La respuesta aparece en la segunda oración.',speak:'Allí practicaron fútbol'},
+  {level:4,type:'mc',title:'Reto mezclado',prompt:'¿Qué opción contiene solo palabras con PR?',options:['precio, primo, prueba','pelota, casa, luna','primo, mesa, pradera','profesora, gato, temprano'],answer:'precio, primo, prueba',hint:'Revisa que las tres palabras de la opción tengan las letras P y R juntas.',speak:'precio, primo, prueba'},
+  {level:4,type:'text',title:'Reto final',prompt:'Completa la oración: “La ______ preparó una prueba para el grupo”.',answer:'profesora',hint:'Es la persona que enseña en la escuela.',speak:'La profesora preparó una prueba para el grupo'}
+];
+
+const $ = s => document.querySelector(s);
+const stateKey = 'aventuraPR50_v1';
+let state = {
+  current:0,
+  name:'',
+  grade:'',
+  answers:Array(50).fill(null),
+  correct:Array(50).fill(false),
+  attempts:Array(50).fill(0),
+  hints:Array(50).fill(false),
+  completed:false,
+  practiceMode:false,
+  practiceList:[]
+};
+
+function normalize(v){
+  return String(v ?? '').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[.!¡!¿?]/g,'').replace(/\s+/g,' ');
+}
+function save(){localStorage.setItem(stateKey,JSON.stringify(state)); updateProgress();}
+function load(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(stateKey));
+    if(saved && Array.isArray(saved.correct) && saved.correct.length===50){state={...state,...saved};return true;}
+  }catch(e){}
+  return false;
+}
+function resetState(){
+  state={current:0,name:'',grade:'',answers:Array(50).fill(null),correct:Array(50).fill(false),attempts:Array(50).fill(0),hints:Array(50).fill(false),completed:false,practiceMode:false,practiceList:[]};
+  localStorage.removeItem(stateKey);
+}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+function levelFor(index){return activities[index].level;}
+function updateProgress(){
+  const done=state.correct.filter(Boolean).length;
+  const pct=Math.max(2,Math.round(done/50*100));
+  $('#progressBar').style.width=pct+'%';
+  $('#progressText').textContent=`${done} / 50`;
+}
+function buildLevelStrip(){
+  $('#levelStrip').innerHTML=LEVELS.map((l,i)=>`<button class="level-chip ${i===levelFor(state.current)?'active':''}" data-level="${i}">${l.short}</button>`).join('');
+  document.querySelectorAll('.level-chip').forEach(btn=>btn.addEventListener('click',()=>{
+    const lvl=Number(btn.dataset.level);state.current=LEVELS[lvl].range[0];save();renderActivity();
+  }));
+}
+function renderActivity(){
+  showScreen('#activityScreen');
+  const a=activities[state.current];
+  buildLevelStrip();
+  $('#levelEyebrow').textContent=LEVELS[a.level].name;
+  $('#activityTitle').textContent=a.title;
+  $('#counter').textContent=`${state.current+1} / 50`;
+  $('#feedback').className='feedback';$('#feedback').textContent='';
+  $('#nextBtn').classList.add('hidden');$('#checkBtn').classList.remove('hidden');
+  $('#prevBtn').disabled=state.current===0;
+
+  let html=`<div class="prompt">${a.prompt}</div>`;
+  if(a.visual) html+=`<div class="visual" aria-hidden="true">${a.visual}</div>`;
+  if(a.display) html+=`<div class="big-token">${a.display}</div>`;
+  if(a.type==='mc'){
+    html+=`<div class="options">${a.options.map(o=>`<button class="option" data-value="${escapeHtml(o)}">${escapeHtml(o)}</button>`).join('')}</div>`;
+  }else if(a.type==='text'){
+    html+=`<input id="textAnswer" class="text-answer" autocomplete="off" inputmode="text" placeholder="Escribe tu respuesta aquí" aria-label="Respuesta">`;
+    html+=`<div class="micro-note">✏️ Puedes usar mayúsculas o minúsculas. Los acentos no afectan la comprobación.</div>`;
+  }
+  $('#activityContent').innerHTML=html;
+
+  if(a.type==='mc'){
+    document.querySelectorAll('.option').forEach(btn=>btn.addEventListener('click',()=>{
+      document.querySelectorAll('.option').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+    }));
+    if(state.answers[state.current]!==null){
+      const saved=String(state.answers[state.current]);
+      document.querySelectorAll('.option').forEach(b=>{if(b.dataset.value===saved)b.classList.add('selected')});
+    }
+  }else if(state.answers[state.current]) $('#textAnswer').value=state.answers[state.current];
+
+  if(state.correct[state.current]){
+    revealCorrectState();
+    feedback('✅ Ya resolviste correctamente esta actividad. Puedes continuar o volver a practicarla.','good');
+  }
+  updateProgress();
+}
+function escapeHtml(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+function getUserAnswer(){
+  const a=activities[state.current];
+  if(a.type==='mc') return document.querySelector('.option.selected')?.dataset.value ?? '';
+  return $('#textAnswer')?.value ?? '';
+}
+function isCorrect(a,user){
+  const n=normalize(user);
+  if(Array.isArray(a.answer)) return a.answer.some(ans=>normalize(ans)===n);
+  return normalize(a.answer)===n;
+}
+function checkAnswer(){
+  const a=activities[state.current];
+  const user=getUserAnswer();
+  if(!String(user).trim()){feedback('👀 Elige o escribe una respuesta antes de comprobar.','info');return;}
+  state.answers[state.current]=user;
+  state.attempts[state.current]++;
+  if(isCorrect(a,user)){
+    state.correct[state.current]=true;
+    save();
+    revealCorrectState();
+    const attempt=state.attempts[state.current];
+    feedback(attempt===1?'🎉 ¡Excelente! Lo resolviste al primer intento.':'✅ ¡Muy bien! Encontraste la respuesta correcta.','good');
+    $('#checkBtn').classList.add('hidden');$('#nextBtn').classList.remove('hidden');
+    sparkle();
+  }else{
+    save();
+    markWrongSelection();
+    const attempts=state.attempts[state.current];
+    let msg='🤔 Casi. Revisa la pista y vuelve a intentarlo.';
+    if(attempts>=2) msg+=' Escucha la palabra lentamente y fíjate en PRA, PRE, PRI, PRO o PRU.';
+    feedback(msg,'bad');
+  }
+}
+function markWrongSelection(){
+  const a=activities[state.current];
+  if(a.type==='mc'){
+    document.querySelectorAll('.option').forEach(b=>{b.classList.remove('wrong');if(b.classList.contains('selected'))b.classList.add('wrong')});
+  }
+}
+function revealCorrectState(){
+  const a=activities[state.current];
+  if(a.type==='mc'){
+    document.querySelectorAll('.option').forEach(b=>{
+      b.classList.remove('wrong');
+      if(normalize(b.dataset.value)===normalize(a.answer)) b.classList.add('correct');
+    });
+  }
+  $('#checkBtn').classList.add('hidden');$('#nextBtn').classList.remove('hidden');
+}
+function feedback(text,type){const f=$('#feedback');f.textContent=text;f.className=`feedback show ${type}`;}
+function showHint(){
+  const a=activities[state.current];state.hints[state.current]=true;save();feedback('💡 '+a.hint,'info');
+}
+function speakCurrent(){
+  const a=activities[state.current];
+  if(!('speechSynthesis' in window)){toast('Tu navegador no admite lectura en voz alta.');return;}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(a.speak || a.prompt.replace(/<[^>]+>/g,''));u.lang='es-MX';u.rate=.82;u.pitch=1.02;speechSynthesis.speak(u);
+}
+function nextActivity(){
+  if(state.practiceMode){
+    const pos=state.practiceList.indexOf(state.current);
+    if(pos>=0 && pos<state.practiceList.length-1){state.current=state.practiceList[pos+1];save();renderActivity();return;}
+    state.practiceMode=false;state.practiceList=[];save();showReport();return;
+  }
+  if(state.current<49){state.current++;save();renderActivity();}else{state.completed=true;save();showReport();}
+}
+function prevActivity(){if(state.current>0){state.current--;save();renderActivity();}}
+function showReport(){
+  showScreen('#reportScreen');
+  const correct=state.correct.filter(Boolean).length;
+  const pct=Math.round(correct/50*100);
+  $('#scoreRing').style.setProperty('--score',pct);$('#scorePercent').textContent=pct+'%';
+  $('#reportStudent').textContent=`${state.name || 'Alumno'}${state.grade?' · '+state.grade:''}`;
+  $('#metricCorrect').textContent=`${correct} / 50`;$('#metricGrade').textContent=pct+'%';
+  $('#metricAttempts').textContent=state.attempts.reduce((a,b)=>a+b,0);$('#metricHints').textContent=state.hints.filter(Boolean).length;
+  $('#skillsContainer').innerHTML=LEVELS.map((l,i)=>{
+    const idx=activities.map((a,j)=>a.level===i?j:-1).filter(j=>j>=0);const c=idx.filter(j=>state.correct[j]).length;const p=Math.round(c/idx.length*100);
+    return `<div class="skill-row"><div class="skill-name">${l.short}</div><div class="skill-track"><div class="skill-fill" style="width:${p}%"></div></div><div><b>${p}%</b></div></div>`;
+  }).join('');
+  const weakest=LEVELS.map((l,i)=>{const idx=activities.map((a,j)=>a.level===i?j:-1).filter(j=>j>=0);return {i,p:Math.round(idx.filter(j=>state.correct[j]).length/10*100)}}).sort((a,b)=>a.p-b.p)[0];
+  const wrong=state.correct.map((c,i)=>c?-1:i).filter(i=>i>=0);
+  let rec='';
+  if(pct===100) rec='🏆 Dominio completo: resolviste correctamente las 50 actividades. Puedes repetir el material para ganar fluidez y velocidad lectora.';
+  else if(pct>=80) rec=`🌟 Muy buen desempeño. Conviene reforzar especialmente <b>${LEVELS[weakest.i].short.replace(/^[^ ]+ /,'')}</b> y repetir las ${wrong.length} actividades pendientes.`;
+  else if(pct>=60) rec=`📘 Vas avanzando. Recomendamos volver a practicar <b>${LEVELS[weakest.i].short.replace(/^[^ ]+ /,'')}</b>, escuchar las palabras y usar las pistas antes de responder.`;
+  else rec=`🌱 Este resultado funciona como diagnóstico. Empieza otra vez por las sílabas PRA, PRE, PRI, PRO y PRU, avanzando en bloques de 10 actividades.`;
+  $('#recommendation').innerHTML=rec;
+  $('#practiceErrorsBtn').classList.toggle('hidden',wrong.length===0);
+}
+function practiceErrors(){
+  const list=state.correct.map((c,i)=>c?-1:i).filter(i=>i>=0);
+  if(!list.length){toast('No hay errores pendientes. ¡Excelente!');return;}
+  state.practiceMode=true;state.practiceList=list;state.current=list[0];save();renderActivity();toast(`Practicaremos ${list.length} actividades pendientes.`);
+}
+function sparkle(){
+  toast('⭐ ¡Punto ganado!');
+}
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>el.classList.remove('show'),1600);}
+
+$('#startBtn').addEventListener('click',()=>{
+  const name=$('#studentName').value.trim();const grade=$('#studentGrade').value.trim();
+  if(!name){toast('Escribe el nombre del alumno para comenzar.');$('#studentName').focus();return;}
+  resetState();state.name=name;state.grade=grade;save();renderActivity();
+});
+$('#continueBtn').addEventListener('click',()=>renderActivity());
+$('#resetBtn').addEventListener('click',()=>{if(confirm('¿Quieres borrar todo el progreso guardado?')){resetState();location.reload();}});
+$('#checkBtn').addEventListener('click',checkAnswer);
+$('#nextBtn').addEventListener('click',nextActivity);
+$('#prevBtn').addEventListener('click',prevActivity);
+$('#hintBtn').addEventListener('click',showHint);
+$('#listenBtn').addEventListener('click',speakCurrent);
+$('#practiceErrorsBtn').addEventListener('click',practiceErrors);
+$('#printBtn').addEventListener('click',()=>window.print());
+$('#homeBtn').addEventListener('click',()=>{showScreen('#welcomeScreen');$('#studentName').value=state.name;$('#studentGrade').value=state.grade;});
+
+document.addEventListener('keydown',e=>{
+  if(!$('#activityScreen').classList.contains('active'))return;
+  if(e.key==='Enter'){
+    if(!$('#nextBtn').classList.contains('hidden')) nextActivity(); else checkAnswer();
+  }
+});
+
+const hasSave=load();
+if(hasSave){
+  $('#studentName').value=state.name;$('#studentGrade').value=state.grade;
+  $('#continueBtn').classList.remove('hidden');$('#resetBtn').classList.remove('hidden');
+}
+updateProgress();
+</script>
+</body>
+</html>
