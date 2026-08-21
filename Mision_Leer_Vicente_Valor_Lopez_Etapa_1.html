@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Misión Leer · Vicente Valor López · Etapa 1</title>
+<style>
+html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,sans-serif;background:#ece6ff;color:#24304a}.loading{min-height:100vh;display:grid;place-items:center;text-align:center;padding:24px}.loading div{background:white;border-radius:24px;padding:28px;box-shadow:0 18px 60px rgba(62,54,109,.13)}
+</style>
+</head>
+<body>
+<div class="loading"><div><h1>📚 Misión Leer</h1><p>Preparando la misión de <strong>Vicente Valor López</strong>…</p></div></div>
+<script>
+(async()=>{
+  try{
+    const r=await fetch('./Mision_Leer_Alina_Etapa_1_v4_Informe_Efectos.html',{cache:'no-store'});
+    if(!r.ok) throw new Error('No se pudo cargar la actividad base.');
+    let t=await r.text();
+    t=t.replaceAll('ALINA','VICENTE VALOR LÓPEZ')
+       .replaceAll('Alina','Vicente Valor López')
+       .replaceAll('alina','vicente valor lópez');
+    document.open();
+    document.write(t);
+    document.close();
+  }catch(e){
+    document.body.innerHTML='<div class="loading"><div><h1>⚠️ No se pudo abrir la misión</h1><p>'+e.message+'</p></div></div>';
+  }
+})();
+</script>
+</body>
+</html>
