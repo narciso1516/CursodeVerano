@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Examen diagnóstico | Yare | 2.º de secundaria</title>
+<style>
+:root{
+  --bg:#f5f2ea;
+  --paper:#fffdf8;
+  --ink:#1f2937;
+  --muted:#6b7280;
+  --accent:#7c3aed;
+  --accent2:#0f766e;
+  --soft:#ede9fe;
+  --line:#ddd6fe;
+  --ok:#166534;
+  --bad:#991b1b;
+  --warn:#92400e;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#eee8ff 0,#f8f6f0 35%,#f5f2ea 100%);color:var(--ink)}
+.wrap{max-width:980px;margin:auto;padding:18px}
+.hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:26px;box-shadow:0 18px 50px rgba(62,40,120,.10);margin:12px 0 18px}
+.badge{display:inline-flex;gap:8px;align-items:center;padding:7px 11px;border-radius:999px;background:var(--soft);color:#5b21b6;font-weight:800;font-size:.82rem;letter-spacing:.02em}
+h1{font-size:clamp(2rem,6vw,3.6rem);line-height:.98;margin:14px 0 8px;letter-spacing:-.04em}.name{color:var(--accent)}
+.lead{font-size:1rem;color:var(--muted);max-width:720px;line-height:1.6}
+.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.meta div{background:#faf9f6;border:1px solid #ece7dc;padding:12px;border-radius:14px}.meta b{display:block;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}.meta span{font-weight:800}
+.progress-shell{position:sticky;top:0;z-index:5;padding:10px 0;background:rgba(245,242,234,.92);backdrop-filter:blur(10px)}.progress-card{background:#fff;border:1px solid #e7e2d6;border-radius:16px;padding:11px 14px;box-shadow:0 8px 25px rgba(0,0,0,.05)}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.bar{height:10px;background:#ece7f8;border-radius:99px;overflow:hidden;margin-top:8px}.bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:.25s}
+.section-title{margin:26px 0 10px;font-size:1.2rem}.q{background:var(--paper);border:1px solid #e8e2d7;border-radius:20px;padding:18px;margin:12px 0;box-shadow:0 8px 24px rgba(42,35,25,.045)}.qhead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.num{min-width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--soft);color:#5b21b6;font-weight:900}.q h3{font-size:1rem;line-height:1.45;margin:2px 0 14px;flex:1}.area{font-size:.75rem;padding:5px 8px;border-radius:999px;background:#f3f4f6;color:#4b5563;white-space:nowrap}
+.opts{display:grid;gap:9px}.opt{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid #e5e7eb;border-radius:14px;cursor:pointer;background:#fff;transition:.15s}.opt:hover{transform:translateY(-1px);border-color:#c4b5fd;background:#fbfaff}.opt input{margin-top:3px;accent-color:var(--accent)}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0 10px}.btn{border:0;border-radius:14px;padding:13px 18px;font-weight:900;cursor:pointer}.primary{background:var(--accent);color:#fff}.secondary{background:#fff;color:var(--ink);border:1px solid #ddd6fe}.btn:active{transform:translateY(1px)}
+#result{display:none;margin:24px 0;background:#fff;border:2px solid #c4b5fd;border-radius:22px;padding:22px}.score{font-size:clamp(2.3rem,8vw,4.5rem);font-weight:1000;letter-spacing:-.05em;color:var(--accent)}.level{font-weight:900;font-size:1.15rem}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}.stat{background:#f9fafb;border:1px solid #e5e7eb;border-radius:14px;padding:13px}.stat b{display:block;font-size:.78rem;color:var(--muted);margin-bottom:4px}.feedback{margin-top:14px;padding:14px;border-radius:14px;background:#f8fafc;border-left:4px solid var(--accent2);line-height:1.55}.incorrect{margin-top:16px}.incorrect li{margin:8px 0;line-height:1.45}
+.note{font-size:.88rem;color:var(--muted);line-height:1.5;margin:10px 0 30px}
+@media(max-width:700px){.wrap{padding:11px}.hero{padding:20px}.meta,.grid{grid-template-columns:1fr}.q{padding:15px}.qhead{flex-wrap:wrap}.area{order:3}.progress-card{border-radius:12px}.row{font-size:.88rem}}
+@media print{body{background:white}.progress-shell,.actions{display:none}.hero,.q,#result{box-shadow:none}.wrap{max-width:none}.q{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <span class="badge">✦ Evaluación diagnóstica · 30 preguntas</span>
+    <h1>Examen de <span class="name">Yare</span></h1>
+    <p class="lead">Este examen sirve para identificar fortalezas y temas que conviene reforzar al iniciar 2.º de secundaria. No es para memorizar: lee con calma, razona y responde lo que sabes.</p>
+    <div class="meta"><div><b>Alumna</b><span>Yare</span></div><div><b>Grado</b><span>2.º de secundaria</span></div><div><b>Tipo</b><span>Diagnóstico general</span></div></div>
+  </header>
+
+  <div class="progress-shell"><div class="progress-card"><div class="row"><strong>Progreso</strong><span id="progressText">0 de 30 respondidas</span></div><div class="bar"><div id="bar"></div></div></div></div>
+
+  <form id="exam"></form>
+  <div class="actions"><button type="button" class="btn primary" id="gradeBtn">Finalizar y generar reporte</button><button type="button" class="btn secondary" id="resetBtn">Reiniciar respuestas</button><button type="button" class="btn secondary" id="printReportBtn" style="display:none">Imprimir reporte</button></div>
+
+  <section id="result"></section>
+  <p class="note">La calificación es orientativa. Un diagnóstico funciona mejor cuando también se revisa cómo resolvió cada ejercicio, qué errores se repiten y qué áreas domina con mayor seguridad.</p>
+</div>
+<script>
+const questions = [
+{a:'Lenguajes',q:'¿Cuál oración está escrita correctamente?',o:['Ayer fuimos al parque y jugamos fútbol.','Ayer fuimos al parque y jugámos fútbol.','ayer fuimos al parque y jugamos fútbol.','Ayer, fuimos al parque y jugamos fútbol?'],r:0},
+{a:'Lenguajes',q:'En la oración “La científica explicó el experimento con claridad”, ¿cuál es el verbo?',o:['científica','explicó','experimento','claridad'],r:1},
+{a:'Lenguajes',q:'¿Cuál palabra es esdrújula?',o:['reloj','canción','música','papel'],r:2},
+{a:'Lenguajes',q:'¿Qué opción expresa una idea principal?',o:['Un detalle pequeño del texto.','La información más importante que resume de qué trata un texto.','Una palabra desconocida.','La opinión del lector sobre la portada.'],r:1},
+{a:'Lenguajes',q:'¿Cuál conector indica causa?',o:['porque','sin embargo','después','además'],r:0},
+{a:'Lenguajes',q:'Selecciona el sinónimo más cercano de “rápido”.',o:['lento','veloz','pesado','lejano'],r:1},
+{a:'Lenguajes',q:'¿Qué signo se usa al inicio de una pregunta en español?',o:['!','¿',';','('],r:1},
+{a:'Lenguajes',q:'Lee: “Aunque estaba cansada, Yare terminó su tarea”. ¿Qué relación expresa “aunque”?',o:['Suma','Contraste o dificultad','Causa','Orden temporal'],r:1},
+
+{a:'Matemáticas',q:'¿Cuánto es 3/4 + 1/4?',o:['1/2','1','4/8','2'],r:1},
+{a:'Matemáticas',q:'Resuelve: 18 − 3 × 4',o:['60','6','12','15'],r:1},
+{a:'Matemáticas',q:'Si x + 7 = 19, ¿cuánto vale x?',o:['10','11','12','26'],r:2},
+{a:'Matemáticas',q:'¿Cuál es el 25% de 200?',o:['25','40','50','75'],r:2},
+{a:'Matemáticas',q:'Un rectángulo mide 8 cm de largo y 5 cm de ancho. ¿Cuál es su área?',o:['13 cm²','26 cm²','40 cm²','80 cm²'],r:2},
+{a:'Matemáticas',q:'¿Cuál número es mayor?',o:['−8','−2','−10','−15'],r:1},
+{a:'Matemáticas',q:'Simplifica: 2(x + 3)',o:['2x + 3','2x + 6','x + 6','2x + 5'],r:1},
+{a:'Matemáticas',q:'Si 5 cuadernos cuestan $150, ¿cuánto cuesta 1 cuaderno?',o:['$20','$25','$30','$35'],r:2},
+{a:'Matemáticas',q:'¿Qué fracción equivale a 0.5?',o:['1/4','1/2','2/3','3/4'],r:1},
+{a:'Matemáticas',q:'La suma de los ángulos internos de un triángulo es:',o:['90°','180°','270°','360°'],r:1},
+
+{a:'Ciencias',q:'¿Cuál es la unidad básica de los seres vivos?',o:['Átomo','Célula','Tejido','Órgano'],r:1},
+{a:'Ciencias',q:'¿Qué órgano bombea la sangre por el cuerpo?',o:['Pulmón','Estómago','Corazón','Riñón'],r:2},
+{a:'Ciencias',q:'¿Cuál cambio de estado ocurre cuando un líquido pasa a gas?',o:['Condensación','Fusión','Evaporación','Solidificación'],r:2},
+{a:'Ciencias',q:'¿Qué gas utilizan principalmente las plantas durante la fotosíntesis?',o:['Oxígeno','Dióxido de carbono','Nitrógeno','Hidrógeno'],r:1},
+{a:'Ciencias',q:'¿Cuál es una fuente de energía renovable?',o:['Carbón','Petróleo','Gas natural','Energía solar'],r:3},
+{a:'Ciencias',q:'En una cadena alimentaria, las plantas suelen ser:',o:['Consumidores secundarios','Productores','Descomponedores','Depredadores'],r:1},
+{a:'Ciencias',q:'¿Qué propiedad indica la cantidad de materia que tiene un cuerpo?',o:['Volumen','Temperatura','Masa','Velocidad'],r:2},
+
+{a:'Razonamiento',q:'Completa la serie: 2, 4, 8, 16, ___',o:['18','24','30','32'],r:3},
+{a:'Razonamiento',q:'Si todos los mamíferos respiran y un delfín es mamífero, entonces:',o:['El delfín no respira.','El delfín respira.','Todos los animales son delfines.','No se puede saber nada.'],r:1},
+{a:'Razonamiento',q:'Ana es más alta que Beatriz y Beatriz es más alta que Carla. ¿Quién es la más baja?',o:['Ana','Beatriz','Carla','No se puede saber'],r:2},
+{a:'Razonamiento',q:'Un autobús sale a las 7:45 y tarda 1 hora 30 minutos. ¿A qué hora llega?',o:['8:45','9:00','9:15','9:30'],r:2},
+{a:'Razonamiento',q:'¿Qué número falta? 5, 10, 15, 20, ___',o:['22','24','25','30'],r:2}
+];
+
+const form=document.getElementById('exam');
+let lastArea='';
+questions.forEach((x,i)=>{
+  if(x.a!==lastArea){const h=document.createElement('h2');h.className='section-title';h.textContent=x.a;form.appendChild(h);lastArea=x.a}
+  const card=document.createElement('section');card.className='q';
+  card.innerHTML=`<div class="qhead"><div class="num">${i+1}</div><h3>${x.q}</h3><span class="area">${x.a}</span></div><div class="opts">${x.o.map((op,j)=>`<label class="opt"><input type="radio" name="q${i}" value="${j}"><span><b>${String.fromCharCode(65+j)}.</b> ${op}</span></label>`).join('')}</div>`;
+  form.appendChild(card);
+});
+
+function updateProgress(){let n=0;questions.forEach((_,i)=>{if(document.querySelector(`input[name=q${i}]:checked`))n++});document.getElementById('progressText').textContent=`${n} de ${questions.length} respondidas`;document.getElementById('bar').style.width=`${n/questions.length*100}%`}
+form.addEventListener('change',updateProgress);
+
+document.getElementById('gradeBtn').addEventListener('click',()=>{
+  let score=0, answered=0; const areas={}; const wrong=[];
+  questions.forEach((x,i)=>{
+    if(!areas[x.a])areas[x.a]={ok:0,total:0}; areas[x.a].total++;
+    const sel=document.querySelector(`input[name=q${i}]:checked`);
+    if(sel){answered++; if(+sel.value===x.r){score++;areas[x.a].ok++}else wrong.push(i)} else wrong.push(i);
+  });
+  const pct=Math.round(score/questions.length*100);
+  let level, msg;
+  if(pct>=90){level='Dominio sobresaliente';msg='Yare muestra una base muy sólida. Conviene avanzar con retos de mayor complejidad y ejercicios de aplicación.'}
+  else if(pct>=75){level='Buen dominio';msg='Yare cuenta con bases adecuadas. Hay algunos contenidos específicos que conviene reforzar antes de aumentar la dificultad.'}
+  else if(pct>=60){level='Dominio en desarrollo';msg='Yare reconoce varios contenidos clave, pero necesita práctica guiada y repaso en las áreas con menor porcentaje.'}
+  else{level='Requiere refuerzo';msg='El diagnóstico sugiere trabajar primero fundamentos y procedimientos básicos, con ejercicios cortos y seguimiento frecuente.'}
+  const areaHTML=Object.entries(areas).map(([a,v])=>`<div class="stat"><b>${a}</b><strong>${v.ok}/${v.total} · ${Math.round(v.ok/v.total*100)}%</strong></div>`).join('');
+
+  const areaNotes={
+    'Lenguajes':'Comprensión de ideas principales, ortografía, categorías gramaticales y conectores.',
+    'Matemáticas':'Operaciones, fracciones, porcentajes, álgebra elemental y geometría.',
+    'Ciencias':'Conceptos esenciales de biología, materia, energía y ambiente.',
+    'Razonamiento':'Series, relaciones lógicas, orden, tiempo y resolución de problemas.'
+  };
+  const reinforcement=Object.entries(areas)
+    .map(([a,v])=>({a,p:Math.round(v.ok/v.total*100)}))
+    .sort((x,y)=>x.p-y.p);
+  const reinforcementHTML=`<div class="feedback"><h3 style="margin-top:0">Plan sugerido de refuerzo</h3>${reinforcement.map((x,idx)=>`<p><b>${idx+1}. ${x.a} (${x.p}%)</b><br>${areaNotes[x.a]} ${x.p<60?'Prioridad alta: comenzar con ejercicios guiados y ejemplos paso a paso.':x.p<80?'Prioridad media: practicar los temas donde hubo errores.':'Fortaleza: mantener práctica y aumentar gradualmente la dificultad.'}</p>`).join('')}</div>`;
+
+  const wrongHTML=wrong.length?`<div class="incorrect"><h3>Detalle de reactivos a revisar</h3><ol>${wrong.map(i=>{const sel=document.querySelector(`input[name=q${i}]:checked`);const selected=sel?questions[i].o[+sel.value]:'Sin respuesta';const correct=questions[i].o[questions[i].r];return `<li><b>Pregunta ${i+1} · ${questions[i].a}</b><br>${questions[i].q}<br><span style="color:var(--bad)"><b>Respuesta de Yare:</b> ${selected}</span><br><span style="color:var(--ok)"><b>Respuesta correcta:</b> ${correct}</span></li>`}).join('')}</ol></div>`:`<p><strong>¡Excelente! Yare respondió correctamente los 30 reactivos.</strong></p>`;
+
+  const date=new Date().toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'});
+  const result=document.getElementById('result');
+  result.innerHTML=`<span class="badge">REPORTE DIAGNÓSTICO · ${date}</span><h2 style="margin-bottom:4px">Resultados de Yare</h2><div class="score">${pct}%</div><div class="level">${level}</div><p><b>${score} aciertos de 30</b> · ${answered} preguntas respondidas</p><h3>Desempeño por área</h3><div class="grid">${areaHTML}</div><div class="feedback"><b>Interpretación general</b><br>${msg}</div>${reinforcementHTML}${wrongHTML}<div class="feedback"><b>Observación para docente o familia</b><br>Este resultado es diagnóstico y no sustituye una evaluación escolar completa. Conviene combinarlo con la observación de procedimientos, lectura, explicación oral y ejercicios de seguimiento.</div>`;
+  result.style.display='block'; document.getElementById('printReportBtn').style.display='inline-block'; result.scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+document.getElementById('printReportBtn').addEventListener('click',()=>window.print());
+
+document.getElementById('resetBtn').addEventListener('click',()=>{form.reset();updateProgress();document.getElementById('result').style.display='none';document.getElementById('printReportBtn').style.display='none';window.scrollTo({top:0,behavior:'smooth'})});
+</script>
+</body>
+</html>
