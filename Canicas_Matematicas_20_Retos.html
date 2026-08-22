@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Canicas Matemáticas · 20 retos de sumas y restas</title>
+<style>
+  :root{
+    --bg:#FFF8E7;
+    --ink:#17324D;
+    --muted:#5B7187;
+    --card:#FFFFFF;
+    --yellow:#FFD166;
+    --orange:#FF8C42;
+    --blue:#4D96FF;
+    --green:#65D6A4;
+    --purple:#9B7BFF;
+    --red:#FF6B6B;
+    --shadow:0 14px 35px rgba(23,50,77,.14);
+    --radius:24px;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;font-family:ui-rounded,"Nunito","Avenir Next",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:
+    radial-gradient(circle at 8% 8%, rgba(255,209,102,.34), transparent 22%),
+    radial-gradient(circle at 92% 14%, rgba(77,150,255,.22), transparent 22%),
+    linear-gradient(180deg,#fffaf0,#f7fbff 70%,#eef9f5);
+  }
+
+  button,input{font:inherit}
+  button{touch-action:manipulation}
+
+  .app{max-width:1120px;margin:0 auto;padding:18px 16px 48px}
+  .topbar{
+    display:flex;gap:12px;justify-content:space-between;align-items:center;
+    padding:14px 16px;background:rgba(255,255,255,.84);backdrop-filter:blur(10px);
+    border:1px solid rgba(23,50,77,.08);border-radius:22px;box-shadow:var(--shadow);
+    position:sticky;top:10px;z-index:20;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:900}
+  .brand-mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--yellow),var(--orange));display:grid;place-items:center;font-size:25px;box-shadow:0 8px 16px rgba(255,140,66,.25)}
+  .progress-wrap{flex:1;max-width:460px}
+  .progress-meta{display:flex;justify-content:space-between;gap:8px;font-size:.86rem;font-weight:800;color:var(--muted);margin-bottom:7px}
+  .progress{height:12px;background:#EAF0F4;border-radius:999px;overflow:hidden}
+  .progress > div{height:100%;width:5%;background:linear-gradient(90deg,var(--green),var(--blue));border-radius:inherit;transition:width .35s ease}
+
+  .intro{
+    margin:18px 0;display:grid;grid-template-columns:1.25fr .75fr;gap:18px;align-items:stretch;
+  }
+  .intro-card,.mini-card,.workspace,.teacher-card,.finish-card{
+    background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid rgba(23,50,77,.08)
+  }
+  .intro-card{padding:22px}
+  .eyebrow{font-size:.82rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
+  h1{font-size:clamp(1.8rem,5vw,3.1rem);line-height:1.02;margin:8px 0 10px}
+  .intro p{margin:0;color:var(--muted);font-weight:650;line-height:1.5}
+  .mini-card{padding:18px;display:grid;align-content:center;gap:10px}
+  .student-field label{display:block;font-size:.85rem;font-weight:900;margin-bottom:7px}
+  .student-field input{width:100%;border:2px solid #DDE7EE;border-radius:16px;padding:13px 14px;outline:none}
+  .student-field input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(77,150,255,.12)}
+
+  .workspace{padding:18px;overflow:hidden}
+  .question-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:16px}
+  .question-number{background:#EEF5FF;color:#245DAA;font-weight:900;padding:8px 11px;border-radius:12px;font-size:.86rem}
+  .operation{
+    font-size:clamp(2rem,7vw,4.2rem);font-weight:1000;line-height:1;letter-spacing:-.04em;margin-top:8px;
+  }
+  .instruction{font-weight:800;color:var(--muted);margin-top:8px;line-height:1.4;max-width:660px}
+  .attempts{white-space:nowrap;font-weight:900;color:#6B597A;background:#F4EEFF;padding:8px 11px;border-radius:12px}
+
+  .play-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .panel{background:#F8FBFD;border:2px dashed #D5E4ED;border-radius:22px;padding:14px;min-height:390px;position:relative}
+  .panel h2{font-size:1rem;margin:0 0 10px}
+  .tray{
+    display:grid;grid-template-columns:repeat(5,minmax(42px,1fr));gap:10px;align-content:start;
+    min-height:270px;padding:12px;border-radius:18px;background:linear-gradient(180deg,#fff,#F5FAFD);
+  }
+  .tray.empty::after{
+    content:"Usa el botón + o toca las canicas de ejemplo para añadir.";
+    grid-column:1/-1;text-align:center;align-self:center;color:#7D91A4;font-weight:800;line-height:1.4;padding:34px 10px;
+  }
+  .marble,.source-marble{
+    aspect-ratio:1;border-radius:50%;border:0;cursor:pointer;position:relative;
+    background:
+      radial-gradient(circle at 32% 28%, rgba(255,255,255,.98) 0 9%, rgba(255,255,255,.45) 10% 18%, transparent 19%),
+      radial-gradient(circle at 42% 38%, #7dd3fc 0 16%, #4D96FF 17% 55%, #245DB8 56% 100%);
+    box-shadow:inset -6px -8px 10px rgba(20,55,105,.22), 0 5px 10px rgba(23,50,77,.16);
+    min-width:42px;max-width:68px;width:100%;
+    transition:transform .14s ease, filter .14s ease;
+    touch-action:none;
+  }
+  .marble:nth-child(4n+2),.source-marble:nth-child(4n+2){filter:hue-rotate(55deg)}
+  .marble:nth-child(4n+3),.source-marble:nth-child(4n+3){filter:hue-rotate(150deg)}
+  .marble:nth-child(4n),.source-marble:nth-child(4n){filter:hue-rotate(260deg)}
+  .marble:active,.source-marble:active{transform:scale(.9)}
+  .marble.dragging,.source-marble.dragging{opacity:.55;transform:scale(.9)}
+
+  .bag-zone{
+    min-height:270px;border-radius:18px;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:20px 12px 18px;
+    background:linear-gradient(180deg,#EEF8FF 0 38%,#F8FBFD 38%);
+    overflow:hidden;
+  }
+  .bag{
+    width:min(300px,90%);min-height:210px;border-radius:30px 30px 55px 55px;
+    background:linear-gradient(180deg,#F7C77C,#EAAE58);border:5px solid #B97B34;position:relative;
+    padding:48px 18px 18px;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-content:end;
+    box-shadow:inset 0 12px 0 rgba(255,255,255,.22),0 12px 20px rgba(117,72,31,.16);
+  }
+  .bag::before{
+    content:"";position:absolute;left:9%;right:9%;top:18px;height:14px;background:#935F2C;border-radius:999px;box-shadow:0 7px 0 rgba(255,255,255,.18)
+  }
+  .bag::after{
+    content:"BOLSA";position:absolute;top:42px;left:50%;transform:translateX(-50%);
+    font-size:.72rem;font-weight:1000;color:#815321;letter-spacing:.12em
+  }
+  .bag.drop-ready{outline:6px solid rgba(101,214,164,.38);transform:scale(1.015)}
+  .bag .marble{min-width:30px;max-width:46px;justify-self:center}
+
+  .count-badge{
+    margin-top:10px;background:#fff;padding:8px 13px;border-radius:999px;font-size:.9rem;font-weight:1000;box-shadow:0 5px 12px rgba(23,50,77,.1)
+  }
+
+  .controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+  .control-btn,.primary,.secondary{
+    border:0;border-radius:16px;padding:13px 14px;font-weight:1000;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease,opacity .12s;
+  }
+  .control-btn:active,.primary:active,.secondary:active{transform:translateY(2px) scale(.99)}
+  .control-btn.add{background:#E7F8F0;color:#177A52}
+  .control-btn.remove{background:#FFF0F0;color:#B64040}
+  .control-btn:disabled{opacity:.45;cursor:not-allowed}
+
+  .answer-area{margin-top:16px;background:#FFF9EB;border:1px solid #F3D98E;border-radius:20px;padding:14px}
+  .answer-row{display:grid;grid-template-columns:auto minmax(110px,180px) 1fr;gap:10px;align-items:center}
+  .equals{font-size:1.2rem;font-weight:1000}
+  .answer-input{width:100%;font-size:1.35rem;font-weight:1000;text-align:center;border:3px solid #E7D29A;border-radius:15px;padding:11px;background:#fff;outline:none}
+  .answer-input:focus{border-color:var(--orange);box-shadow:0 0 0 4px rgba(255,140,66,.13)}
+  .primary{background:linear-gradient(135deg,var(--blue),#6B7CFF);color:#fff;box-shadow:0 9px 18px rgba(77,150,255,.25)}
+  .secondary{background:#EFF4F7;color:var(--ink)}
+  .feedback{min-height:48px;margin-top:10px;border-radius:15px;padding:11px 12px;font-weight:900;display:flex;align-items:center}
+  .feedback.info{background:#EEF6FF;color:#2B5E9A}
+  .feedback.good{background:#E8F9F1;color:#19744F}
+  .feedback.bad{background:#FFF0F0;color:#A93D3D}
+  .shake{animation:shake .32s linear}
+  @keyframes shake{25%{transform:translateX(-7px)}50%{transform:translateX(7px)}75%{transform:translateX(-4px)}}
+  .pop{animation:pop .36s ease}
+  @keyframes pop{0%{transform:scale(.7);opacity:.2}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+
+  .helper-strip{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .helper-chip{border:0;background:#F2EEFF;color:#604D8C;border-radius:999px;padding:9px 12px;font-weight:900;cursor:pointer}
+
+  .next-wrap{display:none;margin-top:12px}
+  .next-wrap.show{display:flex}
+  #nextBtn{width:100%;background:linear-gradient(135deg,var(--green),#45BFEA);color:#103C43;font-size:1.05rem}
+
+  .teacher-card{margin-top:18px;padding:16px}
+  .teacher-card summary{cursor:pointer;font-weight:1000}
+  .teacher-card p{color:var(--muted);line-height:1.5}
+
+  .finish-card{display:none;padding:24px;margin-top:18px}
+  .finish-card.show{display:block}
+  .finish-card h2{font-size:clamp(1.7rem,5vw,2.6rem);margin:4px 0 8px}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
+  .stat{background:#F6FAFC;border-radius:18px;padding:14px;text-align:center}
+  .stat b{display:block;font-size:1.45rem}
+  .report-table{width:100%;border-collapse:collapse;font-size:.9rem}
+  .report-table th,.report-table td{padding:9px 8px;border-bottom:1px solid #E6EDF2;text-align:left}
+  .report-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+  .confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:100}
+  .confetti i{position:absolute;width:10px;height:16px;border-radius:3px;animation:fall 1.8s ease-out forwards}
+  @keyframes fall{0%{transform:translateY(-30px) rotate(0);opacity:1}100%{transform:translateY(105vh) rotate(720deg);opacity:0}}
+
+  @media (max-width:820px){
+    .intro{grid-template-columns:1fr}
+    .play-grid{grid-template-columns:1fr}
+    .panel{min-height:auto}
+    .topbar{align-items:flex-start}
+    .brand span:last-child{display:none}
+    .stats{grid-template-columns:1fr 1fr}
+  }
+
+  @media (max-width:520px){
+    .app{padding:10px 10px 36px}
+    .workspace{padding:13px}
+    .question-head{flex-direction:column}
+    .attempts{align-self:flex-start}
+    .answer-row{grid-template-columns:1fr}
+    .equals{display:none}
+    .tray{grid-template-columns:repeat(5,1fr);gap:7px;padding:8px}
+    .marble,.source-marble{min-width:36px}
+    .controls{grid-template-columns:1fr 1fr}
+    .report-table{font-size:.8rem}
+  }
+
+  @media print{
+    body{background:#fff}
+    .topbar,.intro,.workspace,.teacher-card,.report-actions{display:none!important}
+    .finish-card{display:block!important;box-shadow:none;border:0}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">🔵</div>
+      <span>Canicas Matemáticas</span>
+    </div>
+    <div class="progress-wrap" aria-label="Progreso">
+      <div class="progress-meta">
+        <span id="progressText">Reto 1 de 20</span>
+        <span id="progressPercent">5%</span>
+      </div>
+      <div class="progress"><div id="progressBar"></div></div>
+    </div>
+  </header>
+
+  <section class="intro">
+    <div class="intro-card">
+      <div class="eyebrow">Aprender haciendo</div>
+      <h1>Sumas y restas con canicas</h1>
+      <p>Mueve, toca, agrega o saca canicas de la bolsa. Para pasar al siguiente reto, la cantidad de canicas y tu respuesta deben ser correctas.</p>
+    </div>
+    <div class="mini-card">
+      <div class="student-field">
+        <label for="studentName">Nombre del alumno o alumna</label>
+        <input id="studentName" type="text" placeholder="Escribe tu nombre" maxlength="50" autocomplete="name">
+      </div>
+      <small style="color:var(--muted);font-weight:800">Tus intentos quedarán registrados en el reporte final.</small>
+    </div>
+  </section>
+
+  <main id="exercise" class="workspace">
+    <div class="question-head">
+      <div>
+        <div class="question-number" id="questionNumber">RETO 1</div>
+        <div class="operation" id="operation">4 + 3</div>
+        <div class="instruction" id="instruction">Empieza con 4 canicas en la bolsa y agrega 3 más.</div>
+      </div>
+      <div class="attempts">Intentos: <span id="attemptCount">0</span></div>
+    </div>
+
+    <div class="play-grid">
+      <section class="panel">
+        <h2>🖐️ Canicas para mover</h2>
+        <div class="tray" id="sourceTray" aria-label="Canicas disponibles"></div>
+        <div class="controls">
+          <button class="control-btn add" id="addBtn" type="button">＋ Agregar una</button>
+          <button class="control-btn remove" id="removeBtn" type="button">－ Sacar una</button>
+        </div>
+        <div class="helper-strip">
+          <button class="helper-chip" id="resetBtn" type="button">↺ Reiniciar canicas</button>
+          <button class="helper-chip" id="hintBtn" type="button">💡 Dame una pista</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>👜 Bolsa de canicas</h2>
+        <div class="bag-zone">
+          <div class="bag" id="bag" aria-label="Bolsa de canicas" tabindex="0"></div>
+          <div class="count-badge">En la bolsa hay <span id="bagCount">0</span> canicas</div>
+        </div>
+      </section>
+    </div>
+
+    <section class="answer-area" id="answerArea">
+      <div class="answer-row">
+        <div class="equals" id="equationMini">4 + 3 =</div>
+        <input class="answer-input" id="answerInput" inputmode="numeric" pattern="[0-9]*" aria-label="Respuesta numérica" placeholder="?" />
+        <button class="primary" id="checkBtn" type="button">Comprobar respuesta</button>
+      </div>
+      <div class="feedback info" id="feedback" role="status" aria-live="polite">
+        Primero representa la operación con las canicas. Después escribe el resultado.
+      </div>
+      <div class="next-wrap" id="nextWrap">
+        <button class="primary" id="nextBtn" type="button">Siguiente reto →</button>
+      </div>
+    </section>
+  </main>
+
+  <details class="teacher-card">
+    <summary>👩‍🏫 ¿Qué aprende el niño aquí?</summary>
+    <p>
+      La actividad usa representación concreta antes de la respuesta simbólica. En sumas, el alumno parte de una cantidad y agrega; en restas, parte de una cantidad y retira.
+      El sistema no permite avanzar con una respuesta incorrecta, registra intentos y ofrece pistas que orientan el procedimiento sin mostrar directamente el resultado.
+    </p>
+  </details>
+
+  <section class="finish-card" id="finishCard">
+    <div class="eyebrow">¡Misión cumplida!</div>
+    <h2>Terminaste los 20 retos 🎉</h2>
+    <p id="finishMessage" style="color:var(--muted);font-weight:750"></p>
+
+    <div class="stats">
+      <div class="stat"><span>Retos</span><b>20/20</b></div>
+      <div class="stat"><span>Intentos</span><b id="totalAttempts">0</b></div>
+      <div class="stat"><span>Errores</span><b id="totalErrors">0</b></div>
+      <div class="stat"><span>Tiempo</span><b id="totalTime">0:00</b></div>
+    </div>
+
+    <div style="overflow:auto">
+      <table class="report-table">
+        <thead>
+          <tr><th>#</th><th>Operación</th><th>Resultado</th><th>Intentos</th><th>Pistas</th></tr>
+        </thead>
+        <tbody id="reportBody"></tbody>
+      </table>
+    </div>
+
+    <div class="report-actions">
+      <button class="primary" id="printBtn" type="button">🖨️ Imprimir reporte</button>
+      <button class="secondary" id="downloadBtn" type="button">⬇️ Descargar reporte TXT</button>
+      <button class="secondary" id="restartBtn" type="button">↺ Volver a empezar</button>
+    </div>
+  </section>
+</div>
+
+<div class="confetti" id="confetti"></div>
+
+<script>
+(() => {
+  const problems = [
+    {a:2,b:3,op:"+"},{a:4,b:2,op:"+"},{a:5,b:3,op:"+"},{a:6,b:2,op:"+"},{a:7,b:1,op:"+"},
+    {a:5,b:2,op:"-"},{a:7,b:3,op:"-"},{a:8,b:4,op:"-"},{a:9,b:2,op:"-"},{a:10,b:5,op:"-"},
+    {a:3,b:6,op:"+"},{a:5,b:5,op:"+"},{a:7,b:4,op:"+"},{a:8,b:5,op:"+"},{a:9,b:6,op:"+"},
+    {a:11,b:3,op:"-"},{a:12,b:5,op:"-"},{a:14,b:6,op:"-"},{a:15,b:7,op:"-"},{a:16,b:8,op:"-"}
+  ];
+
+  const state = {
+    index:0,
+    bagCount:0,
+    attempts:0,
+    hints:0,
+    solved:false,
+    report:[],
+    startedAt:Date.now(),
+    dragSource:null
+  };
+
+  const el = id => document.getElementById(id);
+  const sourceTray = el("sourceTray");
+  const bag = el("bag");
+  const bagCount = el("bagCount");
+  const operation = el("operation");
+  const instruction = el("instruction");
+  const questionNumber = el("questionNumber");
+  const attemptCount = el("attemptCount");
+  const answerInput = el("answerInput");
+  const feedback = el("feedback");
+  const nextWrap = el("nextWrap");
+  const equationMini = el("equationMini");
+  const progressBar = el("progressBar");
+  const progressText = el("progressText");
+  const progressPercent = el("progressPercent");
+  const addBtn = el("addBtn");
+  const removeBtn = el("removeBtn");
+
+  function answerFor(p){ return p.op === "+" ? p.a + p.b : p.a - p.b; }
+
+  function setFeedback(type,text){
+    feedback.className = "feedback " + type;
+    feedback.textContent = text;
+  }
+
+  function makeMarble(className="marble"){
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = className + " pop";
+    b.setAttribute("aria-label","Canica");
+    b.draggable = true;
+    b.addEventListener("click", () => {
+      if(state.solved) return;
+      if(className.includes("source-marble")) addOne();
+      else removeOne();
+    });
+    b.addEventListener("dragstart", ev => {
+      state.dragSource = className.includes("source-marble") ? "source" : "bag";
+      b.classList.add("dragging");
+      ev.dataTransfer.effectAllowed = "move";
+      ev.dataTransfer.setData("text/plain", state.dragSource);
+    });
+    b.addEventListener("dragend", () => {
+      b.classList.remove("dragging");
+      bag.classList.remove("drop-ready");
+    });
+    return b;
+  }
+
+  function drawSource(){
+    const p = problems[state.index];
+    sourceTray.innerHTML = "";
+    const visualCount = p.op === "+" ? Math.max(p.b,5) : Math.max(p.a,5);
+    for(let i=0;i<visualCount;i++){
+      sourceTray.appendChild(makeMarble("source-marble"));
+    }
+    sourceTray.classList.toggle("empty", visualCount===0);
+  }
+
+  function drawBag(){
+    bag.innerHTML = "";
+    for(let i=0;i<state.bagCount;i++){
+      bag.appendChild(makeMarble("marble"));
+    }
+    bagCount.textContent = state.bagCount;
+    removeBtn.disabled = state.bagCount <= 0 || state.solved;
+    addBtn.disabled = state.bagCount >= 20 || state.solved;
+  }
+
+  function startCountFor(p){ return p.a; }
+
+  function loadProblem(){
+    const p = problems[state.index];
+    state.bagCount = startCountFor(p);
+    state.attempts = 0;
+    state.hints = 0;
+    state.solved = false;
+
+    operation.textContent = `${p.a} ${p.op} ${p.b}`;
+    equationMini.textContent = `${p.a} ${p.op} ${p.b} =`;
+    questionNumber.textContent = `RETO ${state.index+1}`;
+    instruction.textContent = p.op === "+"
+      ? `Ya tienes ${p.a} canicas en la bolsa. Agrega ${p.b} más y descubre cuántas hay en total.`
+      : `Ya tienes ${p.a} canicas en la bolsa. Saca ${p.b} canicas y descubre cuántas quedan.`;
+
+    attemptCount.textContent = "0";
+    answerInput.value = "";
+    answerInput.disabled = false;
+    el("checkBtn").disabled = false;
+    nextWrap.classList.remove("show");
+    setFeedback("info","Mueve las canicas primero. Puedes tocarlas o arrastrarlas.");
+    drawSource();
+    drawBag();
+
+    const pct = Math.round(((state.index+1)/problems.length)*100);
+    progressBar.style.width = pct+"%";
+    progressText.textContent = `Reto ${state.index+1} de ${problems.length}`;
+    progressPercent.textContent = pct+"%";
+
+    window.scrollTo({top:Math.max(0,el("exercise").offsetTop-90),behavior:"smooth"});
+  }
+
+  function addOne(){
+    if(state.solved || state.bagCount>=20) return;
+    state.bagCount++;
+    drawBag();
+  }
+
+  function removeOne(){
+    if(state.solved || state.bagCount<=0) return;
+    state.bagCount--;
+    drawBag();
+  }
+
+  addBtn.addEventListener("click",addOne);
+  removeBtn.addEventListener("click",removeOne);
+
+  bag.addEventListener("dragover",ev=>{
+    ev.preventDefault();
+    if(!state.solved) bag.classList.add("drop-ready");
+  });
+  bag.addEventListener("dragleave",()=>bag.classList.remove("drop-ready"));
+  bag.addEventListener("drop",ev=>{
+    ev.preventDefault();
+    bag.classList.remove("drop-ready");
+    if(state.solved) return;
+    const src = ev.dataTransfer.getData("text/plain");
+    if(src==="source") addOne();
+  });
+  sourceTray.addEventListener("dragover",ev=>ev.preventDefault());
+  sourceTray.addEventListener("drop",ev=>{
+    ev.preventDefault();
+    const src = ev.dataTransfer.getData("text/plain");
+    if(src==="bag") removeOne();
+  });
+
+  el("resetBtn").addEventListener("click",()=>{
+    if(state.solved) return;
+    state.bagCount = startCountFor(problems[state.index]);
+    drawBag();
+    setFeedback("info","Canicas reiniciadas. Inténtalo de nuevo paso a paso.");
+  });
+
+  el("hintBtn").addEventListener("click",()=>{
+    if(state.solved) return;
+    state.hints++;
+    const p = problems[state.index];
+    const hints = p.op === "+" ? [
+      `Mira el signo +: significa agregar. Parte de ${p.a} y añade ${p.b} canicas, una por una.`,
+      `No cuentes desde cero. Empieza diciendo “${p.a}” y sigue contando ${p.b} pasos hacia adelante.`,
+      `Revisa la bolsa: la cantidad final debe ser mayor que ${p.a}.`
+    ] : [
+      `Mira el signo −: significa quitar. Parte de ${p.a} y saca ${p.b} canicas, una por una.`,
+      `Cada canica que sacas hace que la cantidad disminuya en 1.`,
+      `Revisa la bolsa: la cantidad final debe ser menor que ${p.a}.`
+    ];
+    setFeedback("info","💡 "+hints[Math.min(state.hints-1,hints.length-1)]);
+  });
+
+  function celebrate(){
+    const box = el("confetti");
+    box.innerHTML="";
+    const colors=["#FFD166","#FF8C42","#4D96FF","#65D6A4","#9B7BFF","#FF6B6B"];
+    for(let i=0;i<55;i++){
+      const c=document.createElement("i");
+      c.style.left=Math.random()*100+"vw";
+      c.style.background=colors[i%colors.length];
+      c.style.animationDelay=(Math.random()*.45)+"s";
+      c.style.transform=`rotate(${Math.random()*180}deg)`;
+      box.appendChild(c);
+    }
+    setTimeout(()=>box.innerHTML="",2200);
+  }
+
+  function check(){
+    if(state.solved) return;
+    const p = problems[state.index];
+    const correct = answerFor(p);
+    const typed = Number(answerInput.value);
+
+    state.attempts++;
+    attemptCount.textContent = state.attempts;
+
+    const modelCorrect = state.bagCount === correct;
+    const answerCorrect = answerInput.value.trim() !== "" && typed === correct;
+
+    if(modelCorrect && answerCorrect){
+      state.solved = true;
+      state.report.push({
+        n:state.index+1,
+        op:`${p.a} ${p.op} ${p.b}`,
+        result:correct,
+        attempts:state.attempts,
+        hints:state.hints
+      });
+      answerInput.disabled = true;
+      el("checkBtn").disabled = true;
+      addBtn.disabled = true;
+      removeBtn.disabled = true;
+      setFeedback("good","✅ ¡Correcto! Representaste la operación y escribiste el resultado bien.");
+      nextWrap.classList.add("show");
+      celebrate();
+      return;
+    }
+
+    el("answerArea").classList.remove("shake");
+    void el("answerArea").offsetWidth;
+    el("answerArea").classList.add("shake");
+
+    if(!modelCorrect && !answerCorrect){
+      setFeedback("bad","Todavía no. Revisa dos cosas: la cantidad de canicas en la bolsa y el número que escribiste.");
+    }else if(!modelCorrect){
+      setFeedback("bad","Tu número puede parecer correcto, pero la bolsa aún no representa la operación. Ajusta las canicas.");
+    }else{
+      setFeedback("bad","La bolsa está bien. Ahora cuenta las canicas y revisa el número que escribiste.");
+    }
+  }
+
+  el("checkBtn").addEventListener("click",check);
+  answerInput.addEventListener("keydown",e=>{ if(e.key==="Enter") check(); });
+
+  el("nextBtn").addEventListener("click",()=>{
+    if(!state.solved) return;
+    if(state.index < problems.length-1){
+      state.index++;
+      loadProblem();
+    }else{
+      finish();
+    }
+  });
+
+  function formatTime(ms){
+    const sec=Math.floor(ms/1000), m=Math.floor(sec/60), s=sec%60;
+    return `${m}:${String(s).padStart(2,"0")}`;
+  }
+
+  function finish(){
+    el("exercise").style.display="none";
+    el("finishCard").classList.add("show");
+    const totalAttempts=state.report.reduce((a,r)=>a+r.attempts,0);
+    const totalErrors=state.report.reduce((a,r)=>a+Math.max(0,r.attempts-1),0);
+    const elapsed=Date.now()-state.startedAt;
+    const name=el("studentName").value.trim() || "Alumno/a";
+
+    el("finishMessage").textContent = `${name}, completaste todas las actividades. El reporte muestra cuántos intentos necesitaste en cada operación.`;
+    el("totalAttempts").textContent=totalAttempts;
+    el("totalErrors").textContent=totalErrors;
+    el("totalTime").textContent=formatTime(elapsed);
+
+    const body=el("reportBody");
+    body.innerHTML="";
+    state.report.forEach(r=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td>${r.n}</td><td>${r.op}</td><td>${r.result}</td><td>${r.attempts}</td><td>${r.hints}</td>`;
+      body.appendChild(tr);
+    });
+
+    progressBar.style.width="100%";
+    progressText.textContent="20 de 20 completados";
+    progressPercent.textContent="100%";
+    celebrate();
+    window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
+  }
+
+  el("printBtn").addEventListener("click",()=>window.print());
+
+  el("downloadBtn").addEventListener("click",()=>{
+    const name=el("studentName").value.trim() || "Alumno/a";
+    const totalAttempts=state.report.reduce((a,r)=>a+r.attempts,0);
+    const totalErrors=state.report.reduce((a,r)=>a+Math.max(0,r.attempts-1),0);
+    const lines=[
+      "REPORTE · CANICAS MATEMÁTICAS",
+      `Alumno/a: ${name}`,
+      `Fecha: ${new Date().toLocaleString("es-MX")}`,
+      `Retos completados: ${state.report.length}/20`,
+      `Intentos totales: ${totalAttempts}`,
+      `Errores antes de acertar: ${totalErrors}`,
+      "",
+      "DETALLE"
+    ];
+    state.report.forEach(r=>lines.push(`${r.n}. ${r.op} = ${r.result} | intentos: ${r.attempts} | pistas: ${r.hints}`));
+    const blob=new Blob([lines.join("\n")],{type:"text/plain;charset=utf-8"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;
+    a.download="reporte_canicas_matematicas.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  el("restartBtn").addEventListener("click",()=>{
+    state.index=0;state.report=[];state.startedAt=Date.now();
+    el("finishCard").classList.remove("show");
+    el("exercise").style.display="";
+    loadProblem();
+  });
+
+  loadProblem();
+})();
+</script>
+</body>
+</html>
