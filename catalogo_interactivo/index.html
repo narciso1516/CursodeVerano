@@ -1,24 +1,167 @@
 <!doctype html>
 <html lang="es">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Catálogo interactivo de recursos educativos de Luis Alberto Antonio Narciso"><title>Catálogo de Interactivos Educativos</title>
-<style>
-:root{--bg:#fffaf0;--surface:#fffdf7;--text:#44205f;--muted:#745d7e;--brand:#a03cc8;--brand2:#ff3c4b;--line:#f2dfcf;--success:#32c8c3;--warm:#fff1c8;--pink:#ff96aa;--purple:#a03cc8;--turquoise:#32c8c3;--yellow:#ffb90f;--orange:#ff622e;--red:#ff3c4b;--shadow:0 12px 30px rgba(99,52,78,.10)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#fff8e9 0,#fffdf7 430px);color:var(--text)}a{color:inherit}button,input,select{font:inherit}
-.hero{position:relative;overflow:hidden;padding:52px 22px 36px;background:radial-gradient(circle at 90% 18%,rgba(255,185,15,.24),transparent 25%),radial-gradient(circle at 12% 5%,rgba(50,200,195,.18),transparent 20%),linear-gradient(135deg,#fff7e5,#fffdf7 55%,#fff0dc);color:var(--text);border-bottom:5px solid var(--pink)}
-.hero:after{content:"✦  ●  +  ♪  ✎";position:absolute;right:5%;top:18px;color:var(--orange);letter-spacing:20px;font-size:24px;opacity:.75}.hero-inner{max-width:1180px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:end}.badge{display:inline-flex;gap:8px;align-items:center;padding:7px 11px;border:2px solid #ffd8ad;background:#fff;border-radius:999px;font-size:13px;font-weight:900;color:var(--purple)}h1{font-size:clamp(34px,6vw,64px);line-height:.98;letter-spacing:-.045em;margin:18px 0 14px;max-width:820px;color:var(--purple)}.lead{font-size:clamp(16px,2vw,20px);line-height:1.55;max-width:780px;color:#5b356c;margin:0}.hero-stat{min-width:190px;padding:18px;border-radius:22px;background:#fff;border:2px solid #ffd89b;box-shadow:var(--shadow)}.hero-stat strong{font-size:42px;display:block;line-height:1;color:var(--red)}.hero-stat span{font-size:13px;color:var(--muted)}
-.wrap{max-width:1180px;margin:0 auto;padding:24px 18px 60px}.toolbar{position:sticky;top:10px;z-index:10;margin-top:-2px;background:rgba(255,253,247,.95);backdrop-filter:blur(14px);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:24px;padding:14px;display:grid;grid-template-columns:minmax(220px,1.6fr) 1fr 1fr auto;gap:10px}.field{position:relative}.field input,.field select{width:100%;min-height:48px;border:2px solid #f2d9c7;background:#fffdf9;color:var(--text);border-radius:14px;padding:0 14px;outline:none}.field input:focus,.field select:focus{border-color:var(--turquoise);box-shadow:0 0 0 4px rgba(50,200,195,.14)}.toggle{display:flex;align-items:center;gap:6px;background:#fff0f2;border-radius:14px;padding:5px}.toggle button{min-height:38px;border:0;border-radius:10px;padding:0 12px;background:transparent;color:var(--muted);font-weight:800;cursor:pointer}.toggle button.active{background:var(--purple);color:#fff;box-shadow:0 3px 10px rgba(160,60,200,.22)}
-.summary{display:flex;justify-content:space-between;gap:16px;align-items:center;margin:24px 4px 14px;flex-wrap:wrap}.summary h2{font-size:22px;margin:0;color:var(--purple)}.summary p{margin:4px 0 0;color:var(--muted)}.count{font-weight:900;color:var(--red)}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.card{display:flex;flex-direction:column;min-width:0;background:var(--surface);border:1px solid var(--line);border-top:6px solid var(--turquoise);border-radius:22px;padding:20px;box-shadow:0 8px 22px rgba(91,53,108,.06);transition:.18s ease}.card:nth-child(6n+2){border-top-color:var(--pink)}.card:nth-child(6n+3){border-top-color:var(--purple)}.card:nth-child(6n+4){border-top-color:var(--yellow)}.card:nth-child(6n+5){border-top-color:var(--orange)}.card:nth-child(6n+6){border-top-color:var(--red)}.card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#e9c9df}.card-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.kind{display:inline-flex;align-items:center;min-height:28px;padding:0 9px;border-radius:999px;background:#dff7f5;color:#087d79;font-size:12px;font-weight:900}.kind.portal{background:#fff0bd;color:#8a6200}.status{font-size:11px;color:#0d9892;font-weight:800;text-align:right}.card h3{font-size:19px;line-height:1.25;margin:14px 0 8px;letter-spacing:-.02em;color:#3e2056}.meta{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}.chip{font-size:12px;font-weight:700;color:#644e6c;background:#fff2e6;border-radius:999px;padding:6px 9px}.objective{color:#66556c;line-height:1.55;font-size:14px;margin:0 0 18px;flex:1}.actions{display:flex;gap:8px;align-items:center}.open{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 15px;border-radius:13px;background:linear-gradient(135deg,var(--purple),#ba55d3);color:#fff;text-decoration:none;font-weight:900;flex:1}.open:hover{background:linear-gradient(135deg,var(--red),var(--orange))}.copy{min-height:44px;min-width:44px;border-radius:13px;border:2px solid #ffd8c3;background:#fff;cursor:pointer;color:var(--purple)}.copy:hover{background:#fff2e9}.empty{display:none;text-align:center;padding:48px 18px;border:2px dashed #efcdb7;border-radius:22px;background:#fffdf7;color:var(--muted)}
-.notice{margin-top:28px;padding:18px 20px;border-radius:18px;background:var(--warm);border:1px solid #f1d67c;line-height:1.55;color:#694d18}.notice strong{color:var(--orange)}footer{border-top:5px solid var(--pink);background:linear-gradient(90deg,#ff96aa,#ffb1bd)}.footer-inner{max-width:1180px;margin:auto;padding:30px 18px 42px;display:grid;grid-template-columns:1.2fr 1fr;gap:30px}footer h3{margin:0 0 8px;color:#fff}footer p{margin:4px 0;color:#512a5f;line-height:1.55;font-size:14px}.author{font-weight:900;color:#fff}
-@media(max-width:940px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.toolbar{grid-template-columns:1fr 1fr}.hero-inner{grid-template-columns:1fr}.hero-stat{width:max-content}}
-@media(max-width:620px){.hero{padding-top:34px}.hero:after{display:none}.wrap{padding-inline:12px}.toolbar{position:relative;top:auto;grid-template-columns:1fr;border-radius:18px}.grid{grid-template-columns:1fr}.footer-inner{grid-template-columns:1fr}.toggle{overflow:auto}.hero-stat{min-width:0;width:100%}}
-@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
-</style></head><body>
-<header class="hero"><div class="hero-inner"><div><span class="badge">✦ Biblioteca educativa digital</span><h1>Catálogo de interactivos educativos</h1><p class="lead">Explora actividades, evaluaciones, rutas y plataformas creadas para aprender de forma visual, práctica e interactiva.</p></div><div class="hero-stat"><strong id="totalHero">143</strong><span>recursos aprobados para consulta</span></div></div></header>
-<main class="wrap"><section class="toolbar" aria-label="Filtros del catálogo"><div class="field"><input id="search" type="search" placeholder="Buscar por tema, actividad o palabra…" aria-label="Buscar recursos"></div><div class="field"><select id="area"><option value="">Todas las áreas</option></select></div><div class="field"><select id="level"><option value="">Todos los niveles</option></select></div><div class="toggle" aria-label="Tipo de recurso"><button type="button" class="active" data-kind="">Todos</button><button type="button" data-kind="Interactivo">Interactivos</button><button type="button" data-kind="Portal">Portales</button></div></section>
-<section class="summary"><div><h2>Recursos disponibles</h2><p>Filtra el catálogo y abre directamente el material que necesites.</p></div><div><span class="count" id="resultCount">143</span> resultados</div></section><section id="grid" class="grid" aria-live="polite"></section><div id="empty" class="empty"><strong>No encontramos recursos con esos filtros.</strong><br>Prueba otra palabra, área o nivel.</div><aside class="notice"><strong>Catálogo curado.</strong> Esta interfaz utiliza únicamente los recursos incluidos en las hojas <em>Interactivos</em> y <em>Portales y rutas</em> del catálogo original. Los archivos marcados como “No compartir desde este catálogo” en el control de alcance no se muestran aquí.</aside></main>
-<footer><div class="footer-inner"><div><h3>AUTOR</h3><p class="author">Luis Alberto Antonio Narciso</p><p>Ingeniero en Electrónica y profesional de Quality Assurance, automatización de pruebas y tecnología educativa.</p></div><div><h3>Propósito</h3><p>Experiencias web interactivas orientadas al aprendizaje, combinando educación, tecnología, diseño y herramientas digitales.</p><p>“Recurso diseñado y desarrollado por Luis Alberto Antonio Narciso”.</p></div></div></footer>
-<script src="data1.js"></script><script src="data2.js"></script><script src="data3.js"></script><script src="data4.js"></script><script src="data5.js"></script><script src="data6.js"></script><script src="data7.js"></script><script src="data8.js"></script><script>
-const RESOURCES=window.CATALOG_RESOURCES||[];const $=s=>document.querySelector(s);const grid=$('#grid'),search=$('#search'),area=$('#area'),level=$('#level'),empty=$('#empty'),count=$('#resultCount');let kind='';const norm=s=>(s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();function fillSelect(el,values){[...new Set(values)].sort((a,b)=>a.localeCompare(b,'es')).forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;el.appendChild(o)})}fillSelect(area,RESOURCES.map(r=>r.area));fillSelect(level,RESOURCES.map(r=>r.level));function render(){const q=norm(search.value),a=area.value,l=level.value;const filtered=RESOURCES.filter(r=>(!kind||r.kind===kind)&&(!a||r.area===a)&&(!l||r.level===l)&&(!q||norm([r.title,r.area,r.level,r.objective,r.type].join(' ')).includes(q)));count.textContent=filtered.length;grid.innerHTML='';empty.style.display=filtered.length?'none':'block';filtered.forEach(r=>{const card=document.createElement('article');card.className='card';const top=document.createElement('div');top.className='card-top';const k=document.createElement('span');k.className='kind '+(r.kind==='Portal'?'portal':'');k.textContent=r.kind;const st=document.createElement('span');st.className='status';st.textContent=r.status||'Enlace disponible';top.append(k,st);const h=document.createElement('h3');h.textContent=r.title;const meta=document.createElement('div');meta.className='meta';[r.area,r.level,r.type].filter(Boolean).forEach(v=>{const c=document.createElement('span');c.className='chip';c.textContent=v;meta.appendChild(c)});const p=document.createElement('p');p.className='objective';p.textContent=r.objective;const actions=document.createElement('div');actions.className='actions';const link=document.createElement('a');link.className='open';link.href=r.url;link.target='_blank';link.rel='noopener';link.textContent='Abrir recurso ↗';const cp=document.createElement('button');cp.type='button';cp.className='copy';cp.title='Copiar enlace';cp.setAttribute('aria-label','Copiar enlace');cp.textContent='⧉';cp.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(r.url);cp.textContent='✓';setTimeout(()=>cp.textContent='⧉',1200)}catch(e){window.prompt('Copia este enlace:',r.url)}});actions.append(link,cp);card.append(top,h,meta,p,actions);grid.appendChild(card)})}[search,area,level].forEach(el=>el.addEventListener(el===search?'input':'change',render));document.querySelectorAll('.toggle button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.toggle button').forEach(x=>x.classList.remove('active'));b.classList.add('active');kind=b.dataset.kind;render()}));render();
-</script></body></html>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Catálogo público de recursos educativos interactivos creados por Luis Alberto Antonio Narciso.">
+  <meta name="theme-color" content="#39235f">
+  <title>Biblioteca interactiva | Recursos educativos</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2339235f'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='36' fill='white'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#catalogo">Saltar al catálogo</a>
+
+  <header class="site-header">
+    <nav class="nav shell" aria-label="Navegación principal">
+      <a class="brand" href="#inicio" aria-label="Biblioteca interactiva, inicio">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <span>Biblioteca interactiva<small>Curso de Verano</small></span>
+      </a>
+      <div class="nav-links">
+        <a href="#areas">Áreas</a>
+        <a href="#catalogo">Recursos</a>
+        <a href="#autor">Autor</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="hero-grid shell">
+        <div>
+          <span class="hero-label"><i aria-hidden="true"></i> Acceso público · Sin cuenta ni contraseña</span>
+          <h1>Aprender también puede sentirse como explorar.</h1>
+          <p class="hero-copy">Una colección de experiencias educativas creadas para practicar, descubrir y avanzar a través de retos, evaluaciones, lecturas y rutas interactivas.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#catalogo">Explorar recursos <span aria-hidden="true">↓</span></a>
+            <a class="button button-secondary" href="#areas">Ver áreas de aprendizaje</a>
+          </div>
+        </div>
+        <div class="hero-stats" aria-label="Resumen del catálogo">
+          <div class="hero-stat"><strong id="totalHero">0</strong><span>recursos disponibles</span></div>
+          <div class="hero-stat"><strong id="areaTotal">0</strong><span>áreas de aprendizaje</span></div>
+          <div class="hero-stat"><strong>24/7</strong><span>consulta libre en línea</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="area-section shell" id="areas" aria-labelledby="areas-title">
+      <div class="area-panel">
+        <div class="section-heading">
+          <div><p class="eyebrow">Encuentra tu punto de partida</p><h2 id="areas-title">Explora por área</h2></div>
+          <p>Cada área reúne actividades de distintos niveles. Elige una para ir directamente a sus recursos.</p>
+        </div>
+        <div class="area-grid" id="areaNav"></div>
+      </div>
+    </section>
+
+    <section class="catalog shell" id="catalogo" aria-labelledby="catalog-title">
+      <div class="catalog-intro">
+        <div><p class="eyebrow">Catálogo completo</p><h2 id="catalog-title">Elige qué quieres aprender hoy.</h2></div>
+        <p>Busca por tema o combina filtros. Cada tarjeta explica el propósito del material antes de abrirlo.</p>
+      </div>
+
+      <div class="filter-panel" role="search" aria-label="Buscar y filtrar recursos">
+        <div class="search-row">
+          <div class="control">
+            <label for="search">Buscar en la biblioteca</label>
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input id="search" type="search" placeholder="Ejemplo: fracciones, lectura, inglés…" autocomplete="off">
+            <button class="clear-search" id="clearSearch" type="button" aria-label="Borrar búsqueda">×</button>
+          </div>
+          <div class="control">
+            <label for="sort">Ordenar resultados</label>
+            <select id="sort">
+              <option value="original">Orden del catálogo</option>
+              <option value="az">Título: A–Z</option>
+              <option value="za">Título: Z–A</option>
+            </select>
+          </div>
+        </div>
+        <div class="filters-row">
+          <div class="control">
+            <label for="area">Área</label>
+            <select id="area"><option value="">Todas las áreas</option></select>
+          </div>
+          <div class="control">
+            <label for="level">Nivel educativo</label>
+            <select id="level"><option value="">Todos los niveles</option></select>
+          </div>
+          <div class="control">
+            <label>Tipo de recurso</label>
+            <div class="segmented" aria-label="Tipo de recurso">
+              <button type="button" class="active" data-kind="" aria-pressed="true">Todos</button>
+              <button type="button" data-kind="Interactivo" aria-pressed="false">Interactivos</button>
+              <button type="button" data-kind="Portal" aria-pressed="false">Portales</button>
+            </div>
+          </div>
+          <button class="reset-button" id="reset" type="button" disabled>Limpiar filtros</button>
+        </div>
+        <div class="filter-summary" id="filterSummary" aria-label="Filtros activos"></div>
+      </div>
+
+      <div class="result-bar">
+        <div class="result-copy" aria-live="polite">
+          <h3><span class="result-number" id="resultCount">0</span> recursos encontrados</h3>
+          <p id="resultHint">Mostrando todo el catálogo.</p>
+        </div>
+        <div class="view-controls" aria-label="Presentación de resultados">
+          <span>Vista</span>
+          <button class="view-button active" id="comfortableView" type="button" aria-label="Vista cómoda" aria-pressed="true">▦</button>
+          <button class="view-button compact-symbol" id="compactView" type="button" aria-label="Vista compacta" aria-pressed="false">▦</button>
+        </div>
+      </div>
+
+      <section class="resource-grid" id="grid" aria-label="Recursos educativos"></section>
+      <div class="empty" id="empty">
+        <span class="empty-icon" aria-hidden="true">⌕</span>
+        <h3>No encontramos coincidencias</h3>
+        <p>Prueba con otra palabra o limpia alguno de los filtros.</p>
+      </div>
+      <div class="load-zone" id="loadZone">
+        <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+        <p id="shownCount"></p>
+        <button class="load-more" id="loadMore" type="button">Mostrar más recursos</button>
+      </div>
+
+      <aside class="curation-note">
+        <h3>Una selección cuidada para compartir con claridad.</h3>
+        <p>Este catálogo muestra únicamente los recursos aprobados de las colecciones <em>Interactivos</em> y <em>Portales y rutas</em>. Los materiales marcados como “No compartir desde este catálogo” no aparecen aquí. Cuando un recurso fue creado para una persona en particular, la tarjeta lo indica para que se revise antes de reutilizarlo.</p>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="autor">
+    <div class="footer-grid shell">
+      <div>
+        <p class="eyebrow">Autor</p>
+        <h2>Luis Alberto Antonio Narciso</h2>
+        <p>Ingeniero en Electrónica y profesional de Quality Assurance, automatización de pruebas y tecnología educativa.</p>
+      </div>
+      <div>
+        <h3>Propósito</h3>
+        <p>Crear experiencias web que combinen educación, tecnología y diseño para hacer del aprendizaje una experiencia más práctica y cercana.</p>
+      </div>
+      <div>
+        <h3>Navegación</h3>
+        <div class="footer-links"><a href="#inicio">Inicio</a><a href="#areas">Áreas de aprendizaje</a><a href="#catalogo">Catálogo completo</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom shell"><span>Biblioteca interactiva educativa</span><span>Recurso diseñado y desarrollado por Luis Alberto Antonio Narciso</span></div>
+  </footer>
+
+  <button class="back-top" id="backTop" type="button" aria-label="Volver al inicio">↑</button>
+  <div class="toast" id="toast" role="status" aria-live="polite">Enlace copiado</div>
+
+  <script src="data1.js"></script>
+  <script src="data2.js"></script>
+  <script src="data3.js"></script>
+  <script src="data4.js"></script>
+  <script src="data5.js"></script>
+  <script src="data6.js"></script>
+  <script src="data7.js"></script>
+  <script src="data8.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
