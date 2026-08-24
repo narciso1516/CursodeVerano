@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Misión Español de Miguel | Fútbol + Harry Potter</title>
+<style>
+:root{
+  --bg:#0d1321; --card:#ffffff; --ink:#182033; --muted:#667085;
+  --barca-blue:#004d98; --barca-red:#a50044; --gold:#ffcf33;
+  --magic:#4b2e83; --magic2:#7c5ce0; --ok:#2f9e44; --bad:#d9485f;
+  --soft:#f4f6fb;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(135deg,#0b1736,#25103e);color:#fff;min-height:100vh}
+.app{max-width:980px;margin:auto;padding:20px}
+.hero{background:linear-gradient(135deg,var(--barca-blue),var(--barca-red) 55%,var(--magic));border-radius:28px;padding:28px;box-shadow:0 18px 50px rgba(0,0,0,.28);position:relative;overflow:hidden}
+.hero:after{content:"⚽ ✨ ⚡";position:absolute;right:24px;top:18px;font-size:44px;opacity:.18}
+.hero h1{margin:0 0 8px;font-size:clamp(28px,5vw,48px)}
+.hero p{margin:0;max-width:720px;line-height:1.5}
+.dashboard{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+.stat{background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.15);border-radius:18px;padding:14px;text-align:center}
+.stat b{display:block;font-size:24px}.stat span{font-size:12px;opacity:.8}
+.progress-wrap{background:rgba(255,255,255,.18);height:12px;border-radius:999px;overflow:hidden;margin-top:15px}.progress{height:100%;width:0;background:var(--gold);transition:.35s}
+.card{background:var(--card);color:var(--ink);border-radius:26px;padding:24px;margin-top:18px;box-shadow:0 14px 40px rgba(0,0,0,.22)}
+.badge{display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;font-weight:700;font-size:13px;color:#fff}
+.badge.football{background:linear-gradient(90deg,var(--barca-blue),var(--barca-red))}.badge.magic{background:linear-gradient(90deg,var(--magic),var(--magic2))}
+.question{font-size:clamp(21px,3.3vw,30px);line-height:1.3;margin:16px 0 10px}.context{background:var(--soft);border-left:5px solid var(--barca-blue);padding:14px;border-radius:12px;margin:12px 0 18px;line-height:1.55}.magic-context{border-left-color:var(--magic)}
+.options{display:grid;gap:11px}.option{border:2px solid #e6e8ef;background:#fff;border-radius:15px;padding:14px 16px;text-align:left;font-size:17px;cursor:pointer;transition:.15s}.option:hover{transform:translateY(-1px);border-color:#9aa5c2}.option.selected{border-color:#3347a8;background:#eef1ff}.option.correct{border-color:var(--ok);background:#ecf9ef}.option.wrong{border-color:var(--bad);background:#fff0f3}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.btn{border:0;border-radius:14px;padding:13px 18px;font-weight:800;font-size:15px;cursor:pointer}.primary{background:#182033;color:#fff}.secondary{background:#eef1f6;color:#182033}.btn:disabled{opacity:.45;cursor:not-allowed}
+.feedback{margin-top:16px;border-radius:14px;padding:14px;display:none;line-height:1.5}.feedback.ok{display:block;background:#eaf7ed;color:#1d6b2b}.feedback.bad{display:block;background:#fff0f2;color:#a61e35}.notebook{margin-top:10px;font-size:14px;opacity:.9}
+.start{display:grid;grid-template-columns:1fr 1fr;gap:14px}.world{border:2px solid #e6e8ef;border-radius:20px;padding:20px}.world h3{margin:0 0 8px}.tiny{color:var(--muted);font-size:14px;line-height:1.45}
+.result{display:none}.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}.skill{background:var(--soft);padding:12px;border-radius:14px}.skill strong{display:flex;justify-content:space-between}.skillbar{height:8px;background:#dfe4ef;border-radius:999px;overflow:hidden;margin-top:7px}.skillbar i{display:block;height:100%;background:#3347a8;width:0}
+.footer{text-align:center;color:#d8dbe5;font-size:13px;padding:24px 0}
+@media(max-width:700px){.dashboard{grid-template-columns:repeat(2,1fr)}.start,.skills{grid-template-columns:1fr}.app{padding:12px}.card{padding:18px}.hero{padding:22px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="hero">
+    <h1>Misión Español de Miguel</h1>
+    <p>100 retos para prepararte para sexto de primaria usando dos mundos que te gustan: <b>fútbol y Barcelona</b> + <b>Harry Potter</b>. Aquí no solo importa acertar: cada reto te ayuda a comprender mejor el español.</p>
+    <div class="dashboard">
+      <div class="stat"><b id="qNum">0</b><span>Pregunta</span></div>
+      <div class="stat"><b id="score">0</b><span>Aciertos</span></div>
+      <div class="stat"><b id="streak">0 🔥</b><span>Racha</span></div>
+      <div class="stat"><b id="points">0</b><span>Puntos</span></div>
+    </div>
+    <div class="progress-wrap"><div id="progress" class="progress"></div></div>
+  </section>
+
+  <section class="card" id="startCard">
+    <h2>¿Cómo funciona?</h2>
+    <div class="start">
+      <div class="world"><h3>⚽ 50 retos de fútbol</h3><p class="tiny">Lectura, ortografía, verbos, sustantivos, sujeto y predicado, sinónimos, puntuación e inferencias dentro de partidos, entrenamientos y situaciones del Barcelona.</p></div>
+      <div class="world"><h3>⚡ 50 retos mágicos</h3><p class="tiny">Las mismas habilidades, ahora dentro de Hogwarts, hechizos, personajes y pequeñas aventuras inspiradas en Harry Potter.</p></div>
+    </div>
+    <p class="tiny">Los primeros ejercicios son básicos y la dificultad aumenta poco a poco. Cuando te equivoques, recibirás una explicación breve.</p>
+    <button class="btn primary" id="startBtn">Comenzar misión</button>
+  </section>
+
+  <section class="card" id="quizCard" style="display:none">
+    <span id="themeBadge" class="badge football">⚽ Misión Fútbol</span>
+    <div id="context" class="context"></div>
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+    <div id="feedback" class="feedback"></div>
+    <div class="actions">
+      <button class="btn primary" id="checkBtn" disabled>Comprobar</button>
+      <button class="btn secondary" id="nextBtn" style="display:none">Siguiente reto</button>
+    </div>
+  </section>
+
+  <section class="card result" id="resultCard">
+    <h2>🏆 Reporte final de Miguel</h2>
+    <p id="finalText"></p>
+    <div class="skills" id="skills"></div>
+    <div class="actions"><button class="btn primary" onclick="location.reload()">Volver a intentar</button><button class="btn secondary" onclick="window.print()">Imprimir reporte</button></div>
+  </section>
+  <div class="footer">Actividad educativa de Español · Diagnóstico y reforzamiento para ingreso a sexto de primaria</div>
+</div>
+<script>
+const raw = [
+// FÚTBOL 1-50
+['fútbol','Ortografía','Antes del partido, Miguel escribió: “El balón está listo para comenzar”.','¿Cuál palabra lleva tilde?',['balon','balón','listo','comenzar'],1,'“Balón” es una palabra aguda terminada en n, por eso lleva tilde.'],
+['fútbol','Sustantivos','El Barcelona salió al campo y la afición comenzó a cantar.','¿Cuál palabra es un sustantivo?',['salió','campo','comenzó','cantar'],1,'“Campo” nombra un lugar, por eso es un sustantivo.'],
+['fútbol','Verbos','Los jugadores entrenaron por la mañana.','¿Cuál es el verbo de la oración?',['jugadores','entrenaron','mañana','los'],1,'“Entrenaron” expresa la acción que realizaron los jugadores.'],
+['fútbol','Adjetivos','Miguel vio un partido emocionante.','¿Qué palabra describe al partido?',['Miguel','vio','partido','emocionante'],3,'“Emocionante” describe cómo fue el partido; es un adjetivo.'],
+['fútbol','Comprensión','El entrenador pidió pases cortos porque el rival presionaba mucho.','¿Por qué pidió pases cortos?',['Porque llovía','Porque el rival presionaba','Porque terminó el partido','Porque faltaba el balón'],1,'La razón aparece directamente en el texto: el rival presionaba mucho.'],
+['fútbol','Puntuación','Miguel gritó que gran gol','¿Qué signo falta al inicio y al final?',['¿ ?','¡ !','( )',': ;'],1,'Las exclamaciones expresan emoción y se escriben con ¡ !.'],
+['fútbol','Sinónimos','El jugador estaba contento después de ganar.','¿Qué palabra es sinónimo de “contento”?',['triste','feliz','rápido','cansado'],1,'“Feliz” tiene un significado parecido a “contento”.'],
+['fútbol','Antónimos','El marcador estaba igualado.','¿Cuál es un antónimo de “igualado”?',['empatado','parejo','desigual','similar'],2,'“Desigual” expresa lo contrario de igualado.'],
+['fútbol','Sujeto y predicado','Los delanteros practicaron tiros a gol.','¿Cuál es el sujeto?',['practicaron','tiros a gol','Los delanteros','a gol'],2,'El sujeto indica quién realiza la acción: los delanteros.'],
+['fútbol','Sujeto y predicado','La afición cantó durante todo el partido.','¿Cuál es el predicado?',['La afición','cantó durante todo el partido','todo el partido','durante'],1,'El predicado dice qué hizo el sujeto: cantó durante todo el partido.'],
+['fútbol','Ortografía','Miguel escribió el nombre del deporte.','¿Cuál está escrito correctamente?',['futbol','fútbol','fútvol','futból'],1,'“Fútbol” lleva tilde en la primera sílaba.'],
+['fútbol','Verbos','Ayer el Barcelona ganó su partido.','¿En qué tiempo está el verbo “ganó”?',['presente','pasado','futuro','infinitivo'],1,'“Ganó” indica una acción que ya ocurrió.'],
+['fútbol','Verbos','Mañana Miguel verá otro partido.','¿En qué tiempo está “verá”?',['pasado','presente','futuro','gerundio'],2,'“Verá” indica una acción que ocurrirá después.'],
+['fútbol','Artículos','___ portero atrapó el balón.','¿Qué artículo completa mejor la oración?',['El','Una','Los','Unas'],0,'“Portero” es masculino singular; “El” concuerda con él.'],
+['fútbol','Concordancia','Las jugadoras estaban ___.','¿Qué palabra completa correctamente?',['cansado','cansadas','cansados','cansada'],1,'“Jugadoras” es femenino plural, por eso corresponde “cansadas”.'],
+['fútbol','Comprensión','Miguel llegó tarde al entrenamiento porque su autobús se retrasó.','¿Qué ocurrió primero?',['Llegó tarde','El autobús se retrasó','Terminó el entrenamiento','Miguel marcó un gol'],1,'El retraso del autobús causó que Miguel llegara tarde.'],
+['fútbol','Idea principal','El equipo entrenó pases, tiros y movimientos defensivos durante dos horas.','¿Cuál es la idea principal?',['El equipo entrenó varias habilidades','El partido terminó 0-0','Miguel compró un balón','El entrenador se fue'],0,'La oración resume distintas actividades del entrenamiento.'],
+['fútbol','Inferencia','El árbitro sacó una tarjeta roja y el jugador salió del campo.','¿Qué puedes inferir?',['El jugador fue expulsado','El jugador anotó','El partido terminó','El árbitro se lesionó'],0,'Una tarjeta roja implica expulsión del jugador.'],
+['fútbol','Puntuación','Miguel llevó agua tenis balón y toalla.','¿Qué signo debe separar los elementos?',['punto','coma','signos de interrogación','dos puntos solamente'],1,'Las comas separan elementos de una enumeración.'],
+['fútbol','Mayúsculas','miguel vio jugar al barcelona.','¿Cuál opción corrige mejor la oración?',['Miguel vio jugar al Barcelona.','miguel vio jugar al Barcelona.','Miguel vio jugar al barcelona.','MIGUEL vio jugar al barcelona.'],0,'Los nombres propios empiezan con mayúscula.'],
+['fútbol','Palabras agudas','El portero defendió el balón.','¿Cuál palabra es aguda?',['portero','defendió','el','campo'],1,'“Defendió” lleva la fuerza de voz en la última sílaba.'],
+['fútbol','Palabras graves','Miguel llevó una camiseta nueva.','¿Cuál palabra es grave o llana?',['camiseta','llevó','balón','marcador'],0,'“Camiseta” tiene la sílaba tónica en la penúltima sílaba.'],
+['fútbol','Pronombres','Miguel y Pedro entrenaron. ___ regresaron juntos.','¿Qué pronombre completa la oración?',['Él','Ellos','Ella','Nosotros'],1,'“Miguel y Pedro” puede sustituirse por “Ellos”.'],
+['fútbol','Conectores','Miguel estaba cansado, ___ siguió entrenando.','¿Qué conector expresa contraste?',['porque','pero','y','entonces'],1,'“Pero” introduce una idea que contrasta con la anterior.'],
+['fútbol','Conectores','El equipo entrenó mucho, ___ mejoró sus pases.','¿Qué conector expresa consecuencia?',['por eso','aunque','mientras','sin embargo'],0,'“Por eso” presenta una consecuencia.'],
+['fútbol','Comprensión','El partido comenzó a las 5 y terminó a las 7. Durante el descanso, Miguel tomó agua.','¿Cuándo tomó agua Miguel?',['Antes del partido','Durante el descanso','Después de llegar a casa','A las 4'],1,'El texto lo indica de manera explícita.'],
+['fútbol','Tipos de texto','“Barcelona venció 2-1 en un partido intenso disputado ayer”.','¿Qué tipo de texto se parece más a este fragmento?',['receta','noticia deportiva','cuento fantástico','instructivo'],1,'Informa sobre un hecho deportivo reciente, como una noticia.'],
+['fútbol','Descripción','El estadio era enorme, ruidoso y brillante.','¿Qué función cumplen “enorme, ruidoso y brillante”?',['nombran acciones','describen al estadio','indican tiempo','sustituyen al estadio'],1,'Son adjetivos que describen características del estadio.'],
+['fútbol','Ortografía','El árbitro tomó una decisión ___.','¿Cuál palabra está bien escrita?',['dificil','difísil','difícil','dificíl'],2,'“Difícil” es una palabra grave que lleva tilde porque termina en consonante distinta de n o s.'],
+['fútbol','Comprensión','El delantero pasó el balón en vez de disparar porque vio a un compañero mejor ubicado.','¿Qué demuestra el delantero?',['egoísmo','trabajo en equipo','miedo al balón','desinterés'],1,'Elegir al compañero mejor ubicado muestra cooperación.'],
+['fútbol','Secuencia','Primero calentaron, después practicaron pases y al final jugaron un partido.','¿Qué ocurrió en segundo lugar?',['calentaron','practicaron pases','jugaron un partido','se fueron'],1,'La secuencia indica que practicar pases ocurrió después de calentar.'],
+['fútbol','Verbos','Miguel está corriendo hacia el balón.','¿Qué forma verbal aparece?',['infinitivo','gerundio','participio','futuro'],1,'“Corriendo” termina en -ando y expresa una acción en desarrollo.'],
+['fútbol','Familias de palabras','¿Cuál pertenece a la familia de “jugar”?',['jugador','árbitro','portería','estadio'],0,'“Jugador” comparte la misma raíz que “jugar”.'],
+['fútbol','Prefijos','En “reorganizar el equipo”, el prefijo “re-” indica:',['hacer de nuevo','hacer más lento','negar','hacer pequeño'],0,'El prefijo “re-” suele indicar repetición.'],
+['fútbol','Comprensión','Miguel leyó las reglas antes de entrar al torneo. Así evitó cometer errores.','¿Cuál relación existe entre las oraciones?',['comparación','causa y efecto','oposición','descripción'],1,'Leer las reglas fue la causa; evitar errores, el efecto.'],
+['fútbol','Puntuación','El entrenador dijo Miguel entra al campo.','¿Cuál versión está mejor puntuada?',['El entrenador dijo: “Miguel, entra al campo”.','El entrenador dijo Miguel entra al campo','El entrenador, dijo Miguel entra al campo.','El entrenador dijo; Miguel entra al campo'],0,'Los dos puntos pueden introducir las palabras que alguien dice y la coma marca el vocativo.'],
+['fútbol','Inferencia','La cancha estaba mojada y varios jugadores resbalaron.','¿Qué pudo haber ocurrido antes?',['Llovió','Hubo nieve','Se apagaron las luces','El árbitro terminó el partido'],0,'Una cancha mojada permite inferir que probablemente llovió.'],
+['fútbol','Resumen','Miguel entrenó toda la semana, descansó bien y llegó preparado al partido.','¿Cuál resumen es mejor?',['Miguel se preparó para el partido','Miguel perdió sus tenis','El partido fue suspendido','Miguel dejó de entrenar'],0,'Resume las acciones principales sin agregar información nueva.'],
+['fútbol','Ortografía','¿Cuál oración está correctamente escrita?',['El equipo ganó porqué jugó bien.','El equipo ganó porque jugó bien.','El equipo gano por que jugó bien.','El equipo ganó porqué jugo bien.'],1,'“Porque” se usa para explicar una causa.'],
+['fútbol','Interrogación','¿Cuál oración está correctamente escrita?',['¿Quién marcó el gol?','Quién marcó el gol?','¿Quién marcó el gol.','Quien marcó el gol?'],0,'Las preguntas llevan signos de apertura y cierre; “quién” lleva tilde interrogativa.'],
+['fútbol','Comprensión','El defensa vio que el delantero rival avanzaba solo y decidió cubrir el espacio.','¿Qué hizo el defensa?',['ignoró la jugada','se anticipó a una posible amenaza','salió del estadio','pidió cambio'],1,'Cubrir el espacio es una acción preventiva ante el avance rival.'],
+['fútbol','Vocabulario','En fútbol, “afición” se refiere principalmente a:',['los árbitros','los seguidores del equipo','los entrenadores','los balones'],1,'La afición es el conjunto de seguidores o aficionados.'],
+['fútbol','Sujeto tácito','“Corrieron hacia la portería”.','¿Qué sabemos del sujeto?',['está escrito claramente','es tácito u omitido','no existe verbo','es “portería”'],1,'La oración tiene sujeto, pero no aparece escrito; se entiende por el verbo.'],
+['fútbol','Oración','¿Cuál es una oración completa?',['El gran estadio','Corriendo rápidamente','Miguel pateó el balón.','La camiseta azul'],2,'Tiene sujeto y verbo, y comunica una idea completa.'],
+['fútbol','Comprensión','El marcador iba 1-0. En los últimos minutos, el rival anotó dos goles.','¿Cómo terminó probablemente el marcador?',['1-0','1-1','1-2','2-0'],2,'Si el rival anotó dos goles después del 1-0, el resultado sería 1-2.'],
+['fútbol','Opinión y hecho','¿Cuál es un hecho?',['El Barcelona es el mejor equipo del mundo.','El partido comenzó a las 8:00.','El uniforme es el más bonito.','El delantero es increíble.'],1,'Un hecho puede comprobarse; la hora de inicio es verificable.'],
+['fútbol','Opinión y hecho','¿Cuál oración expresa una opinión?',['El partido duró 90 minutos.','Miguel llevó una camiseta.','El gol fue espectacular.','El árbitro mostró una tarjeta.'],2,'“Espectacular” expresa una valoración personal.'],
+['fútbol','Comprensión avanzada','Miguel quería disparar, pero notó que dos defensas cerraban el espacio. Entonces pasó el balón a la banda.','¿Qué información influyó en su decisión?',['la posición de los defensas','el color del uniforme','el público','la hora'],0,'Miguel cambió su decisión por la ubicación de los defensas.'],
+['fútbol','Conectores','El equipo perdió, ___ aprendió de sus errores.','¿Qué conector funciona mejor?',['sin embargo','porque','por ejemplo','además de'],0,'“Sin embargo” introduce un contraste: perdió, pero aprendió.'],
+['fútbol','Producción escrita','¿Cuál oración está mejor redactada?',['Miguel juega porque fútbol gusta mucho.','A Miguel le gusta mucho jugar fútbol.','Miguel mucho fútbol jugar gusta.','Fútbol Miguel gusta jugar el.'],1,'Respeta el orden lógico de las palabras y comunica una idea clara.'],
+// HARRY POTTER 51-100
+['magia','Ortografía','Harry encontró una habitación secreta.','¿Cuál palabra está escrita correctamente?',['abitación','habitación','habitazión','habitasión'],1,'“Habitación” se escribe con h y con c.'],
+['magia','Sustantivos','Hogwarts tenía torres antiguas.','¿Cuál palabra es un sustantivo?',['tenía','antiguas','torres','muy'],2,'“Torres” nombra objetos o construcciones.'],
+['magia','Verbos','Hermione leyó un libro enorme.','¿Cuál es el verbo?',['Hermione','leyó','libro','enorme'],1,'“Leyó” expresa la acción realizada.'],
+['magia','Adjetivos','El castillo oscuro parecía misterioso.','¿Cuál palabra describe al castillo?',['castillo','oscuro','parecía','el'],1,'“Oscuro” funciona como adjetivo.'],
+['magia','Comprensión','Ron cerró la ventana porque entraba mucho frío.','¿Por qué cerró la ventana?',['porque tenía sueño','porque entraba frío','porque leyó un libro','porque llegó Harry'],1,'La causa está expresada directamente en el texto.'],
+['magia','Sinónimos','Hermione es una alumna inteligente.','¿Cuál palabra es sinónimo de “inteligente”?',['lista','ruidosa','débil','lenta'],0,'“Lista” puede significar inteligente en este contexto.'],
+['magia','Antónimos','El pasillo estaba oscuro.','¿Cuál es un antónimo de “oscuro”?',['tenebroso','negro','claro','cerrado'],2,'“Claro” expresa la idea contraria.'],
+['magia','Sujeto y predicado','Harry abrió la puerta.','¿Cuál es el sujeto?',['abrió','la puerta','Harry','puerta'],2,'Harry es quien realiza la acción.'],
+['magia','Sujeto y predicado','Las velas flotaban sobre las mesas.','¿Cuál es el predicado?',['Las velas','flotaban sobre las mesas','las mesas','sobre'],1,'Indica lo que hacen las velas.'],
+['magia','Puntuación','Harry preguntó dónde está Hermione','¿Cuál versión es correcta?',['Harry preguntó: “¿Dónde está Hermione?”','Harry preguntó dónde está Hermione.','Harry preguntó ¿dónde está Hermione.','Harry: preguntó dónde está Hermione'],0,'La pregunta directa necesita signos de interrogación.'],
+['magia','Mayúsculas','harry estudia en hogwarts.','¿Cuál opción está correctamente escrita?',['Harry estudia en Hogwarts.','harry estudia en Hogwarts.','Harry estudia en hogwarts.','HARRY estudia en hogwarts.'],0,'Los nombres propios se escriben con mayúscula inicial.'],
+['magia','Verbos','Ayer Harry visitó la biblioteca.','“Visitó” está en:',['presente','pasado','futuro','infinitivo'],1,'La acción ocurrió ayer.'],
+['magia','Verbos','Mañana Hermione estudiará pociones.','“Estudiará” está en:',['pasado','futuro','presente','participio'],1,'Indica una acción futura.'],
+['magia','Artículos','___ escoba estaba junto a la puerta.','¿Qué artículo completa mejor?',['La','Los','Unas','El'],0,'“Escoba” es femenino singular.'],
+['magia','Concordancia','Las túnicas eran ___.','¿Cuál palabra concuerda?',['negro','negras','negra','negros'],1,'“Túnicas” es femenino plural.'],
+['magia','Comprensión','Hermione buscó un libro durante una hora y finalmente lo encontró en la sección de historia.','¿Dónde encontró el libro?',['en pociones','en historia','en el comedor','en el dormitorio'],1,'El texto lo dice de manera explícita.'],
+['magia','Idea principal','Los alumnos prepararon ingredientes, siguieron instrucciones y mezclaron cuidadosamente la poción.','¿Cuál es la idea principal?',['Los alumnos prepararon una poción','Los alumnos jugaron quidditch','El profesor salió','La biblioteca cerró'],0,'Resume la acción central del fragmento.'],
+['magia','Inferencia','Harry escuchó un ruido detrás de la puerta y se quedó en silencio.','¿Qué puedes inferir?',['quería escuchar mejor','estaba cantando','quería dormir','había terminado la clase'],0,'Quedarse en silencio ayuda a identificar el origen del ruido.'],
+['magia','Puntuación','Hermione llevó pluma pergamino tinta y libros.','¿Qué signo debe separar los elementos?',['coma','punto','interrogación','paréntesis'],0,'Las comas separan los elementos de una lista.'],
+['magia','Palabras agudas','Harry encontró un salón vacío.','¿Cuál palabra es aguda?',['Harry','encontró','salón','vacío'],2,'“Salón” es aguda y termina en n, por eso lleva tilde.'],
+['magia','Palabras graves','La escoba estaba cerca de la ventana.','¿Cuál palabra es grave?',['escoba','está','salón','voló'],0,'“Escoba” tiene la fuerza de voz en la penúltima sílaba.'],
+['magia','Pronombres','Harry y Ron llegaron temprano. ___ esperaron a Hermione.','¿Qué pronombre corresponde?',['Ellos','Ella','Él','Ustedes'],0,'Harry y Ron se sustituyen por “Ellos”.'],
+['magia','Conectores','Harry tenía miedo, ___ avanzó por el pasillo.','¿Qué conector expresa contraste?',['pero','porque','y','después'],0,'“Pero” contrasta el miedo con la decisión de avanzar.'],
+['magia','Conectores','Hermione estudió mucho, ___ resolvió el ejercicio.','¿Qué conector expresa consecuencia?',['por eso','aunque','mientras','ni'],0,'“Por eso” indica la consecuencia del estudio.'],
+['magia','Tipos de texto','“Agrega dos gotas y mezcla lentamente durante un minuto”.','¿Qué tipo de texto es?',['instructivo','noticia','cuento','poema'],0,'Da indicaciones paso a paso.'],
+['magia','Descripción','La biblioteca era silenciosa, amplia y antigua.','¿Qué hacen esas palabras?',['describen la biblioteca','nombran acciones','indican tiempo','sustituyen nombres'],0,'Son adjetivos descriptivos.'],
+['magia','Ortografía','¿Cuál palabra está bien escrita?',['mágico','majico','májico','magíco'],0,'“Mágico” se escribe con g y lleva tilde.'],
+['magia','Comprensión','Harry dejó una nota para que Ron supiera dónde encontrarlo.','¿Para qué dejó la nota?',['para esconderse','para informar a Ron','para hacer magia','para dormir'],1,'La finalidad de la nota era comunicar información.'],
+['magia','Secuencia','Primero abrió el libro, luego leyó el hechizo y finalmente cerró la tapa.','¿Qué ocurrió en segundo lugar?',['abrió el libro','leyó el hechizo','cerró la tapa','salió del salón'],1,'La secuencia marca “luego leyó el hechizo”.'],
+['magia','Verbos','Hermione está escribiendo una respuesta.','¿Qué forma verbal es “escribiendo”?',['gerundio','infinitivo','participio','futuro'],0,'Termina en -iendo y expresa acción en desarrollo.'],
+['magia','Familia de palabras','¿Cuál pertenece a la familia de “magia”?',['mágico','mesa','libro','escoba'],0,'“Mágico” comparte la misma raíz.'],
+['magia','Prefijos','En “releer el hechizo”, “re-” significa:',['leer de nuevo','leer más rápido','dejar de leer','leer en secreto'],0,'El prefijo “re-” indica repetición.'],
+['magia','Causa y efecto','Hermione practicó el hechizo varias veces y logró realizarlo correctamente.','¿Cuál fue el efecto?',['practicó varias veces','logró hacerlo correctamente','abrió la puerta','perdió el libro'],1,'El resultado de practicar fue realizarlo bien.'],
+['magia','Diálogo','¿Cuál oración usa mejor la puntuación de diálogo?',['Ron dijo: “Tengo hambre”.','Ron dijo “Tengo hambre”.','Ron dijo, Tengo hambre.','Ron: dijo tengo hambre'],0,'Los dos puntos introducen lo que se dice y las comillas enmarcan el diálogo.'],
+['magia','Inferencia','La chimenea estaba encendida y todos se acercaban a ella.','¿Qué puedes inferir?',['hacía frío','hacía mucho calor','estaban nadando','era mediodía'],0,'Acercarse a una chimenea encendida sugiere que buscaban calor.'],
+['magia','Resumen','Harry buscó pistas, preguntó a sus amigos y revisó varios libros para resolver el misterio.','¿Cuál es el mejor resumen?',['Harry investigó un misterio','Harry jugó fútbol','Harry perdió una clase','Harry cocinó'],0,'Resume las acciones de investigación.'],
+['magia','Ortografía','¿Cuál oración está correctamente escrita?',['No sé por qué ocurrió.','No se porqué ocurrió.','No sé porque ocurrió?','No se por que ocurrió.'],0,'“Sé” lleva tilde y “por qué” se usa en interrogativas indirectas.'],
+['magia','Interrogación','¿Cuál está bien escrita?',['¿Cómo llegó Harry?','Como llegó Harry?','¿Como llegó Harry.','Cómo llegó Harry?'],0,'La interrogación requiere signos completos y “cómo” lleva tilde.'],
+['magia','Comprensión','Hermione guardó el libro en su mochila antes de salir porque no quería olvidarlo.','¿Qué motivó su acción?',['quería evitar olvidarlo','quería regalarlo','quería romperlo','quería esconderse'],0,'La oración explica la causa de guardar el libro.'],
+['magia','Vocabulario','En “el pasillo estaba desierto”, “desierto” significa:',['sin personas','lleno de arena necesariamente','muy iluminado','muy ruidoso'],0,'En este contexto significa vacío o sin gente.'],
+['magia','Sujeto tácito','“Entraron rápidamente al salón”.','¿Qué tipo de sujeto tiene?',['explícito','tácito','sin verbo','compuesto escrito'],1,'No aparece escrito, pero se entiende por la forma verbal.'],
+['magia','Oración','¿Cuál es una oración completa?',['El antiguo castillo','Caminando despacio','Harry encontró una pista.','La escoba nueva'],2,'Tiene verbo y comunica una idea completa.'],
+['magia','Comprensión','Ron tenía dos opciones: esperar o pedir ayuda. Como el problema era urgente, buscó a Hermione.','¿Por qué buscó a Hermione?',['porque el problema era urgente','porque quería dormir','porque perdió la escoba','porque terminó la clase'],0,'La urgencia hizo que eligiera pedir ayuda.'],
+['magia','Hecho y opinión','¿Cuál es un hecho?',['Hogwarts es la escuela más maravillosa.','Harry abrió el libro a las ocho.','La capa es preciosa.','Ron es divertidísimo.'],1,'La hora y la acción pueden comprobarse dentro del relato.'],
+['magia','Hecho y opinión','¿Cuál es una opinión?',['Hermione leyó diez páginas.','La clase comenzó temprano.','El hechizo fue fascinante.','Harry cerró la puerta.'],2,'“Fascinante” expresa una valoración.'],
+['magia','Comprensión avanzada','Hermione no respondió de inmediato. Volvió a leer la pregunta, comparó dos pistas y entonces levantó la mano.','¿Qué estrategia utilizó?',['respondió al azar','analizó información antes de responder','copió a otro alumno','ignoró la pregunta'],1,'Releer y comparar pistas es una estrategia de comprensión.'],
+['magia','Conectores','Harry estaba cansado; ___, terminó su tarea.','¿Qué conector funciona mejor?',['sin embargo','porque','por ejemplo','además'],0,'“Sin embargo” marca contraste.'],
+['magia','Producción escrita','¿Cuál oración está mejor redactada?',['Hermione estudió porque quería aprender más.','Hermione porque más aprender quería estudió.','Aprender Hermione más porque estudió quería.','Hermione estudió más quería aprender porque.'],0,'Tiene un orden claro y una relación causal correcta.'],
+['magia','Comprensión','Un texto dice: “Harry revisó cuidadosamente el mapa antes de elegir el camino”.','¿Qué palabra indica la manera en que revisó el mapa?',['Harry','mapa','cuidadosamente','camino'],2,'“Cuidadosamente” es un adverbio de modo.'],
+['magia','Revisión','Antes de entregar su texto, Hermione corrigió tildes, comas y palabras repetidas.','¿Qué proceso realizó?',['planeación','revisión y corrección','lectura recreativa','memorización'],1,'Revisar errores antes de entregar forma parte de la revisión de un texto.']
+];
+const questions = raw.map((r,i)=>({id:i+1,theme:r[0],skill:r[1],context:r[2],q:r[3],opts:r[4],ans:r[5],exp:r[6]}));
+let idx=0, selected=null, score=0, streak=0, points=0, answered=false;
+const skillStats={};
+const $=id=>document.getElementById(id);
+function render(){
+ const q=questions[idx]; answered=false; selected=null;
+ $('qNum').textContent=q.id; $('score').textContent=score; $('streak').textContent=streak+' 🔥'; $('points').textContent=points;
+ $('progress').style.width=((idx)/questions.length*100)+'%';
+ const badge=$('themeBadge'); badge.className='badge '+(q.theme==='fútbol'?'football':'magic'); badge.textContent=q.theme==='fútbol'?'⚽ Misión Fútbol':'⚡ Misión Mágica';
+ $('context').className='context '+(q.theme==='magia'?'magic-context':''); $('context').textContent=q.context; $('question').textContent=q.id+'. '+q.q;
+ $('options').innerHTML=''; q.opts.forEach((o,i)=>{const b=document.createElement('button'); b.className='option'; b.textContent=String.fromCharCode(65+i)+'. '+o; b.onclick=()=>{if(answered)return; selected=i; [...document.querySelectorAll('.option')].forEach(x=>x.classList.remove('selected')); b.classList.add('selected'); $('checkBtn').disabled=false}; $('options').appendChild(b)});
+ $('feedback').className='feedback'; $('feedback').innerHTML=''; $('checkBtn').style.display='inline-block'; $('checkBtn').disabled=true; $('nextBtn').style.display='none';
+}
+$('startBtn').onclick=()=>{$('startCard').style.display='none'; $('quizCard').style.display='block'; render()};
+$('checkBtn').onclick=()=>{
+ if(selected===null||answered)return; answered=true; const q=questions[idx];
+ skillStats[q.skill] ||= {ok:0,total:0}; skillStats[q.skill].total++;
+ const opts=[...document.querySelectorAll('.option')]; opts[q.ans].classList.add('correct');
+ if(selected===q.ans){score++;streak++;points+=100+Math.min(streak,10)*10; skillStats[q.skill].ok++; $('feedback').className='feedback ok'; $('feedback').innerHTML='✅ <b>¡Correcto!</b> '+q.exp+'<div class="notebook">✏️ Para tu libreta: escribe un ejemplo parecido con tus propias palabras.</div>'}
+ else{streak=0; opts[selected].classList.add('wrong'); $('feedback').className='feedback bad'; $('feedback').innerHTML='❌ <b>Revisa esta idea:</b> '+q.exp+'<div class="notebook">✏️ Para tu libreta: copia la regla y crea un ejemplo nuevo.</div>'}
+ $('score').textContent=score; $('streak').textContent=streak+' 🔥'; $('points').textContent=points; $('checkBtn').style.display='none'; $('nextBtn').style.display='inline-block';
+};
+$('nextBtn').onclick=()=>{idx++; if(idx<questions.length) render(); else finish()};
+function finish(){
+ $('quizCard').style.display='none'; $('resultCard').style.display='block'; $('progress').style.width='100%';
+ const pct=Math.round(score/questions.length*100); let msg='Miguel obtuvo '+score+' de 100 aciertos ('+pct+'%). ';
+ if(pct>=90) msg+='Tiene un dominio muy sólido para iniciar sexto.'; else if(pct>=75) msg+='Tiene una buena base; conviene reforzar algunos temas específicos.'; else if(pct>=60) msg+='Cuenta con conocimientos básicos, pero necesita reforzamiento antes de avanzar a contenidos más complejos.'; else msg+='Conviene trabajar con calma las habilidades fundamentales y repetir después la misión.';
+ $('finalText').textContent=msg;
+ const box=$('skills'); box.innerHTML=''; Object.entries(skillStats).sort((a,b)=>b[1].total-a[1].total).forEach(([name,s])=>{const p=Math.round(s.ok/s.total*100); const d=document.createElement('div'); d.className='skill'; d.innerHTML='<strong><span>'+name+'</span><span>'+p+'%</span></strong><div class="skillbar"><i style="width:'+p+'%"></i></div>'; box.appendChild(d)});
+}
+</script>
+</body>
+</html>
