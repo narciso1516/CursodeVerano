@@ -1,158 +1,136 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Catálogo público de recursos educativos interactivos creados por Luis Alberto Antonio Narciso.">
-  <meta name="theme-color" content="#39235f">
-  <title>Biblioteca interactiva | Recursos educativos</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2339235f'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='36' fill='white'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+  <meta name="theme-color" content="#fffaf0">
+  <title>Catálogo Interactivo | Recursos Educativos</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23943dcc'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='38'%3E%F0%9F%8E%92%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <a class="skip-link" href="#catalogo">Saltar al catálogo</a>
-
-  <header class="site-header">
-    <nav class="nav shell" aria-label="Navegación principal">
-      <a class="brand" href="#inicio" aria-label="Biblioteca interactiva, inicio">
-        <span class="brand-mark" aria-hidden="true">✦</span>
-        <span>Biblioteca interactiva<small>Curso de Verano</small></span>
+  <a class="skip-link" href="#recursos">Saltar a los recursos</a>
+  <div class="page-frame">
+    <header class="topbar" id="inicio">
+      <a class="brand" href="#inicio" aria-label="Catálogo Interactivo, inicio">
+        <span class="brand-icon" aria-hidden="true">🎒</span>
+        <span class="brand-copy"><strong>Catálogo Interactivo</strong><small>Recursos Educativos</small></span>
       </a>
-      <div class="nav-links">
-        <a href="#areas">Áreas</a>
-        <a href="#catalogo">Recursos</a>
-        <a href="#autor">Autor</a>
-      </div>
-    </nav>
-  </header>
 
-  <main>
-    <section class="hero" id="inicio">
-      <div class="hero-grid shell">
-        <div>
-          <span class="hero-label"><i aria-hidden="true"></i> Acceso público · Sin cuenta ni contraseña</span>
-          <h1>Aprender también puede sentirse como explorar.</h1>
-          <p class="hero-copy">Una colección de experiencias educativas creadas para practicar, descubrir y avanzar a través de retos, evaluaciones, lecturas y rutas interactivas.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#catalogo">Explorar recursos <span aria-hidden="true">↓</span></a>
-            <a class="button button-secondary" href="#areas">Ver áreas de aprendizaje</a>
+      <nav class="topnav" aria-label="Navegación principal">
+        <button class="topnav-item active" type="button" data-view="all"><span aria-hidden="true">🏠</span> Inicio</button>
+        <button class="topnav-item" type="button" data-view="Interactivo"><span aria-hidden="true">🖥</span> Interactivos</button>
+        <button class="topnav-item" type="button" data-view="Portal"><span aria-hidden="true">🌐</span> Portales y Rutas</button>
+        <a class="topnav-item" href="#autor"><span aria-hidden="true">ⓘ</span> Acerca de</a>
+      </nav>
+
+      <div class="top-actions">
+        <div class="top-search">
+          <label class="sr-only" for="search">Buscar actividad</label>
+          <input id="search" type="search" placeholder="Buscar actividad…" autocomplete="off">
+          <button id="clearSearch" type="button" aria-label="Borrar búsqueda">×</button>
+          <span aria-hidden="true">⌕</span>
+        </div>
+        <div class="theme-switch" aria-label="Tema de color">
+          <button class="active" id="lightTheme" type="button" aria-label="Usar tema claro" aria-pressed="true">☀</button>
+          <button id="darkTheme" type="button" aria-label="Usar tema oscuro" aria-pressed="false">☾</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="catalog-layout">
+      <aside class="sidebar" aria-label="Navegación y filtros">
+        <section class="side-panel explore-panel">
+          <h2 class="scribble-title">Explorar</h2>
+          <div class="side-links">
+            <button class="side-link active" type="button" data-view="all"><span class="nav-icon home" aria-hidden="true">🏠</span> Inicio</button>
+            <button class="side-link" type="button" data-view="Interactivo"><span class="nav-icon interactive" aria-hidden="true">🖥</span> Interactivos</button>
+            <button class="side-link" type="button" data-view="Portal"><span class="nav-icon portal" aria-hidden="true">🌐</span> Portales y Rutas</button>
+            <button class="side-link" id="favoritesView" type="button"><span class="nav-icon favorite" aria-hidden="true">♥</span> Favoritos <small id="favoriteCount">0</small></button>
           </div>
-        </div>
-        <div class="hero-stats" aria-label="Resumen del catálogo">
-          <div class="hero-stat"><strong id="totalHero">0</strong><span>recursos disponibles</span></div>
-          <div class="hero-stat"><strong id="areaTotal">0</strong><span>áreas de aprendizaje</span></div>
-          <div class="hero-stat"><strong>24/7</strong><span>consulta libre en línea</span></div>
-        </div>
-      </div>
-    </section>
+        </section>
 
-    <section class="area-section shell" id="areas" aria-labelledby="areas-title">
-      <div class="area-panel">
-        <div class="section-heading">
-          <div><p class="eyebrow">Encuentra tu punto de partida</p><h2 id="areas-title">Explora por área</h2></div>
-          <p>Cada área reúne actividades de distintos niveles. Elige una para ir directamente a sus recursos.</p>
-        </div>
-        <div class="area-grid" id="areaNav"></div>
-      </div>
-    </section>
-
-    <section class="catalog shell" id="catalogo" aria-labelledby="catalog-title">
-      <div class="catalog-intro">
-        <div><p class="eyebrow">Catálogo completo</p><h2 id="catalog-title">Elige qué quieres aprender hoy.</h2></div>
-        <p>Busca por tema o combina filtros. Cada tarjeta explica el propósito del material antes de abrirlo.</p>
-      </div>
-
-      <div class="filter-panel" role="search" aria-label="Buscar y filtrar recursos">
-        <div class="search-row">
-          <div class="control">
-            <label for="search">Buscar en la biblioteca</label>
-            <span class="search-icon" aria-hidden="true">⌕</span>
-            <input id="search" type="search" placeholder="Ejemplo: fracciones, lectura, inglés…" autocomplete="off">
-            <button class="clear-search" id="clearSearch" type="button" aria-label="Borrar búsqueda">×</button>
-          </div>
-          <div class="control">
-            <label for="sort">Ordenar resultados</label>
-            <select id="sort">
-              <option value="original">Orden del catálogo</option>
-              <option value="az">Título: A–Z</option>
-              <option value="za">Título: Z–A</option>
-            </select>
-          </div>
-        </div>
-        <div class="filters-row">
-          <div class="control">
+        <section class="side-panel filters-panel" aria-labelledby="filter-title">
+          <h2 class="scribble-title" id="filter-title">Filtros</h2>
+          <div class="filter-control">
             <label for="area">Área</label>
-            <select id="area"><option value="">Todas las áreas</option></select>
+            <select class="coral-select" id="area"><option value="">Todas las áreas</option></select>
           </div>
-          <div class="control">
+          <div class="filter-control">
             <label for="level">Nivel educativo</label>
-            <select id="level"><option value="">Todos los niveles</option></select>
+            <select class="teal-select" id="level"><option value="">Todos los niveles</option></select>
           </div>
-          <div class="control">
-            <label>Tipo de recurso</label>
-            <div class="segmented" aria-label="Tipo de recurso">
-              <button type="button" class="active" data-kind="" aria-pressed="true">Todos</button>
-              <button type="button" data-kind="Interactivo" aria-pressed="false">Interactivos</button>
-              <button type="button" data-kind="Portal" aria-pressed="false">Portales</button>
-            </div>
-          </div>
-          <button class="reset-button" id="reset" type="button" disabled>Limpiar filtros</button>
-        </div>
-        <div class="filter-summary" id="filterSummary" aria-label="Filtros activos"></div>
-      </div>
+          <fieldset class="type-filter">
+            <legend>Tipo</legend>
+            <button type="button" data-kind="Interactivo"><span class="check-box" aria-hidden="true">✓</span> Solo interactivos</button>
+            <button type="button" data-kind="Portal"><span class="check-box" aria-hidden="true">✓</span> Solo portales y rutas</button>
+          </fieldset>
+          <button class="reset-button" id="reset" type="button">Limpiar filtros</button>
+        </section>
 
-      <div class="result-bar">
-        <div class="result-copy" aria-live="polite">
-          <h3><span class="result-number" id="resultCount">0</span> recursos encontrados</h3>
-          <p id="resultHint">Mostrando todo el catálogo.</p>
-        </div>
-        <div class="view-controls" aria-label="Presentación de resultados">
-          <span>Vista</span>
-          <button class="view-button active" id="comfortableView" type="button" aria-label="Vista cómoda" aria-pressed="true">▦</button>
-          <button class="view-button compact-symbol" id="compactView" type="button" aria-label="Vista compacta" aria-pressed="false">▦</button>
-        </div>
-      </div>
-
-      <section class="resource-grid" id="grid" aria-label="Recursos educativos"></section>
-      <div class="empty" id="empty">
-        <span class="empty-icon" aria-hidden="true">⌕</span>
-        <h3>No encontramos coincidencias</h3>
-        <p>Prueba con otra palabra o limpia alguno de los filtros.</p>
-      </div>
-      <div class="load-zone" id="loadZone">
-        <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
-        <p id="shownCount"></p>
-        <button class="load-more" id="loadMore" type="button">Mostrar más recursos</button>
-      </div>
-
-      <aside class="curation-note">
-        <h3>Una selección cuidada para compartir con claridad.</h3>
-        <p>Este catálogo muestra únicamente los recursos aprobados de las colecciones <em>Interactivos</em> y <em>Portales y rutas</em>. Los materiales marcados como “No compartir desde este catálogo” no aparecen aquí. Cuando un recurso fue creado para una persona en particular, la tarjeta lo indica para que se revise antes de reutilizarlo.</p>
+        <section class="side-panel summary-panel" aria-labelledby="summary-title">
+          <h2 class="scribble-title" id="summary-title">Resumen</h2>
+          <dl>
+            <div><dt>Total de recursos:</dt><dd id="totalSummary">0</dd></div>
+            <div><dt>Interactivos:</dt><dd class="teal-text" id="interactiveSummary">0</dd></div>
+            <div><dt>Portales y rutas:</dt><dd class="gold-text" id="portalSummary">0</dd></div>
+          </dl>
+        </section>
       </aside>
-    </section>
-  </main>
 
-  <footer class="site-footer" id="autor">
-    <div class="footer-grid shell">
-      <div>
-        <p class="eyebrow">Autor</p>
-        <h2>Luis Alberto Antonio Narciso</h2>
-        <p>Ingeniero en Electrónica y profesional de Quality Assurance, automatización de pruebas y tecnología educativa.</p>
-      </div>
-      <div>
-        <h3>Propósito</h3>
-        <p>Crear experiencias web que combinen educación, tecnología y diseño para hacer del aprendizaje una experiencia más práctica y cercana.</p>
-      </div>
-      <div>
-        <h3>Navegación</h3>
-        <div class="footer-links"><a href="#inicio">Inicio</a><a href="#areas">Áreas de aprendizaje</a><a href="#catalogo">Catálogo completo</a></div>
-      </div>
+      <main class="main-content">
+        <section class="welcome-card" aria-labelledby="welcome-title">
+          <div class="welcome-art left-art" aria-hidden="true"><span>✎</span><b>🖍️</b><i>♫</i></div>
+          <div class="welcome-copy">
+            <h1 id="welcome-title">¡Bienvenido!</h1>
+            <p>Explora, aprende y diviértete con estos recursos educativos interactivos.</p>
+          </div>
+          <div class="welcome-art right-art" aria-hidden="true"><b>1<br>2<br>3</b><span>📕</span><i>♪</i></div>
+        </section>
+
+        <section class="resource-types" aria-label="Tipos de recursos">
+          <button class="type-card interactive-card" type="button" data-view="Interactivo">
+            <span class="type-icon" aria-hidden="true">🖥</span>
+            <span class="type-copy"><strong>Interactivos</strong><small>Actividades, juegos, simuladores y recursos didácticos interactivos.</small><em><span id="interactiveTotal">0</span> recursos</em></span>
+            <span class="type-arrow" aria-hidden="true">➜</span>
+          </button>
+          <button class="type-card portal-card" type="button" data-view="Portal">
+            <span class="type-icon" aria-hidden="true">🌐</span>
+            <span class="type-copy"><strong>Portales y Rutas</strong><small>Sitios web, portales educativos y rutas de aprendizaje.</small><em><span id="portalTotal">0</span> recursos</em></span>
+            <span class="type-arrow" aria-hidden="true">➜</span>
+          </button>
+        </section>
+
+        <section class="resources-section" id="recursos" aria-labelledby="resources-title">
+          <div class="resources-heading">
+            <div>
+              <h2 class="scribble-title" id="resources-title">Recursos disponibles</h2>
+              <div class="active-filters" id="activeFilters" aria-label="Filtros activos"></div>
+            </div>
+            <span class="showing-badge" id="showingBadge">Mostrando 0 recursos</span>
+          </div>
+          <section class="resource-grid" id="grid" aria-label="Recursos educativos"></section>
+          <div class="empty-state" id="empty">
+            <span aria-hidden="true">🔎</span>
+            <h3>No encontramos coincidencias</h3>
+            <p>Prueba otra palabra, cambia los filtros o revisa tus favoritos.</p>
+          </div>
+          <div class="load-zone" id="loadZone">
+            <button id="loadMore" type="button">Mostrar más recursos</button>
+          </div>
+        </section>
+      </main>
     </div>
-    <div class="footer-bottom shell"><span>Biblioteca interactiva educativa</span><span>Recurso diseñado y desarrollado por Luis Alberto Antonio Narciso</span></div>
-  </footer>
 
-  <button class="back-top" id="backTop" type="button" aria-label="Volver al inicio">↑</button>
-  <div class="toast" id="toast" role="status" aria-live="polite">Enlace copiado</div>
+    <footer class="site-footer" id="autor">
+      <div class="footer-message"><span aria-hidden="true">⭐</span><p>Aprender es descubrir<br>que algo es posible.</p></div>
+      <div class="footer-message"><span aria-hidden="true">✏️</span><p>Sigue explorando y<br>no dejes de aprender.</p></div>
+      <div class="footer-message"><span aria-hidden="true">♫</span><p>¡Tú puedes lograr<br>grandes cosas!</p></div>
+      <div class="author-pill"><span aria-hidden="true">♥</span><p>Hecho con amor para la educación<small>Luis Alberto Antonio Narciso</small></p></div>
+    </footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite">Guardado en favoritos</div>
 
   <script src="data1.js"></script>
   <script src="data2.js"></script>

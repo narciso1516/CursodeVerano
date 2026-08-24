@@ -1,41 +1,74 @@
 const RESOURCES = window.CATALOG_RESOURCES || [];
-const PAGE_SIZE = 18;
+const PAGE_SIZE = 16;
+const FAVORITES_KEY = "catalogo-interactivo-favoritos";
+const THEME_KEY = "catalogo-interactivo-tema";
+
 const AREA_META = {
-  "Ciencias y ambiente": { icon: "✦", color: "#258c79", soft: "#e3f4ef" },
-  "Desarrollo socioemocional": { icon: "♡", color: "#d65d77", soft: "#fbe9ee" },
-  "Emprendimiento": { icon: "↗", color: "#b87321", soft: "#faeedb" },
-  "Formación docente": { icon: "◎", color: "#5d68b5", soft: "#eaeafb" },
-  "Humanidades": { icon: "◇", color: "#8f579f", soft: "#f3e8f5" },
-  "Inglés": { icon: "A", color: "#3276b1", soft: "#e5f0f9" },
-  "Lengua y comunicación": { icon: "✎", color: "#c75b43", soft: "#f9e9e4" },
-  "Lenguajes y artes": { icon: "♪", color: "#a65783", soft: "#f6e8f0" },
-  "Matemáticas": { icon: "+", color: "#5a65b6", soft: "#e9eafb" },
-  "Multidisciplinar": { icon: "◌", color: "#238c9b", soft: "#e2f2f4" }
+  "Ciencias y ambiente": { icon: "🧪", color: "#8b3db1", soft: "#f2e4f7" },
+  "Desarrollo socioemocional": { icon: "♥", color: "#ef607c", soft: "#ffe7eb" },
+  "Emprendimiento": { icon: "💡", color: "#ec8d26", soft: "#fff0d9" },
+  "Formación docente": { icon: "🎓", color: "#7054b7", soft: "#ece7fa" },
+  "Humanidades": { icon: "💭", color: "#9a4b9f", soft: "#f3e7f3" },
+  "Inglés": { icon: "🇬🇧", color: "#ff6637", soft: "#ffebe4" },
+  "Lengua y comunicación": { icon: "ABC", color: "#f16483", soft: "#ffe9ee" },
+  "Lenguajes y artes": { icon: "🎨", color: "#d34f91", soft: "#f9e5f0" },
+  "Matemáticas": { icon: "＋", color: "#14aaa8", soft: "#ddf5f3" },
+  "Multidisciplinar": { icon: "🧩", color: "#527bbd", soft: "#e6eef9" }
 };
-const ALL_META = { icon: "✦", color: "#7a45c6", soft: "#f1eafb" };
+const DEFAULT_META = { icon: "✦", color: "#70309c", soft: "#f0e4f7" };
+const AREA_ORDER = [
+  "Matemáticas",
+  "Lengua y comunicación",
+  "Ciencias y ambiente",
+  "Inglés",
+  "Desarrollo socioemocional",
+  "Multidisciplinar",
+  "Lenguajes y artes",
+  "Humanidades",
+  "Formación docente",
+  "Emprendimiento"
+];
+
 const $ = selector => document.querySelector(selector);
-const grid = $("#grid");
 const search = $("#search");
 const area = $("#area");
 const level = $("#level");
-const sort = $("#sort");
+const grid = $("#grid");
 const empty = $("#empty");
 const loadZone = $("#loadZone");
-const filterSummary = $("#filterSummary");
+const activeFilters = $("#activeFilters");
 let selectedKind = "";
+let showFavorites = false;
 let visibleLimit = PAGE_SIZE;
-let compact = false;
 let toastTimer;
+let favorites = readFavorites();
 
 const norm = value => (value || "").toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 const uniqueSorted = values => [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b, "es"));
-const metaFor = name => AREA_META[name] || ALL_META;
+const metaFor = name => AREA_META[name] || DEFAULT_META;
 const create = (tag, className, text) => {
   const element = document.createElement(tag);
   if (className) element.className = className;
   if (text !== undefined) element.textContent = text;
   return element;
 };
+
+function readFavorites() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
+    return new Set(Array.isArray(saved) ? saved : []);
+  } catch (error) {
+    return new Set();
+  }
+}
+
+function saveFavorites() {
+  try {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify([...favorites]));
+  } catch (error) {
+    // El catálogo sigue funcionando aunque el navegador bloquee el almacenamiento local.
+  }
+}
 
 function fillSelect(select, values) {
   uniqueSorted(values).forEach(value => {
@@ -45,50 +78,52 @@ function fillSelect(select, values) {
   });
 }
 
-function renderAreaNavigation() {
-  const areaNav = $("#areaNav");
-  const counts = RESOURCES.reduce((acc, resource) => {
-    acc[resource.area] = (acc[resource.area] || 0) + 1;
-    return acc;
-  }, {});
-  const entries = [
-    { name: "", label: "Todo el catálogo", count: RESOURCES.length },
-    ...uniqueSorted(RESOURCES.map(resource => resource.area)).map(name => ({ name, label: name, count: counts[name] }))
-  ];
-  areaNav.innerHTML = "";
-  entries.forEach(entry => {
-    const meta = entry.name ? metaFor(entry.name) : ALL_META;
-    const button = create("button", "area-button");
-    button.type = "button";
-    button.dataset.area = entry.name;
-    button.style.setProperty("--area-color", meta.color);
-    button.style.setProperty("--area-soft", meta.soft);
-    button.setAttribute("aria-pressed", String(area.value === entry.name));
-    if (area.value === entry.name) button.classList.add("active");
-    const icon = create("span", "area-icon", meta.icon);
-    icon.setAttribute("aria-hidden", "true");
-    button.append(icon, create("strong", "", entry.label), create("span", "", `${entry.count} ${entry.count === 1 ? "recurso" : "recursos"}`));
-    button.addEventListener("click", () => {
-      area.value = entry.name;
-      visibleLimit = PAGE_SIZE;
-      render();
-      $("#catalogo").scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
-    });
-    areaNav.appendChild(button);
-  });
-}
-
 function filteredResources() {
   const query = norm(search.value);
-  const result = RESOURCES.filter(resource =>
+  const filtered = RESOURCES.filter(resource =>
+    (!showFavorites || favorites.has(resource.url)) &&
     (!selectedKind || resource.kind === selectedKind) &&
     (!area.value || resource.area === area.value) &&
     (!level.value || resource.level === level.value) &&
     (!query || norm([resource.title, resource.area, resource.level, resource.objective, resource.type].join(" ")).includes(query))
   );
-  if (sort.value === "az") result.sort((a, b) => a.title.localeCompare(b.title, "es"));
-  if (sort.value === "za") result.sort((a, b) => b.title.localeCompare(a.title, "es"));
+  const defaultView = !showFavorites && !selectedKind && !area.value && !level.value && !query;
+  return defaultView ? balanceAreas(filtered) : filtered;
+}
+
+function balanceAreas(resources) {
+  const groups = new Map(AREA_ORDER.map(name => [name, []]));
+  resources.forEach(resource => {
+    if (!groups.has(resource.area)) groups.set(resource.area, []);
+    groups.get(resource.area).push(resource);
+  });
+  const result = [];
+  let remaining = true;
+  while (remaining) {
+    remaining = false;
+    groups.forEach(group => {
+      if (group.length) {
+        result.push(group.shift());
+        remaining = true;
+      }
+    });
+  }
   return result;
+}
+
+function iconFor(resource) {
+  const text = norm(`${resource.title} ${resource.objective}`);
+  if (resource.kind === "Portal") return "🌐";
+  if (text.includes("abeja")) return "🐝";
+  if (text.includes("jardin") || text.includes("planta") || text.includes("botan")) return "🌿";
+  if (text.includes("planeta")) return "🪐";
+  if (text.includes("fraccion") || text.includes("comida y partes")) return "🍎";
+  if (text.includes("acentu") || text.includes("ortograf") || text.includes("redaccion")) return "ABC";
+  if (text.includes("ingles") || text.includes("english") || text.includes("questions")) return "🇬🇧";
+  if (text.includes("cerebro")) return "🧠";
+  if (text.includes("matemat") || text.includes("suma") || text.includes("tiend")) return "🔢";
+  if (text.includes("lectura") || text.includes("leer")) return "📖";
+  return metaFor(resource.area).icon;
 }
 
 function showToast(message) {
@@ -96,7 +131,29 @@ function showToast(message) {
   toast.textContent = message;
   toast.classList.add("visible");
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove("visible"), 1700);
+  toastTimer = setTimeout(() => toast.classList.remove("visible"), 1600);
+}
+
+function toggleFavorite(resource, button) {
+  if (favorites.has(resource.url)) {
+    favorites.delete(resource.url);
+    showToast("Eliminado de favoritos");
+  } else {
+    favorites.add(resource.url);
+    showToast("Guardado en favoritos");
+  }
+  saveFavorites();
+  syncFavoriteButton(button, resource.url);
+  $("#favoriteCount").textContent = favorites.size;
+  if (showFavorites) render();
+}
+
+function syncFavoriteButton(button, url) {
+  const active = favorites.has(url);
+  button.classList.toggle("active", active);
+  button.setAttribute("aria-pressed", String(active));
+  button.setAttribute("aria-label", active ? "Quitar de favoritos" : "Guardar en favoritos");
+  button.textContent = active ? "♥" : "♡";
 }
 
 function makeCard(resource) {
@@ -105,76 +162,87 @@ function makeCard(resource) {
   card.style.setProperty("--area-color", meta.color);
   card.style.setProperty("--area-soft", meta.soft);
 
+  const main = create("div", "card-main");
   const top = create("div", "card-top");
-  const areaLabel = create("span", "area-label");
-  const areaIcon = create("span", "", meta.icon);
-  areaIcon.setAttribute("aria-hidden", "true");
-  areaLabel.append(areaIcon, create("span", "", resource.area));
-  const status = create("span", "status", "Verificado");
-  status.title = resource.status || "Enlace disponible";
-  top.append(areaLabel, status);
+  const icon = create("span", "card-icon", iconFor(resource));
+  icon.setAttribute("aria-hidden", "true");
+  const title = create("h3", "card-title", resource.title);
+  const favorite = create("button", "favorite-button");
+  favorite.type = "button";
+  favorite.setAttribute("aria-label", `Marcar ${resource.title} como favorito`);
+  syncFavoriteButton(favorite, resource.url);
+  favorite.addEventListener("click", () => toggleFavorite(resource, favorite));
+  top.append(icon, title, favorite);
 
-  const title = create("h4", "", resource.title);
-  const metaRow = create("div", "card-meta");
-  [resource.level, resource.type, resource.kind].filter(Boolean).forEach(value => metaRow.appendChild(create("span", "meta-chip", value)));
-  const objective = create("p", "objective", resource.objective);
-  card.append(top, title, metaRow, objective);
-
+  const areaLabel = create("p", "card-area", resource.area);
+  const levelLabel = create("p", "card-level", resource.level);
+  const objective = create("p", "card-objective", resource.objective);
+  main.append(top, areaLabel, levelLabel, objective);
   if (norm(resource.use).includes("personalizado")) {
-    card.appendChild(create("p", "use-note", "ⓘ Material personalizado: revisa nombres y contenido antes de reutilizarlo."));
+    main.appendChild(create("p", "personalized-note", "Revisar nombres antes de reutilizar"));
   }
 
+  const footer = create("div", "card-footer");
+  footer.appendChild(create("span", "", resource.kind));
   const actions = create("div", "card-actions");
-  const link = create("a", "open-resource", "Abrir recurso ↗");
-  link.href = resource.url;
-  link.target = "_blank";
-  link.rel = "noopener";
-  link.setAttribute("aria-label", `Abrir ${resource.title} en una pestaña nueva`);
-  const copy = create("button", "copy-resource", "⧉");
+  const copy = create("button", "card-copy", "⧉");
   copy.type = "button";
   copy.title = "Copiar enlace";
   copy.setAttribute("aria-label", `Copiar enlace de ${resource.title}`);
   copy.addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(resource.url);
-      copy.textContent = "✓";
       showToast("Enlace copiado");
-      setTimeout(() => { copy.textContent = "⧉"; }, 1200);
     } catch (error) {
       window.prompt("Copia este enlace:", resource.url);
     }
   });
-  actions.append(link, copy);
-  card.appendChild(actions);
+  const open = create("a", "card-open", "↗");
+  open.href = resource.url;
+  open.target = "_blank";
+  open.rel = "noopener";
+  open.title = resource.status || "Abrir recurso";
+  open.setAttribute("aria-label", `Abrir ${resource.title} en una pestaña nueva`);
+  actions.append(copy, open);
+  footer.appendChild(actions);
+  card.append(main, footer);
   return card;
 }
 
-function renderFilterSummary() {
+function renderActiveFilters() {
   const items = [];
-  if (search.value.trim()) items.push({ label: `Búsqueda: ${search.value.trim()}`, clear: () => { search.value = ""; } });
+  if (search.value.trim()) items.push({ label: `“${search.value.trim()}”`, clear: () => { search.value = ""; } });
   if (area.value) items.push({ label: area.value, clear: () => { area.value = ""; } });
   if (level.value) items.push({ label: level.value, clear: () => { level.value = ""; } });
-  if (selectedKind) items.push({ label: selectedKind, clear: () => { selectedKind = ""; syncKindButtons(); } });
-  filterSummary.innerHTML = "";
+  if (selectedKind) items.push({ label: selectedKind === "Portal" ? "Portales y rutas" : "Interactivos", clear: () => { selectedKind = ""; } });
+  if (showFavorites) items.push({ label: "Favoritos", clear: () => { showFavorites = false; } });
+  activeFilters.innerHTML = "";
   items.forEach(item => {
-    const button = create("button", "filter-chip", `${item.label} ×`);
-    button.type = "button";
-    button.setAttribute("aria-label", `Quitar filtro ${item.label}`);
-    button.addEventListener("click", () => {
+    const chip = create("button", "filter-chip", `${item.label} ×`);
+    chip.type = "button";
+    chip.setAttribute("aria-label", `Quitar filtro ${item.label}`);
+    chip.addEventListener("click", () => {
       item.clear();
       visibleLimit = PAGE_SIZE;
       render();
     });
-    filterSummary.appendChild(button);
+    activeFilters.appendChild(chip);
   });
-  filterSummary.classList.toggle("visible", items.length > 0);
-  $("#reset").disabled = items.length === 0 && sort.value === "original";
+  $("#reset").disabled = items.length === 0;
   $("#clearSearch").classList.toggle("visible", Boolean(search.value));
 }
 
-function syncKindButtons() {
+function syncNavigation() {
+  document.querySelectorAll(".topnav-item[data-view], .side-link[data-view]").forEach(button => {
+    const target = button.dataset.view;
+    const active = !showFavorites && ((target === "all" && !selectedKind) || target === selectedKind);
+    button.classList.toggle("active", active);
+    if (button.tagName === "BUTTON") button.setAttribute("aria-pressed", String(active));
+  });
+  $("#favoritesView").classList.toggle("active", showFavorites);
+  $("#favoritesView").setAttribute("aria-pressed", String(showFavorites));
   document.querySelectorAll("[data-kind]").forEach(button => {
-    const active = button.dataset.kind === selectedKind;
+    const active = !showFavorites && button.dataset.kind === selectedKind;
     button.classList.toggle("active", active);
     button.setAttribute("aria-pressed", String(active));
   });
@@ -185,73 +253,85 @@ function render() {
   const shown = filtered.slice(0, visibleLimit);
   grid.innerHTML = "";
   shown.forEach(resource => grid.appendChild(makeCard(resource)));
-  grid.classList.toggle("compact", compact);
-  $("#resultCount").textContent = filtered.length;
-  $("#resultHint").textContent = filtered.length === RESOURCES.length ? "Mostrando todo el catálogo." : "Resultados actualizados con tus filtros.";
-  empty.classList.toggle("visible", filtered.length === 0);
   grid.hidden = filtered.length === 0;
-  const hasMore = shown.length < filtered.length;
-  loadZone.classList.toggle("visible", filtered.length > 0);
-  $("#shownCount").textContent = `Mostrando ${shown.length} de ${filtered.length} recursos`;
-  $("#progressBar").style.width = `${filtered.length ? Math.round((shown.length / filtered.length) * 100) : 0}%`;
-  $("#loadMore").hidden = !hasMore;
+  empty.classList.toggle("visible", filtered.length === 0);
+  $("#showingBadge").textContent = `Mostrando ${filtered.length} ${filtered.length === 1 ? "recurso" : "recursos"}`;
   $("#loadMore").textContent = `Mostrar ${Math.min(PAGE_SIZE, filtered.length - shown.length)} más`;
-  renderFilterSummary();
-  renderAreaNavigation();
+  $("#loadMore").hidden = shown.length >= filtered.length;
+  loadZone.classList.toggle("visible", shown.length < filtered.length);
+  $("#favoriteCount").textContent = favorites.size;
+  renderActiveFilters();
+  syncNavigation();
 }
 
 function resetFilters() {
   search.value = "";
   area.value = "";
   level.value = "";
-  sort.value = "original";
   selectedKind = "";
+  showFavorites = false;
   visibleLimit = PAGE_SIZE;
-  syncKindButtons();
   render();
+}
+
+function chooseView(view) {
+  if (view === "all") {
+    resetFilters();
+  } else {
+    selectedKind = view;
+    showFavorites = false;
+    visibleLimit = PAGE_SIZE;
+    render();
+  }
+  $("#recursos").scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+}
+
+function chooseTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  $("#lightTheme").classList.toggle("active", theme === "light");
+  $("#darkTheme").classList.toggle("active", theme === "dark");
+  $("#lightTheme").setAttribute("aria-pressed", String(theme === "light"));
+  $("#darkTheme").setAttribute("aria-pressed", String(theme === "dark"));
+  document.querySelector('meta[name="theme-color"]').content = theme === "light" ? "#fffaf0" : "#1c1526";
+  try { localStorage.setItem(THEME_KEY, theme); } catch (error) { /* Sin persistencia */ }
 }
 
 fillSelect(area, RESOURCES.map(resource => resource.area));
 fillSelect(level, RESOURCES.map(resource => resource.level));
-$("#totalHero").textContent = RESOURCES.length;
-$("#areaTotal").textContent = uniqueSorted(RESOURCES.map(resource => resource.area)).length;
+const interactiveCount = RESOURCES.filter(resource => resource.kind === "Interactivo").length;
+const portalCount = RESOURCES.filter(resource => resource.kind === "Portal").length;
+$("#totalSummary").textContent = RESOURCES.length;
+$("#interactiveSummary").textContent = interactiveCount;
+$("#portalSummary").textContent = portalCount;
+$("#interactiveTotal").textContent = interactiveCount;
+$("#portalTotal").textContent = portalCount;
 
-search.addEventListener("input", () => { visibleLimit = PAGE_SIZE; render(); });
-[area, level, sort].forEach(control => control.addEventListener("change", () => { visibleLimit = PAGE_SIZE; render(); }));
+search.addEventListener("input", () => { visibleLimit = PAGE_SIZE; showFavorites = false; render(); });
+[area, level].forEach(control => control.addEventListener("change", () => { visibleLimit = PAGE_SIZE; showFavorites = false; render(); }));
+document.querySelectorAll("[data-view]").forEach(button => button.addEventListener("click", () => chooseView(button.dataset.view)));
 document.querySelectorAll("[data-kind]").forEach(button => button.addEventListener("click", () => {
-  selectedKind = button.dataset.kind;
+  selectedKind = selectedKind === button.dataset.kind ? "" : button.dataset.kind;
+  showFavorites = false;
   visibleLimit = PAGE_SIZE;
-  syncKindButtons();
   render();
 }));
-$("#clearSearch").addEventListener("click", () => {
+$("#favoritesView").addEventListener("click", () => {
   search.value = "";
-  search.focus();
+  area.value = "";
+  level.value = "";
+  selectedKind = "";
+  showFavorites = true;
   visibleLimit = PAGE_SIZE;
   render();
+  $("#recursos").scrollIntoView({ behavior: "smooth" });
 });
+$("#clearSearch").addEventListener("click", () => { search.value = ""; search.focus(); visibleLimit = PAGE_SIZE; render(); });
 $("#reset").addEventListener("click", resetFilters);
 $("#loadMore").addEventListener("click", () => { visibleLimit += PAGE_SIZE; render(); });
-$("#comfortableView").addEventListener("click", () => {
-  compact = false;
-  $("#comfortableView").classList.add("active");
-  $("#compactView").classList.remove("active");
-  $("#comfortableView").setAttribute("aria-pressed", "true");
-  $("#compactView").setAttribute("aria-pressed", "false");
-  render();
-});
-$("#compactView").addEventListener("click", () => {
-  compact = true;
-  $("#compactView").classList.add("active");
-  $("#comfortableView").classList.remove("active");
-  $("#compactView").setAttribute("aria-pressed", "true");
-  $("#comfortableView").setAttribute("aria-pressed", "false");
-  render();
-});
-window.addEventListener("scroll", () => $("#backTop").classList.toggle("visible", window.scrollY > 700), { passive: true });
-$("#backTop").addEventListener("click", () => window.scrollTo({
-  top: 0,
-  behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"
-}));
+$("#lightTheme").addEventListener("click", () => chooseTheme("light"));
+$("#darkTheme").addEventListener("click", () => chooseTheme("dark"));
 
+let initialTheme = "light";
+try { initialTheme = localStorage.getItem(THEME_KEY) || "light"; } catch (error) { /* Tema claro */ }
+chooseTheme(initialTheme === "dark" ? "dark" : "light");
 render();
