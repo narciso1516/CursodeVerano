@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Misión Matemáticas · Sin patrón de respuestas</title>
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#eef2ff}iframe{display:block;width:100%;height:100%;border:0}</style>
+</head>
+<body>
+<iframe id="exam" src="Mision_Matematicas_Diagnostico_Ingreso_6to_100_Preguntas.html" title="Misión Matemáticas"></iframe>
+<script>
+const frame=document.getElementById('exam');
+frame.addEventListener('load',()=>{
+ const d=frame.contentDocument;
+ let last=-1,busy=false;
+ function mix(){
+  if(busy)return;
+  const q=d.getElementById('qnum'), box=d.getElementById('options');
+  if(!q||!box)return;
+  const m=(q.textContent||'').match(/(\d+)/), n=m?+m[1]:0;
+  const buttons=[...box.querySelectorAll('.option')];
+  if(!n||buttons.length!==4||n===last)return;
+  last=n; busy=true;
+  for(let i=buttons.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[buttons[i],buttons[j]]=[buttons[j],buttons[i]];}
+  buttons.forEach((b,i)=>{box.appendChild(b);const strong=b.querySelector('b');if(strong)strong.textContent=String.fromCharCode(65+i)+'.';});
+  busy=false;
+ }
+ const obs=new MutationObserver(()=>setTimeout(mix,0));
+ obs.observe(d.body,{childList:true,subtree:true,characterData:true});
+ setTimeout(mix,300);
+});
+</script>
+</body>
+</html>
