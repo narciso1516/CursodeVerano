@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Misión Lenguajes · Diagnóstico de ingreso a 5.º</title>
+<style>
+:root{
+  --bg:#eef2ff;--card:rgba(255,255,255,.88);--ink:#1f2937;--muted:#64748b;
+  --primary:#4f46e5;--primary2:#7c3aed;--ok:#15803d;--bad:#b91c1c;
+  --gold:#d97706;--line:#dbe2ea;--xp:#0ea5e9
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:linear-gradient(140deg,#eef2ff,#faf5ff,#f0fdfa);min-height:100vh;overflow-x:hidden}
+body::before,body::after{content:"";position:fixed;border-radius:50%;filter:blur(55px);opacity:.18;z-index:-1;animation:floatBg 9s ease-in-out infinite}
+body::before{width:260px;height:260px;background:#7c3aed;top:8%;left:-70px}
+body::after{width:320px;height:320px;background:#06b6d4;right:-100px;bottom:10%;animation-delay:-4s}
+@keyframes floatBg{50%{transform:translateY(25px) translateX(14px)}}
+
+.top-progress{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border-bottom:1px solid #ffffffaa}
+.top-progress .inner{max-width:1060px;margin:auto;padding:10px 14px}
+.progress-row{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
+.avatar-mini{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#fde68a,#fca5a5);font-size:1.25rem;box-shadow:0 5px 18px #0001}
+.progress-track{height:13px;background:#e5e7eb;border-radius:99px;overflow:hidden;position:relative}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--xp));transition:.35s}
+.xp-label{font-weight:850;color:#334155;font-size:.9rem}
+
+header{padding:34px 18px 24px;background:linear-gradient(135deg,#312e81,#6d28d9 55%,#0ea5e9);color:#fff;position:relative;overflow:hidden}
+header::after{content:"ABC ✦ 123 ✦ palabras ✦ historias";position:absolute;right:-40px;bottom:12px;font-size:2rem;opacity:.08;transform:rotate(-7deg);font-weight:900;white-space:nowrap}
+.wrap{max-width:1060px;margin:auto}
+h1{margin:0;font-size:clamp(2rem,5vw,3.25rem);line-height:1.05}
+.subtitle{max-width:850px;line-height:1.5;opacity:.95}
+.pills{display:flex;gap:8px;flex-wrap:wrap}.pill{padding:7px 11px;border-radius:999px;background:#ffffff20;border:1px solid #ffffff35;font-size:.9rem}
+
+main{padding:20px 16px 60px}
+.glass{background:var(--card);backdrop-filter:blur(16px);border:1px solid #ffffffcc;box-shadow:0 14px 40px #312e8120;border-radius:24px}
+.panel{padding:20px;margin-bottom:18px}
+.student{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+.student input{padding:13px;border:1px solid var(--line);border-radius:13px;font:inherit;background:#fff}
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.levels div{padding:14px;border-radius:16px;background:#f8fafc;border:1px solid var(--line);transition:.2s}
+.levels div:hover{transform:translateY(-3px);box-shadow:0 10px 22px #00000010}
+.levels b{display:block;margin-bottom:4px}
+.btn{position:relative;overflow:hidden;border:0;border-radius:14px;padding:12px 18px;font:inherit;font-weight:850;cursor:pointer;transition:transform .12s,box-shadow .2s,filter .2s}
+.btn:hover{transform:translateY(-2px) scale(1.01);box-shadow:0 10px 22px #4f46e530}
+.btn:active{transform:translateY(2px) scale(.985)}
+.btn.primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;box-shadow:0 7px 18px #4f46e530}
+.btn.glow{animation:glow 1.8s ease-in-out infinite}
+@keyframes glow{50%{box-shadow:0 0 0 8px #7c3aed16,0 10px 26px #6d28d94a}}
+.btn.secondary{background:#eef2f7;color:#334155}
+.ripple{position:absolute;border-radius:50%;transform:scale(0);animation:ripple .55s linear;background:#ffffff70;pointer-events:none}
+@keyframes ripple{to{transform:scale(4);opacity:0}}
+
+.mission{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}
+.mascot{width:90px;height:90px;border-radius:24px;display:grid;place-items:center;font-size:3rem;background:linear-gradient(145deg,#fff7ed,#fde68a);box-shadow:0 10px 24px #f59e0b25;transition:.25s}
+.mascot.happy{animation:bounce .5s}
+.mascot.oops{animation:shake .38s}
+@keyframes bounce{0%,100%{transform:translateY(0)}40%{transform:translateY(-10px)}70%{transform:translateY(-3px)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
+
+.hud{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.hud-card{padding:12px 14px;border-radius:16px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 20px #00000008}
+.hud-card span{display:block;color:var(--muted);font-size:.82rem}.hud-card b{font-size:1.25rem}
+.streak-card.active{animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.03)}}
+
+.question-card{padding:24px;position:relative;transform-style:preserve-3d;transition:transform .2s,box-shadow .2s}
+.question-card:hover{transform:perspective(1000px) rotateX(.5deg) rotateY(-.5deg);box-shadow:0 18px 45px #312e8125}
+.badges{display:flex;gap:8px;flex-wrap:wrap}
+.badge{font-size:.8rem;font-weight:850;background:#eef2ff;color:#3730a3;padding:6px 10px;border-radius:999px}
+.badge.level{background:#ecfdf5;color:#166534}
+.qnum{color:var(--primary);font-weight:900;margin-top:16px}
+.question{font-size:clamp(1.15rem,2.5vw,1.55rem);font-weight:780;line-height:1.45;margin:8px 0 16px}
+.word-highlight{background:linear-gradient(transparent 62%,#fde68a 62%);padding:0 2px}
+.options{display:grid;gap:10px}
+.option{position:relative;overflow:hidden;padding:15px;border:2px solid var(--line);border-radius:15px;background:#fff;text-align:left;font:inherit;font-weight:680;cursor:pointer;transition:.18s}
+.option:hover{transform:translateY(-2px) scale(1.006);border-color:#a5b4fc;box-shadow:0 8px 18px #4f46e512}
+.option:active{transform:translateY(2px) scale(.99)}
+.option.selected{background:#eef2ff;border-color:var(--primary)}
+.option.correct{background:#ecfdf5;border-color:var(--ok);animation:correctBounce .5s}
+.option.wrong{background:#fef2f2;border-color:var(--bad);animation:shake .38s}
+@keyframes correctBounce{40%{transform:translateY(-8px)}70%{transform:translateY(-2px)}}
+.icon-anim{display:inline-block;font-size:1.3rem;margin-right:6px;animation:pop .35s}
+@keyframes pop{0%{transform:scale(.2);opacity:0}70%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+.feedback{display:none;margin-top:14px;padding:15px;border-radius:15px;font-weight:650;line-height:1.45}
+.feedback.show{display:block;animation:reveal .35s}
+.feedback.ok{background:#ecfdf5;color:#166534}
+.feedback.bad{background:#fef2f2;color:#991b1b}
+@keyframes reveal{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.hint-box{margin-top:14px;border:1px dashed #c4b5fd;border-radius:14px;background:#faf5ff;padding:12px;display:none}
+.hint-box.show{display:block;animation:reveal .3s}
+.controls{display:flex;justify-content:space-between;gap:10px;margin-top:18px;flex-wrap:wrap}
+.action-group{display:flex;gap:8px;flex-wrap:wrap}
+.audio-btn,.hint-btn{background:#f8fafc;border:1px solid var(--line);color:#334155}
+
+.toast{position:fixed;left:50%;top:90px;transform:translateX(-50%) scale(.85);opacity:0;z-index:100;background:#111827;color:#fff;padding:12px 18px;border-radius:999px;font-weight:850;box-shadow:0 12px 32px #0003;transition:.25s;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) scale(1)}
+.particles{position:fixed;inset:0;pointer-events:none;z-index:90;overflow:hidden}
+.particle{position:absolute;font-size:1.25rem;animation:particle 900ms ease-out forwards}
+@keyframes particle{to{transform:translate(var(--dx),var(--dy)) rotate(240deg) scale(.2);opacity:0}}
+
+.overlay{position:fixed;inset:0;background:#0f172ad9;z-index:120;display:none;place-items:center;padding:18px}
+.overlay.show{display:grid}
+.level-modal{max-width:560px;width:100%;padding:28px;text-align:center;background:white;border-radius:24px;animation:pop .35s}
+.level-modal .big{font-size:4rem}.level-modal h2{margin:.4rem 0}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:130;overflow:hidden}.confetti-piece{position:absolute;top:-20px;width:10px;height:18px;animation:fall 1.8s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+
+.hidden{display:none!important}
+.results{padding:24px}
+.score{font-size:3rem;font-weight:950;color:var(--primary)}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.metric{padding:14px;border:1px solid var(--line);background:#fff;border-radius:15px}
+.metric b{display:block;font-size:1.35rem}
+.achievement{display:inline-flex;align-items:center;gap:8px;margin:5px;padding:9px 12px;border-radius:999px;background:#fff7ed;border:1px solid #fed7aa;font-weight:800}
+table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#f8fafc}
+.note{margin-top:14px;padding:13px;background:#fff7ed;border-radius:14px}
+
+@media(max-width:760px){
+ .student,.levels,.metrics,.hud{grid-template-columns:1fr 1fr}
+ .mission{grid-template-columns:1fr}.mascot{width:72px;height:72px}
+ .controls{flex-direction:column}.controls .btn,.action-group{width:100%}.action-group .btn{flex:1}
+}
+@media(max-width:480px){.student,.levels,.metrics,.hud{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="top-progress">
+ <div class="inner"><div class="progress-row">
+  <div class="avatar-mini" id="avatarMini">🦊</div>
+  <div class="progress-track"><div id="topBar" class="progress-fill"></div></div>
+  <div class="xp-label"><span id="xpText">0 XP</span></div>
+ </div></div>
+</div>
+
+<header>
+<div class="wrap">
+ <h1>Misión Lenguajes</h1>
+ <p class="subtitle">Examen diagnóstico para estudiantes que terminaron 4.º y se preparan para 5.º. Cada respuesta suma experiencia, construye una racha y desbloquea misiones.</p>
+ <div class="pills"><span class="pill">Nueva Escuela Mexicana · Fase 4</span><span class="pill">100 retos</span><span class="pill">3 niveles</span><span class="pill">Reporte final interactivo</span></div>
+</div>
+</header>
+
+<main class="wrap">
+<section id="intro" class="panel glass">
+ <div class="mission">
+  <div>
+   <h2 id="typeIntro">Tu misión comienza aquí…</h2>
+   <p>El objetivo es descubrir qué aprendizajes ya dominas y cuáles conviene practicar antes de iniciar 5.º. Equivocarse también forma parte de la misión.</p>
+  </div>
+  <div class="mascot" id="introMascot">🦊</div>
+ </div>
+ <div class="student">
+  <input id="name" placeholder="Nombre del alumno o alumna">
+  <input value="Ingreso a 5.º" aria-label="Grado">
+  <input id="date" type="date">
+ </div>
+ <div class="levels">
+  <div><b>🌱 Nivel 1 · Base</b>Preguntas 1–35. Comprensión, vocabulario, gramática y ortografía.</div>
+  <div><b>🚀 Nivel 2 · Explorador</b>Preguntas 36–70. Inferencias, fuentes, poesía y producción.</div>
+  <div><b>🏆 Nivel 3 · Reto</b>Preguntas 71–100. Argumentación, investigación y pensamiento crítico.</div>
+ </div>
+ <button class="btn primary glow" style="margin-top:16px" onclick="startExam(event)">Comenzar misión</button>
+</section>
+
+<section id="exam" class="hidden">
+ <div class="hud">
+  <div class="hud-card"><span>Progreso</span><b id="progressText">1/100</b></div>
+  <div class="hud-card"><span>XP</span><b id="xpHud">0</b></div>
+  <div class="hud-card streak-card" id="streakCard"><span>Racha 🔥</span><b id="streakText">0</b></div>
+  <div class="hud-card"><span>Insignias</span><b id="badgeCount">0</b></div>
+ </div>
+
+ <article id="questionCard" class="question-card glass">
+  <div class="mission">
+   <div>
+    <div class="badges"><span id="levelBadge" class="badge level"></span><span id="areaBadge" class="badge"></span></div>
+    <div id="qnum" class="qnum"></div>
+   </div>
+   <div class="mascot" id="mascot">🦊</div>
+  </div>
+
+  <div id="question" class="question"></div>
+
+  <div class="action-group" style="margin-bottom:12px">
+   <button class="btn audio-btn" onclick="speakQuestion(event)">🔊 Escuchar pregunta</button>
+   <button class="btn hint-btn" onclick="showHint(event)">💡 Necesito una pista</button>
+  </div>
+
+  <div id="hintBox" class="hint-box"></div>
+  <div id="options" class="options"></div>
+  <div id="feedback" class="feedback"></div>
+
+  <div class="controls">
+   <button id="prevBtn" class="btn secondary" onclick="prevQuestion(event)">← Anterior</button>
+   <button id="checkBtn" class="btn primary pulseTarget" onclick="checkAnswer(event)">Comprobar</button>
+   <button id="nextBtn" class="btn primary hidden" onclick="nextQuestion(event)">Siguiente →</button>
+  </div>
+ </article>
+</section>
+
+<section id="results" class="results glass hidden">
+ <h2>🎓 Reporte final de misión</h2>
+ <div id="who"></div>
+ <div id="score" class="score"></div>
+ <p id="interp"></p>
+ <div id="achievements"></div>
+ <div id="metrics" class="metrics"></div>
+ <div class="note"><b>Lectura pedagógica:</b> el resultado global orienta, pero lo más valioso es observar las áreas con menor desempeño para planear refuerzo.</div>
+ <div style="overflow:auto"><table><thead><tr><th>Área</th><th>Aciertos</th><th>Total</th><th>Desempeño</th></tr></thead><tbody id="report"></tbody></table></div>
+ <div class="controls">
+  <button class="btn primary" onclick="retryErrors(event)">🔁 Practicar sólo errores</button>
+  <button class="btn secondary" onclick="restartExam(event)">↻ Reiniciar examen completo</button>
+ </div>
+</section>
+</main>
+
+<div id="toast" class="toast"></div>
+<div id="particles" class="particles"></div>
+<div id="confetti" class="confetti"></div>
+<div id="overlay" class="overlay">
+ <div class="level-modal">
+  <div class="big" id="levelEmoji">🚀</div>
+  <h2 id="levelTitle">¡Nivel desbloqueado!</h2>
+  <p id="levelMessage"></p>
+  <button class="btn primary glow" onclick="closeLevel(event)">Continuar misión</button>
+ </div>
+</div>
+
+<script>
+const QUESTIONS=[{"level": "Básico", "area": "Comprensión literal", "q": "Lee: “Elena llevó semillas al huerto escolar.” ¿Qué llevó Elena?", "opts": ["libros", "juguetes", "semillas", "pinturas"], "ans": 2, "explanation": "El texto dice de forma explícita que llevó semillas."}, {"level": "Básico", "area": "Comprensión literal", "q": "“Tomás cerró la ventana porque entraba mucho viento.” ¿Qué cerró Tomás?", "opts": ["la puerta", "la mochila", "el cuaderno", "la ventana"], "ans": 3, "explanation": "El texto menciona la ventana."}, {"level": "Básico", "area": "Idea principal", "q": "“Los delfines son mamíferos marinos. Respiran aire y alimentan a sus crías con leche.” ¿De qué trata principalmente?", "opts": ["de los delfines", "de los peces", "de la playa", "de los barcos"], "ans": 0, "explanation": "Todas las ideas se refieren a los delfines."}, {"level": "Básico", "area": "Secuencia", "q": "¿Qué sucede primero al preparar una limonada?", "opts": ["lavar el vaso al final", "servirla", "beberla", "exprimir los limones"], "ans": 3, "explanation": "Primero se obtiene el jugo de los limones."}, {"level": "Básico", "area": "Vocabulario", "q": "¿Cuál palabra significa casi lo mismo que “rápido”?", "opts": ["lento", "pesado", "veloz", "pequeño"], "ans": 2, "explanation": "Veloz es sinónimo de rápido."}, {"level": "Básico", "area": "Vocabulario", "q": "¿Cuál palabra significa lo contrario de “oscuro”?", "opts": ["noche", "negro", "claro", "sombra"], "ans": 2, "explanation": "Claro es antónimo de oscuro."}, {"level": "Básico", "area": "Sustantivos", "q": "¿Cuál palabra es un sustantivo?", "opts": ["correr", "rápido", "azul", "mesa"], "ans": 3, "explanation": "Mesa nombra un objeto."}, {"level": "Básico", "area": "Verbos", "q": "¿Cuál palabra expresa una acción?", "opts": ["salta", "verde", "pelota", "alto"], "ans": 0, "explanation": "Salta es un verbo."}, {"level": "Básico", "area": "Adjetivos", "q": "¿Cuál palabra describe a un sustantivo?", "opts": ["bonita", "escuela", "canta", "niña"], "ans": 0, "explanation": "Bonita expresa una característica."}, {"level": "Básico", "area": "Género y número", "q": "¿Cuál es el plural de “flor”?", "opts": ["flors", "flores", "florés", "flor"], "ans": 1, "explanation": "El plural correcto es flores."}, {"level": "Básico", "area": "Género y número", "q": "¿Cuál oración está en plural?", "opts": ["Los perros ladran.", "El perro ladra.", "La perra ladra.", "Un perro corre."], "ans": 0, "explanation": "Los perros ladran está en plural."}, {"level": "Básico", "area": "Mayúsculas", "q": "¿Cuál oración está escrita correctamente?", "opts": ["mi Primo vive en Oaxaca.", "Mi primo vive en Oaxaca.", "Mi primo vive en oaxaca.", "mi primo vive en Oaxaca."], "ans": 1, "explanation": "El inicio y los nombres propios llevan mayúscula."}, {"level": "Básico", "area": "Punto", "q": "¿Qué signo debe cerrar una afirmación?", "opts": ["¡", ".", "¿", ","], "ans": 1, "explanation": "Las afirmaciones terminan normalmente con punto."}, {"level": "Básico", "area": "Pregunta", "q": "¿Cuál está escrita correctamente?", "opts": ["¿Dónde vives?", "Dónde vives?", "Dónde vives.", "¿Dónde vives!"], "ans": 0, "explanation": "Las preguntas llevan signos de interrogación."}, {"level": "Básico", "area": "Admiración", "q": "¿Cuál expresa sorpresa correctamente?", "opts": ["Qué enorme árbol?", "Qué enorme árbol.", "¿Qué enorme árbol?", "¡Qué enorme árbol!"], "ans": 3, "explanation": "La admiración se marca con ¡ !."}, {"level": "Básico", "area": "Coma", "q": "¿Cuál opción usa bien la coma en una enumeración?", "opts": ["Compré pan leche, fruta y, queso.", "Compré, pan leche fruta y queso.", "Compré pan leche fruta y queso.", "Compré pan, leche, fruta y queso."], "ans": 3, "explanation": "Las comas separan elementos de una enumeración."}, {"level": "Básico", "area": "Tipos de texto", "q": "¿Qué texto usarías para explicar cómo hacer una ensalada?", "opts": ["noticia", "poema", "receta", "cuento"], "ans": 2, "explanation": "La receta presenta ingredientes y pasos."}, {"level": "Básico", "area": "Tipos de texto", "q": "¿Qué texto informa sobre un hecho reciente?", "opts": ["receta", "noticia", "poema", "adivinanza"], "ans": 1, "explanation": "La noticia informa sobre hechos."}, {"level": "Básico", "area": "Tipos de texto", "q": "¿Qué texto suele tener personajes, inicio, desarrollo y final?", "opts": ["instructivo", "cuento", "lista", "anuncio"], "ans": 1, "explanation": "El cuento organiza una narración."}, {"level": "Básico", "area": "Tipos de texto", "q": "¿Cuál es el propósito principal de una invitación?", "opts": ["dar una receta", "contar una aventura", "pedir que alguien asista a un evento", "explicar una palabra"], "ans": 2, "explanation": "Una invitación convoca a un evento."}, {"level": "Básico", "area": "Oración", "q": "¿Cuál oración tiene sentido completo?", "opts": ["Dibuja niña.", "La niña dibuja un árbol.", "La árbol dibuja.", "Árbol la un."], "ans": 1, "explanation": "La primera expresa una idea completa."}, {"level": "Básico", "area": "Sujeto", "q": "En “Carlos juega futbol”, ¿quién realiza la acción?", "opts": ["Carlos", "juega", "nadie", "futbol"], "ans": 0, "explanation": "Carlos es quien realiza la acción."}, {"level": "Básico", "area": "Predicado", "q": "En “Marta prepara sopa”, ¿qué hace Marta?", "opts": ["sopa", "la mesa", "Marta", "prepara sopa"], "ans": 3, "explanation": "Prepara sopa expresa lo que hace el sujeto."}, {"level": "Básico", "area": "Separación de palabras", "q": "¿Cuál está escrita correctamente?", "opts": ["Micasaesgrande.", "Mi casa es grande.", "Mi casaes grande.", "Micasa es grande."], "ans": 1, "explanation": "Las palabras deben separarse correctamente."}, {"level": "Básico", "area": "Sílabas", "q": "¿Cuántas sílabas tiene “mariposa”?", "opts": ["5", "4", "3", "2"], "ans": 1, "explanation": "Ma-ri-po-sa tiene cuatro sílabas."}, {"level": "Básico", "area": "Sílabas", "q": "¿Cuál es la separación correcta de “camino”?", "opts": ["ca-mi-no", "ca-min-o", "cam-ino", "cami-no"], "ans": 0, "explanation": "La división correcta es ca-mi-no."}, {"level": "Básico", "area": "Orden alfabético", "q": "¿Cuál palabra iría primero alfabéticamente?", "opts": ["dado", "mesa", "casa", "barco"], "ans": 3, "explanation": "Barco empieza con b, antes que c, d y m."}, {"level": "Básico", "area": "Diccionario", "q": "¿Para qué sirve principalmente un diccionario?", "opts": ["dibujar mapas", "resolver multiplicaciones", "medir objetos", "buscar significados y escritura de palabras"], "ans": 3, "explanation": "El diccionario ayuda a consultar palabras."}, {"level": "Básico", "area": "Sinónimos", "q": "¿Cuál es sinónimo de “contento”?", "opts": ["triste", "feliz", "cansado", "enojado"], "ans": 1, "explanation": "Feliz tiene un significado semejante."}, {"level": "Básico", "area": "Antónimos", "q": "¿Cuál es antónimo de “subir”?", "opts": ["correr", "bajar", "caminar", "entrar"], "ans": 1, "explanation": "Bajar expresa la acción contraria."}, {"level": "Básico", "area": "Descripción", "q": "¿Cuál oración describe mejor una casa?", "opts": ["La casa está.", "Vive allí.", "Casa grande.", "La casa tiene paredes blancas y techo rojo."], "ans": 3, "explanation": "Incluye varias características."}, {"level": "Básico", "area": "Narración", "q": "¿Cuál palabra indica que algo ocurrió después?", "opts": ["primero", "ayer", "luego", "antes"], "ans": 2, "explanation": "Luego marca continuidad temporal."}, {"level": "Básico", "area": "Conectores", "q": "Completa: “Estudié mucho, ___ resolví el ejercicio.”", "opts": ["mientras", "aunque", "pero", "por eso"], "ans": 3, "explanation": "Por eso expresa consecuencia."}, {"level": "Básico", "area": "Ortografía", "q": "¿Cuál palabra está escrita correctamente?", "opts": ["jirafa", "jirrafa", "girafa", "girrafa"], "ans": 0, "explanation": "La escritura convencional es jirafa."}, {"level": "Básico", "area": "Ortografía", "q": "¿Cuál palabra está escrita correctamente?", "opts": ["keso", "kezo", "qeso", "queso"], "ans": 3, "explanation": "Queso se escribe con qu."}, {"level": "Intermedio", "area": "Comprensión inferencial", "q": "“Paula salió con paraguas y botas. Al volver dejó ropa mojada junto a la puerta.” ¿Qué podemos inferir?", "opts": ["nevó todo el día", "había llovido", "hacía mucho calor", "fue a la playa"], "ans": 1, "explanation": "Las pistas permiten inferir lluvia."}, {"level": "Intermedio", "area": "Comprensión inferencial", "q": "“El salón quedó en silencio cuando la directora entró con los diplomas.” ¿Qué probablemente iba a ocurrir?", "opts": ["un recreo", "un partido", "una entrega de reconocimientos", "una comida"], "ans": 2, "explanation": "Los diplomas sugieren una ceremonia."}, {"level": "Intermedio", "area": "Causa y efecto", "q": "“El río aumentó su nivel porque llovió toda la noche.” ¿Cuál es la causa?", "opts": ["el río aumentó", "salió el sol", "llovió toda la noche", "el río era largo"], "ans": 2, "explanation": "La lluvia provoca el aumento."}, {"level": "Intermedio", "area": "Causa y efecto", "q": "“Ana practicó lectura diariamente; por eso ahora lee con más fluidez.” ¿Cuál es el efecto?", "opts": ["compró un libro", "escribió un cuento", "practicó diariamente", "lee con más fluidez"], "ans": 3, "explanation": "La fluidez es consecuencia de la práctica."}, {"level": "Intermedio", "area": "Idea principal", "q": "“Las abejas transportan polen entre flores. Gracias a ello muchas plantas producen frutos y semillas.” ¿Cuál es la idea principal?", "opts": ["todas las plantas necesitan miel", "las abejas ayudan a la reproducción de plantas", "las abejas fabrican semillas", "el polen es una fruta"], "ans": 1, "explanation": "Resume la relación principal explicada."}, {"level": "Intermedio", "area": "Título", "q": "¿Cuál sería el mejor título para un texto sobre cómo ahorrar agua en casa?", "opts": ["Mi comida favorita", "Cuidemos el agua", "Animales del bosque", "La historia del reloj"], "ans": 1, "explanation": "El título debe resumir el tema."}, {"level": "Intermedio", "area": "Resumen", "q": "Un buen resumen debe…", "opts": ["copiar todo el texto", "ser más largo que el original", "agregar información inventada", "conservar las ideas principales"], "ans": 3, "explanation": "Resume lo esencial sin añadir datos."}, {"level": "Intermedio", "area": "Información explícita", "q": "Si un cartel dice “Reunión: martes 10, 5:00 p. m., biblioteca”, ¿qué dato indica dónde será?", "opts": ["biblioteca", "reunión", "5:00 p. m.", "martes 10"], "ans": 0, "explanation": "Biblioteca indica el lugar."}, {"level": "Intermedio", "area": "Información relevante", "q": "Para investigar sobre jaguares, ¿qué dato es más útil?", "opts": ["el precio de un cuaderno", "el color favorito del lector", "la hora del recreo", "su hábitat y alimentación"], "ans": 3, "explanation": "Hábitat y alimentación son datos pertinentes."}, {"level": "Intermedio", "area": "Fuentes", "q": "¿Cuál fuente es más adecuada para investigar un tema escolar?", "opts": ["un mensaje reenviado sin fuente", "un rumor sin autor", "una opinión sin evidencia", "un libro informativo o sitio institucional"], "ans": 3, "explanation": "Las fuentes identificables y confiables son mejores."}, {"level": "Intermedio", "area": "Noticia", "q": "¿Qué elemento no debe faltar en una noticia?", "opts": ["un hecho que se informa", "un personaje fantástico obligatorio", "una rima", "una receta"], "ans": 0, "explanation": "La noticia informa un hecho."}, {"level": "Intermedio", "area": "Entrevista", "q": "¿Cuál pregunta es abierta?", "opts": ["¿Cómo cambió su comunidad con el tiempo?", "¿Tiene 40 años?", "¿Sí o no?", "¿Vive aquí?"], "ans": 0, "explanation": "Permite una respuesta amplia."}, {"level": "Intermedio", "area": "Entrevista", "q": "¿Qué conviene hacer durante una entrevista?", "opts": ["inventar respuestas", "escuchar y hacer preguntas de seguimiento", "interrumpir constantemente", "cambiar de tema sin motivo"], "ans": 1, "explanation": "Escuchar ayuda a recuperar información."}, {"level": "Intermedio", "area": "Carta", "q": "¿Cuál elemento es propio de una carta?", "opts": ["mapa conceptual obligatorio", "saludo al destinatario", "tabla de multiplicar", "ingredientes"], "ans": 1, "explanation": "Una carta suele incluir saludo."}, {"level": "Intermedio", "area": "Instructivo", "q": "¿Qué característica debe tener un instructivo?", "opts": ["rimas obligatorias", "personajes fantásticos", "pasos claros y ordenados", "un final sorpresivo"], "ans": 2, "explanation": "Su función es guiar acciones."}, {"level": "Intermedio", "area": "Secuencia", "q": "¿Cuál orden es lógico para sembrar una semilla?", "opts": ["hacer un hoyo, colocar la semilla, cubrir y regar", "regar, comer, dormir, sembrar", "cortar, lavar, sembrar, leer", "cubrir, sembrar, sacar"], "ans": 0, "explanation": "Sigue el proceso natural."}, {"level": "Intermedio", "area": "Poema", "q": "¿Qué recurso puede aparecer en un poema?", "opts": ["tabla de datos obligatoria", "ingredientes", "instrucciones numeradas siempre", "rima"], "ans": 3, "explanation": "La rima es frecuente en poesía."}, {"level": "Intermedio", "area": "Rima", "q": "¿Qué palabra rima con “canción”?", "opts": ["mesa", "corazón", "árbol", "camino"], "ans": 1, "explanation": "Canción y corazón terminan en -ón."}, {"level": "Intermedio", "area": "Lenguaje figurado", "q": "En “Tus ojos son dos luceros”, se comparan los ojos con…", "opts": ["montañas", "árboles", "mares", "luceros"], "ans": 3, "explanation": "La expresión usa una comparación figurada."}, {"level": "Intermedio", "area": "Refrán", "q": "¿Qué suele transmitir un refrán?", "opts": ["una enseñanza popular", "una fecha histórica obligatoria", "una noticia reciente", "una receta exacta"], "ans": 0, "explanation": "Los refranes condensan saber popular."}, {"level": "Intermedio", "area": "Diálogo", "q": "¿Qué signo puede utilizarse para indicar la intervención de un personaje?", "opts": ["raya de diálogo", "asterisco obligatorio", "signo de porcentaje", "diagonal"], "ans": 0, "explanation": "La raya introduce intervenciones."}, {"level": "Intermedio", "area": "Conectores", "q": "Completa: “Quería salir, ___ estaba lloviendo.”", "opts": ["después", "porque", "pero", "por eso"], "ans": 2, "explanation": "Pero expresa contraste."}, {"level": "Intermedio", "area": "Conectores", "q": "Completa: “Primero investigamos; ___ escribimos el reporte.”", "opts": ["después", "aunque", "sin embargo", "porque"], "ans": 0, "explanation": "Después indica secuencia."}, {"level": "Intermedio", "area": "Pronombres", "q": "¿Qué palabra puede sustituir a “Mariana” para evitar repetir su nombre?", "opts": ["ustedes", "nosotros", "ellos", "ella"], "ans": 3, "explanation": "Ella sustituye a un nombre femenino singular."}, {"level": "Intermedio", "area": "Tiempos verbales", "q": "¿Cuál oración está en pasado?", "opts": ["Mañana jugaremos.", "Ayer jugamos en el patio.", "Hoy jugamos.", "Jugaremos pronto."], "ans": 1, "explanation": "Ayer jugamos refiere una acción pasada."}, {"level": "Intermedio", "area": "Tiempos verbales", "q": "¿Cuál oración está en futuro?", "opts": ["Vamos ahora.", "Visitamos ayer.", "Mañana visitaremos el museo.", "Ayer fuimos al museo."], "ans": 2, "explanation": "Mañana visitaremos expresa futuro."}, {"level": "Intermedio", "area": "Acentuación", "q": "¿Cuál palabra lleva tilde?", "opts": ["libro", "mesa", "camión", "ventana"], "ans": 2, "explanation": "Camión lleva tilde."}, {"level": "Intermedio", "area": "Acentuación", "q": "¿Cuál palabra está escrita correctamente?", "opts": ["árbol", "árbòl", "arbol", "arbol´"], "ans": 0, "explanation": "Árbol lleva tilde en la á."}, {"level": "Intermedio", "area": "Puntuación", "q": "¿Cuál opción usa correctamente dos puntos?", "opts": ["Necesito tres: cosas lápiz, goma y regla.", "Necesito: tres cosas lápiz goma y regla.", "Necesito tres cosas lápiz: goma y regla.", "Necesito tres cosas: lápiz, goma y regla."], "ans": 3, "explanation": "Los dos puntos introducen la enumeración."}, {"level": "Intermedio", "area": "Párrafo", "q": "¿Qué característica tiene un párrafo?", "opts": ["contiene una sola letra", "siempre es una pregunta", "no usa puntos", "agrupa oraciones sobre una idea relacionada"], "ans": 3, "explanation": "Un párrafo desarrolla una idea."}, {"level": "Intermedio", "area": "Descripción", "q": "¿Cuál detalle es objetivo?", "opts": ["La mesa es la más bonita del mundo.", "La mesa parece triste.", "La mesa mide un metro de largo.", "La mesa es maravillosa."], "ans": 2, "explanation": "Una medida es verificable."}, {"level": "Intermedio", "area": "Opinión y hecho", "q": "¿Cuál es una opinión?", "opts": ["La película fue muy divertida.", "La película dura 90 minutos.", "La película se estrenó el viernes.", "La función empezó a las seis."], "ans": 0, "explanation": "Divertida expresa una valoración."}, {"level": "Intermedio", "area": "Opinión y hecho", "q": "¿Cuál es un hecho verificable?", "opts": ["El libro es aburrido.", "El libro tiene 120 páginas.", "El autor escribe mejor que todos.", "La portada es la más bonita."], "ans": 1, "explanation": "El número de páginas puede comprobarse."}, {"level": "Intermedio", "area": "Coherencia", "q": "¿Cuál oración continúa mejor? “El cielo se oscureció y comenzó a tronar…”", "opts": ["Entonces buscamos un lugar para resguardarnos.", "Por eso encendimos el ventilador.", "Entonces dejamos el paraguas en casa.", "Luego fuimos a nadar."], "ans": 0, "explanation": "Es coherente con una tormenta."}, {"level": "Intermedio", "area": "Revisión de textos", "q": "Al revisar un escrito conviene comprobar…", "opts": ["sólo que sea largo", "que todas las oraciones sean iguales", "claridad, ortografía y puntuación", "que tenga palabras difíciles"], "ans": 2, "explanation": "Revisar mejora la claridad y corrección."}, {"level": "Reto", "area": "Comprensión inferencial", "q": "“Aunque Sofía dijo que no tenía frío, se frotaba las manos y temblaba.” ¿Qué sugiere el texto?", "opts": ["estaba nadando", "estaba cocinando", "probablemente sí tenía frío", "tenía sueño"], "ans": 2, "explanation": "Sus acciones contradicen lo que dice."}, {"level": "Reto", "area": "Inferencia", "q": "“El público permaneció de pie y aplaudió durante varios minutos.” ¿Qué puede inferirse?", "opts": ["la presentación gustó mucho", "la función aún no empezaba", "nadie vio la presentación", "el público estaba dormido"], "ans": 0, "explanation": "El aplauso prolongado expresa aprobación."}, {"level": "Reto", "area": "Propósito comunicativo", "q": "Un texto que explica por qué es importante reciclar busca principalmente…", "opts": ["dar una receta", "describir un personaje", "informar y convencer", "contar un cuento fantástico"], "ans": 2, "explanation": "Combina explicación con intención persuasiva."}, {"level": "Reto", "area": "Argumentación", "q": "¿Cuál frase contiene una razón que apoya una opinión?", "opts": ["El parque está junto a la escuela.", "El parque tiene árboles.", "Debemos cuidar el parque porque es un espacio que usamos todos.", "Ayer fui al parque."], "ans": 2, "explanation": "Incluye una postura y una razón."}, {"level": "Reto", "area": "Fuentes", "q": "Dos páginas dan datos distintos sobre un animal. ¿Qué conviene hacer?", "opts": ["comparar fuentes confiables y revisar fecha y autor", "elegir la primera", "usar la que tenga más dibujos", "combinar datos sin revisar"], "ans": 0, "explanation": "Contrastar fuentes mejora la confiabilidad."}, {"level": "Reto", "area": "Resumen", "q": "¿Cuál enunciado resume mejor? “Los bosques almacenan agua, protegen el suelo y sirven de hogar a muchas especies.”", "opts": ["Algunos animales viven lejos.", "Los bosques cumplen funciones importantes para el ambiente.", "Los bosques tienen árboles altos.", "En los bosques llueve."], "ans": 1, "explanation": "Integra las ideas principales."}, {"level": "Reto", "area": "Secuencia causal", "q": "“Se tapó la coladera, llovió intensamente y la calle se inundó.” ¿Qué relación existe?", "opts": ["los hechos se relacionan como causas y consecuencia", "todos son opiniones", "son instrucciones", "son hechos sin relación"], "ans": 0, "explanation": "La obstrucción y la lluvia explican la inundación."}, {"level": "Reto", "area": "Información implícita", "q": "“Raúl guardó silencio cuando preguntaron quién rompió el florero y evitó mirar a los demás.” ¿Qué se puede inferir con cautela?", "opts": ["el florero nunca se rompió", "seguro fue culpable", "podría saber algo sobre lo ocurrido", "no estaba presente"], "ans": 2, "explanation": "Las pistas sugieren conocimiento, pero no prueban culpabilidad."}, {"level": "Reto", "area": "Lenguaje figurado", "q": "¿Qué significa “La ciudad despertó con el primer rayo de sol”?", "opts": ["el sol hizo ruido", "la actividad de la ciudad comenzó por la mañana", "la ciudad es una persona real", "todos durmieron en la calle"], "ans": 1, "explanation": "Es una personificación."}, {"level": "Reto", "area": "Metáfora", "q": "En “Su voz era miel”, la expresión sugiere que la voz era…", "opts": ["líquida", "agradable y dulce", "amarilla", "pegajosa literalmente"], "ans": 1, "explanation": "Miel funciona como metáfora de dulzura."}, {"level": "Reto", "area": "Personificación", "q": "¿Cuál oración contiene personificación?", "opts": ["Los árboles eran altos.", "El viento soplaba a 20 km/h.", "Había nubes grises.", "El viento susurraba entre los árboles."], "ans": 3, "explanation": "Se atribuye al viento una acción humana."}, {"level": "Reto", "area": "Comparación", "q": "¿Cuál oración usa una comparación?", "opts": ["Corre muy temprano.", "Corre todos los días.", "Corre como el viento.", "Corre en el patio."], "ans": 2, "explanation": "Como introduce una comparación explícita."}, {"level": "Reto", "area": "Poema", "q": "¿Qué efecto puede producir la repetición de palabras en un poema?", "opts": ["convertirlo en noticia", "hacerlo un instructivo", "dar ritmo y énfasis", "eliminar el significado"], "ans": 2, "explanation": "La repetición puede reforzar ritmo e ideas."}, {"level": "Reto", "area": "Texto dramático", "q": "¿Qué elemento es común en un texto teatral?", "opts": ["diálogos y acotaciones", "índice alfabético obligatorio", "gráficas siempre", "ingredientes"], "ans": 0, "explanation": "El teatro organiza parlamentos y acciones."}, {"level": "Reto", "area": "Acotación", "q": "En un guion teatral, una acotación indica…", "opts": ["el precio de la obra", "la respuesta correcta", "acciones, movimientos o tono de los personajes", "la definición de cada palabra"], "ans": 2, "explanation": "Las acotaciones orientan la representación."}, {"level": "Reto", "area": "Noticia", "q": "¿Cuál encabezado es más informativo?", "opts": ["Algo ocurrió ayer", "Gran sorpresa", "Inauguran biblioteca comunitaria con 2,000 libros", "¡No vas a creer lo que pasó!"], "ans": 2, "explanation": "Es específico y aporta información."}, {"level": "Reto", "area": "Publicidad", "q": "¿Qué frase busca persuadir?", "opts": ["Prueba nuestro nuevo jugo natural.", "El jugo se produjo el lunes.", "El envase contiene 500 ml.", "La botella es de vidrio."], "ans": 0, "explanation": "Invita al receptor a actuar."}, {"level": "Reto", "area": "Hecho y opinión", "q": "“El parque tiene 25 árboles” es…", "opts": ["una metáfora", "una instrucción", "una opinión", "un hecho verificable"], "ans": 3, "explanation": "Puede comprobarse contando."}, {"level": "Reto", "area": "Hecho y opinión", "q": "“Ese parque es el más bonito de la ciudad” es…", "opts": ["una instrucción", "una opinión", "una definición", "un hecho exacto"], "ans": 1, "explanation": "Depende de una valoración."}, {"level": "Reto", "area": "Organización de información", "q": "¿Qué recurso ayuda a comparar características de dos animales?", "opts": ["una rima", "un saludo", "una carta personal", "una tabla comparativa"], "ans": 3, "explanation": "La tabla facilita comparar datos."}, {"level": "Reto", "area": "Organización de información", "q": "¿Qué recurso ayuda a mostrar ideas principales y relaciones entre ellas?", "opts": ["una receta", "un mapa conceptual", "un diálogo teatral", "una invitación"], "ans": 1, "explanation": "Un mapa conceptual organiza conceptos."}, {"level": "Reto", "area": "Investigación", "q": "Antes de escribir un reporte conviene…", "opts": ["definir el tema, buscar información y organizarla", "copiar una sola fuente", "inventar datos", "escribir sin revisar"], "ans": 0, "explanation": "Planificar mejora la calidad del reporte."}, {"level": "Reto", "area": "Paráfrasis", "q": "Parafrasear significa…", "opts": ["eliminar la idea principal", "explicar una idea con palabras propias sin cambiar su sentido", "copiar exactamente", "hacer el texto más confuso"], "ans": 1, "explanation": "La paráfrasis reformula conservando el significado."}, {"level": "Reto", "area": "Citas y fuentes", "q": "¿Por qué conviene mencionar de dónde se obtuvo una información?", "opts": ["para hacer más largo el texto", "para cambiar la información", "para evitar leer", "para reconocer la fuente y permitir verificarla"], "ans": 3, "explanation": "Citar fuentes respalda lo escrito."}, {"level": "Reto", "area": "Diversidad lingüística", "q": "¿Qué actitud es adecuada ante distintas formas de hablar español?", "opts": ["burlarse de palabras distintas", "prohibir expresiones regionales", "decir que sólo una forma es válida", "reconocer que existen variantes y respetarlas"], "ans": 3, "explanation": "Las variantes forman parte de la diversidad lingüística."}, {"level": "Reto", "area": "Lenguas indígenas", "q": "Las lenguas indígenas de México son…", "opts": ["formas que deben desaparecer", "lenguas sin valor actual", "parte del patrimonio lingüístico y cultural", "errores del español"], "ans": 2, "explanation": "Son parte fundamental de la diversidad del país."}, {"level": "Reto", "area": "Registro lingüístico", "q": "¿En cuál situación conviene usar un lenguaje más formal?", "opts": ["al hablar con un amigo en recreo", "al jugar en casa", "al escribir una solicitud a la dirección escolar", "al contar un chiste entre compañeros"], "ans": 2, "explanation": "El destinatario y propósito determinan el registro."}, {"level": "Reto", "area": "Coherencia textual", "q": "¿Qué opción organiza mejor un párrafo?", "opts": ["idea principal, detalles relacionados y cierre", "palabras al azar", "preguntas sin tema común", "frases sin relación"], "ans": 0, "explanation": "La coherencia requiere relación entre ideas."}, {"level": "Reto", "area": "Revisión crítica", "q": "Un mensaje en redes afirma algo sorprendente pero no cita fuente. ¿Qué conviene hacer?", "opts": ["agregar datos inventados", "verificarlo antes de creer o compartir", "creerlo porque tiene muchas reacciones", "compartirlo de inmediato"], "ans": 1, "explanation": "Verificar información evita difundir errores."}, {"level": "Reto", "area": "Producción escrita", "q": "¿Cuál estrategia mejora más un texto antes de entregarlo?", "opts": ["hacerlo más largo sin revisar", "cambiar todas las palabras por otras difíciles", "releer, corregir y pedir retroalimentación", "copiar otro texto"], "ans": 2, "explanation": "La revisión y retroalimentación permiten mejorar."}];
+let current=0, selected=null, answers=Array(QUESTIONS.length).fill(null), checked=Array(QUESTIONS.length).fill(false);
+let xp=0, streak=0, bestStreak=0, badges=[], secondChance=Array(QUESTIONS.length).fill(false), hintLevel=Array(QUESTIONS.length).fill(0);
+let retryMode=false, retryList=[];
+
+document.getElementById("date").value=new Date().toISOString().slice(0,10);
+
+function ripple(e){
+ const el=e.currentTarget;if(!el)return;
+ const r=document.createElement("span");r.className="ripple";
+ const rect=el.getBoundingClientRect(),size=Math.max(rect.width,rect.height);
+ r.style.width=r.style.height=size+"px";
+ r.style.left=(e.clientX-rect.left-size/2)+"px";r.style.top=(e.clientY-rect.top-size/2)+"px";
+ el.appendChild(r);setTimeout(()=>r.remove(),600);
+}
+document.addEventListener("click",e=>{const b=e.target.closest(".btn,.option");if(b){const ev={currentTarget:b,clientX:e.clientX,clientY:e.clientY};ripple(ev)}});
+
+function startExam(e){
+ document.getElementById("intro").classList.add("hidden");
+ document.getElementById("exam").classList.remove("hidden");
+ toast(`¡Vamos, ${studentName()}! Empieza tu misión 🌟`);
+ render();
+}
+function studentName(){return document.getElementById("name").value.trim()||"explorador/a"}
+
+function render(){
+ const q=QUESTIONS[current]; selected=answers[current];
+ document.getElementById("progressText").textContent=`${current+1}/100`;
+ document.getElementById("topBar").style.width=`${current+1}%`;
+ document.getElementById("xpText").textContent=`${xp} XP`;document.getElementById("xpHud").textContent=xp;
+ document.getElementById("streakText").textContent=streak;document.getElementById("badgeCount").textContent=badges.length;
+ document.getElementById("streakCard").classList.toggle("active",streak>=3);
+ document.getElementById("levelBadge").textContent=q.level;document.getElementById("areaBadge").textContent=q.area;
+ document.getElementById("qnum").textContent=`Reactivo ${current+1}`;
+ document.getElementById("question").innerHTML=highlightText(q.q);
+ const opts=document.getElementById("options");opts.innerHTML="";
+ q.opts.forEach((o,i)=>{
+   const b=document.createElement("button");b.className="option";b.innerHTML=`<b>${String.fromCharCode(65+i)}.</b> ${o}`;
+   if(selected===i)b.classList.add("selected");
+   if(checked[current]){
+      if(i===q.ans)b.classList.add("correct");
+      else if(selected===i)b.classList.add("wrong");
+   }
+   b.onclick=(ev)=>pick(i,ev);opts.appendChild(b);
+ });
+ document.getElementById("prevBtn").disabled=current===0;
+ document.getElementById("checkBtn").classList.toggle("hidden",checked[current]);
+ document.getElementById("nextBtn").classList.toggle("hidden",!checked[current]);
+ document.getElementById("nextBtn").textContent=current===99?"Ver reporte final":"Siguiente →";
+ const f=document.getElementById("feedback");
+ if(checked[current]){
+   const ok=answers[current]===q.ans;
+   f.className=`feedback show ${ok?"ok":"bad"}`;
+   f.innerHTML=ok?`<span class="icon-anim">✓</span><b>${streakMessage()}</b><br>${q.explanation}`:`<span class="icon-anim">✕</span><b>Buen intento.</b> ${q.explanation}`;
+ }else{f.className="feedback";f.innerHTML=""}
+ const hb=document.getElementById("hintBox");
+ hb.classList.toggle("show",hintLevel[current]>0);
+ hb.innerHTML=hintText(q,hintLevel[current]);
+}
+
+function highlightText(t){
+ return t.replace(/“([^”]+)”/g,'“<span class="word-highlight">$1</span>”');
+}
+function pick(i,e){if(checked[current])return;answers[current]=i;selected=i;visualTap();render()}
+function visualTap(){const card=document.getElementById("questionCard");card.style.transform="scale(.997)";setTimeout(()=>card.style.transform="",100)}
+
+function checkAnswer(e){
+ if(selected===null){toast("Primero elige una respuesta 👆");return}
+ const q=QUESTIONS[current];
+ const correct=selected===q.ans;
+ if(correct){
+   checked[current]=true;xp+=10;streak++;bestStreak=Math.max(bestStreak,streak);
+   mascotReact(true);spawnParticles();sound("ok");
+   milestoneCheck();
+ }else if(!secondChance[current]){
+   secondChance[current]=true;streak=0;mascotReact(false);sound("bad");
+   toast("Casi. Tienes una segunda oportunidad 💪");
+   eliminateOneWrong(q);
+   return;
+ }else{
+   checked[current]=true;streak=0;mascotReact(false);sound("bad");
+ }
+ render();
+}
+
+function eliminateOneWrong(q){
+ const wrongIndices=q.opts.map((_,i)=>i).filter(i=>i!==q.ans&&i!==selected);
+ const idx=wrongIndices[Math.floor(Math.random()*wrongIndices.length)];
+ const buttons=[...document.querySelectorAll(".option")];
+ if(buttons[idx]){buttons[idx].disabled=true;buttons[idx].style.opacity=.35;buttons[idx].style.filter="grayscale(1)"}
+}
+
+function streakMessage(){
+ const n=streak,name=studentName();
+ if(n>=10)return `🔥 ¡Imparable, ${name}! Racha de ${n}.`;
+ if(n>=7)return `🚀 ¡Excelente, ${name}! ${n} seguidas.`;
+ if(n>=5)return `⭐ ¡Gran racha! Ya llevas ${n} correctas.`;
+ if(n>=3)return `🔥 ¡Vas en racha! ${n} correctas seguidas.`;
+ if(n===2)return `✨ Dos seguidas. ¡Sigue así!`;
+ return `🌟 ¡Muy bien, ${name}!`;
+}
+
+function milestoneCheck(){
+ const solved=checked.filter(Boolean).length;
+ const milestones={5:"🌟 Primer impulso",10:"🔥 Racha de misión",20:"🚀 Explorador constante",35:"🌱 Nivel Base completado",50:"⭐ Mitad de la misión",70:"🚀 Nivel Explorador completado",100:"🏆 Misión completa"};
+ if(milestones[solved]&&!badges.includes(milestones[solved])){
+   badges.push(milestones[solved]);confettiBurst(45);toast(`Insignia desbloqueada: ${milestones[solved]}`);
+ }
+ if(solved===35)showLevel("🚀","Nivel 2 desbloqueado","Superaste la base. Ahora llegan inferencias, fuentes y producción.");
+ if(solved===70)showLevel("🏆","Nivel 3 desbloqueado","Entraste al reto final: argumentación, investigación y pensamiento crítico.");
+}
+
+function showLevel(emoji,title,msg){document.getElementById("levelEmoji").textContent=emoji;document.getElementById("levelTitle").textContent=title;document.getElementById("levelMessage").textContent=msg;document.getElementById("overlay").classList.add("show")}
+function closeLevel(e){document.getElementById("overlay").classList.remove("show")}
+
+function mascotReact(ok){
+ const m=document.getElementById("mascot");m.textContent=ok?"😄":"🤔";m.classList.remove("happy","oops");void m.offsetWidth;m.classList.add(ok?"happy":"oops");setTimeout(()=>{m.textContent="🦊";m.classList.remove("happy","oops")},900)
+}
+
+function spawnParticles(){
+ const symbols=["⭐","✨","📚","🔤","💫"];const layer=document.getElementById("particles");
+ for(let i=0;i<9;i++){const p=document.createElement("span");p.className="particle";p.textContent=symbols[Math.floor(Math.random()*symbols.length)];p.style.left=(45+Math.random()*10)+"vw";p.style.top=(48+Math.random()*8)+"vh";p.style.setProperty("--dx",(Math.random()*220-110)+"px");p.style.setProperty("--dy",(-80-Math.random()*140)+"px");layer.appendChild(p);setTimeout(()=>p.remove(),950)}
+}
+function confettiBurst(n=60){
+ const layer=document.getElementById("confetti");
+ for(let i=0;i<n;i++){const c=document.createElement("i");c.className="confetti-piece";c.style.left=Math.random()*100+"vw";c.style.background=`hsl(${Math.random()*360} 85% 60%)`;c.style.animationDelay=(Math.random()*.5)+"s";c.style.transform=`rotate(${Math.random()*360}deg)`;layer.appendChild(c);setTimeout(()=>c.remove(),2400)}
+}
+
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.remove("show"),1800)}
+
+function showHint(e){
+ const q=QUESTIONS[current];hintLevel[current]=Math.min(3,hintLevel[current]+1);
+ document.getElementById("hintBox").classList.add("show");document.getElementById("hintBox").innerHTML=hintText(q,hintLevel[current]);
+ toast(hintLevel[current]===1?"Pista 1 desbloqueada 💡":hintLevel[current]===2?"Pista 2 desbloqueada 🔎":"Pista final desbloqueada 🧠");
+}
+function hintText(q,lvl){
+ if(!lvl)return "";
+ if(lvl===1)return `💡 <b>Pista 1:</b> Identifica qué habilidad se está evaluando: ${q.area}.`;
+ if(lvl===2)return `🔎 <b>Pista 2:</b> Lee de nuevo y elimina opciones que contradigan directamente el texto o la regla.`;
+ return `🧠 <b>Pista 3:</b> Piensa en la explicación que tendría sentido después de responder; busca la opción más precisa, no sólo la que “suena bien”.`;
+}
+
+function speakQuestion(e){
+ if(!("speechSynthesis" in window)){toast("Este dispositivo no tiene lectura en voz alta.");return}
+ speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(QUESTIONS[current].q);u.lang="es-MX";u.rate=.92;speechSynthesis.speak(u);
+}
+
+function sound(type){
+ try{
+  const C=window.AudioContext||window.webkitAudioContext;const ctx=new C();const o=ctx.createOscillator(),g=ctx.createGain();
+  o.connect(g);g.connect(ctx.destination);o.type="sine";o.frequency.value=type==="ok"?660:240;g.gain.setValueAtTime(.05,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.16);o.start();o.stop(ctx.currentTime+.16);
+ }catch(e){}
+}
+
+function nextQuestion(e){
+ if(!checked[current])return;
+ if(current===99){showResults();return}
+ current++;render();window.scrollTo({top:0,behavior:"smooth"});
+}
+function prevQuestion(e){if(current>0){current--;render();window.scrollTo({top:0,behavior:"smooth"})}}
+
+function showResults(){
+ document.getElementById("exam").classList.add("hidden");document.getElementById("results").classList.remove("hidden");
+ const s=QUESTIONS.reduce((a,q,i)=>a+(answers[i]===q.ans?1:0),0),p=s;
+ document.getElementById("who").innerHTML=`<b>${studentName()}</b> · Ingreso a 5.º de primaria`;
+ document.getElementById("score").textContent=`${s}/100 · ${p}%`;
+ document.getElementById("interp").textContent=p>=90?"Dominio muy sólido de los aprendizajes evaluados.":p>=75?"Desempeño favorable; conviene reforzar las áreas con menor porcentaje.":p>=60?"Hay aprendizajes en proceso que requieren práctica focalizada.":"Se recomienda acompañamiento sistemático en lectura, escritura y reflexión sobre la lengua.";
+ if(s===100&&!badges.includes("💎 Ronda perfecta"))badges.push("💎 Ronda perfecta");
+ if(bestStreak>=10&&!badges.includes("🔥 Maestro de rachas"))badges.push("🔥 Maestro de rachas");
+ document.getElementById("achievements").innerHTML=badges.map(b=>`<span class="achievement">${b}</span>`).join("");
+ document.getElementById("metrics").innerHTML=["Básico","Intermedio","Reto"].map(l=>{const ids=QUESTIONS.map((q,i)=>q.level===l?i:-1).filter(i=>i>=0),ok=ids.filter(i=>answers[i]===QUESTIONS[i].ans).length;return `<div class="metric"><span>${l}</span><b>${ok}/${ids.length}</b></div>`}).join("")+`<div class="metric"><span>Mejor racha</span><b>${bestStreak} 🔥</b></div>`;
+ const areas={};QUESTIONS.forEach((q,i)=>{areas[q.area]??={ok:0,total:0};areas[q.area].total++;if(answers[i]===q.ans)areas[q.area].ok++});
+ document.getElementById("report").innerHTML=Object.entries(areas).map(([a,v])=>{const z=Math.round(v.ok/v.total*100),st=z>=80?"Consolidado":z>=60?"En proceso":"Requiere apoyo";return `<tr><td>${a}</td><td>${v.ok}</td><td>${v.total}</td><td>${st} (${z}%)</td></tr>`}).join("");
+ confettiBurst(100);toast(`¡Misión completada, ${studentName()}!`);
+}
+
+function retryErrors(e){
+ retryList=QUESTIONS.map((q,i)=>answers[i]!==q.ans?i:-1).filter(i=>i>=0);
+ if(!retryList.length){toast("¡No tienes errores pendientes! 🏆");return}
+ const first=retryList[0];current=first;retryMode=true;document.getElementById("results").classList.add("hidden");document.getElementById("exam").classList.remove("hidden");
+ retryList.forEach(i=>{checked[i]=false;answers[i]=null;secondChance[i]=false;hintLevel[i]=0});toast(`Modo refuerzo: ${retryList.length} preguntas por practicar`);render();
+}
+
+function restartExam(e){
+ current=0;selected=null;answers=Array(100).fill(null);checked=Array(100).fill(false);xp=0;streak=0;bestStreak=0;badges=[];secondChance=Array(100).fill(false);hintLevel=Array(100).fill(0);
+ document.getElementById("results").classList.add("hidden");document.getElementById("intro").classList.remove("hidden");document.getElementById("topBar").style.width="0";document.getElementById("xpText").textContent="0 XP";window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
+</body>
+</html>
