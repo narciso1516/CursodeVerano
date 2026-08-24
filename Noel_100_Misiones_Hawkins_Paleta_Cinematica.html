@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Noel: Las 100 Misiones de Hawkins</title>
+<style>
+:root{
+  --bg:#4F2917; --panel:#742C23; --panel2:#8C2918; --red:#8C2918; --red2:#C69742;
+  --cream:#FFFDF0; --muted:#E5D4AE; --green:#16476C; --yellow:#C69742; --blue:#16476C;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:
+radial-gradient(circle at 50% -20%,#742C23 0,#4F2917 30%,#4F2917 60%);color:var(--cream);min-height:100vh}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.13;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:28px 28px}
+.app{max-width:980px;margin:auto;padding:18px}
+.hero,.card{background:linear-gradient(180deg,rgba(24,27,36,.96),rgba(12,14,20,.98));border:1px solid #742C23;border-radius:22px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.hero{padding:24px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,#8C29183b 0,transparent 66%)}
+h1{margin:0 0 6px;font-size:clamp(29px,6vw,54px);line-height:.98;letter-spacing:-1.5px;text-transform:uppercase;text-shadow:0 0 20px #8C291870}
+.kicker{color:var(--red2);font-weight:900;letter-spacing:.16em;font-size:.78rem;text-transform:uppercase}.subtitle{color:var(--muted);max-width:720px;line-height:1.55}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.badge{background:#742C23;border:1px solid #8C2918;padding:8px 11px;border-radius:999px;font-size:.82rem}
+.start-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:14px;margin-top:14px}.card{padding:20px}.rules{line-height:1.65;color:#FFFDF0}.rules b{color:white}
+button{font:inherit;border:0;cursor:pointer}.primary{width:100%;padding:16px 18px;border-radius:16px;background:linear-gradient(135deg,var(--red),#742C23);color:white;font-weight:900;box-shadow:0 10px 25px #8C291838;transition:.2s}.primary:hover{transform:translateY(-2px)}
+.hidden{display:none!important}.quiz{margin-top:14px}.topbar{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.progress-shell{height:12px;background:#4F2917;border-radius:999px;overflow:hidden}.progress{height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--yellow));transition:.35s}.counter{font-weight:900;color:#fff}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.stat{background:#4F2917;border:1px solid #742C23;border-radius:14px;padding:10px;text-align:center}.stat small{display:block;color:var(--muted);font-size:.7rem}.stat strong{font-size:1.1rem}
+.question-card{margin-top:12px;padding:22px}.mission{display:inline-flex;gap:8px;align-items:center;background:#4F2917;color:#C69742;border:1px solid #742C23;border-radius:999px;padding:7px 10px;font-size:.78rem;font-weight:800}.qtitle{font-size:clamp(22px,4.5vw,32px);line-height:1.2;margin:16px 0 8px}.qmeta{color:var(--muted);font-size:.85rem;margin-bottom:14px}.prompt{line-height:1.6;color:#FFFDF0}
+.options{display:grid;gap:10px;margin-top:16px}.option{display:flex;gap:12px;text-align:left;background:#4F2917;border:1px solid #742C23;color:#FFFDF0;border-radius:16px;padding:14px;transition:.18s}.option:hover{border-color:#C69742;transform:translateX(3px)}.option.correct{border-color:var(--green);background:#16476C}.option.wrong{border-color:var(--red);background:#742C23}.letter{width:30px;height:30px;border-radius:9px;background:#742C23;display:grid;place-items:center;font-weight:900;flex:0 0 auto}
+.textAnswer{width:100%;margin-top:14px;background:#4F2917;color:white;border:1px solid #16476C;border-radius:14px;padding:15px;font:inherit;min-height:52px}.hint{margin-top:14px;padding:13px;border-radius:14px;background:#4F2917;border-left:4px solid var(--blue);color:#dceafa;line-height:1.5}.feedback{margin-top:14px;padding:14px;border-radius:14px;line-height:1.5}.feedback.ok{background:#16476C;border:1px solid #2d8f5b}.feedback.no{background:#35171c;border:1px solid #8e2b36}.next{margin-top:14px}
+.results{margin-top:14px}.score-big{text-align:center;font-size:clamp(50px,11vw,92px);font-weight:1000;line-height:1;color:white}.rank{text-align:center;color:var(--yellow);font-weight:900;font-size:1.2rem;margin:8px}.result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}.result-box{background:#11151d;border:1px solid #303642;border-radius:16px;padding:16px}.meter{height:10px;background:#262b36;border-radius:999px;overflow:hidden;margin-top:8px}.meter span{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--yellow))}.review{margin-top:14px}.review-item{background:#11151d;border:1px solid #2e3440;border-radius:14px;padding:14px;margin-top:8px}.review-item b{color:white}
+.footer{text-align:center;color:#737b89;font-size:.78rem;padding:22px 8px}.glitch{animation:glitch 1.4s infinite alternate}@keyframes glitch{0%{text-shadow:1px 0 #ff334d,-1px 0 #00eaff}100%{text-shadow:3px 0 #ff334d,-3px 0 #00eaff}}
+@media(max-width:700px){.start-grid,.result-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.hero,.card{border-radius:18px}.app{padding:10px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="hero" id="intro">
+    <div class="kicker">Expediente secreto • Hawkins</div>
+    <h1 class="glitch">Noel: 100 Misiones</h1>
+    <p class="subtitle">Una aventura inspirada en el misterio, la amistad y el Mundo del Revés. Demuestra cuánto sabes de <b>Stranger Things</b> mientras descifras mensajes, arreglas pistas y completas retos de lenguaje.</p>
+    <div class="badges"><span class="badge">🎬 Fan de Stranger Things</span><span class="badge">✍️ Mensajes secretos</span><span class="badge">🔥 Rachas</span><span class="badge">🧠 100 retos</span></div>
+  </section>
+
+  <section class="start-grid" id="startArea">
+    <div class="card rules"><b>Tu misión:</b> completa las 100 señales. Algunas prueban qué tan bien conoces Hawkins; otras requieren observar palabras, mensajes y pistas. Si una señal falla, recibirás una pista y podrás aprender del error.</div>
+    <div class="card"><button class="primary" onclick="startQuiz()">🚲 ENTRAR A HAWKINS</button></div>
+  </section>
+
+  <section class="quiz hidden" id="quiz">
+    <div class="card">
+      <div class="topbar"><div class="progress-shell"><div class="progress" id="progress"></div></div><div class="counter" id="counter">1 / 100</div></div>
+      <div class="stats">
+        <div class="stat"><small>🔥 RACHA</small><strong id="streak">0</strong></div>
+        <div class="stat"><small>🏆 MEJOR RACHA</small><strong id="best">0</strong></div>
+        <div class="stat"><small>🎬 FAN</small><strong id="fanScore">0</strong></div>
+        <div class="stat"><small>✍️ LENGUAJES</small><strong id="langScore">0</strong></div>
+      </div>
+    </div>
+    <div class="card question-card">
+      <div class="mission" id="missionTag"></div>
+      <h2 class="qtitle" id="qtitle"></h2>
+      <div class="qmeta" id="qmeta"></div>
+      <div class="prompt" id="prompt"></div>
+      <div id="answerZone"></div>
+      <div id="feedbackZone"></div>
+      <button id="nextBtn" class="primary next hidden" onclick="nextQuestion()">Siguiente señal →</button>
+    </div>
+  </section>
+
+  <section class="results hidden" id="results"></section>
+  <div class="footer">Actividad educativa temática no oficial. Stranger Things y sus elementos pertenecen a sus respectivos titulares.</div>
+</div>
+<script>
+const Q=[];
+const add=(type,cat,q,opts,ans,why,skill,level='Fácil')=>Q.push({type,cat,q,opts,ans,why,skill,level});
+
+// 40 preguntas FAN
+add('mc','fan','¿En qué pueblo ocurre gran parte de la historia?',['Hawkins','Sunnydale','Riverdale','Salem'],0,'Hawkins, Indiana, es el centro principal de los acontecimientos.','Memoria de la serie');
+add('mc','fan','¿Cómo se llama la niña con poderes telequinéticos?',['Max','Nancy','Eleven','Robin'],2,'Eleven es el personaje con habilidades psíquicas y telequinéticas.','Personajes');
+add('mc','fan','¿Qué comida se asocia especialmente con Eleven?',['Waffles','Tacos','Palomitas','Hot dogs'],0,'Los waffles Eggo aparecen repetidamente vinculados con Eleven.','Detalles');
+add('mc','fan','¿Quién desaparece al inicio de la primera temporada?',['Mike','Will','Dustin','Lucas'],1,'La desaparición de Will Byers pone en marcha la historia.','Trama');
+add('mc','fan','¿Cómo se llama la dimensión oscura paralela?',['El Vacío','El Otro Lado','El Mundo del Revés','La Zona Roja'],2,'La dimensión paralela es conocida como el Mundo del Revés.','Conceptos');
+add('mc','fan','¿Quién es la madre de Will?',['Joyce','Karen','Claudia','Susan'],0,'Joyce Byers es la madre de Will.','Personajes');
+add('mc','fan','¿Qué usa Joyce para intentar comunicarse con Will?',['Un mapa','Luces y letras','Una radio vieja','Una cámara'],1,'Joyce coloca luces y letras para interpretar mensajes.','Trama');
+add('mc','fan','¿Qué personaje es jefe de policía de Hawkins al inicio?',['Steve','Hopper','Murray','Bob'],1,'Jim Hopper es el jefe de policía de Hawkins.','Personajes');
+add('mc','fan','¿Cómo se llama la hermana mayor de Mike?',['Nancy','Erica','Max','Robin'],0,'Nancy Wheeler es la hermana mayor de Mike.','Personajes');
+add('mc','fan','¿Cuál de estos personajes usa frecuentemente una gorra y destaca por su humor?',['Dustin','Jonathan','Billy','Vecna'],0,'Dustin suele llevar gorra y es uno de los personajes más cómicos.','Detalles');
+add('mc','fan','¿Qué juego de mesa inspira muchos nombres de criaturas?',['Monopoly','Dungeons & Dragons','Ajedrez','Risk'],1,'El grupo usa Dungeons & Dragons para nombrar y entender amenazas.','Cultura de la serie');
+add('mc','fan','¿Quién es el hermano de Nancy?',['Mike','Lucas','Steve','Will'],0,'Mike Wheeler es hermano de Nancy.','Personajes');
+add('mc','fan','¿Qué personaje llega a Hawkins y se hace amiga del grupo en la segunda temporada?',['Robin','Max','Chrissy','Barb'],1,'Max Mayfield se integra al grupo.','Personajes');
+add('mc','fan','¿Cómo se llama el centro comercial importante en la tercera temporada?',['Starcourt Mall','Hawkins Plaza','Palace Arcade','Rainbow Mall'],0,'Starcourt Mall es escenario central de la tercera temporada.','Lugares');
+add('mc','fan','¿Qué personaje trabaja con Steve en una heladería?',['Nancy','Robin','Joyce','Max'],1,'Robin trabaja junto a Steve en Scoops Ahoy.','Personajes');
+add('mc','fan','¿Cómo se llama la heladería donde trabajan Steve y Robin?',['Scoops Ahoy','Ice Palace','Star Cream','Hawkins Scoops'],0,'Scoops Ahoy es la heladería temática marinera del centro comercial.','Detalles');
+add('mc','fan','¿Qué instrumento toca Eddie Munson?',['Batería','Guitarra','Piano','Saxofón'],1,'Eddie es guitarrista y la música es central en su personaje.','Personajes');
+add('mc','fan','¿Cómo se llama el club dirigido por Eddie?',['Hellfire Club','Hawkins Club','Tiger Club','Dragon Club'],0,'Eddie dirige el Hellfire Club de Dungeons & Dragons.','Detalles');
+add('mc','fan','¿Qué canción ayuda especialmente a Max en un momento crucial?',['Running Up That Hill','Africa','Take on Me','Thriller'],0,'La canción asociada con Max es “Running Up That Hill”.','Música');
+add('mc','fan','¿Cómo se llama el villano principal de la cuarta temporada?',['Vecna','Demodog','Mind Flayer','Dart'],0,'Vecna es la gran amenaza de la cuarta temporada.','Villanos');
+add('mc','fan','¿Quién es la mejor amiga de Nancy que desaparece en la primera temporada?',['Barb','Robin','Chrissy','Becky'],0,'Barbara “Barb” Holland desaparece durante la primera temporada.','Personajes');
+add('mc','fan','¿Qué personaje suele llevar un bate con clavos?',['Steve','Mike','Jonathan','Dustin'],0,'Steve utiliza un bate con clavos contra las criaturas.','Objetos');
+add('mc','fan','¿Cómo se llama el hermano mayor de Will?',['Jonathan','Billy','Steve','Eddie'],0,'Jonathan Byers es el hermano mayor de Will.','Personajes');
+add('mc','fan','¿Qué personaje es hermanastra de Billy?',['Max','Nancy','Robin','Erica'],0,'Max es hermanastra de Billy Hargrove.','Relaciones');
+add('mc','fan','¿Qué lugar frecuenta el grupo para jugar videojuegos arcade?',['Palace Arcade','Starcourt','Hawkins Lab','Family Video'],0,'Palace Arcade aparece como punto de reunión del grupo.','Lugares');
+add('mc','fan','¿Quién es la hermana menor de Lucas?',['Erica','Holly','Jane','Suzie'],0,'Erica Sinclair es hermana menor de Lucas.','Personajes');
+add('mc','fan','¿Qué personaje dice con frecuencia que Erica no puede deletrearse sin “America”?',['Erica','Max','Robin','Nancy'],0,'Es una frase característica de Erica Sinclair.','Detalles');
+add('mc','fan','¿Cómo se llama el padre adoptivo de Eleven?',['Jim Hopper','Bob Newby','Sam Owens','Murray Bauman'],0,'Hopper asume un rol paternal con Eleven.','Relaciones');
+add('mc','fan','¿Qué instalación realiza experimentos secretos en Hawkins?',['Hawkins National Laboratory','Starcourt School','Palace Research Center','Indiana Base'],0,'El Laboratorio Nacional de Hawkins está ligado a los experimentos secretos.','Lugares');
+add('mc','fan','¿Quién es Suzie?',['La novia de Dustin','La hermana de Mike','Una agente','La madre de Max'],0,'Suzie es la novia de Dustin.','Relaciones');
+add('mc','fan','¿Qué personaje tiene una relación romántica con Joyce?',['Bob Newby','Billy','Eddie','Lucas'],0,'Bob Newby mantiene una relación con Joyce en la segunda temporada.','Relaciones');
+add('mc','fan','¿Qué criatura es una de las primeras amenazas del Mundo del Revés?',['Demogorgon','Kraken','Werewolf','Basilisk'],0,'El Demogorgon es la amenaza central de la primera temporada.','Criaturas');
+add('mc','fan','¿Qué personaje trabaja en Family Video junto a Steve?',['Robin','Joyce','Max','Erica'],0,'Robin y Steve trabajan juntos en Family Video.','Lugares');
+add('mc','fan','¿Quién suele ser el más científico y curioso del grupo?',['Dustin','Billy','Jason','Tommy'],0,'Dustin destaca por su curiosidad científica y explicaciones.','Personajes');
+add('mc','fan','¿Qué personaje tiene poderes y el número 011?',['Eleven','Kali','Max','Chrissy'],0,'Eleven está identificada con el número 011.','Detalles');
+add('mc','fan','¿Qué personaje se convierte en una especie de “niñero” protector del grupo?',['Steve','Brenner','Billy','Jason'],0,'Steve desarrolla un rol protector con los niños.','Evolución de personaje');
+add('mc','fan','¿Qué doctor está muy ligado a los experimentos con Eleven?',['Dr. Brenner','Dr. House','Dr. Owens','Dr. Clarke'],0,'Martin Brenner dirige buena parte de los experimentos del laboratorio.','Personajes');
+add('mc','fan','¿Quién es el profesor que ayuda al grupo con explicaciones científicas?',['Mr. Clarke','Mr. Wheeler','Mr. Munson','Mr. Hargrove'],0,'Mr. Clarke apoya al grupo con conocimientos científicos.','Personajes');
+add('mc','fan','¿Qué medio de transporte usan mucho Mike, Will, Lucas y Dustin?',['Bicicletas','Motocicletas','Patines','Autobuses'],0,'Las bicicletas son icónicas en las aventuras del grupo.','Detalles');
+add('mc','fan','¿Cuál es el nombre real de Eleven?',['Jane','Sarah','Alice','Emily'],0,'El nombre de nacimiento de Eleven es Jane.','Detalles','Difícil');
+
+// 35 Lenguajes puros camuflados
+add('mc','lang','Elige el mensaje correctamente escrito.',['eleven encontro una pista.','Eleven encontró una pista.','Eleven encontro una pista','eleven encontró una pista.'],1,'Los nombres propios llevan mayúscula, “encontró” lleva tilde y la oración termina con punto.','Ortografía');
+add('mc','lang','¿Cuál palabra está escrita correctamente?',['misterío','misterio','misterrio','mysterio'],1,'“Misterio” no lleva tilde.','Ortografía');
+add('mc','lang','Selecciona la oración con puntuación correcta.',['¡Corre Dustin!','¡Corre, Dustin!','Corre, Dustin!','¡corre Dustin!'],1,'Al dirigirse a Dustin se usa coma vocativa y signos de exclamación completos.','Puntuación');
+add('mc','lang','¿Cuál palabra es un verbo?',['bicicleta','oscuro','correr','Hawkins'],2,'“Correr” expresa una acción; por eso es un verbo.','Gramática');
+add('mc','lang','¿Cuál palabra es un adjetivo en “El bosque oscuro parecía silencioso”?',['bosque','oscuro','parecía','el'],1,'“Oscuro” describe al sustantivo “bosque”.','Gramática');
+add('mc','lang','¿Qué palabra es sinónimo de “valiente”?',['cobarde','atrevido','lento','oscuro'],1,'“Atrevido” puede funcionar como sinónimo de “valiente” según el contexto.','Vocabulario');
+add('mc','lang','¿Cuál es el antónimo de “oscuro”?',['negro','claro','grande','frío'],1,'“Claro” expresa la idea contraria de “oscuro”.','Vocabulario');
+add('mc','lang','Completa: “Hopper ___ la puerta con cuidado”.',['abrió','abrieron','abrir','abierta'],0,'El sujeto es singular y la acción ocurrió: “abrió”.','Concordancia');
+add('mc','lang','¿Cuál oración está en pasado?',['Eleven corre.','Eleven correrá.','Eleven corrió.','Eleven corre rápido.'],2,'“Corrió” indica una acción ya realizada.','Tiempos verbales');
+add('mc','lang','¿Cuál oración está en futuro?',['Mike buscará a Will.','Mike buscó a Will.','Mike busca a Will.','Mike buscaba a Will.'],0,'“Buscará” expresa una acción futura.','Tiempos verbales');
+add('mc','lang','¿Cuál opción usa correctamente las mayúsculas?',['hawkins, indiana','Hawkins, indiana','Hawkins, Indiana','hawkins, Indiana'],2,'Los nombres propios de lugares se escriben con mayúscula.','Mayúsculas');
+add('mc','lang','¿Cuál palabra lleva tilde?',['camion','lápiz','pared','reloj'],1,'“Lápiz” es una palabra grave terminada en consonante distinta de n o s.','Acentuación');
+add('mc','lang','Elige la oración más clara.',['Dustin porque radio la habló.','Dustin habló por la radio.','Por Dustin radio habló la.','Habló Dustin la por radio.'],1,'La oración presenta un orden lógico y comprensible.','Sintaxis');
+add('mc','lang','¿Qué signo debe cerrar una pregunta?',['.','!','?',','],2,'Las preguntas se cierran con “?”. En español también se abren con “¿”.','Puntuación');
+add('mc','lang','¿Cuál palabra es un sustantivo?',['correr','rápido','linterna','brillante'],2,'“Linterna” nombra un objeto.','Gramática');
+add('mc','lang','¿Cuál opción contiene dos adjetivos?',['bosque y puerta','oscuro y frío','corre y salta','Hawkins y Mike'],1,'“Oscuro” y “frío” describen cualidades.','Gramática');
+add('mc','lang','Selecciona la frase correctamente escrita.',['¿Dónde está Will?','¿Dónde esta Will?','Dónde está Will?','¿dónde está will?'],0,'“Dónde” lleva tilde en pregunta, “está” lleva tilde y Will es nombre propio.','Ortografía');
+add('mc','lang','¿Cuál conector indica causa?',['porque','después','aunque','finalmente'],0,'“Porque” introduce una causa o explicación.','Conectores');
+add('mc','lang','¿Cuál conector indica orden temporal?',['sin embargo','después','porque','pero'],1,'“Después” ayuda a ordenar acontecimientos en el tiempo.','Conectores');
+add('mc','lang','¿Cuál oración tiene sujeto y predicado completos?',['En Hawkins.','Muy oscuro.','Lucas encontró una pista.','Debajo de la cama.'],2,'“Lucas” es sujeto y “encontró una pista” es predicado.','Sintaxis');
+add('mc','lang','Elige la palabra correctamente escrita.',['bicicléta','bicicleta','bisicleta','vicicleta'],1,'La forma correcta es “bicicleta”.','Ortografía');
+add('mc','lang','¿Cuál oración usa correctamente la coma?',['Mike Lucas Dustin y Will salieron.','Mike, Lucas, Dustin y Will salieron.','Mike Lucas, Dustin y Will salieron.','Mike Lucas Dustin, y Will salieron.'],1,'Las comas separan elementos de una enumeración.','Puntuación');
+add('mc','lang','¿Qué palabra completa mejor? “El grupo entró al bosque ___ escuchó un ruido”.',['y','o','pero de','porque de'],0,'La conjunción “y” une dos acciones relacionadas.','Conectores');
+add('mc','lang','¿Cuál oración expresa una opinión?',['Hawkins está en Indiana.','El Demogorgon aparece en la serie.','Steve es el personaje más divertido.','Will es hermano de Jonathan.'],2,'“Más divertido” depende de una valoración personal.','Hecho y opinión');
+add('mc','lang','¿Cuál oración expresa un hecho dentro de la historia?',['Dustin es el mejor personaje.','Eleven tiene poderes.','Hawkins es el pueblo más bonito.','Vecna da más miedo que todos.'],1,'Dentro de la ficción, los poderes de Eleven son un dato comprobable de la trama.','Hecho y opinión');
+add('mc','lang','¿Qué palabra significa aproximadamente “investigar”?',['examinar','olvidar','romper','ocultar'],0,'“Examinar” puede significar observar o investigar cuidadosamente.','Vocabulario');
+add('mc','lang','Elige la opción con ortografía correcta.',['laboratorio','lavoratorio','laboratotio','laboratóreo'],0,'La escritura correcta es “laboratorio”.','Ortografía');
+add('mc','lang','¿Cuál oración está mejor conectada?',['Eleven vio la puerta. Por eso, avisó a Hopper.','Eleven vio la puerta aviso Hopper.','Puerta Eleven Hopper avisó.','Eleven puerta porque Hopper.'],0,'“Por eso” conecta causa y consecuencia con claridad.','Cohesión');
+add('mc','lang','¿Cuál palabra reemplaza mejor a “asustado”?',['atemorizado','contento','tranquilo','valiente'],0,'“Atemorizado” expresa un significado similar a “asustado”.','Vocabulario');
+add('mc','lang','¿Qué opción está en plural?',['la bicicleta','los amigos','el laboratorio','una linterna'],1,'“Los amigos” tiene determinante y sustantivo en plural.','Número gramatical');
+add('mc','lang','¿Cuál oración tiene concordancia correcta?',['Los amigos corre.','Los amigos corren.','Los amigo corren.','Los amigos correr.'],1,'Sujeto plural y verbo plural: “Los amigos corren”.','Concordancia');
+add('mc','lang','¿Cuál palabra debería llevar mayúscula? “mike encendió la radio.”',['encendió','radio','mike','la'],2,'Los nombres propios, como Mike, comienzan con mayúscula.','Mayúsculas');
+add('mc','lang','¿Cuál oración usa correctamente los signos de admiración?',['¡Cuidado!','Cuidado!','¡Cuidado','!Cuidado¡'],0,'En español la exclamación se abre con “¡” y se cierra con “!”.','Puntuación');
+add('mc','lang','¿Cuál es la idea principal de “El grupo oyó un ruido, encendió sus linternas y avanzó con cuidado”?',['Tenían hambre.','Investigaban algo desconocido.','Querían dormir.','Estaban en la escuela.'],1,'Las acciones indican que avanzaban para investigar una situación desconocida.','Comprensión');
+add('mc','lang','Si un texto dice “Dustin temblaba, pero no se fue”, ¿qué puedes inferir?',['Tenía miedo, pero siguió adelante.','Estaba dormido.','No escuchó nada.','No estaba allí.'],0,'Temblar sugiere miedo; quedarse demuestra que continuó pese a ello.','Inferencia');
+
+// 25 mixtas fan + lenguaje
+add('mc','mixed','Joyce escribe una señal para Will. ¿Cuál mensaje está correctamente escrito?',['will, estas ahi?','Will, ¿estás ahí?','Will estas hay','¿will estás ahí.'],1,'Además de reconocer a Will, hay que usar mayúscula, coma vocativa, signos de pregunta y tildes.','Ortografía + serie');
+add('mc','mixed','Completa correctamente: “Eleven y Mike ___ hacia sus bicicletas”.',['corrió','corrieron','corre','correrá'],1,'El sujeto es plural, así que el verbo debe concordar: “corrieron”.','Concordancia + personajes');
+add('mc','mixed','¿Cuál descripción usa mejor un adjetivo para el Mundo del Revés?',['El Mundo del Revés corre.','El Mundo del Revés oscuro.','El Mundo del Revés es inquietante.','El Mundo del Revés bicicleta.'],2,'“Inquietante” describe una cualidad y completa una oración correcta.','Adjetivos + serie');
+add('mc','mixed','Dustin manda una pista por radio. ¿Cuál es la más clara?',['Steve ven rápido al centro comercial.','Steve, ven rápido al centro comercial.','Steve ven, rápido al centro comercial','steve ven rápido al Centro comercial'],1,'La coma separa el vocativo “Steve” del resto del mensaje.','Puntuación + serie');
+add('mc','mixed','Si Max escucha su canción favorita para concentrarse, ¿qué palabra es un verbo?',['Max','canción','escucha','favorita'],2,'“Escucha” expresa una acción.','Gramática + serie');
+add('mc','mixed','¿Cuál oración cuenta primero una causa y luego una consecuencia?',['La luz parpadeó; por eso, Joyce se acercó.','Joyce se acercó aunque luz.','Por eso la luz Joyce.','La luz y por eso.'],0,'La primera oración conecta claramente un hecho con su consecuencia.','Causa-consecuencia + serie');
+add('mc','mixed','Elige la opción mejor escrita.',['El demogorgon salió del Mundo del revés.','El Demogorgon salió del Mundo del Revés.','el Demogorgon salio del mundo del revés','El Demogorgon salio del Mundo Del Revés'],1,'Los nombres usados como denominaciones propias llevan mayúscula en este contexto y “salió” lleva tilde.','Ortografía + serie');
+add('mc','mixed','¿Cuál palabra describe mejor a Steve cuando protege al grupo?',['protector','bicicleta','correr','radio'],0,'“Protector” funciona como adjetivo o sustantivo según el contexto y describe su conducta.','Vocabulario + personaje');
+add('mc','mixed','¿Cuál oración presenta los hechos en un orden lógico?',['Primero entraron al bosque; después encontraron la pista.','Después primero pista bosque.','La pista primero después entraron antes.','Bosque encontraron primero entraron después.'],0,'Los conectores “primero” y “después” organizan cronológicamente la acción.','Secuencia + aventura');
+add('mc','mixed','¿Qué opción podría ser un título adecuado para un texto sobre la desaparición de Will?',['La búsqueda de Will','Cómo cocinar waffles','Un día de compras','Las reglas del béisbol'],0,'Un título debe anticipar el tema central del texto.','Título e idea principal');
+add('mc','mixed','Si Eleven “observó detenidamente la puerta”, ¿qué significa “detenidamente”?',['Con mucha atención','Muy rápido','Sin mirar','Con enojo'],0,'“Detenidamente” significa con cuidado y atención.','Vocabulario contextual');
+add('mc','mixed','Selecciona la pregunta correctamente escrita para Hopper.',['¿Que ocurrió en Hawkins?','¿Qué ocurrió en Hawkins?','Que ocurrió en Hawkins?','¿qué ocurrió en hawkins?'],1,'“Qué” lleva tilde interrogativa y Hawkins es nombre propio.','Puntuación + serie');
+add('mc','mixed','¿Cuál oración describe mejor a Dustin usando dos adjetivos?',['Dustin piensa.','Dustin es curioso e ingenioso.','Dustin radio bicicleta.','Dustin rápidamente.'],1,'“Curioso” e “ingenioso” describen cualidades del personaje.','Adjetivos + personaje');
+add('mc','mixed','¿Qué conector completa mejor? “El grupo tenía miedo, ___ decidió continuar”.',['pero','porque','después de','por ejemplo'],0,'“Pero” introduce contraste entre tener miedo y continuar.','Conectores + narrativa');
+add('mc','mixed','¿Cuál oración tiene un pronombre que evita repetir “Eleven”?',['Eleven entró. Eleven miró.','Eleven entró y ella miró alrededor.','Eleven Eleven alrededor.','Ella Eleven entró ella.'],1,'“Ella” sustituye el nombre y evita una repetición innecesaria.','Pronombres + personaje');
+add('mc','mixed','Lee: “La radio dejó de funcionar justo cuando Dustin iba a dar la ubicación”. ¿Qué problema principal ocurrió?',['Se perdió la comunicación.','Dustin encontró comida.','La bicicleta se rompió.','Llegó Hopper.'],0,'Si la radio deja de funcionar, el grupo pierde la comunicación en un momento importante.','Comprensión + serie');
+add('mc','mixed','¿Cuál frase usa una comparación?',['El bosque era oscuro.','El silencio era como una sombra.','Dustin corrió.','Mike abrió la puerta.'],1,'La palabra “como” establece una comparación.','Recursos literarios');
+add('mc','mixed','¿Cuál oración está escrita en primera persona?',['Yo vi una luz cerca del laboratorio.','Dustin vio una luz.','Ellos vieron una luz.','Hopper vio una luz.'],0,'“Yo” indica primera persona.','Persona gramatical');
+add('mc','mixed','¿Cuál opción corrige mejor este mensaje: “max corrio rapido”?',['Max corrió rápido.','max corrió rapido','Max corrio rápido','MAX CORRIO RAPIDO'],0,'Debe iniciar con mayúscula, llevar tildes en “corrió” y “rápido” y cerrar con punto.','Corrección ortográfica');
+add('mc','mixed','Si un personaje dice “No pienso abandonarlos”, ¿qué rasgo demuestra?',['Lealtad','Pereza','Distracción','Indiferencia'],0,'No abandonar a los demás demuestra lealtad.','Inferencia + valores');
+add('mc','mixed','¿Cuál oración usa mejor una descripción sensorial?',['Había algo.','El aire olía a humedad y la luz parpadeaba.','El grupo fue.','Era un lugar.'],1,'La frase incluye olor y luz, detalles que ayudan a imaginar la escena.','Descripción');
+add('mc','mixed','¿Qué opción resume mejor una aventura típica del grupo?',['Detectan un problema, reúnen pistas y trabajan juntos para resolverlo.','Van siempre a dormir temprano.','Nunca hablan entre ellos.','Solo juegan videojuegos y no investigan nada.'],0,'La cooperación y la investigación son constantes en sus aventuras.','Resumen + serie');
+add('mc','mixed','¿Cuál frase convierte mejor una idea simple en una descripción?',['Había una puerta.','Había una puerta metálica, fría y cubierta de polvo.','Puerta haber.','La puerta cosa.'],1,'Los adjetivos y detalles específicos enriquecen la descripción.','Descripción escrita');
+add('mc','mixed','¿Cuál oración usa correctamente “porque”?',['Corrieron porque escucharon un ruido.','Corrieron por qué escucharon un ruido.','Corrieron porqué escucharon un ruido.','Corrieron por que? escucharon un ruido.'],0,'“Porque” junto se usa para explicar la causa.','Ortografía + causa');
+add('mc','mixed','Misión final: ¿qué opción muestra mejor una oración completa y bien escrita?',['En el bosque oscuro.','Noel, Mike y Dustin siguieron la señal hasta encontrar una nueva pista.','Porque la radio.','Encontraron rápidamente pero.'],1,'Tiene sujeto, verbo, complementos, sentido completo, mayúscula y punto final.','Síntesis de Lenguajes','Final');
+
+let idx=0,streak=0,best=0,fan=0,lang=0,answered=false; const misses=[];
+function startQuiz(){document.getElementById('startArea').classList.add('hidden');document.getElementById('quiz').classList.remove('hidden');render();}
+function render(){answered=false;const x=Q[idx];document.getElementById('counter').textContent=`${idx+1} / ${Q.length}`;document.getElementById('progress').style.width=`${idx/Q.length*100}%`;document.getElementById('missionTag').textContent=(x.cat==='fan'?'🎬 NIVEL FAN':x.cat==='lang'?'✍️ MENSAJE SECRETO':'⚡ MISIÓN MIXTA');document.getElementById('qtitle').textContent=x.q;document.getElementById('qmeta').textContent=`Dificultad: ${x.level} • Habilidad: ${x.skill}`;document.getElementById('prompt').textContent='Selecciona la mejor respuesta.';document.getElementById('feedbackZone').innerHTML='';document.getElementById('nextBtn').classList.add('hidden');
+ const z=document.getElementById('answerZone');z.innerHTML='<div class="options">'+x.opts.map((o,i)=>`<button class="option" onclick="choose(${i},this)"><span class="letter">${String.fromCharCode(65+i)}</span><span>${o}</span></button>`).join('')+'</div>';
+ updateStats();}
+function choose(i,el){if(answered)return;answered=true;const x=Q[idx],buttons=[...document.querySelectorAll('.option')];const ok=i===x.ans;buttons[x.ans].classList.add('correct');if(!ok)el.classList.add('wrong');buttons.forEach(b=>b.disabled=true);
+ if(ok){streak++;best=Math.max(best,streak); if(x.cat==='fan')fan++; else if(x.cat==='lang')lang++; else {fan++;lang++;} feedback(true,x.why);} else {misses.push({n:idx+1,q:x.q,correct:x.opts[x.ans],skill:x.skill,cat:x.cat});streak=0;feedback(false,x.why);} updateStats();document.getElementById('nextBtn').classList.remove('hidden');}
+function feedback(ok,why){document.getElementById('feedbackZone').innerHTML=`<div class="feedback ${ok?'ok':'no'}"><b>${ok?'✅ Señal recibida':'⚠️ Interferencia detectada'}</b><br>${why}${ok?'':'<div class="hint">💡 Guarda esta pista: observa mayúsculas, tildes, signos y el sentido completo de la oración.</div>'}</div>`}
+function updateStats(){document.getElementById('streak').textContent=streak;document.getElementById('best').textContent=best;document.getElementById('fanScore').textContent=fan;document.getElementById('langScore').textContent=lang;}
+function nextQuestion(){idx++;if(idx>=Q.length)finish();else render();}
+function finish(){document.getElementById('quiz').classList.add('hidden');document.getElementById('results').classList.remove('hidden');const fanTotal=Q.filter(x=>x.cat==='fan'||x.cat==='mixed').length;const langTotal=Q.filter(x=>x.cat==='lang'||x.cat==='mixed').length;const fanPct=Math.round(fan/fanTotal*100);const langPct=Math.round(lang/langTotal*100);const totalCorrect=Q.length-misses.length;let rank=fanPct>=90?'👑 Maestro del Mundo del Revés':fanPct>=75?'🔥 Miembro Élite del Hellfire Club':fanPct>=55?'🚲 Explorador de Hawkins':'💡 Recluta de Hawkins';
+ const skills={};misses.forEach(m=>skills[m.skill]=(skills[m.skill]||0)+1);const top=Object.entries(skills).sort((a,b)=>b[1]-a[1]).slice(0,5);
+ document.getElementById('results').innerHTML=`<div class="card"><div class="kicker">Expediente completado</div><h2 class="qtitle" style="text-align:center">Resultados de Noel</h2><div class="score-big">${totalCorrect}/100</div><div class="rank">${rank}</div><div class="result-grid"><div class="result-box"><b>🎬 Conocimiento Stranger Things</b><div style="font-size:2rem;font-weight:900;margin-top:6px">${fanPct}%</div><div class="meter"><span style="width:${fanPct}%"></span></div></div><div class="result-box"><b>✍️ Lenguajes y escritura</b><div style="font-size:2rem;font-weight:900;margin-top:6px">${langPct}%</div><div class="meter"><span style="width:${langPct}%"></span></div></div><div class="result-box"><b>🔥 Mejor racha</b><div style="font-size:2rem;font-weight:900;margin-top:6px">${best}</div><small>respuestas correctas consecutivas</small></div><div class="result-box"><b>🧠 Retos por reforzar</b><div style="font-size:2rem;font-weight:900;margin-top:6px">${misses.length}</div><small>errores convertidos en oportunidades de aprendizaje</small></div></div>${top.length?`<div class="review"><h3>📚 Pistas para la siguiente misión</h3>${top.map(([s,n])=>`<div class="review-item"><b>${s}</b> · ${n} reto${n>1?'s':''} por reforzar</div>`).join('')}</div>`:''}<div class="review"><h3>🔎 Respuestas que conviene revisar</h3>${misses.slice(0,12).map(m=>`<div class="review-item"><b>Pregunta ${m.n}:</b> ${m.q}<br><span style="color:#aab2c0">Respuesta correcta: ${m.correct}</span></div>`).join('')}${misses.length>12?`<div class="review-item">…y ${misses.length-12} más.</div>`:''}</div><button class="primary" style="margin-top:16px" onclick="location.reload()">🔁 Jugar de nuevo</button></div>`;}
+</script>
+</body>
+</html>
