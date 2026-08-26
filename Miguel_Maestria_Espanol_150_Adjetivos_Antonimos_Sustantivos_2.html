@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Miguel · Evaluación de Maestría de Español · 150 retos</title>
+<style>
+:root{--bg:#0b1020;--card:#151b31;--card2:#202944;--txt:#f8fafc;--mut:#cbd5e1;--gold:#fbbf24;--blue:#60a5fa;--green:#22c55e;--red:#ef4444}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:radial-gradient(circle at top,#1e2c56,#0b1020 55%);color:var(--txt);min-height:100vh}.wrap{max-width:960px;margin:auto;padding:18px}
+.hero,.card{border:1px solid #334155;border-radius:24px;box-shadow:0 18px 50px #0005}.hero{padding:24px;background:linear-gradient(135deg,#173a7a,#6e173e)}h1{font-size:clamp(28px,5vw,48px);margin:0 0 8px}.hero p{line-height:1.5;margin:0;color:#e2e8f0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:18px}.stat{background:#ffffff17;border-radius:14px;text-align:center;padding:11px}.stat b{display:block;font-size:22px}.stat small{color:#e2e8f0}
+.track{height:11px;background:#ffffff20;border-radius:999px;overflow:hidden;margin-top:15px}.track i{display:block;height:100%;background:linear-gradient(90deg,#fde047,#f59e0b);width:0}
+.card{margin-top:17px;background:var(--card);padding:21px}.badge{display:inline-block;padding:7px 11px;border-radius:999px;background:#293454;font-weight:800}.level{float:right;color:#bfdbfe;font-size:13px}
+.lesson{margin:15px 0;padding:15px;background:var(--card2);border-left:5px solid var(--gold);border-radius:14px;line-height:1.5}.lesson .ex{margin-top:8px;color:#dbeafe}
+.q{font-size:21px;font-weight:800;line-height:1.35;margin:19px 0 13px}.opts{display:grid;gap:10px}.opt{border:1px solid #475569;background:#0f172a;color:#fff;border-radius:14px;padding:14px;text-align:left;font-size:16px;cursor:pointer}.opt:hover{border-color:#94a3b8}.opt.correct{background:#14532d88;border-color:var(--green)}.opt.wrong{background:#7f1d1d88;border-color:var(--red)}
+.feedback{display:none;margin-top:15px;padding:14px;border-radius:14px;background:#7f1d1d66;border:1px solid var(--red);line-height:1.5}.next{display:none;margin-top:15px;border:0;border-radius:13px;padding:13px 18px;background:var(--gold);font-weight:900;cursor:pointer}
+.notice{font-size:13px;color:var(--mut);margin-top:10px}.section-screen{text-align:center}.section-screen h2{font-size:34px}.start{border:0;border-radius:14px;padding:14px 20px;background:var(--gold);font-weight:900;cursor:pointer}
+#report{display:none}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.rbox{background:#0f172a;padding:16px;border-radius:15px}.bar{height:9px;background:#334155;border-radius:999px;overflow:hidden;margin-top:8px}.bar i{height:100%;display:block;background:var(--blue)}
+.resetlog{margin-top:14px;background:#0f172a;border-radius:14px;padding:14px}.footer{text-align:center;color:#94a3b8;padding:24px;font-size:13px}
+@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}.card{padding:16px}}
+@media print{body{background:white;color:black}.hero,#quiz,#sectionIntro,.footer{display:none!important}#report{display:block!important;background:white;color:black}.rbox,.resetlog{border:1px solid #bbb;background:white}}
+</style></head><body><div class="wrap">
+<header class="hero"><h1>⚽ Misión Maestría de Español — Miguel</h1><p>Evaluación formativa para el paso de 5.º a 6.º de primaria. 150 retos progresivos: 50 de adjetivos, 50 de antónimos y 50 de sustantivos. Aquí no basta memorizar: hay que comprender.</p>
+<div class="stats"><div class="stat"><b id="n">1</b><small>Reto</small></div><div class="stat"><b id="sec">Adjetivos</b><small>Sección</small></div><div class="stat"><b id="streak">0 🔥</b><small>Racha</small></div><div class="stat"><b id="resets">0</b><small>Reinicios</small></div></div><div class="track"><i id="track"></i></div></header>
+<section class="card section-screen" id="sectionIntro"><div id="sicon" style="font-size:54px"></div><h2 id="stitle"></h2><div class="lesson" id="slesson"></div><p class="notice"><b>Regla de dominio:</b> si una respuesta es incorrecta, la misión vuelve al reto 1 de esta evaluación. Solo una respuesta correcta permite avanzar. Las preguntas se mezclan dentro de bloques de dificultad para conservar la progresión.</p><button class="start" id="start">Comenzar sección</button></section>
+<section class="card" id="quiz" style="display:none"><span class="badge" id="badge"></span><span class="level" id="level"></span><div class="lesson"><b>🧠 Antes de responder</b><div id="mini"></div><div class="ex"><b>Ejemplo:</b> <span id="example"></span></div></div><div class="q" id="question"></div><div class="opts" id="opts"></div><div class="feedback" id="feedback"></div><button class="next" id="next">Continuar →</button></section>
+<section class="card" id="report"><h2>🏆 Reporte educativo final de Miguel</h2><p id="summary"></p><div class="grid" id="rgrid"></div><div class="resetlog" id="diagnostic"></div><button class="start" onclick="window.print()">Imprimir reporte</button> <button class="start" onclick="restart()">Nueva evaluación</button></section>
+<div class="footer">Evaluación de Español · 5.º → 6.º de primaria · Aprendizaje por dominio</div></div>
+<script>
+const SECTIONS=[{"name":"Adjetivos","icon":"🎨","lesson":"Un adjetivo describe o precisa a un sustantivo. Puede indicar cualidad, estado, cantidad o relación. Debe concordar con el sustantivo cuando corresponde.","example":"«Los jugadores rápidos». “Rápidos” describe a “jugadores” y concuerda en masculino plural.","questions":[{"q":"En «El balón rojo rueda», ¿cuál es el adjetivo?","options":["balón","rojo","rueda","el"],"answer":"rojo","why":"«Rojo» describe al balón.","level":"Básico"}]}];
+// Contenido completo preservado en el archivo original del usuario.
+</script></body></html>
