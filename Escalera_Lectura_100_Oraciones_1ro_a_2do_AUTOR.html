@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Escalera de Lectura · 100 oraciones</title>
+<style>
+:root {
+  --bg:#f7f5ef; --card:#ffffff; --ink:#1f2937; --muted:#6b7280; --line:#dedbd1;
+  --accent:#315b88; --accent2:#8a5c2e; --ok:#2f6d4f; --soft:#eef3f8;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:ui-rounded, "SF Pro Rounded", system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#faf8f2,#f2efe7);color:var(--ink);min-height:100vh}
+.app{max-width:980px;margin:0 auto;padding:28px 18px 54px}
+.header{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:18px;flex-wrap:wrap}
+.title h1{margin:0;font-size:clamp(1.6rem,4vw,2.4rem)}
+.title p{margin:.4rem 0 0;color:var(--muted)}
+.badges{display:flex;gap:8px;flex-wrap:wrap}
+.badge{background:#fff;border:1px solid var(--line);padding:8px 12px;border-radius:999px;font-size:.9rem}
+.progressWrap{background:#e8e4da;border-radius:999px;height:12px;overflow:hidden;margin:14px 0 24px}
+.progress{height:100%;background:var(--accent);width:1%;transition:.35s}
+.card{background:var(--card);border:1px solid var(--line);box-shadow:0 14px 40px rgba(45,41,32,.08);border-radius:28px;padding:clamp(22px,5vw,44px)}
+.meta{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:.95rem}
+.level{font-weight:700;color:var(--accent)}
+.sentenceBox{min-height:250px;display:grid;place-items:center;text-align:center;padding:24px 8px}
+.sentence{font-weight:800;line-height:1.45;letter-spacing:.01em;font-size:clamp(2rem,6vw,4.6rem);max-width:860px}
+.tip{margin:0 auto 26px;max-width:760px;text-align:center;background:var(--soft);border-radius:18px;padding:14px 18px;color:#435166}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{border:0;border-radius:18px;padding:16px 18px;font-size:1rem;font-weight:750;cursor:pointer}
+.readBtn{background:#eaf4ee;color:var(--ok)}
+.teacherBtn{background:var(--accent);color:white}
+.teacherBtn:disabled{opacity:.45;cursor:not-allowed}
+.small{font-size:.88rem;color:var(--muted);margin-top:14px;text-align:center}
+.controls{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+.secondary{background:#fff;border:1px solid var(--line);color:var(--ink);padding:10px 14px;border-radius:14px}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.52);display:none;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.modalBox{width:min(420px,100%);background:#fff;border-radius:24px;padding:26px;box-shadow:0 25px 70px rgba(0,0,0,.22)}
+.modalBox h2{margin-top:0}
+.pin{width:100%;font-size:1.4rem;letter-spacing:.3em;text-align:center;padding:14px;border-radius:14px;border:1px solid var(--line);margin:10px 0}
+.modalActions{display:flex;gap:10px}
+.modalActions button{flex:1}
+.error{color:#a33a3a;min-height:22px;margin-top:8px;font-size:.92rem}
+.done{text-align:center;padding:30px 10px}
+.done h2{font-size:2rem;margin-bottom:8px}
+@media(max-width:650px){.actions{grid-template-columns:1fr} .sentenceBox{min-height:310px}}
+
+/* ===== Footer del autor: estilos aislados ===== */
+.laan-author-footer{
+  max-width:980px;
+  margin:28px auto 0;
+  padding:0 18px 36px;
+  font-family:ui-rounded, "SF Pro Rounded", system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ink);
+}
+.laan-author-footer__panel{
+  background:rgba(255,255,255,.72);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:22px 24px;
+  box-shadow:0 10px 28px rgba(45,41,32,.05);
+}
+.laan-author-footer__eyebrow{
+  margin:0 0 5px;
+  color:var(--accent);
+  font-size:.76rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.laan-author-footer__name{
+  margin:0;
+  font-size:1.08rem;
+  line-height:1.35;
+  font-weight:800;
+}
+.laan-author-footer__description{
+  margin:11px 0 0;
+  max-width:780px;
+  color:var(--muted);
+  font-size:.92rem;
+  line-height:1.65;
+}
+.laan-author-footer__bottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid var(--line);
+}
+.laan-author-footer__meta{
+  min-width:0;
+}
+.laan-author-footer__phrase{
+  margin:0;
+  color:var(--muted);
+  font-size:.83rem;
+  line-height:1.5;
+}
+.laan-author-footer__copyright{
+  margin:5px 0 0;
+  color:var(--muted);
+  font-size:.78rem;
+}
+.laan-author-footer__link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 auto;
+  min-height:42px;
+  padding:10px 16px;
+  border:1px solid var(--accent);
+  border-radius:14px;
+  background:transparent;
+  color:var(--accent);
+  font-size:.86rem;
+  font-weight:750;
+  line-height:1;
+  text-decoration:none;
+  transition:background-color .18s ease,color .18s ease,transform .18s ease;
+}
+.laan-author-footer__link:hover{
+  background:var(--accent);
+  color:#fff;
+}
+.laan-author-footer__link:focus-visible{
+  outline:3px solid rgba(49,91,136,.22);
+  outline-offset:3px;
+}
+.laan-author-footer__link:active{
+  transform:translateY(1px);
+}
+@media(max-width:650px){
+  .laan-author-footer{
+    margin-top:22px;
+    padding:0 18px 28px;
+  }
+  .laan-author-footer__panel{
+    padding:19px 18px;
+    border-radius:20px;
+  }
+  .laan-author-footer__bottom{
+    align-items:stretch;
+    flex-direction:column;
+  }
+  .laan-author-footer__link{
+    width:100%;
+  }
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="title">
+      <h1>Escalera de Lectura</h1>
+      <p>100 oraciones progresivas · 1.º → 2.º de primaria</p>
+    </div>
+    <div class="badges">
+      <div class="badge" id="counter">Oración 1 de 100</div>
+      <div class="badge" id="streak">Leídas: 0</div>
+    </div>
+  </div>
+
+  <div class="progressWrap"><div class="progress" id="progress"></div></div>
+
+  <main class="card">
+    <div class="meta">
+      <span class="level" id="level">Nivel 1 · Inicio</span>
+      <span id="focus">Meta: leer despacio y completo</span>
+    </div>
+
+    <section class="sentenceBox">
+      <div class="sentence" id="sentence"></div>
+    </section>
+
+    <div class="tip" id="tip">
+      👀 Primero mira toda la oración. Después léela en voz alta sin correr.
+    </div>
+
+    <div class="actions">
+      <button class="readBtn" id="readBtn">✓ Ya la leí</button>
+      <button class="teacherBtn" id="teacherBtn" disabled>🔒 Maestro: autorizar siguiente</button>
+    </div>
+
+    <div class="small">El alumno no puede avanzar solo. El botón de avance se habilita únicamente después de marcar la lectura y validar con el PIN del maestro.</div>
+
+    <div class="controls">
+      <button class="secondary" id="repeatBtn">↻ Volver a leer</button>
+      <button class="secondary" id="fontMinus">A−</button>
+      <button class="secondary" id="fontPlus">A+</button>
+    </div>
+  </main>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modalBox">
+    <h2>Autorización del maestro</h2>
+    <p>Escucha al alumno. Si leyó la oración de forma aceptable, introduce tu PIN.</p>
+    <input id="pin" class="pin" type="password" inputmode="numeric" maxlength="6" placeholder="••••">
+    <div class="error" id="error"></div>
+    <div class="modalActions">
+      <button class="secondary" id="cancel">Cancelar</button>
+      <button class="teacherBtn" id="approve">Autorizar</button>
+    </div>
+    <p class="small">PIN inicial: <strong>2468</strong>. Puedes cambiarlo dentro del archivo en la variable <code>TEACHER_PIN</code>.</p>
+  </div>
+</div>
+
+<script>
+const SENTENCES = ["Mi mamá me ama.", "Mi papá me mima.", "Lola toma agua.", "Paco come pan.", "Mimi mira la luna.", "Tomás toca la mesa.", "Lola lava la taza.", "Pepe pela una papa.", "Mi gato salta.", "Mi perro corre.", "Mi mamá toma café.", "Mi papá come sopa.", "Lola mira a su gato.", "Paco toma leche tibia.", "Mimi salta con Ana.", "Tomás corre con Pepe.", "El gato mira la mesa.", "El perro toma agua.", "Ana come una pera.", "Lola pela una manzana.", "Ana salta en el patio.", "Pepe corre por la casa.", "Mi gato duerme en la cama.", "Mi perro juega con una pelota.", "Lola toma agua con su mamá.", "Paco come pan con queso.", "Mimi mira la luna desde casa.", "Tomás toca una mesa de madera.", "Ana lava una taza roja.", "Pepe pela una papa grande.", "El gato negro salta muy alto.", "El perro café corre por el patio.", "Ana come una pera dulce.", "Lola mira una nube blanca.", "Paco toma leche antes de dormir.", "Mimi juega con una pelota roja.", "Tomás camina junto a su papá.", "Pepe guarda el pan en la mesa.", "Ana abre la puerta de la casa.", "Lola cierra la ventana con cuidado.", "Leo tiene un perro pequeño.", "El perro de Leo se llama Max.", "Max juega alegre en el patio.", "Leo lanza una pelota roja.", "Max corre rápido por la pelota.", "El gato mira a Max desde la mesa.", "Leo llama a Max con una sonrisa.", "Max vuelve con la pelota en la boca.", "Leo acaricia a Max y le da agua.", "Después, Leo y Max descansan bajo el árbol.", "Ana lleva una mochila azul a la escuela.", "En la mochila guarda un libro y un lápiz.", "Ana saluda a su maestra al entrar al salón.", "La maestra escribe una palabra en el pizarrón.", "Ana lee la palabra y después la copia.", "Su amigo Paco también lee con atención.", "Los dos levantan la mano para participar.", "La maestra escucha sus respuestas con calma.", "Al terminar, Ana guarda su cuaderno.", "Después de la clase, Ana vuelve feliz a casa.", "Una mañana, Lola encontró una semilla pequeña.", "Lola puso la semilla dentro de una maceta.", "Después agregó tierra y un poco de agua.", "Cada día, Lola miraba la maceta con atención.", "Una semana después apareció una hoja verde.", "Lola llamó a su mamá para enseñarle la planta.", "Su mamá sonrió porque Lola había sido paciente.", "Las dos pusieron la maceta cerca de la ventana.", "Con el sol y el agua, la planta siguió creciendo.", "Lola aprendió que las plantas necesitan cuidado diario.", "Tomás salió temprano con su papá al mercado.", "En el camino vieron un perro junto a una tienda.", "El perro movía la cola porque quería jugar.", "Tomás se acercó despacio y le ofreció un poco de agua.", "El perro bebió y después se sentó junto a Tomás.", "Su papá explicó que debemos cuidar a los animales.", "Tomás entendió que ayudar también es una forma de querer.", "Antes de irse, Tomás acarició al perro con cuidado.", "El perro volvió a mover la cola y siguió su camino.", "Tomás llegó al mercado pensando en lo que había aprendido.", "El sábado por la mañana, Ana y Leo fueron al parque con su familia.", "Primero caminaron por un sendero donde había flores amarillas y árboles altos.", "Después encontraron una banca y se sentaron a beber agua.", "Leo vio una mariposa azul que volaba cerca de las flores.", "Ana quiso seguirla, pero su mamá le pidió caminar con cuidado.", "Los niños observaron cómo la mariposa se posaba sobre una flor.", "Entonces comprendieron que podían mirar sin tocar ni lastimar a los animales.", "Más tarde jugaron con una pelota y compartieron una manzana.", "Antes de regresar a casa, recogieron los papeles que encontraron cerca de la banca.", "Al final del paseo, todos estaban cansados, pero contentos por haber cuidado el parque.", "Una tarde de lluvia, Mimi escuchó un ruido suave junto a la ventana de su casa.", "Cuando miró afuera, descubrió a un gatito pequeño que estaba mojado y temblaba de frío.", "Mimi llamó a su papá y juntos llevaron al gatito a un lugar seco.", "Primero lo envolvieron con una toalla y después le pusieron un plato con agua.", "El gatito bebió lentamente y comenzó a sentirse más tranquilo.", "Mimi quería quedarse con él, pero su papá explicó que primero debían buscar a su familia.", "Por eso hicieron un cartel sencillo y preguntaron a los vecinos si alguien conocía al gatito.", "Una señora reconoció al animal y dijo que pertenecía a una familia de la calle siguiente.", "Mimi acompañó a su papá para devolver al gatito y se alegró al ver a su familia reunida.", "Esa noche, Mimi comprendió que leer, preguntar y ayudar pueden servir para resolver problemas reales."];
+const TEACHER_PIN = "2468";
+
+const levels = [
+  ["Nivel 1 · Sílabas simples", "Meta: reconocer palabras cortas y frecuentes"],
+  ["Nivel 2 · Frases breves", "Meta: unir palabras sin cortar demasiado"],
+  ["Nivel 3 · Oraciones cortas", "Meta: ganar fluidez y seguridad"],
+  ["Nivel 4 · Más detalles", "Meta: leer adjetivos, lugares y acciones"],
+  ["Nivel 5 · Secuencia sencilla", "Meta: seguir una pequeña historia"],
+  ["Nivel 6 · Escuela y acciones", "Meta: comprender quién hace qué"],
+  ["Nivel 7 · Causa y tiempo", "Meta: entender después, porque y cada día"],
+  ["Nivel 8 · Ideas conectadas", "Meta: mantener el sentido en oraciones largas"],
+  ["Nivel 9 · Comprensión", "Meta: leer dos ideas relacionadas"],
+  ["Nivel 10 · Minilectura", "Meta: comprender una historia completa"]
+];
+
+let index = Number(localStorage.getItem("readingIndex") || 0);
+if(index < 0 || index >= SENTENCES.length) index = 0;
+let readMarked = false;
+let fontScale = Number(localStorage.getItem("fontScale") || 1);
+
+const sentence = document.getElementById("sentence");
+const counter = document.getElementById("counter");
+const streak = document.getElementById("streak");
+const progress = document.getElementById("progress");
+const level = document.getElementById("level");
+const focus = document.getElementById("focus");
+const readBtn = document.getElementById("readBtn");
+const teacherBtn = document.getElementById("teacherBtn");
+const modal = document.getElementById("modal");
+const pin = document.getElementById("pin");
+const error = document.getElementById("error");
+
+function render(){
+  const li = Math.min(9, Math.floor(index / 10));
+  sentence.textContent = SENTENCES[index];
+  sentence.style.fontSize = `calc(clamp(2rem, 6vw, 4.6rem) * ${fontScale})`;
+  counter.textContent = `Oración ${index+1} de ${SENTENCES.length}`;
+  streak.textContent = `Leídas: ${index}`;
+  progress.style.width = `${((index+1)/SENTENCES.length)*100}%`;
+  level.textContent = levels[li][0];
+  focus.textContent = levels[li][1];
+  readMarked = false;
+  teacherBtn.disabled = true;
+  readBtn.textContent = "✓ Ya la leí";
+  localStorage.setItem("readingIndex", index);
+}
+
+readBtn.addEventListener("click", ()=>{
+  readMarked = true;
+  teacherBtn.disabled = false;
+  readBtn.textContent = "✓ Lectura marcada";
+});
+
+teacherBtn.addEventListener("click", ()=>{
+  if(!readMarked) return;
+  modal.classList.add("show");
+  pin.value = "";
+  error.textContent = "";
+  setTimeout(()=>pin.focus(),100);
+});
+
+document.getElementById("cancel").addEventListener("click", ()=> modal.classList.remove("show"));
+
+document.getElementById("approve").addEventListener("click", ()=>{
+  if(pin.value !== TEACHER_PIN){
+    error.textContent = "PIN incorrecto.";
+    return;
+  }
+  modal.classList.remove("show");
+  if(index < SENTENCES.length - 1){
+    index++;
+    render();
+  } else {
+    document.querySelector(".card").innerHTML = `
+      <div class="done">
+        <div style="font-size:4rem">🏆</div>
+        <h2>¡Escalera completada!</h2>
+        <p>Se terminaron las 100 lecturas progresivas.</p>
+        <button class="teacherBtn" onclick="localStorage.removeItem('readingIndex'); location.reload()">Reiniciar desde la oración 1</button>
+      </div>`;
+  }
+});
+
+pin.addEventListener("keydown", e=>{ if(e.key==="Enter") document.getElementById("approve").click(); });
+
+document.getElementById("repeatBtn").addEventListener("click", ()=>{
+  readMarked = false;
+  teacherBtn.disabled = true;
+  readBtn.textContent = "✓ Ya la leí";
+});
+
+document.getElementById("fontPlus").addEventListener("click", ()=>{
+  fontScale = Math.min(1.35, fontScale + .1);
+  localStorage.setItem("fontScale", fontScale);
+  render();
+});
+document.getElementById("fontMinus").addEventListener("click", ()=>{
+  fontScale = Math.max(.75, fontScale - .1);
+  localStorage.setItem("fontScale", fontScale);
+  render();
+});
+
+render();
+</script>
+
+<footer class="laan-author-footer" aria-label="Información del autor">
+  <div class="laan-author-footer__panel">
+    <p class="laan-author-footer__eyebrow">Autor</p>
+    <p class="laan-author-footer__name">Luis Alberto Antonio Narciso</p>
+
+    <p class="laan-author-footer__description">
+      Ingeniero en Electrónica y profesional de Quality Assurance, automatización de pruebas y tecnología educativa.
+      Desarrolla experiencias web interactivas orientadas al aprendizaje, combinando educación, tecnología, diseño y herramientas digitales.
+    </p>
+
+    <div class="laan-author-footer__bottom">
+      <div class="laan-author-footer__meta">
+        <p class="laan-author-footer__phrase">“Recurso diseñado y desarrollado por Luis Alberto Antonio Narciso”.</p>
+        <p class="laan-author-footer__copyright">© 2026 Luis Alberto Antonio Narciso</p>
+      </div>
+
+      <a
+        class="laan-author-footer__link"
+        href="https://narciso1516.github.io/narcisotesting.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Conocer al autor</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
