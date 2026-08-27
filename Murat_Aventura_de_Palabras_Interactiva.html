@@ -1,7 +1,423 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Murat · Aventura de Palabras</title></head>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Murat · Aventura de Palabras</title>
+<style>
+:root{
+  --bg:#f7fbff;
+  --panel:#ffffff;
+  --ink:#213547;
+  --muted:#6b7a89;
+  --line:#dbe8f2;
+  --accent:#6c63ff;
+  --accent2:#2ec4b6;
+  --gold:#ffbf3f;
+  --ok:#2ca66f;
+  --bad:#db4b4b;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:linear-gradient(180deg,#eef8ff,#fff7e8);
+  color:var(--ink);
+  min-height:100vh;
+}
+.wrap{max-width:980px;margin:auto;padding:14px}
+.hero,.panel{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--line);
+  border-radius:28px;
+  box-shadow:0 10px 28px rgba(36,64,89,.08);
+}
+.hero{padding:22px;text-align:center}
+.hero h1{font-size:clamp(34px,7vw,62px);margin:8px 0}
+.hero p{font-size:clamp(16px,2.8vw,22px);margin:0 auto 14px;max-width:720px}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.pill{
+  background:#eef4ff;border:1px solid #dce5ff;border-radius:999px;
+  padding:8px 12px;font-weight:800
+}
+.panel{padding:20px;margin-top:14px}
+.hud{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center}
+.progress{height:16px;background:#e8eef3;border-radius:999px;overflow:hidden}
+.progress>div{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));width:0%;transition:.3s}
+.stat{font-weight:900;font-size:18px}
+.level-title{font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
+.prompt{text-align:center;font-size:clamp(28px,5vw,46px);font-weight:900;line-height:1.18;margin:18px 0 8px}
+.sub{text-align:center;color:var(--muted);font-size:16px;margin-bottom:16px}
+.emoji{text-align:center;font-size:78px;margin:8px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+button{
+  border:1px solid var(--line);
+  background:#f7fbff;
+  color:var(--ink);
+  border-radius:20px;
+  min-height:58px;
+  padding:14px 16px;
+  font-size:clamp(18px,3vw,25px);
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 5px 0 #d9e5ee;
+}
+button:active{transform:translateY(3px);box-shadow:0 2px 0 #d9e5ee}
+button.primary{background:var(--gold);border-color:#efad21;box-shadow:0 5px 0 #dc9815}
+button.good{background:#e5f8ef;border-color:#9bd5bb;color:#166846}
+button.bad{background:#ffe8e8;border-color:#f2b4b4;color:#9d2f2f}
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.feedback{min-height:42px;text-align:center;font-size:21px;font-weight:900;margin-top:14px}
+.hidden{display:none!important}
+.slot-zone,.pieces{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;min-height:72px}
+.slot{
+  min-width:86px;min-height:58px;padding:12px 18px;
+  border:3px dashed #b7c9d8;border-radius:18px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;font-weight:900;background:#f9fcff
+}
+.piece{
+  user-select:none;touch-action:none;
+  background:#f3efff;border:2px solid #d8d0ff;
+  border-radius:18px;padding:14px 18px;
+  min-width:72px;text-align:center;font-size:24px;font-weight:900;
+  cursor:grab;
+}
+.piece.selected{outline:4px solid #ffd36a}
+.word-bank{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.word-chip{
+  border-radius:18px;padding:13px 18px;background:#eef8f7;border:2px solid #bde3dd;
+  font-weight:900;font-size:22px;cursor:pointer
+}
+.sentence-box{
+  min-height:80px;border:2px dashed #b7c9d8;border-radius:20px;padding:12px;
+  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;align-items:center
+}
+.balloon-area{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;padding:10px}
+.balloon{
+  width:110px;height:130px;border-radius:55% 55% 48% 48%;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  background:#eef6ff;border:3px solid #c9ddf2;font-weight:900;font-size:20px;
+  box-shadow:inset 0 -12px 0 rgba(0,0,0,.03)
+}
+.balloon.correct-pop{animation:pop .25s ease forwards}
+@keyframes pop{to{transform:scale(.2);opacity:0}}
+.starburst{font-size:86px;text-align:center}
+.reward{
+  text-align:center;font-size:clamp(28px,5vw,46px);font-weight:900;margin:12px 0
+}
+.small{font-size:14px;color:var(--muted);text-align:center}
+.footer{text-align:center;color:var(--muted);font-size:13px;padding:18px}
+@media(max-width:620px){
+  .grid{grid-template-columns:1fr}
+  .hud{grid-template-columns:1fr 1fr}
+  .hud .progress{grid-column:1/-1}
+  .wrap{padding:8px}
+  .panel,.hero{border-radius:22px;padding:16px}
+}
+</style>
+</head>
 <body>
-<script>location.replace('Murat_Aventura_de_Palabras_Interactiva(1).html');</script>
-<noscript><a href="Murat_Aventura_de_Palabras_Interactiva(1).html">Abrir juego de Murat</a></noscript>
-</body></html>
+<div class="wrap">
+  <section class="hero">
+    <div class="emoji">🚀🔤🎮</div>
+    <h1>Murat: Aventura de Palabras</h1>
+    <p>Juega con letras, sílabas, palabras y oraciones. Aquí no se trata solo de leer: ¡hay que construir, ordenar, atrapar y descubrir!</p>
+    <div class="row">
+      <span class="pill">👦 6 años</span>
+      <span class="pill">🧩 6 niveles</span>
+      <span class="pill">⭐ Recompensas</span>
+      <span class="pill">📱 Celular y tablet</span>
+    </div>
+  </section>
+
+  <section id="start" class="panel">
+    <h2 style="text-align:center;font-size:32px">¿Listo para jugar?</h2>
+    <p style="text-align:center;font-size:18px">Murat avanzará por seis mundos. Si se equivoca, puede volver a intentar sin perder todo su progreso.</p>
+    <div class="controls">
+      <button class="primary" id="startBtn">▶ Empezar aventura</button>
+    </div>
+  </section>
+
+  <section id="game" class="hidden">
+    <div class="panel">
+      <div class="hud">
+        <div class="progress"><div id="progressBar"></div></div>
+        <div class="stat">⭐ <span id="score">0</span></div>
+        <div class="stat">🔥 <span id="streak">0</span></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div id="levelTitle" class="level-title"></div>
+      <div id="emoji" class="emoji"></div>
+      <div id="prompt" class="prompt"></div>
+      <div id="sub" class="sub"></div>
+      <div id="stage"></div>
+      <div id="feedback" class="feedback" aria-live="polite"></div>
+      <div class="controls" style="margin-top:14px">
+        <button id="listenBtn">🔊 Escuchar</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="finish" class="panel hidden">
+    <div class="starburst">🏆🌟🎉</div>
+    <div class="reward">¡Murat completó la aventura!</div>
+    <p id="finalText" style="text-align:center;font-size:22px"></p>
+    <div class="controls">
+      <button class="primary" id="restartBtn">🔁 Jugar de nuevo</button>
+    </div>
+  </section>
+
+  <div class="footer">
+    Recurso educativo complementario · Lectoescritura inicial · 2026<br>
+    Autor: Luis Alberto Antonio Narciso
+  </div>
+</div>
+
+<script>
+const missions = [
+  {
+    type:"syllables", level:"Nivel 1 · Constructor de palabras", emoji:"⚽",
+    prompt:"Construye la palabra PELOTA", sub:"Toca las sílabas en el orden correcto.",
+    pieces:["PE","LO","TA"], answer:["PE","LO","TA"]
+  },
+  {
+    type:"syllables", level:"Nivel 1 · Constructor de palabras", emoji:"🐢",
+    prompt:"Construye la palabra TORTUGA", sub:"Toca las sílabas.",
+    pieces:["TOR","TU","GA"], answer:["TOR","TU","GA"]
+  },
+  {
+    type:"missing", level:"Nivel 2 · La letra perdida", emoji:"🏠",
+    prompt:"CA _ A", sub:"¿Qué letra falta para formar CASA?",
+    options:["S","M","P","T"], answer:"S"
+  },
+  {
+    type:"missing", level:"Nivel 2 · La letra perdida", emoji:"🌙",
+    prompt:"LU _ A", sub:"¿Qué letra falta para formar LUNA?",
+    options:["N","M","R","S"], answer:"N"
+  },
+  {
+    type:"sentence", level:"Nivel 3 · Tren de palabras", emoji:"🚂",
+    prompt:"Ordena la oración", sub:"Toca las palabras en el orden correcto.",
+    pieces:["juega","Murat","fútbol"], answer:["Murat","juega","fútbol"]
+  },
+  {
+    type:"sentence", level:"Nivel 3 · Tren de palabras", emoji:"🐶",
+    prompt:"Ordena la oración", sub:"Forma una oración que tenga sentido.",
+    pieces:["corre","El","perro"], answer:["El","perro","corre"]
+  },
+  {
+    type:"balloons", level:"Nivel 4 · Revienta la palabra", emoji:"🎈",
+    prompt:"Encuentra ANIMAL", sub:"Toca solo la palabra que es un animal.",
+    options:["mesa","gato","sol","pan"], answer:"gato"
+  },
+  {
+    type:"balloons", level:"Nivel 4 · Revienta la palabra", emoji:"🎈",
+    prompt:"Encuentra ALIMENTO", sub:"Toca la palabra que se puede comer.",
+    options:["silla","leche","nube","zapato"], answer:"leche"
+  },
+  {
+    type:"sound", level:"Nivel 5 · Detective de sonidos", emoji:"🕵️",
+    prompt:"¿Cuál empieza con M?", sub:"Escoge la palabra correcta.",
+    options:["mesa","sol","rana","luna"], answer:"mesa"
+  },
+  {
+    type:"sound", level:"Nivel 5 · Detective de sonidos", emoji:"🕵️",
+    prompt:"¿Cuál termina con O?", sub:"Mira bien la última letra.",
+    options:["casa","gato","luz","flor"], answer:"gato"
+  },
+  {
+    type:"boss", level:"Nivel 6 · Jefe final", emoji:"👾",
+    prompt:"El gato duerme en la cama.", sub:"¿Dónde duerme el gato?",
+    options:["En la cama","En el río","En la escuela","En el árbol"], answer:"En la cama"
+  },
+  {
+    type:"boss", level:"Nivel 6 · Jefe final", emoji:"🏆",
+    prompt:"Murat lee un cuento con mamá.", sub:"¿Qué está haciendo Murat?",
+    options:["Está leyendo","Está corriendo","Está nadando","Está cocinando"], answer:"Está leyendo"
+  }
+];
+
+let order=[], index=0, score=0, streak=0, locked=false;
+let currentSelection=[];
+
+const start=document.getElementById("start");
+const game=document.getElementById("game");
+const finish=document.getElementById("finish");
+const stage=document.getElementById("stage");
+const feedback=document.getElementById("feedback");
+const scoreEl=document.getElementById("score");
+const streakEl=document.getElementById("streak");
+const progressBar=document.getElementById("progressBar");
+
+document.getElementById("startBtn").addEventListener("click", startGame);
+document.getElementById("restartBtn").addEventListener("click", startGame);
+document.getElementById("listenBtn").addEventListener("click", speakCurrent);
+
+function shuffle(arr){ return [...arr].sort(()=>Math.random()-.5); }
+
+function startGame(){
+  start.classList.add("hidden");
+  finish.classList.add("hidden");
+  game.classList.remove("hidden");
+  order=missions.map(x=>({...x}));
+  index=0; score=0; streak=0; locked=false;
+  render();
+}
+
+function render(){
+  const m=order[index];
+  locked=false;
+  currentSelection=[];
+  document.getElementById("levelTitle").textContent=m.level;
+  document.getElementById("emoji").textContent=m.emoji;
+  document.getElementById("prompt").textContent=m.prompt;
+  document.getElementById("sub").textContent=m.sub;
+  feedback.textContent="";
+  scoreEl.textContent=score;
+  streakEl.textContent=streak;
+  progressBar.style.width=(index/order.length*100)+"%";
+  stage.innerHTML="";
+
+  if(m.type==="syllables") renderSyllables(m);
+  else if(m.type==="missing" || m.type==="sound" || m.type==="boss") renderOptions(m);
+  else if(m.type==="sentence") renderSentence(m);
+  else if(m.type==="balloons") renderBalloons(m);
+}
+
+function renderSyllables(m){
+  const slots=document.createElement("div");
+  slots.className="slot-zone";
+  const bank=document.createElement("div");
+  bank.className="pieces";
+  bank.style.marginTop="14px";
+
+  m.answer.forEach(()=> {
+    const s=document.createElement("div"); s.className="slot"; s.textContent="…"; slots.appendChild(s);
+  });
+
+  shuffle(m.pieces).forEach(piece=>{
+    const b=document.createElement("button");
+    b.type="button"; b.className="piece"; b.textContent=piece;
+    b.addEventListener("click",()=>{
+      if(locked || b.disabled) return;
+      currentSelection.push(piece); b.disabled=true;
+      slots.children[currentSelection.length-1].textContent=piece;
+      if(currentSelection.length===m.answer.length){
+        if(JSON.stringify(currentSelection)===JSON.stringify(m.answer)) correct();
+        else{
+          streak=0; streakEl.textContent=streak;
+          feedback.textContent="💡 Casi. Probemos otra vez.";
+          setTimeout(()=>render(),850);
+        }
+      }
+    });
+    bank.appendChild(b);
+  });
+  stage.append(slots,bank);
+}
+
+function renderSentence(m){
+  const box=document.createElement("div"); box.className="sentence-box";
+  const bank=document.createElement("div"); bank.className="word-bank"; bank.style.marginTop="14px";
+  shuffle(m.pieces).forEach(word=>{
+    const b=document.createElement("button"); b.type="button"; b.className="word-chip"; b.textContent=word;
+    b.addEventListener("click",()=>{
+      if(locked || b.disabled)return;
+      currentSelection.push(word); b.disabled=true;
+      const chip=document.createElement("span"); chip.className="word-chip"; chip.textContent=word; box.appendChild(chip);
+      if(currentSelection.length===m.answer.length){
+        if(JSON.stringify(currentSelection)===JSON.stringify(m.answer)) correct();
+        else{
+          streak=0; streakEl.textContent=streak;
+          feedback.textContent="🧩 El tren todavía no está en orden. Intenta otra vez.";
+          setTimeout(()=>render(),900);
+        }
+      }
+    });
+    bank.appendChild(b);
+  });
+  stage.append(box,bank);
+}
+
+function renderOptions(m){
+  const grid=document.createElement("div"); grid.className="grid";
+  shuffle(m.options).forEach(opt=>{
+    const b=document.createElement("button"); b.type="button"; b.textContent=opt;
+    b.addEventListener("click",()=>checkChoice(opt,b,m.answer));
+    grid.appendChild(b);
+  });
+  stage.appendChild(grid);
+}
+
+function renderBalloons(m){
+  const area=document.createElement("div"); area.className="balloon-area";
+  shuffle(m.options).forEach(opt=>{
+    const b=document.createElement("button");
+    b.type="button"; b.className="balloon"; b.textContent=opt;
+    b.addEventListener("click",()=>{
+      if(locked)return;
+      if(opt===m.answer){
+        b.classList.add("correct-pop");
+        correct();
+      }else{
+        streak=0; streakEl.textContent=streak;
+        b.classList.add("bad");
+        feedback.textContent="🎈 Ese no era. Busca otra palabra.";
+        b.disabled=true;
+      }
+    });
+    area.appendChild(b);
+  });
+  stage.appendChild(area);
+}
+
+function checkChoice(opt,btn,answer){
+  if(locked)return;
+  if(opt===answer){
+    btn.classList.add("good");
+    correct();
+  }else{
+    streak=0; streakEl.textContent=streak;
+    btn.classList.add("bad"); btn.disabled=true;
+    feedback.textContent="💡 Casi. Mira o escucha otra vez.";
+  }
+}
+
+function correct(){
+  if(locked)return;
+  locked=true;
+  score++; streak++;
+  scoreEl.textContent=score; streakEl.textContent=streak;
+  feedback.textContent = streak>=3 ? "🔥 ¡Racha increíble! ¡Sigue así!" : "✅ ¡Muy bien! Ganaste una estrella.";
+  setTimeout(nextMission,950);
+}
+
+function nextMission(){
+  index++;
+  if(index>=order.length){
+    game.classList.add("hidden");
+    finish.classList.remove("hidden");
+    document.getElementById("finalText").textContent=
+      `Conseguiste ${score} de ${order.length} estrellas. Practicaste sílabas, palabras, sonidos, oraciones y comprensión.`;
+    return;
+  }
+  render();
+}
+
+function speakCurrent(){
+  if(!("speechSynthesis" in window)) {
+    feedback.textContent="🔊 Este navegador no permite lectura en voz alta.";
+    return;
+  }
+  const m=order[index];
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(m.prompt + ". " + m.sub);
+  u.lang="es-MX"; u.rate=.78;
+  speechSynthesis.speak(u);
+}
+</script>
+</body>
+</html>
