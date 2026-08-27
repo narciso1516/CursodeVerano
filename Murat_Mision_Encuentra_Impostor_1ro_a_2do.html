@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Murat — Misión: Encuentra al Impostor</title>
+<style>
+  :root{
+    --bg:#07111f; --panel:#101d31; --panel2:#172743; --text:#f7fbff; --muted:#a9bad1;
+    --accent:#58d3ff; --ok:#63e6a4; --bad:#ff6b7a; --gold:#ffd166; --violet:#a78bfa;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    background:
+      radial-gradient(circle at 15% 20%,rgba(88,211,255,.16),transparent 22%),
+      radial-gradient(circle at 85% 10%,rgba(167,139,250,.15),transparent 20%),
+      linear-gradient(180deg,#06101d,#0b1730 60%,#07111f);
+    color:var(--text); min-height:100vh;
+  }
+  .stars{position:fixed;inset:0;pointer-events:none;opacity:.45;background-image:
+    radial-gradient(#fff 1px,transparent 1px);background-size:34px 34px}
+  .wrap{width:min(980px,94vw);margin:auto;padding:22px 0 40px;position:relative}
+  .topbar{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px}
+  .badge{width:54px;height:54px;border-radius:18px;background:linear-gradient(135deg,var(--accent),var(--violet));display:grid;place-items:center;font-size:28px;box-shadow:0 12px 30px #0007}
+  h1{font-size:clamp(1.2rem,3vw,2rem);margin:0}
+  .sub{color:var(--muted);font-size:.95rem}
+  .hud{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{background:#0d1930cc;border:1px solid #29456a;border-radius:999px;padding:9px 12px;font-weight:700}
+  .card{margin-top:18px;background:linear-gradient(180deg,#11203aee,#0d182bee);border:1px solid #284361;border-radius:26px;padding:clamp(18px,4vw,34px);box-shadow:0 30px 80px #0008;backdrop-filter:blur(10px)}
+  .progress{height:11px;background:#07101d;border-radius:999px;overflow:hidden;border:1px solid #24425f}
+  .progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--ok));transition:.35s}
+  .missionTag{display:inline-flex;align-items:center;gap:8px;background:#0a1628;border:1px solid #284f70;padding:8px 12px;border-radius:999px;color:#caefff;font-weight:800;margin:18px 0 12px}
+  .question{font-size:clamp(1.35rem,3vw,2.1rem);line-height:1.25;margin:6px 0 10px}
+  .helper{color:var(--muted);font-size:1rem;margin-bottom:18px}
+  .options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  button.option,button.primary,button.secondary{
+    border:0;border-radius:18px;padding:16px 18px;font-size:1rem;font-weight:800;cursor:pointer;
+    transition:.18s transform,.18s box-shadow,.18s background;
+  }
+  button.option{background:#172946;color:white;border:1px solid #31557a;text-align:left;min-height:64px}
+  button.option:hover{transform:translateY(-2px);box-shadow:0 10px 22px #0004}
+  button.option:active{transform:scale(.98)}
+  button.option.correct{background:#174837;border-color:#57d89c}
+  button.option.wrong{background:#542331;border-color:#ff6b7a}
+  .feedback{min-height:56px;margin-top:14px;padding:14px 16px;border-radius:16px;display:none;font-weight:700}
+  .feedback.ok{display:block;background:#143c31;border:1px solid #3dba84}
+  .feedback.bad{display:block;background:#44202a;border:1px solid #e35b6b}
+  .footerActions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .primary{background:linear-gradient(135deg,var(--accent),#64f3cb);color:#04111d}
+  .secondary{background:#162640;color:#fff;border:1px solid #355a7f}
+  .intro{text-align:center;padding:16px 0 4px}
+  .rocket{font-size:72px;filter:drop-shadow(0 10px 20px #0008)}
+  .intro h2{font-size:clamp(1.8rem,5vw,3rem);margin:8px 0}
+  .intro p{max-width:680px;margin:0 auto 20px;color:#c2d3e7;line-height:1.55}
+  .skills{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0}
+  .skill{background:#0d1b31;border:1px solid #294968;border-radius:18px;padding:14px;text-align:center}
+  .skill b{display:block;margin-top:5px}
+  .reportGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+  .metric{background:#0d1b31;border:1px solid #294968;border-radius:18px;padding:16px}
+  .metric strong{font-size:1.7rem;display:block;margin-top:4px}
+  .bigResult{font-size:clamp(2rem,8vw,4.4rem);font-weight:900;color:var(--gold);text-align:center;margin:8px 0}
+  .note{background:#0a1527;border:1px dashed #365878;border-radius:16px;padding:14px;color:#bed1e4;margin-top:15px}
+  .word{font-size:clamp(2.4rem,8vw,5rem);font-weight:900;text-align:center;letter-spacing:.04em;margin:18px 0;color:#fff}
+  .sequence{font-size:clamp(1.8rem,6vw,3.2rem);text-align:center;margin:18px 0}
+  .hidden{display:none !important}
+  @media(max-width:680px){
+    .options,.reportGrid{grid-template-columns:1fr}
+    .skills{grid-template-columns:1fr}
+    .card{border-radius:20px}
+  }
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">
+      <div class="badge">🚀</div>
+      <div><h1>Murat — Misión: Encuentra al Impostor</h1><div class="sub">Evaluación-juego de lectura, lógica y matemáticas</div></div>
+    </div>
+    <div class="hud">
+      <div class="chip">⭐ <span id="score">0</span></div>
+      <div class="chip">🔥 Racha <span id="streak">0</span></div>
+      <div class="chip">🧠 Nivel <span id="level">1</span></div>
+    </div>
+  </div>
+
+  <section id="intro" class="card">
+    <div class="intro">
+      <div class="rocket">🛸</div>
+      <h2>¡Alerta en la nave!</h2>
+      <p>Un impostor se escondió entre la tripulación. Murat deberá superar misiones de lectura, atención, lógica y matemáticas para encontrarlo. El juego comienza fácil y aumenta de dificultad conforme responde bien.</p>
+      <div class="skills">
+        <div class="skill">🔤<b>Lectura</b><span class="sub">palabras y pseudopalabras</span></div>
+        <div class="skill">🧠<b>Lógica</b><span class="sub">patrones y clasificación</span></div>
+        <div class="skill">➕<b>Matemáticas</b><span class="sub">sumas, restas y problemas</span></div>
+      </div>
+      <button class="primary" id="startBtn">Comenzar misión</button>
+    </div>
+  </section>
+
+  <section id="game" class="card hidden">
+    <div class="progress"><div id="bar"></div></div>
+    <div class="missionTag" id="missionTag">🔤 Misión</div>
+    <div id="visual"></div>
+    <div class="question" id="question"></div>
+    <div class="helper" id="helper"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="footerActions"><button class="primary hidden" id="nextBtn">Siguiente misión ➜</button></div>
+  </section>
+
+  <section id="report" class="card hidden">
+    <div class="intro">
+      <div class="rocket">🏆</div>
+      <h2>Informe secreto del comandante</h2>
+      <div class="bigResult" id="finalScore">0%</div>
+      <p id="summary"></p>
+    </div>
+    <div class="reportGrid" id="metrics"></div>
+    <div class="note" id="adultNote"></div>
+    <div class="footerActions">
+      <button class="secondary" onclick="window.print()">🖨️ Imprimir reporte</button>
+      <button class="primary" onclick="location.reload()">🔁 Jugar otra vez</button>
+    </div>
+  </section>
+</div>
+
+<script>
+const questions = [
+ {cat:"Lectura",icon:"🔤",q:"¿Cuál palabra dice CASA?",helper:"Elige la palabra correcta.",opts:["COSA","CASA","SACA","CAMA"],ans:1},
+ {cat:"Atención",icon:"👁️",q:"¿Cuál palabra es diferente?",helper:"Mira con cuidado.",opts:["PATO","PATO","PATO","GATO"],ans:3},
+ {cat:"Matemáticas",icon:"➕",q:"Murat tiene 5 estrellas y gana 3 más. ¿Cuántas tiene?",opts:["7","8","9","10"],ans:1},
+ {cat:"Lógica",icon:"🧠",q:"Completa el patrón:",helper:"¿Qué sigue?",visual:"🔵 🔴 🔵 🔴 🔵 ___",opts:["🔴","🔵","🟢","⭐"],ans:0},
+ {cat:"Comprensión",icon:"📖",q:"Lee: “Ana guarda su libro en la mochila y sale a la escuela.” ¿Dónde guardó el libro?",opts:["En la mesa","En la mochila","En la cama","En el patio"],ans:1},
+ {cat:"Lectura",icon:"🔤",q:"¿Cuál de estas es una palabra inventada?",helper:"No necesitas conocerla: intenta leerla.",opts:["mesa","perro","mepo","casa"],ans:2},
+ {cat:"Clasificación",icon:"🔎",q:"¿Cuál NO pertenece al grupo?",opts:["manzana","pera","plátano","zapato"],ans:3},
+ {cat:"Matemáticas",icon:"➖",q:"Había 9 tripulantes. 4 salieron del cuarto. ¿Cuántos quedaron?",opts:["4","5","6","13"],ans:1},
+ {cat:"Atención",icon:"👁️",q:"¿Cuál dice exactamente MARIPOSA?",opts:["MARIPOSA","MARPOSA","MARIPOSO","MARIPOSÁ"],ans:0},
+ {cat:"Comprensión",icon:"📖",q:"Lee: “El perro corrió hacia su plato porque tenía hambre.” ¿Por qué corrió?",opts:["Porque tenía sueño","Porque tenía hambre","Porque quería jugar","Porque estaba mojado"],ans:1},
+ {cat:"Lógica",icon:"🧠",q:"Si todos los robots tienen batería y R-7 es un robot, ¿qué necesita R-7?",opts:["Una batería","Una pelota","Una cuchara","Un sombrero"],ans:0},
+ {cat:"Matemáticas",icon:"➕",q:"¿Cuánto es 12 + 6?",opts:["16","17","18","19"],ans:2},
+ {cat:"Lectura",icon:"🔤",q:"Lee esta palabra inventada y elige la que es igual:",visual:"LATÍN",opts:["LATIN","LATÍN","LITÁN","LATÓN"],ans:1},
+ {cat:"Clasificación",icon:"🔎",q:"¿Cuál pertenece al grupo de animales?",opts:["mesa","conejo","lápiz","nube"],ans:1},
+ {cat:"Atención",icon:"👁️",q:"Encuentra el símbolo diferente:",visual:"⭐ ⭐ ⭐ 🌟 ⭐",opts:["1","2","3","4"],ans:3},
+ {cat:"Comprensión",icon:"📖",q:"Lee: “Luis llevó paraguas. Al salir, el cielo estaba oscuro y comenzaron a caer gotas.” ¿Qué estaba pasando?",opts:["Estaba nevando","Estaba lloviendo","Hacía mucho sol","Era de noche"],ans:1},
+ {cat:"Lógica",icon:"🧠",q:"Completa: 2, 4, 6, 8, ___",opts:["9","10","11","12"],ans:1},
+ {cat:"Matemáticas",icon:"➖",q:"¿Cuánto es 15 - 7?",opts:["6","7","8","9"],ans:2},
+ {cat:"Lectura",icon:"🔤",q:"¿Cuál palabra está escrita correctamente?",opts:["escuela","ezcuela","escuella","esculea"],ans:0},
+ {cat:"Lógica",icon:"🧠",q:"Si una puerta roja está cerrada y la llave roja abre puertas rojas, ¿qué debes usar?",opts:["Llave azul","Llave roja","Un lápiz","Un vaso"],ans:1},
+ {cat:"Comprensión",icon:"📖",q:"“Murat apagó la lámpara antes de dormir.” ¿Qué ocurrió primero?",opts:["Dormir","Apagar la lámpara","Despertar","Desayunar"],ans:1},
+ {cat:"Matemáticas",icon:"➕",q:"En una caja hay 8 fichas y en otra 7. ¿Cuántas hay en total?",opts:["14","15","16","17"],ans:1},
+ {cat:"Atención",icon:"👁️",q:"¿Cuál número aparece una sola vez?",visual:"4  4  7  4  4",opts:["4","7","8","9"],ans:1},
+ {cat:"Clasificación",icon:"🔎",q:"¿Cuál NO sirve normalmente para escribir?",opts:["lápiz","pluma","crayón","cuchara"],ans:3},
+ {cat:"Lectura",icon:"🔤",q:"¿Qué palabra rima mejor con GATO?",opts:["pato","mesa","sol","pez"],ans:0},
+ {cat:"Lógica",icon:"🧠",q:"¿Qué figura sigue?",visual:"▲ ■ ▲ ■ ▲ ___",opts:["▲","■","●","★"],ans:1},
+ {cat:"Matemáticas",icon:"➗",q:"Murat reparte 12 fichas entre 3 tripulantes por igual. ¿Cuántas recibe cada uno?",opts:["3","4","5","6"],ans:1},
+ {cat:"Comprensión",icon:"📖",q:"“Sofía dejó el helado al sol. Diez minutos después estaba líquido.” ¿Qué pasó con el helado?",opts:["Se congeló","Se derritió","Desapareció","Se hizo más duro"],ans:1},
+ {cat:"Lectura",icon:"🔤",q:"¿Cuál palabra tiene 3 sílabas?",opts:["sol","casa","pelota","tren"],ans:2},
+ {cat:"Atención",icon:"👁️",q:"¿Cuál secuencia es exactamente 3-8-3-6?",opts:["3-8-3-6","3-6-3-8","8-3-3-6","3-8-6-3"],ans:0},
+ {cat:"Matemáticas",icon:"➕",q:"¿Qué número falta? 10 + ___ = 17",opts:["5","6","7","8"],ans:2},
+ {cat:"Lógica",icon:"🧠",q:"Un objeto es redondo, rebota y se usa para jugar. ¿Cuál puede ser?",opts:["Pelota","Libro","Cuchara","Zapato"],ans:0},
+ {cat:"Comprensión",icon:"📖",q:"“Carlos vio humo en la cocina y llamó a un adulto.” ¿Cuál fue una buena decisión?",opts:["Esconderse","Llamar a un adulto","Jugar con el humo","Ignorarlo"],ans:1},
+ {cat:"Lectura",icon:"🔤",q:"¿Cuál palabra empieza con el mismo sonido que MURAT?",opts:["mesa","sopa","luna","pato"],ans:0},
+ {cat:"Matemáticas",icon:"➖",q:"Tenías 20 puntos y gastaste 9. ¿Cuántos quedan?",opts:["9","10","11","12"],ans:2},
+ {cat:"Lógica",icon:"🧠",q:"Si hoy es martes, ¿qué día viene después?",opts:["lunes","miércoles","jueves","domingo"],ans:1},
+ {cat:"Atención",icon:"👁️",q:"Encuentra la palabra que cambia una letra:",visual:"NAVE · NAVE · NAVE · NUBE",opts:["1","2","3","4"],ans:3},
+ {cat:"Comprensión",icon:"📖",q:"“La planta estaba seca. Elena le puso agua. Al día siguiente se veía mejor.” ¿Qué ayudó a la planta?",opts:["El agua","La oscuridad","Un zapato","Una piedra"],ans:0},
+ {cat:"Matemáticas",icon:"🧠",q:"Murat tiene 3 cajas con 4 estrellas en cada una. ¿Cuántas estrellas hay?",opts:["7","10","12","14"],ans:2},
+ {cat:"Lógica",icon:"🚨",q:"MISIÓN FINAL: El impostor está en el cuarto con un número mayor que 12 y menor que 14. ¿Qué cuarto es?",opts:["11","12","13","14"],ans:2}
+];
+
+let index=0, score=0, streak=0, level=1, firstTry=true;
+const stats = {};
+questions.forEach(q=>stats[q.cat]={correct:0,total:0});
+const $ = id=>document.getElementById(id);
+
+function start(){
+  $("intro").classList.add("hidden"); $("game").classList.remove("hidden"); render();
+}
+function render(){
+  const q=questions[index]; firstTry=true;
+  $("bar").style.width = `${(index/questions.length)*100}%`;
+  $("missionTag").textContent = `${q.icon} ${q.cat} · Misión ${index+1} de ${questions.length}`;
+  $("question").textContent=q.q;
+  $("helper").textContent=q.helper||"Selecciona la mejor respuesta.";
+  $("visual").innerHTML=q.visual?`<div class="${q.visual.length<18?'word':'sequence'}">${q.visual}</div>`:"";
+  $("feedback").className="feedback"; $("feedback").textContent="";
+  $("nextBtn").classList.add("hidden");
+  $("options").innerHTML="";
+  q.opts.forEach((o,i)=>{
+    const b=document.createElement("button"); b.className="option"; b.textContent=`${String.fromCharCode(65+i)}) ${o}`;
+    b.onclick=()=>answer(i,b); $("options").appendChild(b);
+  });
+}
+function answer(i,btn){
+  const q=questions[index];
+  const buttons=[...document.querySelectorAll(".option")];
+  if(buttons.some(b=>b.disabled)) return;
+
+  stats[q.cat].total++;
+  if(i===q.ans){
+    btn.classList.add("correct");
+    score += 100 + streak*10; streak++;
+    stats[q.cat].correct++;
+    $("feedback").className="feedback ok";
+    $("feedback").textContent = streak>=5 ? "✅ ¡Excelente! Racha poderosa. La nave aumenta la dificultad." : "✅ ¡Correcto! Buen trabajo.";
+  }else{
+    btn.classList.add("wrong"); buttons[q.ans].classList.add("correct");
+    streak=0;
+    $("feedback").className="feedback bad";
+    $("feedback").textContent = "❌ Esta vez no. Observa la respuesta correcta y úsala para la siguiente misión.";
+  }
+  level = 1 + Math.floor((index+1)/10);
+  $("score").textContent=score; $("streak").textContent=streak; $("level").textContent=level;
+  buttons.forEach(b=>b.disabled=true);
+  $("nextBtn").classList.remove("hidden");
+}
+$("nextBtn").onclick=()=>{
+  index++;
+  if(index>=questions.length) finish();
+  else render();
+};
+function finish(){
+  $("game").classList.add("hidden"); $("report").classList.remove("hidden");
+  const totalCorrect=Object.values(stats).reduce((a,s)=>a+s.correct,0);
+  const total=Object.values(stats).reduce((a,s)=>a+s.total,0);
+  const pct=Math.round(totalCorrect/total*100);
+  $("finalScore").textContent=pct+"%";
+  let text = pct>=90 ? "Murat mostró un desempeño muy alto en las habilidades evaluadas." :
+             pct>=75 ? "Murat mostró un desempeño sólido y varias habilidades bien desarrolladas." :
+             pct>=60 ? "Murat resolvió una parte importante de las misiones y conviene reforzar algunas áreas." :
+             "El juego detectó habilidades en desarrollo. Conviene practicar con actividades breves y volver a evaluar.";
+  $("summary").textContent=text;
+  $("metrics").innerHTML="";
+  Object.entries(stats).forEach(([k,s])=>{
+    const p=s.total?Math.round(s.correct/s.total*100):0;
+    $("metrics").innerHTML += `<div class="metric"><span>${k}</span><strong>${p}%</strong><div class="sub">${s.correct} de ${s.total} correctas</div></div>`;
+  });
+  const ordered=Object.entries(stats).map(([k,s])=>[k,s.total?s.correct/s.total:0]).sort((a,b)=>b[1]-a[1]);
+  $("adultNote").innerHTML = `<b>Interpretación para el adulto:</b><br>
+  Fortaleza principal observada: <b>${ordered[0][0]}</b>. Área que más conviene reforzar: <b>${ordered[ordered.length-1][0]}</b>.<br><br>
+  Este juego es una evaluación educativa informal. No mide por sí solo la “inteligencia” ni sustituye una valoración psicopedagógica. Sirve para observar desempeño en lectura, comprensión, atención, lógica y matemáticas de manera lúdica.`;
+}
+$("startBtn").onclick=start;
+</script>
+</body>
+</html>
