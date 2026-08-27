@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Murat · Misión Lectura Divertida</title>
+<style>
+:root{
+  --bg:#fff8ea; --card:#ffffff; --text:#263238; --soft:#eef7ff;
+  --accent:#ffb703; --accent2:#4cc9f0; --ok:#43aa8b; --bad:#f94144;
+  --purple:#9b5de5;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  background:linear-gradient(180deg,#fff3cf,#eef9ff);color:var(--text);
+  min-height:100vh;
+}
+.wrap{max-width:900px;margin:auto;padding:18px}
+.hero{
+  background:rgba(255,255,255,.94);border-radius:28px;padding:22px;
+  box-shadow:0 12px 35px rgba(0,0,0,.10);text-align:center
+}
+h1{font-size:clamp(30px,7vw,58px);margin:4px 0}
+.subtitle{font-size:clamp(16px,3vw,22px);margin:4px 0 14px}
+.badges{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.badge{padding:8px 12px;background:var(--soft);border-radius:999px;font-weight:800}
+#game{margin-top:18px}
+.card{
+  background:var(--card);border-radius:26px;padding:20px;
+  box-shadow:0 12px 28px rgba(0,0,0,.08);margin-bottom:16px
+}
+.mode{font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;color:#59636a}
+.prompt{font-size:clamp(25px,5vw,42px);font-weight:900;line-height:1.2;text-align:center;margin:18px 0}
+.bigemoji{font-size:76px;text-align:center}
+.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+button{
+  border:0;border-radius:20px;padding:16px;font-size:clamp(18px,3vw,26px);
+  font-weight:900;cursor:pointer;background:#edf6ff;color:#183153;
+  box-shadow:0 6px 0 #c5d7e6;transition:.12s transform
+}
+button:active{transform:translateY(4px);box-shadow:0 2px 0 #c5d7e6}
+button.primary{background:var(--accent);box-shadow:0 6px 0 #d99700}
+button.good{background:#dff8ef;color:#16654f}
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.feedback{min-height:42px;text-align:center;font-size:22px;font-weight:900;margin-top:14px}
+.progress{height:16px;background:#e9ecef;border-radius:20px;overflow:hidden}
+.bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent2),var(--purple));transition:.3s}
+.stars{text-align:center;font-size:28px;margin:10px 0}
+.small{font-size:14px;color:#667}
+.hidden{display:none!important}
+.wordchips{display:flex;justify-content:center;gap:9px;flex-wrap:wrap}
+.chip{background:#f7f1ff}
+.footer{text-align:center;font-size:13px;color:#667;padding:20px}
+@media(max-width:600px){.options{grid-template-columns:1fr}.wrap{padding:10px}.card{padding:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="bigemoji">🚀📚🎮</div>
+    <h1>Murat: Misión Lectura</h1>
+    <p class="subtitle">Un juego para seguir aprendiendo después de terminar la Escalera de Lectura.</p>
+    <div class="badges">
+      <span class="badge">👦 6 años</span>
+      <span class="badge">🎯 Lectura inicial</span>
+      <span class="badge">⭐ Juego + aprendizaje</span>
+    </div>
+  </section>
+
+  <section id="start" class="card">
+    <h2>¿Cómo se juega?</h2>
+    <p>Completa pequeñas misiones: elegir palabras, ordenar oraciones, reconocer sonidos y comprender lo que lees. Cada respuesta correcta te da una ⭐. No hay castigos: si te equivocas, puedes volver a intentarlo.</p>
+    <div class="controls">
+      <button class="primary" onclick="startGame()">▶ Empezar misión</button>
+    </div>
+  </section>
+
+  <section id="game" class="hidden">
+    <div class="card">
+      <div class="progress"><div id="bar" class="bar"></div></div>
+      <div class="stars">⭐ <span id="score">0</span> &nbsp; 🔥 <span id="streak">0</span></div>
+    </div>
+
+    <div class="card">
+      <div id="mode" class="mode"></div>
+      <div id="emoji" class="bigemoji"></div>
+      <div id="prompt" class="prompt"></div>
+      <div id="options" class="options"></div>
+      <div id="feedback" class="feedback"></div>
+      <div class="controls" style="margin-top:14px">
+        <button onclick="speakPrompt()">🔊 Escuchar</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="finish" class="card hidden">
+    <div class="bigemoji">🏆🌟🎉</div>
+    <h2 style="text-align:center;font-size:36px">¡Misión cumplida, Murat!</h2>
+    <p id="finalText" style="text-align:center;font-size:22px"></p>
+    <div class="controls">
+      <button class="primary" onclick="restart()">🔁 Jugar otra vez</button>
+    </div>
+  </section>
+
+  <div class="footer">
+    Recurso educativo complementario · Lectura inicial · 2026<br>
+    Autor: Luis Alberto Antonio Narciso
+  </div>
+</div>
+
+<script>
+const activities = [
+ {mode:"Misión 1 · Palabra e imagen",emoji:"🐱",prompt:"¿Qué palabra corresponde?",options:["gato","mesa","sol","pan"],answer:"gato"},
+ {mode:"Misión 2 · Palabra e imagen",emoji:"☀️",prompt:"¿Qué palabra corresponde?",options:["luna","sol","flor","pez"],answer:"sol"},
+ {mode:"Misión 3 · Sonido inicial",emoji:"🍎",prompt:"¿Con qué letra empieza MANZANA?",options:["M","P","S","L"],answer:"M"},
+ {mode:"Misión 4 · Sonido inicial",emoji:"🐸",prompt:"¿Con qué letra empieza RANA?",options:["R","T","N","C"],answer:"R"},
+ {mode:"Misión 5 · Completa la palabra",emoji:"🏠",prompt:"CA _ A",options:["S","M","P","L"],answer:"S"},
+ {mode:"Misión 6 · Completa la palabra",emoji:"🐟",prompt:"PE _",options:["Z","S","T","N"],answer:"Z"},
+ {mode:"Misión 7 · Comprensión",emoji:"🐶",prompt:"El perro corre en el parque. ¿Quién corre?",options:["El perro","La casa","El sol","La mesa"],answer:"El perro"},
+ {mode:"Misión 8 · Comprensión",emoji:"👧📖",prompt:"Ana lee un cuento. ¿Qué hace Ana?",options:["Lee","Salta","Duerme","Nada"],answer:"Lee"},
+ {mode:"Misión 9 · Ordena la oración",emoji:"🧩",prompt:"Elige la oración correcta.",options:["juega niño El","El niño juega","niño juega El","juega El niño"],answer:"El niño juega"},
+ {mode:"Misión 10 · Ordena la oración",emoji:"🧩",prompt:"Elige la oración correcta.",options:["La flor es roja","flor La roja es","roja es flor La","es La roja flor"],answer:"La flor es roja"},
+ {mode:"Misión 11 · ¿Cuál rima?",emoji:"🎵",prompt:"¿Qué palabra rima con GATO?",options:["pato","mesa","sol","pez"],answer:"pato"},
+ {mode:"Misión 12 · ¿Cuál rima?",emoji:"🎵",prompt:"¿Qué palabra rima con RATÓN?",options:["camión","casa","luna","sapo"],answer:"camión"},
+ {mode:"Misión 13 · Lee y piensa",emoji:"🥛",prompt:"Murat toma leche. ¿Qué toma Murat?",options:["Leche","Jugo","Sopa","Agua"],answer:"Leche"},
+ {mode:"Misión 14 · Lee y piensa",emoji:"🌳🐦",prompt:"El pájaro está en el árbol. ¿Dónde está el pájaro?",options:["En el árbol","En el mar","En una cama","En la mesa"],answer:"En el árbol"},
+ {mode:"Misión final · Frase completa",emoji:"🌈",prompt:"Elige la frase que tiene sentido.",options:["El pez nada en el agua","El pez vuela a la luna","La mesa come pan","El sol usa zapatos"],answer:"El pez nada en el agua"}
+];
+
+let order=[], index=0, score=0, streak=0, locked=false;
+
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function startGame(){
+  document.getElementById('start').classList.add('hidden');
+  document.getElementById('game').classList.remove('hidden');
+  order=shuffle(activities); index=0; score=0; streak=0; render();
+}
+function render(){
+  locked=false;
+  const a=order[index];
+  document.getElementById('mode').textContent=a.mode;
+  document.getElementById('emoji').textContent=a.emoji;
+  document.getElementById('prompt').textContent=a.prompt;
+  document.getElementById('feedback').textContent='';
+  document.getElementById('score').textContent=score;
+  document.getElementById('streak').textContent=streak;
+  document.getElementById('bar').style.width=((index)/order.length*100)+'%';
+  const box=document.getElementById('options'); box.innerHTML='';
+  shuffle(a.options).forEach(opt=>{
+    const b=document.createElement('button');
+    b.textContent=opt;
+    b.onclick=()=>answer(opt,b);
+    box.appendChild(b);
+  });
+}
+function answer(opt,btn){
+  if(locked)return;
+  const a=order[index];
+  if(opt===a.answer){
+    locked=true; score++; streak++;
+    btn.classList.add('good');
+    document.getElementById('feedback').textContent = streak>=3 ? '🔥 ¡Racha increíble! ¡Muy bien!' : '✅ ¡Correcto! ¡Ganaste una estrella!';
+    setTimeout(next,900);
+  }else{
+    streak=0;
+    document.getElementById('streak').textContent=streak;
+    document.getElementById('feedback').textContent='💡 Casi. Lee otra vez y prueba una opción diferente.';
+    btn.disabled=true;
+    if(navigator.vibrate) navigator.vibrate(80);
+  }
+}
+function next(){
+  index++;
+  if(index>=order.length){finish();return}
+  render();
+}
+function finish(){
+  document.getElementById('game').classList.add('hidden');
+  document.getElementById('finish').classList.remove('hidden');
+  document.getElementById('finalText').textContent=`Conseguiste ${score} de ${order.length} estrellas. ¡Cada lectura te hace más fuerte!`;
+}
+function restart(){
+  document.getElementById('finish').classList.add('hidden');
+  startGame();
+}
+function speakPrompt(){
+  if(!('speechSynthesis' in window))return;
+  speechSynthesis.cancel();
+  const a=order[index];
+  const u=new SpeechSynthesisUtterance(a.prompt);
+  u.lang='es-MX'; u.rate=.8;
+  speechSynthesis.speak(u);
+}
+</script>
+</body>
+</html>
