@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mano Mágica · Juego con Cámara</title>
+  <style>
+    :root{
+      --bg:#071226;
+      --panel:#111b3a;
+      --panel2:#17264f;
+      --text:#f8fbff;
+      --muted:#b9c8e6;
+      --accent:#22d3ee;
+      --accent2:#fbbf24;
+      --accent3:#a78bfa;
+      --danger:#fb7185;
+      --good:#4ade80;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(34,211,238,.18), transparent 34rem),
+        radial-gradient(circle at 85% 12%, rgba(167,139,250,.14), transparent 30rem),
+        radial-gradient(circle at 90% 90%, rgba(251,191,36,.12), transparent 32rem),
+        var(--bg);
+    }
+    .wrap{width:min(1180px,94vw);margin:0 auto;padding:22px 0 38px}
+    header{
+      display:flex;justify-content:space-between;align-items:center;gap:16px;
+      margin-bottom:16px;flex-wrap:wrap
+    }
+    h1{margin:0;font-size:clamp(1.55rem,4vw,2.4rem)}
+    .sub{margin:.35rem 0 0;color:var(--muted);line-height:1.45}
+    .stats{display:flex;gap:10px;flex-wrap:wrap}
+    .pill{
+      min-width:112px;padding:10px 14px;border-radius:16px;background:linear-gradient(145deg,rgba(17,27,58,.94),rgba(23,38,79,.88));
+      border:1px solid rgba(255,255,255,.14);text-align:center;box-shadow:0 10px 28px rgba(0,0,0,.2)
+    }
+    .pill b{display:block;font-size:1.35rem}
+    .pill span{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+    .layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px}
+    .stage{
+      position:relative;overflow:hidden;border-radius:24px;background:#020617;
+      border:1px solid rgba(255,255,255,.15);min-height:360px;aspect-ratio:16/10;box-shadow:0 18px 50px rgba(0,0,0,.32)
+    }
+    video,canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    video{transform:scaleX(-1)}
+    canvas{pointer-events:none}
+    .overlay{
+      position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+      padding:24px;text-align:center;background:rgba(2,6,23,.72);z-index:3
+    }
+    .overlay.hidden{display:none}
+    .overlay-card{max-width:560px}
+    .overlay-card h2{margin:0 0 8px}
+    .overlay-card p{color:#cfdef0;line-height:1.55}
+    .controls{
+      padding:18px;border-radius:24px;background:linear-gradient(160deg,rgba(17,27,58,.96),rgba(23,38,79,.92));
+      border:1px solid rgba(255,255,255,.1)
+    }
+    .controls h2{font-size:1.05rem;margin:0 0 12px}
+    button{
+      width:100%;border:0;border-radius:14px;padding:13px 15px;margin:6px 0;
+      font-size:1rem;font-weight:800;cursor:pointer;background:linear-gradient(135deg,var(--accent),#67e8f9);color:#04201c;box-shadow:0 10px 22px rgba(34,211,238,.18);transition:transform .18s ease,box-shadow .18s ease,filter .18s ease
+    }
+    button.secondary{background:linear-gradient(135deg,#ddd6fe,var(--accent3));color:#1e1b4b}
+    button.danger{background:linear-gradient(135deg,#fb7185,#f43f5e);color:#fff}
+    button:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.04);box-shadow:0 14px 28px rgba(0,0,0,.24)}
+    button:active:not(:disabled){transform:translateY(0)}
+    button:disabled{opacity:.45;cursor:not-allowed}
+    .status{
+      margin-top:14px;padding:12px;border-radius:14px;background:var(--panel2);
+      color:#d8e7f4;font-size:.93rem;line-height:1.45
+    }
+    .help{margin-top:15px;color:var(--muted);font-size:.88rem;line-height:1.55}
+    .help strong{color:var(--text)}
+    .legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;font-size:.82rem;color:var(--muted)}
+    .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+    .dot.hand{background:var(--accent)}
+    .dot.target{background:var(--accent2)}
+    .note{
+      margin-top:16px;padding:13px 15px;border-radius:16px;background:rgba(250,204,21,.08);
+      border:1px solid rgba(250,204,21,.2);color:#fff4b1;font-size:.88rem;line-height:1.5
+    }
+    @media(max-width:860px){
+      .layout{grid-template-columns:1fr}
+      .stage{aspect-ratio:4/3;min-height:300px}
+      .controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+      .controls h2,.status,.help,.note{grid-column:1/-1}
+      button{margin:0}
+    }
+    @media(max-width:520px){
+      .controls{grid-template-columns:1fr}
+      .controls h2,.status,.help,.note{grid-column:auto}
+      .pill{min-width:92px;flex:1}
+    }
+    footer{
+      margin-top:18px;padding:16px 18px;border-radius:18px;text-align:center;
+      color:var(--muted);font-size:.88rem;line-height:1.5;
+      background:linear-gradient(135deg,rgba(17,27,58,.78),rgba(23,38,79,.62));
+      border:1px solid rgba(255,255,255,.1);box-shadow:0 10px 28px rgba(0,0,0,.18)
+    }
+    footer strong{color:var(--text)}
+    .author-badge{display:inline-block;margin-top:6px;padding:6px 10px;border-radius:999px;
+      background:rgba(34,211,238,.10);border:1px solid rgba(34,211,238,.24);color:#dffbff}
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>🖐️ Mano Mágica</h1>
+        <p class="sub">Enciende la cámara, levanta una mano y mueve el círculo para atrapar las estrellas.</p>
+      </div>
+      <div class="stats">
+        <div class="pill"><b id="score">0</b><span>Puntos</span></div>
+        <div class="pill"><b id="time">30</b><span>Segundos</span></div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="stage" id="stage">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="canvas"></canvas>
+        <div class="overlay" id="overlay">
+          <div class="overlay-card">
+            <h2>Tu mano será el control 🎮</h2>
+            <p>
+              Pulsa <strong>Encender cámara</strong>. El navegador te pedirá permiso.
+              Cuando detecte tu mano, aparecerá un círculo alrededor de la palma.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <aside class="controls">
+        <h2>Controles</h2>
+        <button id="startCam">📷 Encender cámara</button>
+        <button id="startGame" class="secondary" disabled>⭐ Iniciar juego</button>
+        <button id="stopCam" class="danger" disabled>⏹ Apagar cámara</button>
+
+        <div class="status" id="status" aria-live="polite">Cámara apagada.</div>
+
+        <div class="help">
+          <strong>Cómo jugar:</strong><br>
+          1. Coloca una mano frente a la cámara.<br>
+          2. El círculo turquesa seguirá tu palma.<br>
+          3. Toca las estrellas amarillas con el círculo.<br>
+          4. Cada estrella vale 1 punto.
+        </div>
+
+        <div class="legend">
+          <span><i class="dot hand"></i>Círculo de la mano</span>
+          <span><i class="dot target"></i>Objetivo</span>
+        </div>
+
+        <div class="note">
+          Funciona mejor con buena iluminación, la mano completa visible y un fondo que contraste.
+          La cámara se procesa en tu navegador; este archivo no sube el video a un servidor.
+        </div>
+      </aside>
+    </main>
+    <footer>
+      <div>Juego educativo interactivo para práctica con cámara y coordinación visual.</div>
+      <div class="author-badge"><strong>Hecho por Luis Alberto Antonio Narciso</strong> · 2026</div>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const stage = document.getElementById('stage');
+    const overlay = document.getElementById('overlay');
+    const startCamBtn = document.getElementById('startCam');
+    const stopCamBtn = document.getElementById('stopCam');
+    const startGameBtn = document.getElementById('startGame');
+    const statusEl = document.getElementById('status');
+    const scoreEl = document.getElementById('score');
+    const timeEl = document.getElementById('time');
+
+    let stream = null;
+    let camera = null;
+    let hands = null;
+    let detecting = false;
+    let handPoint = null;
+    let handRadius = 54;
+
+    let playing = false;
+    let score = 0;
+    let seconds = 30;
+    let timer = null;
+    let target = {x:.72, y:.45, r:30};
+    let targetHitLock = false;
+
+    function resizeCanvas(){
+      const rect = stage.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(rect.width * dpr);
+      canvas.height = Math.round(rect.height * dpr);
+      canvas.style.width = rect.width + 'px';
+      canvas.style.height = rect.height + 'px';
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function setStatus(text){ statusEl.textContent = text; }
+
+    function randomTarget(){
+      target = {
+        x: 0.12 + Math.random() * 0.76,
+        y: 0.15 + Math.random() * 0.70,
+        r: 26 + Math.random() * 10
+      };
+      targetHitLock = false;
+    }
+
+    function drawStar(cx, cy, spikes, outerRadius, innerRadius){
+      let rot = Math.PI / 2 * 3;
+      let x = cx, y = cy;
+      const step = Math.PI / spikes;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - outerRadius);
+      for(let i=0;i<spikes;i++){
+        x = cx + Math.cos(rot) * outerRadius;
+        y = cy + Math.sin(rot) * outerRadius;
+        ctx.lineTo(x,y);
+        rot += step;
+        x = cx + Math.cos(rot) * innerRadius;
+        y = cy + Math.sin(rot) * innerRadius;
+        ctx.lineTo(x,y);
+        rot += step;
+      }
+      ctx.lineTo(cx, cy - outerRadius);
+      ctx.closePath();
+    }
+
+    function drawScene(){
+      resizeCanvas();
+      const w = stage.clientWidth;
+      const h = stage.clientHeight;
+      ctx.clearRect(0,0,w,h);
+
+      if(playing){
+        const tx = target.x*w;
+        const ty = target.y*h;
+        ctx.save();
+        ctx.shadowBlur = 24;
+        ctx.shadowColor = '#facc15';
+        drawStar(tx,ty,5,target.r,target.r*.45);
+        ctx.fillStyle = '#facc15';
+        ctx.fill();
+        ctx.restore();
+
+        ctx.beginPath();
+        ctx.arc(tx,ty,target.r+10,0,Math.PI*2);
+        ctx.strokeStyle='rgba(250,204,21,.38)';
+        ctx.lineWidth=3;
+        ctx.stroke();
+      }
+
+      if(handPoint){
+        const x = handPoint.x*w;
+        const y = handPoint.y*h;
+
+        ctx.beginPath();
+        ctx.arc(x,y,handRadius,0,Math.PI*2);
+        ctx.fillStyle='rgba(94,234,212,.12)';
+        ctx.fill();
+        ctx.strokeStyle='#5eead4';
+        ctx.lineWidth=5;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(x,y,7,0,Math.PI*2);
+        ctx.fillStyle='#ffffff';
+        ctx.fill();
+
+        if(playing){
+          const tx = target.x*w;
+          const ty = target.y*h;
+          const dx = x-tx;
+          const dy = y-ty;
+          const distance = Math.hypot(dx,dy);
+          if(distance < handRadius + target.r && !targetHitLock){
+            targetHitLock = true;
+            score++;
+            scoreEl.textContent=score;
+            if(navigator.vibrate) navigator.vibrate(40);
+            setTimeout(randomTarget, 120);
+          }
+        }
+      }
+    }
+
+    function palmCenter(landmarks){
+      // Centro aproximado de la palma usando muñeca + bases de los dedos.
+      const ids = [0,5,9,13,17];
+      let x=0,y=0;
+      ids.forEach(i=>{x+=landmarks[i].x; y+=landmarks[i].y;});
+      x/=ids.length; y/=ids.length;
+
+      // El video está espejado visualmente, así que invertimos X.
+      return {x:1-x, y:y};
+    }
+
+    function onResults(results){
+      handPoint = null;
+      if(results.multiHandLandmarks && results.multiHandLandmarks.length){
+        handPoint = palmCenter(results.multiHandLandmarks[0]);
+        setStatus(playing ? '¡Mano detectada! Atrapa la estrella.' : 'Mano detectada. Puedes iniciar el juego.');
+      }else{
+        setStatus('Cámara encendida. Muestra una mano completa frente a la cámara.');
+      }
+      drawScene();
+    }
+
+    async function initHands(){
+      if(hands) return;
+      if(typeof Hands === 'undefined'){
+        throw new Error('No se pudo cargar el detector de manos. Revisa tu conexión a Internet.');
+      }
+      hands = new Hands({
+        locateFile: file => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+      });
+      hands.setOptions({
+        maxNumHands: 1,
+        modelComplexity: 1,
+        minDetectionConfidence: 0.65,
+        minTrackingConfidence: 0.60
+      });
+      hands.onResults(onResults);
+    }
+
+    async function startCamera(){
+      try{
+        startCamBtn.disabled = true;
+        setStatus('Solicitando permiso para usar la cámara…');
+        await initHands();
+
+        stream = await navigator.mediaDevices.getUserMedia({
+          video:{facingMode:'user', width:{ideal:1280}, height:{ideal:720}},
+          audio:false
+        });
+        video.srcObject = stream;
+        await video.play();
+
+        overlay.classList.add('hidden');
+        stopCamBtn.disabled = false;
+        startGameBtn.disabled = false;
+        setStatus('Cámara encendida. Muestra una mano frente a la cámara.');
+
+        detecting = true;
+        async function detectLoop(){
+          if(!detecting) return;
+          if(video.readyState >= 2){
+            try{ await hands.send({image:video}); }catch(e){}
+          }
+          requestAnimationFrame(detectLoop);
+        }
+        detectLoop();
+      }catch(err){
+        console.error(err);
+        startCamBtn.disabled = false;
+        setStatus('No fue posible iniciar la cámara: ' + (err.message || 'permiso denegado.'));
+      }
+    }
+
+    function stopGame(){
+      playing=false;
+      if(timer){clearInterval(timer);timer=null;}
+      startGameBtn.textContent='⭐ Iniciar juego';
+      seconds=30;
+      timeEl.textContent=seconds;
+      drawScene();
+    }
+
+    function stopCamera(){
+      stopGame();
+      detecting=false;
+      handPoint=null;
+      if(stream){
+        stream.getTracks().forEach(t=>t.stop());
+        stream=null;
+      }
+      video.srcObject=null;
+      overlay.classList.remove('hidden');
+      stopCamBtn.disabled=true;
+      startGameBtn.disabled=true;
+      startCamBtn.disabled=false;
+      setStatus('Cámara apagada.');
+      drawScene();
+    }
+
+    function startGame(){
+      if(!stream) return;
+      if(playing){
+        stopGame();
+        setStatus('Juego detenido. Puedes volver a iniciarlo.');
+        return;
+      }
+      score=0;
+      seconds=30;
+      scoreEl.textContent=score;
+      timeEl.textContent=seconds;
+      randomTarget();
+      playing=true;
+      startGameBtn.textContent='⏸ Detener juego';
+      setStatus('¡Juego iniciado! Mueve la mano para atrapar la estrella.');
+      timer=setInterval(()=>{
+        seconds--;
+        timeEl.textContent=seconds;
+        if(seconds<=0){
+          playing=false;
+          clearInterval(timer);
+          timer=null;
+          startGameBtn.textContent='⭐ Jugar otra vez';
+          setStatus(`¡Tiempo! Obtuviste ${score} punto${score===1?'':'s'}.`);
+          drawScene();
+        }
+      },1000);
+    }
+
+    startCamBtn.addEventListener('click', startCamera);
+    stopCamBtn.addEventListener('click', stopCamera);
+    startGameBtn.addEventListener('click', startGame);
+
+    document.addEventListener('visibilitychange', ()=>{
+      if(document.hidden && playing) setStatus('Juego pausado visualmente al cambiar de pestaña.');
+    });
+
+    drawScene();
+  </script>
+</body>
+</html>
