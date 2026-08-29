@@ -4,10 +4,105 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="Catálogo público de recursos educativos interactivos creados por Luis Alberto Antonio Narciso.">
-  <meta name="theme-color" content="#fffaf0">
+  <meta name="theme-color" content="#F4E4C3">
   <title>Catálogo Interactivo | Recursos Educativos</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23943dcc'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='38'%3E%F0%9F%8E%92%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230688C4'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='38'%3E%F0%9F%8E%92%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Paleta solicitada: Dutch White, Carissma, Orange Peel, Cinnabar, Lochmara y Chateau Green */
+    :root {
+      --purple: #0688C4;
+      --purple-bright: #E3552D;
+      --purple-soft: #F4E4C3;
+      --teal: #36A369;
+      --teal-soft: #F4E4C3;
+      --coral: #E97E9C;
+      --coral-soft: #F4E4C3;
+      --gold: #F89C09;
+      --gold-soft: #F4E4C3;
+      --orange: #E3552D;
+      --cream: #F4E4C3;
+      --paper: #fffaf0;
+      --panel: rgba(244, 228, 195, .72);
+      --line: rgba(227, 85, 45, .28);
+      --footer: #E97E9C;
+      --shadow: 0 12px 32px rgba(6, 136, 196, .11);
+    }
+
+    [data-theme="dark"] {
+      --ink: #fffaf0;
+      --muted: #F4E4C3;
+      --cream: #16343d;
+      --paper: #102b34;
+      --panel: rgba(16, 43, 52, .94);
+      --line: rgba(244, 228, 195, .22);
+      --frame: #081b21;
+      --purple-soft: rgba(6, 136, 196, .24);
+      --teal-soft: rgba(54, 163, 105, .22);
+      --coral-soft: rgba(233, 126, 156, .22);
+      --gold-soft: rgba(248, 156, 9, .22);
+    }
+
+    body { background: #F4E4C3; }
+    ::selection { background: #E97E9C; color: #fff; }
+
+    .page-frame {
+      background:
+        radial-gradient(circle at 92% 8%, rgba(248, 156, 9, .10), transparent 20%),
+        linear-gradient(135deg, #fffaf0, #F4E4C3);
+    }
+
+    .topbar {
+      border-bottom-color: rgba(227, 85, 45, .18);
+      background: rgba(244, 228, 195, .90);
+    }
+    [data-theme="dark"] .topbar { background: rgba(16, 43, 52, .90); }
+
+    .brand-copy strong { color: #0688C4; }
+    .brand-copy small { color: #36A369; }
+    .topnav-item span { color: #36A369; }
+    .topnav-item:nth-child(3) span { color: #F89C09; }
+    .topnav-item:nth-child(4) span { color: #E97E9C; }
+    .topnav-item.active { background: linear-gradient(135deg, #0688C4, #36A369); box-shadow: 0 7px 16px rgba(6, 136, 196, .22); }
+
+    .top-search input { border-color: rgba(227, 85, 45, .35); }
+    .top-search input:focus { border-color: #0688C4; box-shadow: 0 0 0 4px rgba(6, 136, 196, .12); }
+    .theme-switch { border-color: rgba(227, 85, 45, .30); }
+
+    .scribble-title { color: #0688C4; }
+    .scribble-title::after { color: #E3552D; }
+    .side-link.active { background: rgba(233, 126, 156, .22); color: #E3552D; }
+    [data-theme="dark"] .side-link.active { background: rgba(233, 126, 156, .20); color: #E97E9C; }
+    .coral-select { border-color: #E97E9C; background: rgba(233, 126, 156, .16); }
+    .teal-select { border-color: #36A369; background: rgba(54, 163, 105, .14); }
+    .reset-button { background: linear-gradient(90deg, #0688C4, #36A369); }
+
+    .welcome-card {
+      border-color: rgba(248, 156, 9, .48);
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,.72), transparent 37%),
+        linear-gradient(110deg, #F4E4C3, #fffaf0 50%, #F4E4C3);
+    }
+    [data-theme="dark"] .welcome-card { background: linear-gradient(110deg, rgba(248,156,9,.18), #102b34 50%, rgba(227,85,45,.16)); }
+    .welcome-copy h1 { color: #0688C4; }
+    [data-theme="dark"] .welcome-copy h1 { color: #E97E9C; }
+    .welcome-copy p { color: #3c443f; }
+    [data-theme="dark"] .welcome-copy p { color: #F4E4C3; }
+    .right-art b { background: linear-gradient(135deg, #E97E9C 33%, #36A369 34% 66%, #0688C4 67%); }
+
+    .interactive-card { border-color: rgba(54,163,105,.55); background: linear-gradient(110deg, rgba(54,163,105,.15), rgba(244,228,195,.48)); color: #36A369; }
+    .portal-card { border-color: rgba(248,156,9,.58); background: linear-gradient(110deg, rgba(248,156,9,.16), rgba(244,228,195,.48)); color: #F89C09; }
+
+    .showing-badge { background: rgba(6,136,196,.12); color: #0688C4; }
+    .resource-card { border-color: rgba(227,85,45,.22); }
+    .resource-card:hover { border-color: #0688C4; box-shadow: 0 14px 34px rgba(6,136,196,.13); }
+    .resource-card .card-type.interactive { background: rgba(54,163,105,.14); color: #36A369; }
+    .resource-card .card-type.portal { background: rgba(248,156,9,.15); color: #E3552D; }
+
+    .site-footer { background: #E97E9C; }
+    .author-pill { background: #F4E4C3; }
+    .toast { background: #0688C4; }
+  </style>
 </head>
 <body>
   <a class="skip-link" href="#recursos">Saltar a los recursos</a>
