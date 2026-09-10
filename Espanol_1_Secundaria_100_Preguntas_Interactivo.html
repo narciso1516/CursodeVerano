@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Español 1.º de Secundaria — Diversidad lingüística y cultural</title>
+<style>
+:root {
+  --bg:#f4f7fb; --card:#ffffff; --ink:#172033; --muted:#667085; --line:#d9e2ef;
+  --accent:#3157b7; --accent2:#edf2ff; --ok:#127a4a; --okbg:#e9f8f0;
+  --bad:#b42318; --badbg:#fff0ee; --warn:#8a5a00; --warnbg:#fff7df;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55}
+.wrap{max-width:900px;margin:auto;padding:18px}
+.hero{background:linear-gradient(135deg,#fff,#edf2ff);border:1px solid var(--line);border-radius:24px;padding:24px;margin-bottom:16px}
+.hero h1{margin:0 0 8px;font-size:clamp(1.55rem,4vw,2.4rem);line-height:1.12}
+.hero p{margin:6px 0;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center}
+.stat b{display:block;font-size:1.25rem}
+.progress{height:12px;border-radius:99px;background:#dfe6f2;overflow:hidden;margin-top:15px}
+.bar{height:100%;width:0;background:var(--accent);transition:width .25s ease}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px}
+.tag{display:inline-flex;align-items:center;gap:7px;background:var(--accent2);color:var(--accent);font-weight:700;padding:7px 11px;border-radius:999px;font-size:.9rem}
+.lesson-title{font-size:1.25rem;margin:14px 0 10px}
+.explain{border-left:5px solid var(--accent);background:#f8faff;border-radius:12px;padding:14px 16px;margin:12px 0 20px}
+.explain b{display:block;margin-bottom:5px}
+.question{font-size:1.1rem;font-weight:750;margin:20px 0 10px}
+.options{display:grid;gap:10px}
+.option{display:flex;gap:11px;align-items:flex-start;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;font-size:1rem;color:var(--ink);cursor:pointer;min-height:50px}
+.option:hover{border-color:#9fb2df}
+.option:focus-visible{outline:3px solid #9bb5ff;outline-offset:2px}
+.option .letter{flex:0 0 28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#eef2f7;font-weight:800}
+.option.correct{border-color:var(--ok);background:var(--okbg)}
+.option.wrong{border-color:var(--bad);background:var(--badbg)}
+.option:disabled{cursor:default;color:var(--ink);opacity:1}
+.feedback{min-height:28px;margin:10px 0 2px;font-weight:700}
+.feedback.ok{color:var(--ok)} .feedback.bad{color:var(--bad)}
+.reinforce{margin-top:22px;padding-top:18px;border-top:1px dashed var(--line)}
+.reinforce h3{margin:0 0 6px;font-size:1rem;color:var(--accent)}
+.actions{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:22px}
+button.nav{border:0;border-radius:13px;padding:12px 16px;font-weight:750;cursor:pointer;min-height:44px}
+.secondary{background:#e8edf5;color:#26334d}
+.primary{background:var(--accent);color:white}
+.nav:disabled{opacity:.45;cursor:not-allowed}
+.note{margin-top:14px;color:var(--muted);font-size:.92rem}
+.summary{display:none}
+.summary.show{display:block}
+.summary h2{margin-top:0}
+.result-big{font-size:2rem;font-weight:850}
+.review{margin-top:16px;display:grid;gap:8px}
+.review div{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
+@media (max-width:560px){
+ .wrap{padding:10px} .hero,.card{padding:16px;border-radius:18px}
+ .stats{grid-template-columns:1fr 1fr} .stats .stat:last-child{grid-column:1/-1}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+<section class="hero">
+  <span class="tag">📘 Español · 1.º de secundaria</span>
+  <h1>Diversidad de lenguas, cultura y comunicación</h1>
+  <p>100 lecciones guiadas. Primero aprende, luego responde y finalmente resuelve una pregunta de refuerzo.</p>
+  <div class="stats">
+    <div class="stat"><span>Lección</span><b id="statLesson">1 / 100</b></div>
+    <div class="stat"><span>Aciertos</span><b id="statCorrect">0</b></div>
+    <div class="stat"><span>Respondidas</span><b id="statAnswered">0 / 200</b></div>
+  </div>
+  <div class="progress" aria-label="Progreso"><div class="bar" id="progressBar"></div></div>
+</section>
+<section class="card" id="activity">
+  <div id="lessonArea"></div>
+  <div class="actions">
+    <button class="nav secondary" id="prevBtn" type="button">← Anterior</button>
+    <button class="nav secondary" id="shuffleBtn" type="button">↻ Reordenar incisos</button>
+    <button class="nav primary" id="nextBtn" type="button">Siguiente →</button>
+  </div>
+  <p class="note">Los incisos se mezclan de forma independiente en cada pregunta. La letra correcta puede cambiar si recargas o usas “Reordenar incisos”.</p>
+</section>
+<section class="card summary" id="summary">
+  <h2>Resultado final</h2>
+  <p class="result-big" id="finalScore"></p>
+  <p id="finalText"></p>
+  <div class="review" id="review"></div>
+  <div class="actions"><button class="nav primary" id="restartBtn" type="button">Volver a empezar</button></div>
+</section>
+</main>
+<script src="data1.js"></script>
+<script src="data2.js"></script>
+<script src="data3.js"></script>
+<script src="data4.js"></script>
+<script src="data5.js"></script>
+<script src="data6.js"></script>
+<script src="data7.js"></script>
+<script src="data8.js"></script>
+<script src="data9.js"></script>
+<script src="data10.js"></script>
+<script>
+(() => {
+const ROOT_DATA = window.QBANK;
+const letters = ["A","B","C","D"];
+const state = { current:0, answers:Array.from({length:100},()=>({main:null,reinforce:null})), layouts:Array.from({length:100},()=>({main:null,reinforce:null})) };
+const $ = s => document.querySelector(s);
+const lessonArea=$("#lessonArea"), statLesson=$("#statLesson"), statCorrect=$("#statCorrect"), statAnswered=$("#statAnswered"), progressBar=$("#progressBar"), prevBtn=$("#prevBtn"), nextBtn=$("#nextBtn"), shuffleBtn=$("#shuffleBtn"), activity=$("#activity"), summary=$("#summary");
+function shuffled(options){ const arr=options.map((text,i)=>({text,i})); for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
+function ensureLayout(idx){ const d=ROOT_DATA[idx], l=state.layouts[idx]; if(!l.main) l.main=shuffled(d.o1); if(!l.reinforce) l.reinforce=shuffled(d.o2); }
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+function optionHtml(item,chosen,correct,group,answered){ const cls=answered?(item.text===correct?' correct':(item.text===chosen?' wrong':'')):''; return `<button type="button" class="option${cls}" data-group="${group}" data-value="${encodeURIComponent(item.text)}" ${answered?'disabled':''}><span class="letter"></span><span>${esc(item.text)}</span></button>`; }
+function render(){ ensureLayout(state.current); const d=ROOT_DATA[state.current],a=state.answers[state.current],l=state.layouts[state.current]; const ma=a.main!==null,ra=a.reinforce!==null; const topic=d.tema===1?'Tema 1 · Diversidad de lenguas y comunicación':'Tema 2 · Diversidad étnica, cultural y lingüística'; lessonArea.innerHTML=`<span class="tag">${esc(topic)}</span><h2 class="lesson-title">Lección ${d.n} de 100</h2><div class="explain"><b>💡 Antes de responder</b>${esc(d.exp)}</div><div class="question">1. ${esc(d.q1)}</div><div class="options">${l.main.map(x=>optionHtml(x,a.main,d.a1,'main',ma)).join('')}</div><div class="feedback ${ma?(a.main===d.a1?'ok':'bad'):''}">${ma?(a.main===d.a1?'✓ Correcto. Muy bien.':`✗ Revisa la explicación. La respuesta correcta es: ${esc(d.a1)}`):''}</div><div class="reinforce"><h3>🔎 Pregunta de refuerzo</h3><div class="question">2. ${esc(d.q2)}</div><div class="options">${l.reinforce.map(x=>optionHtml(x,a.reinforce,d.a2,'reinforce',ra)).join('')}</div><div class="feedback ${ra?(a.reinforce===d.a2?'ok':'bad'):''}">${ra?(a.reinforce===d.a2?'✓ Correcto. Aplicaste el concepto.':`✗ La respuesta correcta es: ${esc(d.a2)}`):''}</div></div>`; [...lessonArea.querySelectorAll('.options')].forEach(box=>[...box.querySelectorAll('.option')].forEach((b,i)=>b.querySelector('.letter').textContent=letters[i])); lessonArea.querySelectorAll('.option:not(:disabled)').forEach(btn=>btn.addEventListener('click',answer)); prevBtn.disabled=state.current===0; nextBtn.textContent=state.current===99?'Ver resultado →':'Siguiente →'; updateStats(); }
+function answer(e){ const group=e.currentTarget.dataset.group,value=decodeURIComponent(e.currentTarget.dataset.value); if(state.answers[state.current][group]!==null)return; state.answers[state.current][group]=value; render(); }
+function updateStats(){ const flat=state.answers.flatMap(a=>[a.main,a.reinforce]); const answered=flat.filter(x=>x!==null).length; let correct=0; state.answers.forEach((a,i)=>{if(a.main===ROOT_DATA[i].a1)correct++;if(a.reinforce===ROOT_DATA[i].a2)correct++;}); statLesson.textContent=`${state.current+1} / 100`; statCorrect.textContent=correct; statAnswered.textContent=`${answered} / 200`; progressBar.style.width=`${Math.round(answered/200*100)}%`; }
+prevBtn.addEventListener('click',()=>{if(state.current>0){state.current--;render();}}); nextBtn.addEventListener('click',()=>{if(state.current<99){state.current++;render();}else showSummary();}); shuffleBtn.addEventListener('click',()=>{state.layouts[state.current]={main:null,reinforce:null};render();});
+function showSummary(){ let correct=0,answered=0; state.answers.forEach((a,i)=>{if(a.main!==null)answered++;if(a.reinforce!==null)answered++;if(a.main===ROOT_DATA[i].a1)correct++;if(a.reinforce===ROOT_DATA[i].a2)correct++;}); const pct=Math.round(correct/200*100); $('#finalScore').textContent=`${correct} / 200 · ${pct}%`; $('#finalText').textContent=answered<200?`Respondiste ${answered} de 200 reactivos. Puedes regresar y completar los que faltan.`:pct>=90?'Excelente dominio de los contenidos.':pct>=70?'Buen avance. Conviene repasar los errores.':'Conviene volver a leer las explicaciones y repetir la actividad.'; activity.style.display='none'; summary.classList.add('show'); }
+$('#restartBtn').addEventListener('click',()=>location.reload()); render();
+})();
+</script>
+</body>
+</html>
