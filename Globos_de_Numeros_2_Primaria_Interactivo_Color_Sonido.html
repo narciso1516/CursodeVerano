@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Globos de Números · 2.º de primaria</title>
+<style>
+  :root{
+    --bg1:#fff3a8;
+    --bg2:#c8f4ff;
+    --card:#ffffffef;
+    --ink:#24324a;
+    --soft:#64748b;
+    --blue:#33a7ff;
+    --red:#ff5f7f;
+    --yellow:#ffd93d;
+    --green:#49d68b;
+    --purple:#9b6cff;
+    --orange:#ff9f43;
+    --pink:#ff86c8;
+    --aqua:#37d7d3;
+    --shadow:0 14px 34px rgba(55,74,112,.16);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family: ui-rounded, "SF Pro Rounded", "Trebuchet MS", system-ui, sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(circle at 8% 12%, #fff9 0 3.5%, transparent 3.8%),
+      radial-gradient(circle at 88% 16%, #fff9 0 3%, transparent 3.3%),
+      radial-gradient(circle at 12% 82%, #ff9bd455 0 7%, transparent 7.4%),
+      radial-gradient(circle at 90% 78%, #8de8ff66 0 8%, transparent 8.4%),
+      linear-gradient(135deg,#fff2a8 0%,#ffd6ef 34%,#c9f5ff 68%,#d9ffd9 100%);
+    background-size:140% 140%;
+    animation:bgDrift 12s ease-in-out infinite alternate;
+    overflow-x:hidden;
+  }
+  .app{
+    width:min(760px,100%);
+    margin:auto;
+    padding:18px 14px 36px;
+    position:relative;
+    z-index:2;
+  }
+  header{
+    text-align:center;
+    margin-bottom:12px;
+  }
+  h1{
+    margin:4px 0 6px;
+    font-size:clamp(26px,7vw,42px);
+    line-height:1;
+  }
+  .subtitle{
+    margin:0 auto;
+    color:var(--soft);
+    font-weight:700;
+    max-width:620px;
+    font-size:15px;
+  }
+  .topbar{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    gap:8px;
+    margin:16px 0 10px;
+  }
+  .pill{
+    background:#fff;
+    border-radius:999px;
+    padding:9px 12px;
+    box-shadow:var(--shadow);
+    font-weight:900;
+    font-size:14px;
+  }
+  .progress-wrap{
+    background:#ffffffaa;
+    height:12px;
+    border-radius:99px;
+    overflow:hidden;
+    border:2px solid #fff;
+  }
+  .progress{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,var(--green),var(--blue),var(--purple));
+    transition:width .35s ease;
+    border-radius:99px;
+  }
+  .card{
+    background:var(--card);
+    backdrop-filter:blur(8px);
+    border:3px solid white;
+    border-radius:28px;
+    box-shadow:var(--shadow);
+    padding:20px;
+    min-height:460px;
+    position:relative;
+    overflow:hidden;
+  }
+  .mode{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:#edf6ff;
+    color:#326899;
+    border-radius:999px;
+    padding:8px 12px;
+    font-weight:900;
+    font-size:13px;
+    margin-bottom:14px;
+  }
+  .prompt{
+    font-size:clamp(18px,4.8vw,25px);
+    font-weight:900;
+    margin:4px 0 8px;
+    text-align:center;
+  }
+  .word{
+    text-align:center;
+    font-size:clamp(34px,9vw,56px);
+    font-weight:1000;
+    line-height:1.08;
+    margin:16px 0 18px;
+    color:#7c56df;
+    text-transform:lowercase;
+  }
+  .big-number{
+    text-align:center;
+    font-size:clamp(70px,22vw,118px);
+    font-weight:1000;
+    line-height:1;
+    margin:14px 0 22px;
+    color:#206ebd;
+    letter-spacing:2px;
+  }
+  .screen{
+    width:min(420px,100%);
+    margin:0 auto 12px;
+    background:#203348;
+    color:#dfffd8;
+    border:5px solid #40586f;
+    border-radius:18px;
+    padding:12px 14px;
+    min-height:67px;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    font:900 38px/1 "SF Mono",Consolas,monospace;
+    letter-spacing:5px;
+    box-shadow:inset 0 3px 12px #0005;
+  }
+  .keypad{
+    width:min(420px,100%);
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:9px;
+  }
+  .key{
+    aspect-ratio:1/1;
+    border:none;
+    border-radius:18px;
+    font-size:clamp(24px,7vw,34px);
+    font-weight:1000;
+    background:#fff;
+    color:var(--ink);
+    box-shadow:0 6px 0 #d9e5ef, 0 9px 16px rgba(40,70,90,.10);
+    cursor:pointer;
+    touch-action:manipulation;
+  }
+  .key:active{transform:translateY(4px);box-shadow:0 2px 0 #d9e5ef}
+  .options{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:11px;
+    margin:8px auto 0;
+    width:min(520px,100%);
+  }
+  .option{
+    min-height:58px;
+    border:none;
+    border-radius:18px;
+    padding:12px 16px;
+    font-size:clamp(17px,4.5vw,22px);
+    font-weight:1000;
+    background:white;
+    color:var(--ink);
+    box-shadow:0 6px 0 #d9e5ef;
+    cursor:pointer;
+  }
+  .option:active{transform:translateY(3px);box-shadow:0 3px 0 #d9e5ef}
+  .feedback{
+    min-height:54px;
+    margin-top:14px;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-weight:1000;
+    font-size:18px;
+    padding:8px;
+  }
+  .feedback.good{background:#e5fff0;color:#187a49}
+  .feedback.bad{background:#fff0ef;color:#b13d37}
+  .actions{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin-top:8px;
+  }
+  .btn{
+    border:none;
+    border-radius:999px;
+    padding:13px 20px;
+    font-weight:1000;
+    font-size:16px;
+    cursor:pointer;
+    box-shadow:0 6px 0 #c8d5df;
+  }
+  .btn.primary{
+    background:linear-gradient(135deg,#ffd93d,#ffae45);
+    color:#674000;
+    border:3px solid #fff;
+  }
+  #next{
+    animation:nextBounce 1.7s ease-in-out infinite;
+  }
+  @keyframes nextBounce{
+    0%,100%{transform:translateY(0) scale(1)}
+    50%{transform:translateY(-4px) scale(1.025)}
+  }
+  .btn.secondary{background:#edf2f7;color:#4e6172}
+  .hidden{display:none!important}
+  .hint{
+    text-align:center;
+    font-size:13px;
+    color:var(--soft);
+    margin:11px 0 0;
+    font-weight:700;
+  }
+  .summary{
+    text-align:center;
+    padding:26px 8px;
+  }
+  .summary .medal{font-size:84px}
+  .summary h2{font-size:34px;margin:8px 0}
+  .summary p{font-weight:800;color:var(--soft)}
+  .balloon{
+    position:fixed;
+    bottom:-140px;
+    width:54px;
+    height:68px;
+    border-radius:50% 50% 48% 48%;
+    opacity:.92;
+    z-index:50;
+    animation:floatUp 2.8s ease-in forwards;
+    pointer-events:none;
+  }
+  .balloon:after{
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom:-31px;
+    width:1.5px;
+    height:34px;
+    background:#71808c;
+  }
+  .balloon:before{
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom:-6px;
+    transform:translateX(-50%);
+    border-left:6px solid transparent;
+    border-right:6px solid transparent;
+    border-top:9px solid currentColor;
+  }
+  @keyframes floatUp{
+    0%{transform:translateY(0) rotate(-3deg)}
+    100%{transform:translateY(-120vh) rotate(8deg)}
+  }
+  .tiny-note{
+    text-align:center;
+    color:#71808c;
+    margin-top:14px;
+    font-size:12px;
+    font-weight:700;
+  }
+
+  @keyframes bgDrift{
+    from{background-position:0% 20%}
+    to{background-position:100% 80%}
+  }
+  .card{
+    transition:transform .35s ease, opacity .35s ease;
+  }
+  .card.entering{animation:cardIn .48s cubic-bezier(.2,.9,.25,1)}
+  @keyframes cardIn{
+    0%{opacity:0;transform:translateY(18px) scale(.975)}
+    100%{opacity:1;transform:translateY(0) scale(1)}
+  }
+  .word{animation:wordFloat 2.8s ease-in-out infinite}
+  @keyframes wordFloat{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-5px)}
+  }
+  .big-number{
+    text-shadow:0 6px 0 #ffffff, 0 12px 22px rgba(63,109,174,.16);
+    animation:numberPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes numberPulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.035)}
+  }
+  .key,.option,.btn{
+    transition:transform .14s ease, filter .14s ease, box-shadow .14s ease;
+  }
+  .key:nth-child(5n+1){background:#e8f5ff}
+  .key:nth-child(5n+2){background:#fff0f7}
+  .key:nth-child(5n+3){background:#fff8cf}
+  .key:nth-child(5n+4){background:#e8ffef}
+  .key:nth-child(5n+5){background:#f0ebff}
+  .key.pop{animation:keyPop .28s ease}
+  @keyframes keyPop{
+    0%{transform:scale(1)}
+    45%{transform:scale(.88)}
+    100%{transform:scale(1)}
+  }
+  .option:nth-child(1){border:3px solid #7dc9ff}
+  .option:nth-child(2){border:3px solid #ff98c9}
+  .option:nth-child(3){border:3px solid #ffd75b}
+  .option:nth-child(4){border:3px solid #80e7ad}
+  .option.correct-pop{animation:correctPop .55s cubic-bezier(.2,.9,.2,1)}
+  @keyframes correctPop{
+    0%{transform:scale(1)}
+    40%{transform:scale(1.07) rotate(-1deg)}
+    70%{transform:scale(.98) rotate(1deg)}
+    100%{transform:scale(1)}
+  }
+  .shake{animation:shake .38s ease}
+  @keyframes shake{
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-7px)}
+    50%{transform:translateX(7px)}
+    75%{transform:translateX(-4px)}
+  }
+  .progress{
+    position:relative;
+    overflow:hidden;
+  }
+  .progress:after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(100deg,transparent 20%,#fff9 48%,transparent 72%);
+    transform:translateX(-120%);
+    animation:shine 2.1s linear infinite;
+  }
+  @keyframes shine{to{transform:translateX(120%)}}
+  .pill{
+    border:2px solid #fff;
+  }
+  .sound-toggle{
+    border:0;
+    background:#fff;
+    border-radius:999px;
+    min-width:46px;
+    min-height:46px;
+    padding:8px 12px;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+    font-size:20px;
+    font-weight:900;
+  }
+  .sound-toggle:focus-visible,.key:focus-visible,.option:focus-visible,.btn:focus-visible{
+    outline:4px solid #7a5cff55;
+    outline-offset:3px;
+  }
+  .spark{
+    position:fixed;
+    width:12px;
+    height:12px;
+    border-radius:4px;
+    pointer-events:none;
+    z-index:1000;
+    animation:sparkFly .75s ease-out forwards;
+  }
+  @keyframes sparkFly{
+    0%{opacity:1;transform:translate(0,0) scale(1) rotate(0deg)}
+    100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.2) rotate(240deg)}
+  }
+  .pop-ring{
+    position:fixed;
+    width:70px;
+    height:70px;
+    border:8px solid #fff;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:1001;
+    animation:ring .42s ease-out forwards;
+  }
+  @keyframes ring{
+    from{opacity:.95;transform:translate(-50%,-50%) scale(.35)}
+    to{opacity:0;transform:translate(-50%,-50%) scale(1.45)}
+  }
+  .star-bump{animation:starBump .5s ease}
+  @keyframes starBump{
+    0%,100%{transform:scale(1)}
+    45%{transform:scale(1.35) rotate(8deg)}
+  }
+  .feedback.good{animation:feedbackIn .4s ease}
+  .feedback.bad{animation:feedbackIn .32s ease}
+  @keyframes feedbackIn{
+    from{opacity:0;transform:translateY(6px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  .floating-deco{
+    position:fixed;
+    pointer-events:none;
+    opacity:.3;
+    z-index:0;
+    animation:decoFloat 8s ease-in-out infinite alternate;
+  }
+  @keyframes decoFloat{
+    from{transform:translateY(0) rotate(-6deg)}
+    to{transform:translateY(-18px) rotate(8deg)}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}
+  }
+
+  @media (max-width:480px){
+    .app{padding:12px 10px 26px}
+    .card{border-radius:24px;padding:16px;min-height:520px}
+    .keypad{gap:8px}
+  }
+</style>
+</head>
+<body>
+<div class="floating-deco" style="left:3%;top:18%;font-size:42px">⭐</div>
+<div class="floating-deco" style="right:4%;top:30%;font-size:38px;animation-delay:1.2s">🌈</div>
+<div class="floating-deco" style="left:6%;top:70%;font-size:34px;animation-delay:2.1s">🔵</div>
+<div class="floating-deco" style="right:5%;top:73%;font-size:36px;animation-delay:.7s">🟡</div>
+<div class="app">
+  <header>
+    <h1>🎈🌈 Globos de Números</h1>
+    <p class="subtitle">Juega, escucha y relaciona cómo <strong>se lee</strong>, cómo <strong>se escribe</strong> y cómo <strong>se ve</strong> cada número.</p>
+  </header>
+
+  <div class="topbar">
+    <div class="pill" id="counter">Reto 1 / 50</div>
+    <div class="pill">⭐ <span id="stars">0</span></div>
+    <div style="display:flex;gap:7px;justify-content:flex-end;align-items:center">
+      <div class="pill">Nivel <span id="level">1</span></div>
+      <button class="sound-toggle" id="soundToggle" type="button" aria-label="Activar o desactivar sonidos" title="Sonidos">🔊</button>
+    </div>
+  </div>
+  <div class="progress-wrap"><div class="progress" id="progress"></div></div>
+
+  <main class="card" id="card">
+    <section id="play"></section>
+  </main>
+
+  <div class="tiny-note">Diseñado para práctica gradual de lectura y escritura de números de dos cifras.</div>
+</div>
+
+<script>
+const ones = ["cero","uno","dos","tres","cuatro","cinco","seis","siete","ocho","nueve"];
+const teens = {
+  10:"diez",11:"once",12:"doce",13:"trece",14:"catorce",15:"quince",
+  16:"dieciséis",17:"diecisiete",18:"dieciocho",19:"diecinueve",
+  20:"veinte",21:"veintiuno",22:"veintidós",23:"veintitrés",24:"veinticuatro",
+  25:"veinticinco",26:"veintiséis",27:"veintisiete",28:"veintiocho",29:"veintinueve"
+};
+const tens = {30:"treinta",40:"cuarenta",50:"cincuenta",60:"sesenta",70:"setenta",80:"ochenta",90:"noventa"};
+
+
+let soundOn = true;
+let audioCtx = null;
+
+function getAudio(){
+  if(!soundOn) return null;
+  try{
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if(audioCtx.state === "suspended") audioCtx.resume();
+    return audioCtx;
+  }catch(e){ return null; }
+}
+
+function tone(freq=440,duration=.12,type="sine",gain=.05,delay=0){
+  const ctx=getAudio();
+  if(!ctx) return;
+  const o=ctx.createOscillator();
+  const g=ctx.createGain();
+  o.type=type;
+  o.frequency.setValueAtTime(freq,ctx.currentTime+delay);
+  g.gain.setValueAtTime(.0001,ctx.currentTime+delay);
+  g.gain.exponentialRampToValueAtTime(gain,ctx.currentTime+delay+.015);
+  g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+delay+duration);
+  o.connect(g); g.connect(ctx.destination);
+  o.start(ctx.currentTime+delay);
+  o.stop(ctx.currentTime+delay+duration+.03);
+}
+function soundTap(){ tone(460,.07,"sine",.025); }
+function soundCorrect(){
+  tone(523,.12,"sine",.05,0);
+  tone(659,.13,"sine",.05,.11);
+  tone(784,.18,"sine",.06,.22);
+}
+function soundWrong(){
+  tone(210,.11,"triangle",.04,0);
+  tone(165,.16,"triangle",.035,.10);
+}
+function soundPop(){
+  const ctx=getAudio();
+  if(!ctx) return;
+  const buffer=ctx.createBuffer(1,ctx.sampleRate*.12,ctx.sampleRate);
+  const data=buffer.getChannelData(0);
+  for(let i=0;i<data.length;i++){
+    data[i]=(Math.random()*2-1)*(1-i/data.length);
+  }
+  const source=ctx.createBufferSource();
+  const gain=ctx.createGain();
+  gain.gain.value=.09;
+  source.buffer=buffer;
+  source.connect(gain); gain.connect(ctx.destination);
+  source.start();
+}
+
+function sparkleBurst(x=window.innerWidth/2,y=window.innerHeight/2,count=16){
+  const colors=["#ff5f7f","#ffd93d","#49d68b","#33a7ff","#9b6cff","#ff9f43","#ff86c8","#37d7d3"];
+  for(let i=0;i<count;i++){
+    const s=document.createElement("i");
+    s.className="spark";
+    s.style.left=(x-6)+"px";
+    s.style.top=(y-6)+"px";
+    s.style.background=colors[i%colors.length];
+    const a=(Math.PI*2/count)*i + Math.random()*.18;
+    const d=45+Math.random()*75;
+    s.style.setProperty("--dx",Math.cos(a)*d+"px");
+    s.style.setProperty("--dy",Math.sin(a)*d+"px");
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),850);
+  }
+}
+function celebrateElement(el){
+  if(!el) return;
+  const r=el.getBoundingClientRect();
+  sparkleBurst(r.left+r.width/2,r.top+r.height/2,18);
+}
+function bumpStars(){
+  const p=starEl.closest(".pill");
+  if(!p) return;
+  p.classList.remove("star-bump");
+  void p.offsetWidth;
+  p.classList.add("star-bump");
+  setTimeout(()=>p.classList.remove("star-bump"),550);
+}
+function transitionIn(){
+  const card=document.getElementById("card");
+  card.classList.remove("entering");
+  void card.offsetWidth;
+  card.classList.add("entering");
+}
+
+function numberToWords(n){
+  if(n < 10) return ones[n];
+  if(teens[n]) return teens[n];
+  const base = Math.floor(n/10)*10;
+  const unit = n%10;
+  return unit===0 ? tens[base] : `${tens[base]} y ${ones[unit]}`;
+}
+function shuffle(arr){ return [...arr].sort(()=>Math.random()-.5); }
+
+const selected = [
+  // Nivel 1 · números muy familiares y exactos
+  10,11,12,13,14,15,20,21,22,23,
+  // Nivel 2 · primeras combinaciones y veintitantos
+  24,25,26,27,28,29,30,31,32,35,
+  // Nivel 3 · lectura con “y” y contraste entre decenas
+  36,38,40,42,45,47,50,53,56,59,
+  // Nivel 4 · números mayores y distractores parecidos
+  60,62,64,67,69,70,72,74,77,79,
+  // Nivel 5 · decenas altas y máxima discriminación
+  80,82,84,86,89,90,93,95,97,99
+];
+let index = 0;
+let stars = 0;
+let attempts = 0;
+let locked = false;
+
+const play = document.getElementById("play");
+const counter = document.getElementById("counter");
+const starEl = document.getElementById("stars");
+const progress = document.getElementById("progress");
+const levelEl = document.getElementById("level");
+const soundToggle = document.getElementById("soundToggle");
+soundToggle.addEventListener("click",()=>{
+  soundOn=!soundOn;
+  soundToggle.textContent=soundOn ? "🔊" : "🔇";
+  soundToggle.setAttribute("aria-label",soundOn ? "Desactivar sonidos" : "Activar sonidos");
+  if(soundOn) soundTap();
+});
+
+function updateTop(){
+  counter.textContent = `Reto ${Math.min(index+1,50)} / 50`;
+  starEl.textContent = stars;
+  progress.style.width = `${(index/50)*100}%`;
+  levelEl.textContent = index<10 ? "1" : index<20 ? "2" : index<30 ? "3" : index<40 ? "4" : "5";
+}
+function balloons(){ }
+
+function popOneBalloon(callback){
+  const colors = ["#ff5f7f","#ffd93d","#49d68b","#33a7ff","#9b6cff","#ff9f43","#ff86c8"];
+  const b=document.createElement("div");
+  b.className="balloon";
+  b.style.position="fixed";
+  b.style.left="50%";
+  b.style.top="52%";
+  b.style.bottom="auto";
+  b.style.transform="translate(-50%,-50%) scale(1)";
+  b.style.background=colors[Math.floor(Math.random()*colors.length)];
+  b.style.color=b.style.background;
+  b.style.animation="none";
+  b.style.zIndex="999";
+  b.style.transition="transform .20s ease, opacity .18s ease";
+  document.body.appendChild(b);
+
+  setTimeout(()=>{ b.style.transform="translate(-50%,-50%) scale(1.35)"; },70);
+
+  setTimeout(()=>{
+    const r=b.getBoundingClientRect();
+    const x=r.left+r.width/2, y=r.top+r.height/2;
+    soundPop();
+    sparkleBurst(x,y,22);
+    const ring=document.createElement("div");
+    ring.className="pop-ring";
+    ring.style.left=x+"px";
+    ring.style.top=y+"px";
+    document.body.appendChild(ring);
+    setTimeout(()=>ring.remove(),500);
+    b.style.transform="translate(-50%,-50%) scale(.08)";
+    b.style.opacity="0";
+  },260);
+
+  setTimeout(()=>{
+    b.remove();
+    callback();
+    transitionIn();
+  },520);
+}
+function render(){
+  updateTop();
+  if(index>=50){ renderSummary(); return; }
+  locked=false;
+  attempts=0;
+  const n=selected[index];
+  const mode = index % 2 === 0 ? "word-to-number" : "number-to-word";
+  if(mode==="word-to-number") renderWordToNumber(n);
+  else renderNumberToWord(n);
+}
+function renderWordToNumber(n){
+  play.innerHTML=`
+    <div class="mode">🔤 De palabras a cifra</div>
+    <div class="prompt">Lee con calma y marca el número correcto:</div>
+    <div class="word">${numberToWords(n)}</div>
+    <div class="screen" id="screen">_ _</div>
+    <div class="keypad">
+      ${[1,2,3,4,5,6,7,8,9,0].map(x=>`<button class="key" data-num="${x}">${x}</button>`).join("")}
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <div class="actions">
+      <button class="btn secondary hidden" id="clear">Borrar</button>
+      <button class="btn primary hidden" id="check">Comprobar</button>
+      <button class="btn primary hidden" id="next">Siguiente globo 🎈</button>
+    </div>
+    <p class="hint">Pista: escucha mentalmente el nombre del número mientras marcas sus cifras.</p>`;
+  let typed="";
+  const screen=document.getElementById("screen");
+  const feedback=document.getElementById("feedback");
+  const clear=document.getElementById("clear");
+  const check=document.getElementById("check");
+  const next=document.getElementById("next");
+
+  document.querySelectorAll(".key").forEach(k=>k.onclick=()=>{
+    if(locked || typed.length>=2) return;
+    soundTap();
+    k.classList.remove("pop"); void k.offsetWidth; k.classList.add("pop");
+    typed += k.dataset.num;
+    screen.textContent = typed.padEnd(2,"_").split("").join(" ");
+    clear.classList.toggle("hidden", typed.length===0);
+    check.classList.toggle("hidden", typed.length!==2);
+  });
+  clear.onclick=()=>{
+    if(locked) return;
+    typed="";
+    screen.textContent="_ _";
+    clear.classList.add("hidden");
+    check.classList.add("hidden");
+    feedback.className="feedback";
+    feedback.textContent="";
+  };
+  check.onclick=()=>{
+    attempts++;
+    if(Number(typed)===n){
+      locked=true;
+      stars += attempts===1 ? 2 : 1;
+      soundCorrect();
+      celebrateElement(screen);
+      bumpStars();
+      feedback.className="feedback good";
+      feedback.textContent=`✅ ¡Muy bien! “${numberToWords(n)}” se escribe ${n}.`;
+      check.classList.add("hidden");
+      clear.classList.add("hidden");
+      next.classList.remove("hidden");
+      balloons();
+      starEl.textContent=stars;
+    }else{
+      soundWrong();
+      screen.classList.remove("shake"); void screen.offsetWidth; screen.classList.add("shake");
+      feedback.className="feedback bad";
+      feedback.textContent="🔎 Casi. Vuelve a leer la palabra y prueba otra vez.";
+      typed="";
+      screen.textContent="_ _";
+      check.classList.add("hidden");
+      clear.classList.add("hidden");
+    }
+  };
+  next.onclick=()=>{ if(!locked) return; popOneBalloon(()=>{ index++; render(); }); };
+}
+function makeOptions(n){
+  let opts=new Set([n]);
+  const level = index<10 ? 1 : index<20 ? 2 : index<30 ? 3 : index<40 ? 4 : 5;
+  const pools = {
+    1:[-10,-5,5,10],
+    2:[-10,-2,-1,1,2,10],
+    3:[-10,-3,-2,-1,1,2,3,10],
+    4:[-2,-1,1,2,-10,10],
+    5:[-1,1,-2,2,-9,9]
+  };
+  const pool = pools[level];
+  while(opts.size<4){
+    let delta=pool[Math.floor(Math.random()*pool.length)];
+    let x=Math.max(10,Math.min(99,n+delta));
+    if(x!==n) opts.add(x);
+  }
+  return shuffle([...opts]);
+}
+function renderNumberToWord(n){
+  const nums=makeOptions(n);
+  play.innerHTML=`
+    <div class="mode">🔢 De cifra a palabras</div>
+    <div class="prompt">Mira la cifra y elige cómo se lee:</div>
+    <div class="big-number">${n}</div>
+    <div class="options">
+      ${nums.map(x=>`<button class="option" data-value="${x}">${numberToWords(x)}</button>`).join("")}
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <div class="actions">
+      <button class="btn primary hidden" id="next">Siguiente globo 🎈</button>
+    </div>
+    <p class="hint">Pista: primero piensa cuántas decenas tiene y luego mira las unidades.</p>`;
+  const feedback=document.getElementById("feedback");
+  const next=document.getElementById("next");
+  document.querySelectorAll(".option").forEach(btn=>btn.onclick=()=>{
+    if(locked) return;
+    soundTap();
+    attempts++;
+    if(Number(btn.dataset.value)===n){
+      locked=true;
+      stars += attempts===1 ? 2 : 1;
+      soundCorrect();
+      btn.classList.add("correct-pop");
+      celebrateElement(btn);
+      bumpStars();
+      btn.style.background="#e5fff0";
+      feedback.className="feedback good";
+      feedback.textContent=`✅ ¡Correcto! ${n} se lee “${numberToWords(n)}”.`;
+      next.classList.remove("hidden");
+      balloons();
+      starEl.textContent=stars;
+    }else{
+      soundWrong();
+      btn.classList.remove("shake"); void btn.offsetWidth; btn.classList.add("shake");
+      btn.style.background="#fff0ef";
+      feedback.className="feedback bad";
+      feedback.textContent="🔎 Esa lectura no corresponde. Intenta otra vez.";
+    }
+  });
+  next.onclick=()=>{ if(!locked) return; popOneBalloon(()=>{ index++; render(); }); };
+}
+function renderSummary(){
+  progress.style.width="100%";
+  counter.textContent="¡Actividad terminada!";
+  const max=100;
+  const pct=Math.round((stars/max)*100);
+  let msg = pct>=85 ? "¡Excelente dominio!" : pct>=65 ? "¡Muy buen avance!" : "¡Buen trabajo! Conviene repetir para ganar seguridad.";
+  play.innerHTML=`
+    <div class="summary">
+      <div class="medal">🏅</div>
+      <h2>¡Misión cumplida!</h2>
+      <p>${msg}</p>
+      <div class="big-number" style="font-size:64px">${stars} ⭐</div>
+      <p>Practicaste lectura y escritura de números de dos cifras en ambos sentidos.</p>
+      <button class="btn primary" id="restart">Jugar otra vez 🎈</button>
+    </div>`;
+  document.getElementById("restart").onclick=()=>{
+    /* Progresión fija de 50 retos */
+    index=0; stars=0; render();
+  };
+}
+render();
+transitionIn();
+</script>
+</body>
+</html>
