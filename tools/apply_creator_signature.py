@@ -37,7 +37,6 @@ for p in ROOT.rglob('*.html'):
     rel=p.relative_to(ROOT)
     try: text=p.read_text(encoding='utf-8')
     except Exception: review.append((str(rel),'encoding/read error'));continue
-    if MARK in text: skipped.append((str(rel),'already current'));continue
     if eligible(rel,text):
         new=place(text)
         if new!=text: p.write_text(new,encoding='utf-8');changed.append(str(rel))
