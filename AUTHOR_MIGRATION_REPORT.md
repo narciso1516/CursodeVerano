@@ -58,6 +58,7 @@
 - evaluacion_lenguajes_interactiva_v5_reporte_captura_reinicios.html
 - Reto_Dominio_Espanol_1_Secundaria_15_Preguntas.html
 - nivel_1_cuarto_primaria_radar_de_palabras.html
+- Mi_Primera_Clase_de_Musica.html
 - index_secundaria_1_2.html
 - nivel_2_laboratorio_de_silabas.html
 - Examen_Diagnostico_Matematicas_2do_Secundaria_Interactivo_Reporte.html
@@ -102,10 +103,10 @@
 - Noel_100_Misiones_Hawkins_Paleta_Cinematica.html
 - diagnostico_lengua_secundaria_argumentacion_v2.html
 - Examen_Refuerzo_Juan_Balor_2do_Secundaria_35.html
-- Academia_del_Todavia_4_5_6_Cuestionario_50.html
 - nivel_5_quinto_primaria_central_clasificacion_posiciones_fijas.html
 - mision_matematica_5_retos_interactivos.html
 - HTML_100_Preguntas_Con_Clases_Completas.html
+- clase_psicologia_del_color_mobile.html
 - curso_verano_poblado_tres_FINAL_MOBILE_EFECTOS.html
 - nivel_8_quinto_primaria_reto_final_orbita_de_acentos.html
 - 02_redaccion_3ro_4to.html
@@ -124,7 +125,6 @@
 - nivel_7_quinto_primaria_detectives_tilde_espacial.html
 - Guia_Acentuacion_50_Retos_Secundaria.html
 - BLOQUE_1_5TO_EVALUACION_25_RETOS_MOVIMIENTO_UX.html
-- Simulador_NEM_25_Reactivos_Interactivo.html
 - Miguel_Maestria_Espanol_150_Adjetivos_Antonimos_Sustantivos_2.html
 - 01_redaccion_1ro_2do.html
 - nivel_1_completo_radar_de_palabras.html
@@ -153,6 +153,7 @@
 - mision-secundaria-100-retos/index.html
 - compraventa-matematica-2/index.html
 - tiendita-secundaria-3/index.html
+- psicologia-color/index.html
 - tiendita-secundaria-2/index.html
 - compraventa-matematica-1/index.html
 - tiendita-secundaria-1/index.html
@@ -170,10 +171,12 @@
 - Portal_Invisibilidad_Fingertip_V3.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - lenguajes1.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - Plataforma_Oraciones_Guiadas_por_Grado.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Cielito_Lindo_Globos_Musicales.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - noel-santibanez.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - blad-kc-painting.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - felipe-cumplido.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - Despedida_Soltera_Kenia_Itzel.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- El_Rival_Mas_Debil_Cultura_General_200_CELULAR.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - Bitacora_del_dia_Curso_de_Verano_03_Agosto_2026_MEJORADA.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - portal-familias-demo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - iker-manzano.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
@@ -187,6 +190,7 @@
 - Diabetes_Companion_iPhone_PRO.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - radar_crianza_paleta_interactiva.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - mision-leer.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Piano_Musical_Infantil_Interactivo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - tamara-beltran.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - christopher-rebolledo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - amayai-garza.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
@@ -204,13 +208,16 @@
 - clase-muestra-ingles.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - Termometro_Poblado_Tres_UX_QA.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - benito-bolanos.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Academia_del_Todavia_4_5_6_Cuestionario_50.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - amor_freudiano_interactivo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - expediente-template.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - Termometro_Poblado_Tres_Clima_7_Dias.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - emmanuel-cohetero.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Piano_Musical_Canciones_Horizontal.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - Mano_Magica_Juego_Camara_Autor.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - guadalupe-cumplido-felipe.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - dana-bolanos.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Simulador_NEM_25_Reactivos_Interactivo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - santiago-merino.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - hermanos_valor.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - tabita-gamboa.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
