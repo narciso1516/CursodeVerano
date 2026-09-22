@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Laboratorio de Teclado | Fabián Sánchez Hilario</title>
+<style>
+:root{--bg:#07111f;--bg2:#10213a;--card:#0e1e35;--text:#f6f9ff;--muted:#9fb1c9;--cyan:#28e6ff;--purple:#a07bff;--green:#42e7a1;--red:#ff6178;--yellow:#ffd166;--line:rgba(255,255,255,.1)}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--text);background:radial-gradient(circle at 10% 15%,rgba(40,230,255,.12),transparent 28%),radial-gradient(circle at 90% 12%,rgba(160,123,255,.14),transparent 30%),linear-gradient(145deg,var(--bg),var(--bg2));padding:20px;display:flex;justify-content:center;align-items:center}
+body:before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:34px 34px;pointer-events:none}
+.app{width:min(980px,100%);position:relative;z-index:1}.top{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:14px}.brand{display:flex;gap:12px;align-items:center}.icon{width:50px;height:50px;display:grid;place-items:center;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,rgba(40,230,255,.2),rgba(160,123,255,.22));font-size:25px}.brand h1{margin:0;font-size:24px}.brand small{color:var(--muted)}.chip{border:1px solid var(--line);border-radius:999px;padding:10px 14px;background:rgba(255,255,255,.05);font-size:13px}
+.card{background:linear-gradient(145deg,rgba(17,34,59,.97),rgba(8,18,33,.98));border:1px solid var(--line);border-radius:28px;box-shadow:0 25px 75px rgba(0,0,0,.36);overflow:hidden}.inner{padding:clamp(22px,5vw,45px)}
+#game,#finish{display:none}.intro{text-align:center}.tag{display:inline-block;color:var(--cyan);background:rgba(40,230,255,.07);border:1px solid rgba(40,230,255,.25);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.title{font-size:clamp(38px,8vw,68px);line-height:.96;letter-spacing:-.05em;margin:20px auto 15px;max-width:760px}.gradient{background:linear-gradient(90deg,var(--cyan),#9eeeff,var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}.intro p{color:var(--muted);line-height:1.7;max-width:720px;margin:0 auto}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:30px 0}.feature{padding:18px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.035)}.feature b{display:block;margin:7px 0 5px}.feature span{color:var(--muted);font-size:12px;line-height:1.5}
+.btn{border:0;border-radius:16px;min-height:52px;padding:14px 22px;font:inherit;font-weight:900;cursor:pointer;transition:.18s}.btn:hover{transform:translateY(-2px)}.btn:disabled{opacity:.35;cursor:not-allowed;transform:none}.primary{background:linear-gradient(135deg,var(--cyan),#9ff5ff);color:#031018;box-shadow:0 12px 30px rgba(40,230,255,.18)}.success{background:linear-gradient(135deg,var(--green),#a2ffd7);color:#03150e}.secondary{background:rgba(255,255,255,.07);border:1px solid var(--line);color:white}
+.status{display:flex;justify-content:space-between;color:var(--muted);font-weight:800;font-size:13px;margin-bottom:10px}.track{height:11px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden;margin-bottom:28px}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--purple));transition:.35s;border-radius:999px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.panel{border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.035);padding:28px}.label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:900}.symbol{min-height:165px;display:grid;place-items:center;font:900 clamp(82px,17vw,142px)/1 "SFMono-Regular",Consolas,monospace;text-shadow:0 0 22px rgba(40,230,255,.3)}.name{text-align:center;font-size:19px;font-weight:900}.instruction{text-align:center;color:var(--muted);font-size:13px;margin-top:7px}.hint{margin-top:18px;padding:14px;border:1px solid rgba(40,230,255,.16);background:rgba(40,230,255,.06);border-radius:15px;font-size:13px;line-height:1.55}.hint b{color:var(--cyan);display:block;margin-bottom:4px}
+.answerPanel{display:flex;flex-direction:column;justify-content:center}.answerPanel label{margin:12px 0;color:#dce8f8;font-weight:700}.input{width:100%;height:112px;border-radius:21px;border:2px solid rgba(255,255,255,.14);background:#071424;color:white;outline:none;text-align:center;font:900 64px/1 "SFMono-Regular",Consolas,monospace;caret-color:var(--cyan);transition:.2s}.input:focus{border-color:var(--cyan);box-shadow:0 0 0 5px rgba(40,230,255,.08)}.input.ok{border-color:var(--green);color:var(--green)}.input.bad{border-color:var(--red);color:var(--red);animation:shake .3s}@keyframes shake{25%{transform:translateX(-7px)}50%{transform:translateX(7px)}75%{transform:translateX(-4px)}}.feedback{min-height:54px;display:flex;align-items:center;font-weight:800;font-size:14px}.feedback.ok{color:var(--green)}.feedback.bad{color:var(--red)}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:20px}.stat{border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.035);text-align:center;padding:12px}.stat b{display:block;font-size:19px}.stat span{font-size:11px;color:var(--muted)}
+.finishHead{text-align:center}.trophy{width:90px;height:90px;border-radius:26px;display:grid;place-items:center;margin:0 auto 18px;font-size:44px;background:rgba(255,209,102,.12);border:1px solid rgba(255,209,102,.3)}.finishHead h2{font-size:clamp(32px,7vw,52px);margin:0 0 8px}.finishHead p{color:var(--muted)}.results{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin:26px 0}.result{padding:20px 8px;border:1px solid var(--line);border-radius:18px;text-align:center;background:rgba(255,255,255,.035)}.result b{display:block;font-size:26px}.result span{color:var(--muted);font-size:11px;text-transform:uppercase;font-weight:900}.message{padding:18px;border-radius:18px;border:1px solid rgba(66,231,161,.2);background:rgba(66,231,161,.06);line-height:1.6}.finishActions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:20px}footer{text-align:center;color:#768ba8;font-size:11px;line-height:1.5;margin-top:16px}
+.confetti{position:fixed;top:-20px;width:9px;height:16px;z-index:1000;pointer-events:none;animation:fall linear forwards}@keyframes fall{to{transform:translateY(110vh) rotate(900deg);opacity:.9}}
+@media(max-width:720px){body{padding:12px;align-items:flex-start}.top{flex-direction:column;align-items:flex-start}.features,.grid{grid-template-columns:1fr}.results{grid-template-columns:1fr 1fr}.symbol{min-height:115px;font-size:88px}.input{height:94px;font-size:56px}.inner{padding:20px}}@media(max-width:430px){.actions{grid-template-columns:1fr}.chip{font-size:12px}.brand h1{font-size:20px}}
+@media print{body{background:white;color:#111}.top,#intro,#game,.finishActions,footer{display:none!important}#finish{display:block!important}.card{background:white;color:#111;box-shadow:none;border:0}.finishHead p,.result span{color:#555}.result,.message{border:1px solid #ccc;background:#fafafa;color:#111}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div class="brand"><div class="icon">⌨️</div><div><h1>Keyboard Lab</h1><small>Dominio del teclado alfanumérico</small></div></div>
+    <div class="chip">👨‍🎓 Fabián Sánchez Hilario</div>
+  </div>
+
+  <main class="card"><div class="inner">
+    <section id="intro" class="intro">
+      <div class="tag">⚡ Entrenamiento interactivo</div>
+      <h2 class="title">Domina las <span class="gradient">teclas especiales</span></h2>
+      <p>Completa 50 retos utilizando letras, números, símbolos y combinaciones del teclado. Para avanzar debes escribir exactamente el carácter solicitado.</p>
+      <div class="features">
+        <div class="feature"><div>🎯</div><b>50 retos</b><span>No puedes avanzar hasta resolver correctamente cada ejercicio.</span></div>
+        <div class="feature"><div>⌨️</div><b>Símbolos especiales</b><span>Arroba, guion bajo, diagonales, llaves, signos y más.</span></div>
+        <div class="feature"><div>📊</div><b>Reporte final</b><span>Tiempo, errores y porcentaje de respuestas correctas al primer intento.</span></div>
+      </div>
+      <button class="btn primary" onclick="startGame()">🚀 Comenzar entrenamiento</button>
+    </section>
+
+    <section id="game">
+      <div class="status"><span id="counter">Reto 1 de 50</span><span id="percent">0%</span></div>
+      <div class="track"><div id="bar" class="bar"></div></div>
+      <div class="grid">
+        <div class="panel">
+          <div class="label">Carácter objetivo</div>
+          <div id="symbol" class="symbol">@</div>
+          <div id="charName" class="name">Arroba</div>
+          <div id="instruction" class="instruction">Escribe solamente el carácter solicitado.</div>
+          <div class="hint"><b>💡 Pista de teclado</b><span id="hintText"></span></div>
+        </div>
+        <div class="panel answerPanel">
+          <div class="label">Tu respuesta</div>
+          <label for="answer">Presiona la tecla o combinación correspondiente:</label>
+          <input id="answer" class="input" type="text" maxlength="1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-label="Escribe el carácter solicitado">
+          <div id="feedback" class="feedback">Escribe el carácter y presiona Enter.</div>
+          <div class="actions">
+            <button id="check" class="btn primary" onclick="checkAnswer()">✓ Comprobar</button>
+            <button id="next" class="btn success" onclick="nextQuestion()" disabled>Siguiente →</button>
+          </div>
+          <div class="stats">
+            <div class="stat"><b id="correct">0</b><span>Superados</span></div>
+            <div class="stat"><b id="errors">0</b><span>Errores</span></div>
+            <div class="stat"><b id="timer">00:00</b><span>Tiempo</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="finish">
+      <div class="finishHead">
+        <div class="trophy">🏆</div>
+        <h2>¡Misión completada!</h2>
+        <p>Fabián Sánchez Hilario completó los 50 retos del laboratorio de teclado.</p>
+      </div>
+      <div class="results">
+        <div class="result"><b>50/50</b><span>Completados</span></div>
+        <div class="result"><b id="finalErrors">0</b><span>Errores</span></div>
+        <div class="result"><b id="accuracy">100%</b><span>1.er intento</span></div>
+        <div class="result"><b id="finalTime">00:00</b><span>Tiempo</span></div>
+      </div>
+      <div id="finalMessage" class="message"></div>
+      <div class="finishActions">
+        <button class="btn primary" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+        <button class="btn secondary" onclick="shareWhatsApp()">📲 Compartir resultado</button>
+        <button class="btn secondary" onclick="restartGame()">↻ Practicar nuevamente</button>
+      </div>
+    </section>
+  </div></main>
+
+  <footer>Actividad educativa interactiva · <strong>Ing. Luis Alberto Antonio Narciso</strong><br>Curso de Verano Poblado Tres · Tres Valles, Veracruz</footer>
+</div>
+
+<script>
+const STUDENT="Fabián Sánchez Hilario";
+const chars=[
+"@","_","-","/","\\","#","$","%","&","(",
+")","=","+","*",":",";",",",".","?","¿",
+"!","¡","\"","'","[","]","{","}","<",">",
+"|","^","~","A","M","Z","Ñ","1","5","9",
+"@","_","/","\\","#","?","!","{","}","$"
+];
+
+const names={
+"@":"Arroba","_":"Guion bajo","-":"Guion","/":"Diagonal","\\":"Diagonal inversa",
+"#":"Numeral / hashtag","$":"Signo de pesos","%":"Porcentaje","&":"Ampersand",
+"(":"Paréntesis izquierdo",")":"Paréntesis derecho","=":"Signo igual","+":"Signo más",
+"*":"Asterisco",":":"Dos puntos",";":"Punto y coma",",":"Coma",".":"Punto",
+"?":"Interrogación","¿":"Interrogación de apertura","!":"Exclamación","¡":"Exclamación de apertura",
+"\"":"Comillas dobles","'":"Comilla simple","[":"Corchete izquierdo","]":"Corchete derecho",
+"{":"Llave izquierda","}":"Llave derecha","<":"Menor que",">":"Mayor que","|":"Barra vertical",
+"^":"Acento circunflejo","~":"Virgulilla","A":"A mayúscula","M":"M mayúscula",
+"Z":"Z mayúscula","Ñ":"Ñ mayúscula","1":"Número uno","5":"Número cinco","9":"Número nueve"
+};
+
+const hints={
+"@":"Busca @. En muchos teclados latinoamericanos se obtiene con AltGr o Ctrl + Alt y la tecla correspondiente.",
+"_":"Normalmente requiere Shift y la tecla donde aparece el guion bajo.",
+"-":"Localiza directamente la tecla del guion.",
+"/":"Localiza la diagonal /. Su posición depende de la distribución del teclado.",
+"\\":"Busca la diagonal inversa \\. En algunos teclados requiere AltGr.",
+"#":"Localiza #. Según el teclado puede requerir Shift o AltGr.",
+"$":"Busca $. Generalmente se obtiene utilizando Shift.",
+"%":"Busca %. Normalmente requiere Shift.",
+"&":"Localiza &. Puede requerir Shift.",
+"(":"Busca el paréntesis de apertura (. Habitualmente requiere Shift.",
+")":"Busca el paréntesis de cierre ). Habitualmente requiere Shift.",
+"=":"Localiza la tecla =.",
+"+":"Busca +. Frecuentemente requiere Shift.",
+"*":"Localiza el asterisco *. También puede existir en el teclado numérico.",
+":":"Busca los dos puntos :. Frecuentemente requieren Shift.",
+";":"Localiza el punto y coma ;.",",":"Presiona únicamente la coma ,.",
+".":"Presiona únicamente el punto .","?":"Busca ?. Dependiendo del teclado puede necesitar Shift.",
+"¿":"Busca ¿. Su ubicación depende de la distribución del teclado.","!":"Busca !. Generalmente requiere Shift.",
+"¡":"Busca ¡ en tu teclado.","\"":"Busca las comillas dobles. En muchos teclados requieren Shift.",
+"'":"Localiza la comilla simple.","[":"Busca [. Puede requerir AltGr.","]":"Busca ]. Puede requerir AltGr.",
+"{":"Busca {. Normalmente requiere Shift o AltGr.","}":"Busca }. Normalmente requiere Shift o AltGr.",
+"<":"Busca <. Generalmente comparte tecla con >.",">":"Busca >. Generalmente requiere Shift.",
+"|":"Busca |. En algunos teclados requiere AltGr.","^":"Busca ^. Puede compartir tecla con un acento.",
+"~":"Busca ~. Habitualmente requiere Shift o AltGr.",
+"A":"Mantén Shift y presiona A.","M":"Mantén Shift y presiona M.","Z":"Mantén Shift y presiona Z.",
+"Ñ":"Mantén Shift y presiona Ñ.","1":"Presiona 1 sin Shift.","5":"Presiona 5 sin Shift.","9":"Presiona 9 sin Shift."
+};
+
+let index=0,errorCount=0,attempts=0,firstTry=0,currentErrors=0,start=0,seconds=0,timerId=null,solved=false;
+const el=id=>document.getElementById(id);
+const intro=el("intro"),game=el("game"),finish=el("finish"),answer=el("answer"),feedback=el("feedback"),next=el("next"),check=el("check");
+
+function startGame(){
+ intro.style.display="none";finish.style.display="none";game.style.display="block";
+ index=0;errorCount=0;attempts=0;firstTry=0;currentErrors=0;seconds=0;solved=false;
+ el("correct").textContent="0";el("errors").textContent="0";start=Date.now();
+ clearInterval(timerId);timerId=setInterval(updateTimer,1000);updateTimer();loadQuestion();
+}
+function loadQuestion(){
+ solved=false;currentErrors=0;const c=chars[index];
+ el("symbol").textContent=c;el("charName").textContent=names[c]||"Carácter especial";
+ el("instruction").textContent="Escribe exactamente el carácter mostrado.";
+ el("hintText").textContent=hints[c]||"Localiza el carácter en tu teclado.";
+ el("counter").textContent="Reto "+(index+1)+" de "+chars.length;
+ const p=Math.round(index/chars.length*100);el("bar").style.width=p+"%";el("percent").textContent=p+"%";
+ answer.value="";answer.disabled=false;answer.className="input";feedback.className="feedback";
+ feedback.textContent="Escribe el carácter y presiona Enter.";next.disabled=true;check.disabled=false;
+ setTimeout(function(){answer.focus()},100);
+}
+function checkAnswer(){
+ if(solved)return;const c=chars[index],v=answer.value;
+ if(v===""){feedback.className="feedback bad";feedback.textContent="⚠️ Primero escribe un carácter.";tone(190,.16,"square",.025);return}
+ attempts++;
+ if(v===c){
+   solved=true;if(currentErrors===0)firstTry++;
+   answer.className="input ok";answer.disabled=true;feedback.className="feedback ok";
+   feedback.textContent="✅ ¡Correcto! Puedes continuar.";check.disabled=true;next.disabled=false;
+   el("correct").textContent=index+1;tone(640,.11,"sine",.04);setTimeout(function(){tone(850,.15,"sine",.04)},90);
+   setTimeout(function(){next.focus()},250);
+ }else{
+   errorCount++;currentErrors++;el("errors").textContent=errorCount;answer.className="input bad";
+   feedback.className="feedback bad";feedback.textContent="❌ Ese carácter no es correcto. Inténtalo nuevamente.";
+   tone(190,.16,"square",.025);setTimeout(function(){answer.value="";answer.className="input";answer.focus()},480);
+ }
+}
+function nextQuestion(){if(!solved)return;index++;if(index>=chars.length){finishGame();return}loadQuestion()}
+function updateTimer(){if(!start)return;seconds=Math.floor((Date.now()-start)/1000);el("timer").textContent=formatTime(seconds)}
+function formatTime(s){const m=Math.floor(s/60),r=s%60;return String(m).padStart(2,"0")+":"+String(r).padStart(2,"0")}
+function finishGame(){
+ clearInterval(timerId);updateTimer();game.style.display="none";finish.style.display="block";
+ const a=Math.round(firstTry/chars.length*100);el("finalErrors").textContent=errorCount;el("accuracy").textContent=a+"%";el("finalTime").textContent=formatTime(seconds);
+ let m=a>=90?"🌟 Excelente trabajo, "+STUDENT+". Demostraste un dominio muy sólido de los caracteres especiales y las combinaciones del teclado.":a>=70?"👏 Muy buen trabajo, "+STUDENT+". Completaste todos los retos. Una nueva ronda te ayudará a ganar mayor rapidez.":"💪 ¡Reto completado, "+STUDENT+"! Repite el entrenamiento para reducir errores y automatizar las combinaciones.";
+ el("finalMessage").textContent=m;confetti();victory();
+}
+function restartGame(){startGame()}
+function shareWhatsApp(){
+ const a=Math.round(firstTry/chars.length*100);
+ const t="⌨️ LABORATORIO DE TECLADO\n\nAlumno: "+STUDENT+"\n✅ Retos: 50/50\n❌ Errores: "+errorCount+"\n🎯 Primer intento: "+a+"%\n⏱️ Tiempo: "+formatTime(seconds)+"\n\nActividad completada correctamente.";
+ window.open("https://wa.me/?text="+encodeURIComponent(t),"_blank");
+}
+function tone(f,d,type,vol){try{const A=window.AudioContext||window.webkitAudioContext,c=new A(),o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=f;g.gain.value=vol;o.connect(g);g.connect(c.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+d);o.stop(c.currentTime+d)}catch(e){}}
+function victory(){[523,659,784,1046].forEach(function(n,i){setTimeout(function(){tone(n,.24,"sine",.04)},i*150)})}
+function confetti(){const colors=["#28e6ff","#a07bff","#42e7a1","#ffd166","#ff6178","#fff"];for(let i=0;i<120;i++){const p=document.createElement("div");p.className="confetti";p.style.left=Math.random()*100+"vw";p.style.background=colors[Math.floor(Math.random()*colors.length)];p.style.animationDuration=(2.2+Math.random()*2.4)+"s";p.style.animationDelay=Math.random()*.8+"s";document.body.appendChild(p);setTimeout(function(){p.remove()},5500)}}
+answer.addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();checkAnswer()}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="v"){e.preventDefault();feedback.className="feedback bad";feedback.textContent="🚫 No copies el símbolo. Encuéntralo en el teclado."}});
+answer.addEventListener("input",function(){if(this.value.length>1)this.value=this.value.slice(-1)});
+answer.addEventListener("paste",function(e){e.preventDefault();feedback.className="feedback bad";feedback.textContent="⌨️ Escribe el carácter utilizando el teclado. No se permite pegar."});
+answer.addEventListener("drop",function(e){e.preventDefault()});
+</script>
+</body>
+</html>
