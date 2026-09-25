@@ -1,240 +1,241 @@
 # Creator signature migration
 
 ## Modified
-- Actividad_Eufemismos_Metaforas_1_Secundaria.html
-- Clase_Muestra_Ingles_1Sec_NEM_Luis_Alberto_STICKERS.html
-- acentuacion.html
-- nivel_4_cuarto_primaria_mision_cuenta_atras.html
-- evaluacion_lenguajes_interactiva_v6_paleta_psicologia_infantil.html
-- mision_redaccion_3ro_4to_primaria_paleta_little_leaps.html
-- Mision_Leer_Vicente_Valor_Lopez_Etapa_1.html
-- nivel_6_secundaria_reglas_de_acentuacion.html
-- nivel_3_cuarto_primaria_tonicas_y_atonas.html
-- actividad_cortometraje_6_a_9_anos_video_corregido.html
-- tiendita.html
-- mision_abejas_segundo_tercero_primaria.html
-- Mision_Lenguajes_Diagnostico_5to_100_Preguntas_Interactivo.html
-- mision_filosofica_secundaria.html
-- cortometraje.html
-- Mision_Leer_Aldo_Uriel_Etapa_1.html
-- cuestionario_lupe_ortografia_redaccion_simuladores_interactivo.html
-- tiendita-matematica-segundo-secundaria.html
-- Comida_y_Partes_2do_Primaria_CON_AUDIO_Y_RESALTADO.html
 - Academia_del_Todavia_Secundaria_Cuestionario_50.html
-- indexmenu.html
-- Ruleta_Dictado_1ro_2do_Primaria.html
-- mision_guardianes_abejas_equipo_checkpoints.html
-- Eufemismos_Metaforas_Nivel2_20_Preguntas.html
-- Lenguajes_5to_Menu_Examenes.html
-- mision_1_4to_15_actividades_valor_posicional.html
-- Globos_de_Numeros_2_Primaria_Interactivo_Color_Sonido.html
-- quiz_miguel_espanol_100.html
-- Clase_WH_Questions_100_Retos.html
-- nivel_2_cuarto_primaria_laboratorio_de_silabas.html
-- primer_grado.html
-- mision_english_100_con_reporte_pdf.html
-- mision_matematica_v2_misiones_1_a_5_autor.html
-- Evaluacion_2_Refuerzo_Dominio_Lenguajes_Ameyali_100.html
-- Fracciones_4to_Primaria_Gato_Cool_Sin_Mensajes.html
-- nivel_8_cuarto_primaria_reto_final.html
-- nivel_5_secundaria_clasificacion_acentual.html
-- expedicion_individual_50_retos.html
-- index_cuarto_primaria.html
-- Evaluacion_Diagnostica_Lenguajes_1_Secundaria_Microclases_6to.html
-- index_ruta_mesoamericana_acentuacion_5to_mapa_ilustrado.html
-- Mision_Lenguajes_Diagnostico_Ingreso_6to_100_Preguntas_Interactivo.html
-- comprension-lectora.html
-- expedicion_palabras_1ro_50_retos.html
-- Mision_Matematicas_Diagnostico_Ingreso_6to_100_Preguntas_SIN_PATRON.html
-- Mision_Matematicas_Diagnostico_Ingreso_6to_100_Preguntas.html
-- redaccion_5to_6to.html
-- ruta_escritura_mapa_interactivo_mejorada.html
-- Canicas_Matematicas_Nivel_2_Avanzado.html
-- Murat_Mision_Lectura_Divertida_6_Anios.html
-- Miguel_Maestria_Espanol_150_Adjetivos_Antonimos_Sustantivos.html
-- nivel_2_secundaria_segmentacion_silabica.html
-- redaccion_3ro_4to.html
-- Espanol_1_Secundaria_100_Preguntas_Interactivo.html
-- evaluacion_lenguajes_interactiva_v5_reporte_captura_reinicios.html
-- Reto_Dominio_Espanol_1_Secundaria_15_Preguntas.html
-- nivel_1_cuarto_primaria_radar_de_palabras.html
-- Mi_Primera_Clase_de_Musica.html
-- index_secundaria_1_2.html
-- nivel_2_laboratorio_de_silabas.html
-- Examen_Diagnostico_Matematicas_2do_Secundaria_Interactivo_Reporte.html
-- nivel_4_quinto_primaria_mision_cuenta_atras_paleta_sky_rose.html
-- juego_isla_palabras_1y2_primaria.html
-- nivel_8_secundaria_reto_final.html
-- nivel_1_secundaria_radar_prosodico.html
-- Mision_Leer_Alina_Etapa_3_v23_Identidad_Visual_Jerarquica.html
-- 04_redaccion_secundaria.html
 - mision_1_5to_15_actividades_valor_posicional.html
-- Dana_Comprension_Lectora_Planetas_2_Primaria.html
-- nivel_7_cuarto_primaria_detectives_de_la_tilde.html
-- curso_verano_poblado_tres_cuestionarios_mantra.html
-- nivel_6_cuarto_primaria_laboratorio_de_la_tilde.html
-- mision_abejas_segundo_tercero_primaria_core.html
-- Examen_Reforzamiento_Lenguajes_1Sec_100_Interactivo.html
-- ruta_escritura_mapa_interactivo.html
-- quiz-acentos.html
-- Examen_Lenguajes_2do_a_3ro_PALETA_APLICADA.html
-- nivel_3_quinto_primaria_tonicas_y_atonas.html
-- mision_redaccion_secundaria_35_preguntas_paleta_argumentacion.html
-- 03_redaccion_5to_6to.html
-- Evaluacion_Lenguajes_1Sec_Version2_IntentoUnico.html
-- redaccion_1ro_2do.html
-- segundo_grado.html
-- index.html
-- nivel_4_secundaria_posicion_tonica.html
-- Examen_Diagnostico_Yare_2do_Secundaria.html
-- mision_escritura_50_retos_segundo_CORREGIDA_FINAL.html
-- mision_abejas_segundo_tercero_primaria_lectura_visible.html
-- Canicas_Matematicas_20_Retos.html
-- Fracciones_4to_Primaria_Informe_Profesor_Con_CV_e_Imagen.html
-- fichas-matematicas.html
-- Plataforma_Ruleta_Dictado_Primaria_Sin_Revision.html
-- Canicas_Matematicas_Niveles_1_y_2.html
-- Curso_de_Verano_2026_Poblado_Tres_FINAL.html
-- Murat_Mision_Encuentra_Impostor_1ro_a_2do.html
-- Evaluacion_Mito_de_Narciso_15_Preguntas.html
-- aventura_letra_PR_50_actividades.html
-- Miguel_50_Sumas_Fracciones_Metodo_Mariposa.html
-- acentos-primaria.html
+- comprension-lectora.html
+- Escalera_Lectura_100_Oraciones_1ro_a_2do_AUTOR.html
 - Noel_100_Misiones_Hawkins_Paleta_Cinematica.html
 - diagnostico_lengua_secundaria_argumentacion_v2.html
-- Examen_Refuerzo_Juan_Balor_2do_Secundaria_35.html
-- nivel_5_quinto_primaria_central_clasificacion_posiciones_fijas.html
-- mision_matematica_5_retos_interactivos.html
-- HTML_100_Preguntas_Con_Clases_Completas.html
-- clase_psicologia_del_color_mobile.html
-- curso_verano_poblado_tres_FINAL_MOBILE_EFECTOS.html
-- nivel_8_quinto_primaria_reto_final_orbita_de_acentos.html
-- 02_redaccion_3ro_4to.html
-- Mision_Leer_Alina_Etapa_2_v3_Libreta.html
-- Operacion_Lectura_Pedro_25_Retos.html
-- index_sexto_primaria.html
-- Escalera_Lectura_100_Oraciones_1ro_a_2do_AUTOR.html
-- Harry_Potter_Melanie_100_Preguntas.html
-- Ruleta_Poniente_100_Preguntas_3_Jugadores.html
-- Mision_Leer_Alina_Etapa_1_v4_Informe_Efectos.html
-- Murat_Aventura_de_Palabras_Interactiva.html
-- nivel_6_quinto_primaria_asistente_guiado_paleta_aprendizaje.html
-- Fracciones_2do_Secundaria_50_Preguntas.html
-- Ruleta_Decenas_Unidades_iPhone.html
-- actividad_secundaria_10_minutos.html
-- nivel_7_quinto_primaria_detectives_tilde_espacial.html
-- Guia_Acentuacion_50_Retos_Secundaria.html
-- BLOQUE_1_5TO_EVALUACION_25_RETOS_MOVIMIENTO_UX.html
-- Miguel_Maestria_Espanol_150_Adjetivos_Antonimos_Sustantivos_2.html
-- 01_redaccion_1ro_2do.html
+- mision_english_100_con_reporte_pdf.html
+- cortometraje.html
+- mision_abejas_segundo_tercero_primaria.html
+- Lenguajes_5to_Menu_Examenes.html
+- nivel_1_cuarto_primaria_radar_de_palabras.html
 - nivel_1_completo_radar_de_palabras.html
-- abejas_35_retos_individual_reporte.html
-- cuestionario_habilidades_con_tiempo.html
-- nivel_7_secundaria_detector_ortografico.html
-- redaly.html
+- index_ruta_mesoamericana_acentuacion_5to_mapa_ilustrado.html
+- Harry_Potter_Melanie_100_Preguntas.html
+- nivel_3_cuarto_primaria_tonicas_y_atonas.html
+- mision_redaccion_3ro_4to_primaria_paleta_little_leaps.html
+- Murat_Mision_Encuentra_Impostor_1ro_a_2do.html
+- Actividad_Eufemismos_Metaforas_1_Secundaria.html
+- 04_redaccion_secundaria.html
+- Espanol_1_Secundaria_100_Preguntas_Interactivo.html
+- redaccion_3ro_4to.html
+- evaluacion_lenguajes_interactiva_v5_reporte_captura_reinicios.html
+- Canicas_Matematicas_Nivel_2_Avanzado.html
+- Ruleta_Poniente_100_Preguntas_3_Jugadores.html
+- juego_isla_palabras_1y2_primaria.html
+- nivel_6_secundaria_reglas_de_acentuacion.html
+- Eufemismos_Metaforas_Nivel2_20_Preguntas.html
+- ruta_escritura_mapa_interactivo.html
+- Mision_Leer_Vicente_Valor_Lopez_Etapa_1.html
+- actividad_cortometraje_6_a_9_anos_video_corregido.html
+- index_cuarto_primaria.html
+- 02_redaccion_3ro_4to.html
+- Clase_WH_Questions_100_Retos.html
+- quiz_miguel_espanol_100.html
+- evaluacion_lenguajes_interactiva_v6_paleta_psicologia_infantil.html
+- mision_matematica_v2_misiones_1_a_5_autor.html
+- nivel_4_cuarto_primaria_mision_cuenta_atras.html
+- Evaluacion_2_Refuerzo_Dominio_Lenguajes_Ameyali_100.html
+- mision_redaccion_secundaria_35_preguntas_paleta_argumentacion.html
+- nivel_7_cuarto_primaria_detectives_de_la_tilde.html
 - nivel_3_secundaria_silaba_tonica.html
+- 01_redaccion_1ro_2do.html
+- mision_abejas_segundo_tercero_primaria_core.html
+- expedicion_individual_50_retos.html
 - nivel_5_cuarto_primaria_central_clasificacion.html
+- nivel_8_secundaria_reto_final.html
+- index_secundaria_1_2.html
+- Mi_Primera_Clase_de_Musica.html
+- Ruleta_Decenas_Unidades_iPhone.html
+- nivel_7_quinto_primaria_detectives_tilde_espacial.html
+- Mision_Leer_Alina_Etapa_1_v4_Informe_Efectos.html
+- Miguel_Maestria_Espanol_150_Adjetivos_Antonimos_Sustantivos.html
+- redaccion_5to_6to.html
+- redaly.html
+- Mision_Leer_Alina_Etapa_2_v3_Libreta.html
+- clase_psicologia_del_color_mobile.html
+- Examen_Diagnostico_Matematicas_2do_Secundaria_Interactivo_Reporte.html
+- Guia_Acentuacion_50_Retos_Secundaria.html
+- acentuacion.html
+- mision_guardianes_abejas_equipo_checkpoints.html
+- curso_verano_poblado_tres_cuestionarios_mantra.html
+- Ruleta_Dictado_1ro_2do_Primaria.html
+- Evaluacion_Lenguajes_1Sec_Version2_IntentoUnico.html
+- index_sexto_primaria.html
+- Murat_Aventura_de_Palabras_Interactiva.html
+- acentos-primaria.html
+- index.html
+- Canicas_Matematicas_20_Retos.html
+- 03_redaccion_5to_6to.html
+- nivel_5_secundaria_clasificacion_acentual.html
+- Mision_Matematicas_Diagnostico_Ingreso_6to_100_Preguntas.html
+- abejas_35_retos_individual_reporte.html
+- Mision_Leer_Alina_Etapa_3_v23_Identidad_Visual_Jerarquica.html
+- Examen_Lenguajes_2do_a_3ro_PALETA_APLICADA.html
+- Globos_de_Numeros_2_Primaria_Interactivo_Color_Sonido.html
+- actividad_secundaria_10_minutos.html
+- fichas-matematicas.html
+- Evaluacion_Diagnostica_Lenguajes_1_Secundaria_Microclases_6to.html
+- nivel_5_quinto_primaria_central_clasificacion_posiciones_fijas.html
 - redaccion_por_niveles.html
+- nivel_6_cuarto_primaria_laboratorio_de_la_tilde.html
+- nivel_4_quinto_primaria_mision_cuenta_atras_paleta_sky_rose.html
+- mision_matematica_5_retos_interactivos.html
+- cuestionario_lupe_ortografia_redaccion_simuladores_interactivo.html
+- nivel_2_cuarto_primaria_laboratorio_de_silabas.html
+- nivel_2_secundaria_segmentacion_silabica.html
+- Mision_Leer_Aldo_Uriel_Etapa_1.html
+- Operacion_Lectura_Pedro_25_Retos.html
+- Fracciones_2do_Secundaria_50_Preguntas.html
+- HTML_100_Preguntas_Con_Clases_Completas.html
+- Evaluacion_Mito_de_Narciso_15_Preguntas.html
+- redaccion_1ro_2do.html
+- Miguel_Maestria_Espanol_150_Adjetivos_Antonimos_Sustantivos_2.html
+- Fracciones_4to_Primaria_Gato_Cool_Sin_Mensajes.html
+- Plataforma_Ruleta_Dictado_Primaria_Sin_Revision.html
+- tiendita-matematica-segundo-secundaria.html
+- nivel_2_laboratorio_de_silabas.html
+- nivel_3_quinto_primaria_tonicas_y_atonas.html
+- Examen_Reforzamiento_Lenguajes_1Sec_100_Interactivo.html
+- Examen_Refuerzo_Juan_Balor_2do_Secundaria_35.html
+- Reto_Dominio_Espanol_1_Secundaria_15_Preguntas.html
+- Comida_y_Partes_2do_Primaria_CON_AUDIO_Y_RESALTADO.html
+- Mision_Lenguajes_Diagnostico_Ingreso_6to_100_Preguntas_Interactivo.html
+- Mision_Lenguajes_Diagnostico_5to_100_Preguntas_Interactivo.html
+- ruta_escritura_mapa_interactivo_mejorada.html
+- tiendita.html
+- segundo_grado.html
+- Examen_Diagnostico_Yare_2do_Secundaria.html
+- cuestionario_habilidades_con_tiempo.html
+- BLOQUE_1_5TO_EVALUACION_25_RETOS_MOVIMIENTO_UX.html
+- mision_1_4to_15_actividades_valor_posicional.html
+- nivel_7_secundaria_detector_ortografico.html
+- Mision_Matematicas_Diagnostico_Ingreso_6to_100_Preguntas_SIN_PATRON.html
+- aventura_letra_PR_50_actividades.html
+- Dana_Comprension_Lectora_Planetas_2_Primaria.html
+- Canicas_Matematicas_Niveles_1_y_2.html
+- Clase_Muestra_Ingles_1Sec_NEM_Luis_Alberto_STICKERS.html
+- nivel_8_cuarto_primaria_reto_final.html
+- expedicion_palabras_1ro_50_retos.html
+- mision_filosofica_secundaria.html
+- mision_abejas_segundo_tercero_primaria_lectura_visible.html
+- Miguel_50_Sumas_Fracciones_Metodo_Mariposa.html
+- nivel_8_quinto_primaria_reto_final_orbita_de_acentos.html
+- Murat_Mision_Lectura_Divertida_6_Anios.html
+- nivel_4_secundaria_posicion_tonica.html
+- primer_grado.html
+- quiz-acentos.html
+- mision_escritura_50_retos_segundo_CORREGIDA_FINAL.html
+- indexmenu.html
+- nivel_6_quinto_primaria_asistente_guiado_paleta_aprendizaje.html
+- Curso_de_Verano_2026_Poblado_Tres_FINAL.html
+- nivel_1_secundaria_radar_prosodico.html
+- Fracciones_4to_Primaria_Informe_Profesor_Con_CV_e_Imagen.html
+- curso_verano_poblado_tres_FINAL_MOBILE_EFECTOS.html
+- mision-secundaria-100-retos/index.html
 - mision-leer/index.html
-- redaccion/nivel_1_2_redaccion.html
-- redaccion/redaccion_3ro_4to.html
-- redaccion/nivel_5_6_redaccion.html
-- redaccion/redaccion_1ro_2do.html
-- redaccion/index.html
-- tienda-matematica/index.html
-- matematicas-compraventa/index.html
-- cuarto-grado/index.html
-- reto-relampago/index.html
-- ingles/index.html
-- ingles/Juego_10_Minutos_Ingles_Henry_Fabian_Heder.html
-- compraventa-matematica-3/index.html
+- supermercado-minecraft-6/index.html
 - tiendita-preparatoria-1/index.html
 - tesoro_expedicion/index.html
-- mision-secundaria-100-retos/index.html
-- compraventa-matematica-2/index.html
-- tiendita-secundaria-3/index.html
-- psicologia-color/index.html
 - tiendita-secundaria-2/index.html
-- compraventa-matematica-1/index.html
-- tiendita-secundaria-1/index.html
+- tiendita-secundaria-3/index.html
+- matematicas-compraventa/index.html
+- redaccion/redaccion_3ro_4to.html
+- redaccion/nivel_1_2_redaccion.html
+- redaccion/index.html
+- redaccion/nivel_5_6_redaccion.html
+- redaccion/redaccion_1ro_2do.html
 - jardin-eduardo/index.html
+- tiendita-secundaria-1/index.html
+- psicologia-color/index.html
+- compraventa-matematica-3/index.html
+- reto-relampago/index.html
+- tienda-matematica/index.html
+- cuarto-grado/index.html
+- actividades/mulata-cordoba-preparatoria.html
+- compraventa-matematica-1/index.html
+- ingles/Juego_10_Minutos_Ingles_Henry_Fabian_Heder.html
+- ingles/index.html
+- compraventa-matematica-2/index.html
+- evaluaciones/abrir.html
 - evaluaciones/practica-formativa.html
 - evaluaciones/index.html
-- evaluaciones/abrir.html
-- supermercado-minecraft-6/index.html
-- actividades/mulata-cordoba-preparatoria.html
-- ingles/wh-questions/index.html
-- ingles/presente-continuo-equipo/index.html
 - ingles/tarea-clase-2/index.html
+- ingles/presente-continuo-equipo/index.html
+- ingles/wh-questions/index.html
 
 ## Not modified
-- Portal_Invisibilidad_Fingertip_V3.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- lenguajes1.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- Plataforma_Oraciones_Guiadas_por_Grado.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- Cielito_Lindo_Globos_Musicales.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- noel-santibanez.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- blad-kc-painting.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- felipe-cumplido.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- Despedida_Soltera_Kenia_Itzel.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- El_Rival_Mas_Debil_Cultura_General_200_CELULAR.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- Bitacora_del_dia_Curso_de_Verano_03_Agosto_2026_MEJORADA.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- portal-familias-demo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- iker-manzano.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- betzaida-beltran.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- autoevaluacion_profesional_poblado_tres.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- cuestionarios.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- Mision_Abejas_50_Preguntas_Segundo_Secundaria.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- Pop_Multiplica_Tablas_Interactivo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- Miguel_Refuerzo_Espanol_100_Preguntas.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- Termometro_Poblado_Tres_Mobile_Clima_Efectos.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- Diabetes_Companion_iPhone_PRO.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- radar_crianza_paleta_interactiva.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Certificado_Curso_de_Verano_Compartir.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- santiago-merino.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - mision-leer.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- jose-carrillo-aranza.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- melissa-cumplido.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - Piano_Musical_Infantil_Interactivo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- emmanuel-cohetero.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Cielito_Lindo_Globos_Musicales.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- archivo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- cuestionarios.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- felipe-cumplido.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- expediente-template.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Termometro_Poblado_Tres_Mobile_Clima_Efectos.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Miguel_Refuerzo_Espanol_100_Preguntas.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Bitacora_del_dia_Curso_de_Verano_03_Agosto_2026_MEJORADA.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- noel-santibanez.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Pop_Multiplica_Tablas_Interactivo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- radar_crianza_paleta_interactiva.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- pedro-emmanuel.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- amor_freudiano_interactivo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - tamara-beltran.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - christopher-rebolledo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- tabita-gamboa.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - amayai-garza.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - tiendita-matematica-secundaria.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- archivo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- acentos.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- Guia_Convivencia_Salud_Emocional_Curso_Verano.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- yaremi-jose-carrillo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- jose-carrillo-aranza.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- Certificado_Curso_de_Verano_Compartir.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- panel-docente-demo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- juan-pablo-manzano.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- irving-merino.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- melissa-cumplido.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - clase-muestra-ingles.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- Termometro_Poblado_Tres_UX_QA.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- benito-bolanos.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- Academia_del_Todavia_4_5_6_Cuestionario_50.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- amor_freudiano_interactivo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- expediente-template.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- Termometro_Poblado_Tres_Clima_7_Dias.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- emmanuel-cohetero.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- Piano_Musical_Canciones_Horizontal.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- Mano_Magica_Juego_Camara_Autor.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- guadalupe-cumplido-felipe.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- dana-bolanos.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- Simulador_NEM_25_Reactivos_Interactivo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- santiago-merino.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- hermanos_valor.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- tabita-gamboa.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- irving-merino.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - mapa.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- pedro-emmanuel.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- privacidad.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- guadalupe-cumplido-felipe.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- benito-bolanos.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - Laboratorio_del_Todavia_Diploma.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- redaccion/nivel_3_4_redaccion.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- redaccion/secundaria_redaccion_10min.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- verano/index.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- catalogo_interactivo/index.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- expedicion-hogar/index.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- tiendita-matematica/index.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- blad-kc-painting.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- betzaida-beltran.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Piano_Musical_Canciones_Horizontal.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Termometro_Poblado_Tres_Clima_7_Dias.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Diabetes_Companion_iPhone_PRO.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- juan-pablo-manzano.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- yaremi-jose-carrillo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- acentos.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Portal_Invisibilidad_Fingertip_V3.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Mano_Magica_Juego_Camara_Autor.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- lenguajes1.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- autoevaluacion_profesional_poblado_tres.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- iker-manzano.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Mision_Abejas_50_Preguntas_Segundo_Secundaria.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Plataforma_Oraciones_Guiadas_por_Grado.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- El_Rival_Mas_Debil_Cultura_General_200_CELULAR.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- privacidad.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Despedida_Soltera_Kenia_Itzel.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- panel-docente-demo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Termometro_Poblado_Tres_UX_QA.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- portal-familias-demo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Academia_del_Todavia_4_5_6_Cuestionario_50.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- hermanos_valor.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Guia_Convivencia_Salud_Emocional_Curso_Verano.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- Simulador_NEM_25_Reactivos_Interactivo.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- dana-bolanos.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- fabian-teclado-alfanumerico.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - evaluacion-irina/index.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
-- eduardo/index.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - archivo/index.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- catalogo_interactivo/index.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- redaccion/secundaria_redaccion_10min.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- redaccion/nivel_3_4_redaccion.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- tiendita-matematica/index.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- verano/index.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - noel-amado/index.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- expedicion-hogar/index.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
+- eduardo/index.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - evaluaciones/quinto-sexto/index.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - evaluaciones/segundo-grado/la-mulata-de-cordoba.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
 - evaluaciones/primer-grado-secundaria/la-mulata-de-cordoba.html: non-educational, redirect, protected/demo, empty, or insufficient educational signals
