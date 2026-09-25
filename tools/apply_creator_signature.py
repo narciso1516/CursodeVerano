@@ -6,8 +6,9 @@ EXACT_SKIP={'privacidad.html','panel-docente-demo.html','portal-familias-demo.ht
 SKIP_PARTS=('despedida','diabetes','termometro','autoevaluacion_profesional','radar_crianza','amor_freudiano','certificado','diploma','archivo/','catalogo_interactivo','verano/index.html')
 EDU_HINTS=('pregunta','reto','mision','misión','actividad','evaluacion','evaluación','examen','primaria','secundaria','preparatoria','ingles','inglés','matemat','lectura','redaccion','redacción','acent','ortograf','lenguaje','fraccion','ruleta','dictado','clase','curso','aprendiz','tiendita','tienda','supermercado','comprension','comprensión','escritura','silaba','sílaba','palabra','grado','semestre','quiz','expedicion','expedición','canicas','abejas')
 OLD_RE=re.compile(r'<!-- LAN_AUTHOR_FOOTER_START -->.*?<!-- LAN_AUTHOR_FOOTER_END -->',re.S|re.I)
-MARK='NARCISO_CREATOR_SIGNATURE_V2'
-COMP=r'''<!-- NARCISO_CREATOR_SIGNATURE_V2 -->
+MARK='NARCISO_CREATOR_SIGNATURE_V3'
+CURRENT_RE=re.compile(r'<!-- NARCISO_CREATOR_SIGNATURE_V2 -->.*?<script data-narciso-creator-script>.*?</script>',re.S|re.I)
+COMP=r'''<!-- NARCISO_CREATOR_SIGNATURE_V3 -->
 <style data-narciso-creator-style>
 .narciso-creator,.narciso-creator *{box-sizing:border-box}.narciso-creator{--nc-accent:var(--primary,var(--brand,var(--blue,var(--indigo,#25408f))));--nc-ink:var(--ink,var(--text,var(--fg,#17324d)));--nc-surface:var(--card,var(--surface,var(--paper,#fff)));width:min(100%,72rem);margin:clamp(1rem,3vw,1.8rem) auto;padding:0 1rem;position:relative;z-index:1}.narciso-creator__card{width:100%;border:0;border-radius:1.25rem;padding:clamp(1rem,3vw,1.4rem);background:linear-gradient(135deg,color-mix(in srgb,var(--nc-surface) 94%,var(--nc-accent) 6%),var(--nc-surface));color:var(--nc-ink);box-shadow:0 1.1rem 2.4rem color-mix(in srgb,var(--nc-accent) 22%,transparent);border:1px solid color-mix(in srgb,var(--nc-accent) 30%,transparent);text-align:left;font:inherit;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:center;transition:transform .18s ease,box-shadow .18s ease}.narciso-creator__card:hover{transform:translateY(-3px);box-shadow:0 1.35rem 2.8rem color-mix(in srgb,var(--nc-accent) 28%,transparent)}.narciso-creator__eyebrow{display:block;color:var(--nc-accent);font-size:.72rem;font-weight:900;letter-spacing:.12em}.narciso-creator__name{display:block;font-size:clamp(1.08rem,2.5vw,1.45rem);font-weight:900;margin:.25rem 0}.narciso-creator__tagline{display:block;opacity:.82;line-height:1.45}.narciso-creator__cta{white-space:nowrap;background:var(--nc-accent);color:#fff;border-radius:999px;padding:.7rem 1rem;font-weight:850}.narciso-creator__card:focus-visible,.narciso-creator__close:focus-visible,.narciso-creator__link:focus-visible{outline:3px solid var(--nc-accent);outline-offset:3px}.narciso-creator__backdrop{position:fixed;inset:0;z-index:2147483000;background:rgba(5,15,35,.72);display:none;place-items:center;padding:1rem}.narciso-creator__backdrop[data-open=true]{display:grid}.narciso-creator__dialog{width:min(42rem,100%);max-height:min(88vh,50rem);overflow:auto;background:var(--nc-surface);color:var(--nc-ink);border-radius:1.4rem;padding:clamp(1.2rem,4vw,2rem);box-shadow:0 2rem 5rem #0007;position:relative}.narciso-creator__close{position:absolute;right:1rem;top:1rem;border:0;background:color-mix(in srgb,var(--nc-accent) 12%,var(--nc-surface));color:var(--nc-ink);width:2.6rem;height:2.6rem;border-radius:50%;font-size:1.35rem;cursor:pointer}.narciso-creator__dialog h2{margin:.2rem 3rem .25rem 0}.narciso-creator__role{color:var(--nc-accent);font-weight:800}.narciso-creator__specialties{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:1rem 0}.narciso-creator__specialty{padding:.85rem;border-radius:.9rem;background:color-mix(in srgb,var(--nc-accent) 8%,var(--nc-surface));line-height:1.4}.narciso-creator__actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.2rem}.narciso-creator__link{display:inline-flex;min-height:44px;align-items:center;justify-content:center;border-radius:.8rem;padding:.72rem 1rem;text-decoration:none;font-weight:850;border:2px solid var(--nc-accent)}.narciso-creator__link--primary{background:var(--nc-accent);color:#fff!important}.narciso-creator__link--secondary{background:transparent;color:var(--nc-accent)!important}@media(max-width:620px){.narciso-creator__card{grid-template-columns:1fr}.narciso-creator__cta{justify-self:start}.narciso-creator__specialties{grid-template-columns:1fr}.narciso-creator__actions{flex-direction:column}.narciso-creator__link{width:100%}}@media(prefers-reduced-motion:reduce){.narciso-creator__card{transition:none}.narciso-creator__card:hover{transform:none}}
 </style>
@@ -25,12 +26,16 @@ def eligible(p,text):
     return score>=2
 
 def place(text):
+    # Remove the previous creator component before placing the updated signature.
+    # This prevents duplication and moves the component to the page footer.
     text=OLD_RE.sub('',text)
-    # Prefer immediately after header/hero; fallback just after body opening.
-    m=re.search(r'</header\s*>',text,re.I)
-    if m: return text[:m.end()]+"\n"+COMP+text[m.end():]
-    m=re.search(r'<body[^>]*>',text,re.I)
-    return text[:m.end()]+"\n"+COMP+text[m.end():] if m else text
+    text=CURRENT_RE.sub('',text)
+    # Footer placement: keep it in normal document flow immediately before </body>.
+    # It cannot cover questions, controls, iframes, timers or navigation.
+    m=list(re.finditer(r'</body\s*>',text,re.I))
+    if not m: return text
+    pos=m[-1].start()
+    return text[:pos]+"\n"+COMP+"\n"+text[pos:]
 
 changed=[]; skipped=[]; review=[]
 for p in ROOT.rglob('*.html'):
