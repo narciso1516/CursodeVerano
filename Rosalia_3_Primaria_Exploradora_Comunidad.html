@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fff7df">
+<title>Rosalía · Exploradora de mi comunidad</title>
+<style>
+:root{--ink:#24323b;--green:#4f8a63;--green2:#eaf6ed;--yellow:#ffd86b;--cream:#fffaf0;--blue:#dff2ff;--line:#d9e5dc}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#edf6ef;color:var(--ink)}
+.app{max-width:920px;min-height:100vh;margin:auto;background:var(--cream);padding:clamp(14px,3vw,30px)}
+header{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.title small{font-weight:800;color:#53715c}.title h1{margin:3px 0;font-size:clamp(26px,5vw,42px)}
+.name{background:var(--yellow);padding:10px 15px;border-radius:18px;font-weight:900}
+.progressText{text-align:right;font-weight:800;margin:18px 3px 7px}
+.progress{height:13px;background:#e2e9e3;border-radius:30px;overflow:hidden}.bar{height:100%;background:var(--green);transition:.25s}
+.card{margin-top:18px;background:#fff;border:2px solid var(--line);border-radius:26px;padding:clamp(18px,4vw,38px);box-shadow:0 12px 28px #274b3212}
+.mission{display:inline-block;background:var(--green2);color:#376348;padding:7px 12px;border-radius:99px;font-weight:900}
+h2{font-size:clamp(26px,5vw,40px);line-height:1.15;margin:13px 0}
+.original{font-size:16px;color:#66736c;margin:0 0 18px}
+.box{border-radius:18px;padding:16px 18px;margin:14px 0;font-size:clamp(18px,3vw,21px);line-height:1.5}
+.look{background:var(--blue)}.think{background:#fff2c9}.write{background:var(--green2);border:2px solid #c9e4d0}
+.examples{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0}
+.chip{background:white;border:2px solid #d8e5dc;border-radius:14px;padding:9px 12px;font-size:18px}
+.copy{font-size:clamp(20px,3.4vw,25px);font-weight:800;margin:8px 0}
+.rule{border-bottom:2px dashed #8fa394;display:inline-block;min-width:170px}
+.checks{margin:18px 0 0;padding:0;list-style:none}.checks li{margin:11px 0}
+.checks label{display:flex;gap:11px;align-items:flex-start;font-size:18px}.checks input{width:24px;height:24px;flex:0 0 auto}
+.tip{font-size:16px;color:#59685f;border-left:4px solid var(--yellow);padding-left:12px;margin:16px 0}
+.actions{display:flex;gap:10px;margin-top:22px}.actions button,.sound{border:0;border-radius:15px;padding:14px 18px;font-weight:900;font-size:17px;cursor:pointer}
+.prev{background:#e8ece9}.next{margin-left:auto;background:var(--green);color:#fff}.sound{background:#eef3ff;color:#344e78;margin:4px 0 8px}
+.end{text-align:center;padding:15px}.end .big{font-size:72px}.end p{font-size:21px;line-height:1.5}
+.footer{text-align:center;font-size:13px;color:#718078;margin:20px 0 3px}
+@media(max-width:540px){header{align-items:flex-start}.name{font-size:14px}.actions button{padding:13px 14px}.app{padding:13px}}
+</style>
+</head>
+<body>
+<main class="app">
+<header>
+ <div class="title"><small>3.º DE PRIMARIA · ACTIVIDAD GUIADA</small><h1>🌎 Exploradora de mi comunidad</h1></div>
+ <div class="name">Rosalía ✏️</div>
+</header>
+<div class="progressText" id="progressText"></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<section class="card" id="card"></section>
+<div class="footer">Actividad para observar, pensar y escribir en la libreta.</div>
+</main>
+<script>
+const data=[
+{
+ original:"¿Cómo son los rasgos físicos del lugar donde viven?",
+ title:"¿Cómo es el lugar donde vives?",
+ look:"Mira tu comunidad y recuerda lo que ves cuando sales de casa.",
+ chips:["🏠 Casas","🌳 Árboles","🛣️ Calles o caminos","🌱 Campo","💧 Agua","⛰️ Cerros"],
+ think:"Elige solamente las cosas que de verdad existen en tu comunidad.",
+ write:"1. El lugar donde vivo es ____________. Después escribe 3 cosas que puedes observar.",
+ tip:"No tienes que usar todos los ejemplos. Describe TU comunidad."
+},
+{
+ original:"¿Qué animales y plantas observan con mayor frecuencia?",
+ title:"¿Qué animales y plantas ves con frecuencia?",
+ look:"Piensa en lo que ves cerca de tu casa, en el camino o en los terrenos de tu comunidad.",
+ chips:["🐶 Perros","🐦 Aves","🐓 Gallinas","🐄 Animales del campo","🌳 Árboles","🌼 Flores","🌽 Plantas o cultivos"],
+ think:"Recuerda cuáles ves muchas veces. No elijas algo solamente porque aparece aquí.",
+ write:"2. En mi comunidad veo con frecuencia estos animales: ________. También observo estas plantas: ________.",
+ tip:"Puedes escribir más de un animal y más de una planta."
+},
+{
+ original:"¿Cómo es el suelo?",
+ title:"Observa: ¿cómo es el suelo?",
+ look:"Fíjate en el suelo de tu comunidad. Piensa en su color y en cómo se siente o se ve.",
+ chips:["🟤 Tierra","🪨 Piedras","🌱 Pasto","💦 Barro","🏖️ Arena","🛣️ Pavimento"],
+ think:"¿Todo el suelo es igual? Puedes describir más de una característica.",
+ write:"3. El suelo de mi comunidad es ____________.",
+ tip:"Usa palabras que describan lo que tú has observado."
+},
+{
+ original:"¿Cuáles son sus límites territoriales?",
+ title:"¿Qué lugares están alrededor de tu comunidad?",
+ look:"Un límite territorial nos ayuda a saber hasta dónde llega una comunidad y qué lugares están alrededor.",
+ chips:["🏘️ Otra comunidad","🛣️ Un camino","🌾 Parcelas","💧 Río o arroyo","🌳 Terrenos"],
+ think:"Piensa qué hay hacia los diferentes lados de tu comunidad. Si no lo sabes, no inventes.",
+ write:"4. Alrededor de mi comunidad se encuentran ____________.",
+ tip:"Si no conoces los límites, pregunta a un adulto que conozca bien la comunidad y después escribe la respuesta."
+},
+{
+ original:"¿Qué tipo de cultivos producen?",
+ title:"¿Qué cultivos se producen en tu comunidad?",
+ look:"Recuerda los sembradíos, parcelas o huertos que has visto.",
+ chips:["🌽 Maíz","🌾 Cultivos del campo","🍌 Frutas","🥬 Verduras","🌱 Otras plantas"],
+ think:"¿Qué siembran las personas de tu comunidad? Escribe únicamente lo que conozcas.",
+ write:"5. En mi comunidad se cultiva ____________.",
+ tip:"Si tienes duda sobre el nombre de un cultivo, puedes preguntarle a un adulto."
+},
+{
+ original:"¿Cómo es el agua que toman en su comunidad y de dónde proviene?",
+ title:"¿Cómo es el agua que toman y de dónde viene?",
+ look:"Piensa cómo llega el agua a tu casa y qué agua utilizan para beber.",
+ chips:["🚰 Tubería","🪣 Pozo","💧 Garrafón","🌊 Otra fuente"],
+ think:"Son dos cosas: primero describe el agua que toman y después explica de dónde proviene.",
+ write:"6. El agua que tomamos es ____________ y proviene de ____________.",
+ tip:"Pregunta en casa si no sabes de dónde viene el agua. Lo importante es investigar, no adivinar."
+}
+];
+let i=0;
+function speak(){
+ const d=data[i];
+ if("speechSynthesis" in window){
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(d.title+". "+d.look+" "+d.think);
+  u.lang="es-MX";u.rate=.88;speechSynthesis.speak(u);
+ }
+}
+function render(){
+ const d=data[i];
+ document.getElementById("progressText").textContent=`⭐ ${i+1} de ${data.length}`;
+ document.getElementById("bar").style.width=((i+1)/data.length*100)+"%";
+ document.getElementById("card").innerHTML=`
+ <span class="mission">MISIÓN ${i+1}</span>
+ <h2>${d.title}</h2>
+ <p class="original">Pregunta de tu actividad: “${d.original}”</p>
+ <button class="sound" onclick="speak()">🔊 Escuchar la pregunta</button>
+ <div class="box look"><b>👀 MIRA Y RECUERDA</b><br>${d.look}
+   <div class="examples">${d.chips.map(x=>`<span class="chip">${x}</span>`).join("")}</div>
+ </div>
+ <div class="box think"><b>🤔 PIENSA</b><br>${d.think}</div>
+ <div class="box write"><b>✏️ AHORA ESCRIBE EN TU LIBRETA</b>
+   <div class="copy">${d.write}</div>
+ </div>
+ <div class="tip">💡 ${d.tip}</div>
+ <ul class="checks">
+   <li><label><input type="checkbox" class="req"> Ya escribí mi respuesta en la libreta.</label></li>
+   <li><label><input type="checkbox"> Empecé con mayúscula.</label></li>
+   <li><label><input type="checkbox"> Revisé que mi oración tenga sentido.</label></li>
+   <li><label><input type="checkbox"> Puse punto al final.</label></li>
+ </ul>
+ <div class="actions">
+   ${i?'<button class="prev" onclick="back()">← Anterior</button>':''}
+   <button class="next" onclick="next()">${i===data.length-1?"Terminar ✓":"Siguiente →"}</button>
+ </div>`;
+}
+function next(){
+ const req=document.querySelector(".req");
+ if(!req.checked){alert("Rosalía: primero escribe tu respuesta en la libreta y marca la primera casilla. ✏️");return;}
+ if(i<data.length-1){i++;render();scrollTo({top:0,behavior:"smooth"});}
+ else{
+  document.getElementById("progressText").textContent="⭐ 6 de 6";
+  document.getElementById("bar").style.width="100%";
+  document.getElementById("card").innerHTML=`
+  <div class="end"><div class="big">🌟</div>
+  <h2>¡Muy bien, Rosalía!</h2>
+  <p>Terminaste las 6 misiones y describiste tu comunidad.</p>
+  <div class="box write"><b>📖 Revisión final</b><br>Abre tu libreta y comprueba que tengas las respuestas <b>1, 2, 3, 4, 5 y 6</b>. Revisa mayúsculas y puntos.</div>
+  <button class="sound" onclick="i=0;render()">🔄 Repasar las misiones</button></div>`;
+ }
+}
+function back(){if(i>0){i--;render();scrollTo({top:0,behavior:"smooth"});}}
+render();
+</script>
+</body>
+</html>
