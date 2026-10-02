@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Iluminación de tres puntos | Guía para Ingrid Gabriela</title>
+<style>
+  :root{
+    --navy:#102A43;
+    --blue:#243B53;
+    --teal:#147D92;
+    --cyan:#D9F0F4;
+    --gold:#D4A017;
+    --cream:#F7F5F0;
+    --white:#FFFFFF;
+    --ink:#1F2933;
+    --muted:#66788A;
+    --ok:#2F855A;
+    --danger:#C05621;
+    --shadow:0 14px 34px rgba(16,42,67,.12);
+    --radius:22px;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color:var(--ink);
+    background:linear-gradient(180deg,#F8FBFD 0%,#F7F5F0 100%);
+    line-height:1.65;
+  }
+
+  .wrap{max-width:1080px;margin:auto;padding:22px}
+  header{
+    background:
+      radial-gradient(circle at 90% 10%,rgba(212,160,23,.22),transparent 25%),
+      linear-gradient(135deg,var(--navy),var(--teal));
+    color:white;
+    padding:54px 0 44px;
+  }
+  .eyebrow{
+    display:inline-block;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    font-size:.78rem;
+    font-weight:800;
+    color:#D8F2F5;
+    margin-bottom:12px;
+  }
+  h1{font-size:clamp(2rem,5vw,4rem);line-height:1.05;margin:0 0 14px}
+  header p{max-width:780px;font-size:1.08rem;color:#ECF7F8;margin:0}
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.4fr .8fr;
+    gap:24px;
+    align-items:center;
+  }
+  .hero-card{
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.18);
+    border-radius:20px;
+    padding:20px;
+    backdrop-filter:blur(7px);
+  }
+  .hero-card strong{display:block;font-size:1.05rem;margin-bottom:6px}
+  .hero-card span{font-size:.95rem;color:#D8F2F5}
+
+  nav{
+    position:sticky;top:0;z-index:20;
+    background:rgba(255,255,255,.95);
+    border-bottom:1px solid #E6EDF2;
+    backdrop-filter:blur(10px);
+  }
+  nav .wrap{display:flex;gap:10px;overflow-x:auto;padding-top:12px;padding-bottom:12px}
+  nav a{
+    color:var(--navy);text-decoration:none;
+    padding:9px 13px;border-radius:999px;
+    background:#EFF5F8;white-space:nowrap;font-size:.9rem;font-weight:700;
+  }
+  nav a:hover{background:var(--cyan)}
+
+  section{padding:34px 0}
+  h2{color:var(--navy);font-size:clamp(1.5rem,3vw,2.2rem);margin:0 0 14px}
+  h3{color:var(--blue);margin:0 0 8px}
+  .lead{font-size:1.08rem;color:#3E4C59;max-width:820px}
+
+  .grid-3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+  }
+  .card{
+    background:white;
+    border-radius:var(--radius);
+    padding:22px;
+    box-shadow:var(--shadow);
+    border:1px solid #E7EEF3;
+  }
+  .card .tag{
+    display:inline-flex;align-items:center;gap:8px;
+    background:#EFF8FA;color:var(--teal);
+    padding:7px 10px;border-radius:999px;
+    font-size:.78rem;font-weight:800;margin-bottom:10px
+  }
+
+  .callout{
+    border-left:5px solid var(--gold);
+    background:#FFF9E8;
+    padding:18px 20px;
+    border-radius:14px;
+    margin:18px 0;
+  }
+  .callout strong{color:#7A5A00}
+
+  .diagram{
+    background:white;
+    border-radius:var(--radius);
+    padding:18px;
+    box-shadow:var(--shadow);
+    border:1px solid #E7EEF3;
+    overflow:auto;
+  }
+  .diagram svg{width:100%;min-width:620px;height:auto}
+  .caption{font-size:.9rem;color:var(--muted);margin-top:8px}
+
+  .steps{counter-reset:step;display:grid;gap:14px}
+  .step{
+    counter-increment:step;
+    background:white;
+    border:1px solid #E7EEF3;
+    border-radius:18px;
+    padding:18px 18px 18px 66px;
+    position:relative;
+    box-shadow:0 8px 20px rgba(16,42,67,.07);
+  }
+  .step::before{
+    content:counter(step);
+    position:absolute;left:18px;top:18px;
+    width:34px;height:34px;border-radius:50%;
+    display:grid;place-items:center;
+    background:var(--navy);color:white;font-weight:900;
+  }
+
+  .math{
+    background:#102A43;color:white;
+    border-radius:20px;padding:22px;
+    font-family:"SFMono-Regular",Consolas,monospace;
+    overflow:auto;
+    margin:16px 0;
+  }
+  .math .big{font-size:1.35rem;color:#E7F6F8}
+
+  .comparison{
+    width:100%;border-collapse:collapse;background:white;
+    border-radius:18px;overflow:hidden;box-shadow:var(--shadow)
+  }
+  .comparison th,.comparison td{padding:14px;border-bottom:1px solid #E7EEF3;text-align:left}
+  .comparison th{background:var(--navy);color:white}
+  .comparison tr:last-child td{border-bottom:0}
+
+  .calc{
+    display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:end
+  }
+  label{font-weight:800;color:var(--blue);display:block;margin-bottom:6px}
+  input{
+    width:100%;padding:12px 14px;border:1px solid #C9D6DF;border-radius:12px;font-size:1rem
+  }
+  button{
+    border:0;border-radius:12px;padding:12px 16px;
+    background:var(--teal);color:white;font-weight:850;font-size:.98rem;cursor:pointer
+  }
+  button:hover{filter:brightness(.95)}
+  .result{
+    margin-top:14px;padding:16px;border-radius:14px;
+    background:#ECFDF3;color:#22543D;font-weight:750
+  }
+
+  .quiz .q{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid #E7EEF3}
+  .quiz button.option{
+    margin:6px 6px 0 0;background:#EFF5F8;color:var(--navy);font-weight:750
+  }
+  .quiz button.option.correct{background:#DFF7E8;color:#1C6B43}
+  .quiz button.option.wrong{background:#FDE9E2;color:#9C4221}
+  .feedback{margin-top:8px;font-weight:750}
+
+  .glossary{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:14px
+  }
+  .term{background:white;border-radius:16px;padding:16px;border:1px solid #E7EEF3}
+  .term b{color:var(--teal)}
+
+  footer{background:var(--navy);color:#DCE8EF;margin-top:40px}
+  footer .wrap{padding-top:28px;padding-bottom:28px}
+  .small{font-size:.88rem;color:var(--muted)}
+
+  @media (max-width:800px){
+    .hero-grid,.grid-3,.calc,.glossary{grid-template-columns:1fr}
+    header{padding-top:40px}
+    .wrap{padding-left:16px;padding-right:16px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Comunicación audiovisual + matemáticas</span>
+      <h1>Iluminación de tres puntos, explicada paso a paso</h1>
+      <p>
+        Guía pensada para <strong>Ingrid Gabriela</strong>: qué significan <strong>Key, Fill y Back</strong>,
+        qué tienen que ver los watts y las distancias, y por qué un tema que parece “matemáticas”
+        es esencial en fotografía, video, televisión y producción audiovisual.
+      </p>
+    </div>
+    <div class="hero-card">
+      <strong>Idea principal</strong>
+      <span>No se trata de hacer cuentas por hacer cuentas. Se usan matemáticas para controlar la luz y lograr que una imagen comunique mejor.</span>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="wrap">
+    <a href="#tema">1. ¿De qué trata?</a>
+    <a href="#tres-puntos">2. Tres luces</a>
+    <a href="#watts">3. Watts</a>
+    <a href="#distancia">4. Distancia</a>
+    <a href="#ejemplo">5. Ejemplo</a>
+    <a href="#importancia">6. ¿Por qué importa?</a>
+    <a href="#practica">7. Practica</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<section id="tema">
+  <h2>1. ¿De qué trata esta clase?</h2>
+  <p class="lead">
+    Por lo que se alcanza a observar en el pizarrón, el maestro está trabajando con un esquema clásico de
+    <strong>iluminación de tres puntos</strong>. Es una técnica básica en comunicación audiovisual para iluminar
+    correctamente a una persona frente a cámara.
+  </p>
+
+  <div class="callout">
+    <strong>Importante:</strong> en las fotografías algunas cifras están borrosas, así que esta guía explica con precisión
+    el concepto general. Los valores concretos del pizarrón se toman solo como referencia aproximada.
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <span class="tag">🎥 Producción</span>
+      <h3>¿Dónde se usa?</h3>
+      <p>Entrevistas, noticieros, cortometrajes, documentales, videos para redes, publicidad y fotografía.</p>
+    </div>
+    <div class="card">
+      <span class="tag">💡 Técnica</span>
+      <h3>¿Qué se controla?</h3>
+      <p>La dirección de la luz, las sombras, el contraste, el volumen del rostro y la separación entre persona y fondo.</p>
+    </div>
+    <div class="card">
+      <span class="tag">📐 Matemáticas</span>
+      <h3>¿Por qué hay números?</h3>
+      <p>Porque la cantidad de luz cambia con la potencia de la lámpara y, sobre todo, con la distancia al sujeto.</p>
+    </div>
+  </div>
+</section>
+
+<section id="tres-puntos">
+  <h2>2. Las tres luces: Key, Fill y Back</h2>
+
+  <div class="diagram">
+    <svg viewBox="0 0 900 470" role="img" aria-label="Diagrama de iluminación de tres puntos">
+      <defs>
+        <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-opacity=".15"/></filter>
+      </defs>
+
+      <rect x="0" y="0" width="900" height="470" rx="24" fill="#F7FAFC"/>
+
+      <circle cx="450" cy="250" r="52" fill="#F0D1B5"/>
+      <path d="M410 305 Q450 280 490 305 L530 400 L370 400 Z" fill="#243B53"/>
+      <text x="450" y="430" text-anchor="middle" fill="#102A43" font-size="20" font-weight="700">Persona / sujeto</text>
+
+      <g filter="url(#shadow)">
+        <rect x="95" y="120" width="155" height="72" rx="18" fill="#102A43"/>
+        <text x="172" y="150" text-anchor="middle" fill="white" font-size="22" font-weight="800">KEY</text>
+        <text x="172" y="176" text-anchor="middle" fill="#D9F0F4" font-size="16">luz principal</text>
+      </g>
+      <line x1="250" y1="180" x2="400" y2="230" stroke="#D4A017" stroke-width="10" stroke-linecap="round" opacity=".8"/>
+
+      <g filter="url(#shadow)">
+        <rect x="650" y="145" width="155" height="72" rx="18" fill="#147D92"/>
+        <text x="727" y="175" text-anchor="middle" fill="white" font-size="22" font-weight="800">FILL</text>
+        <text x="727" y="201" text-anchor="middle" fill="#E9FCFF" font-size="16">luz de relleno</text>
+      </g>
+      <line x1="650" y1="205" x2="500" y2="245" stroke="#67C7D4" stroke-width="8" stroke-linecap="round" opacity=".75"/>
+
+      <g filter="url(#shadow)">
+        <rect x="372" y="35" width="155" height="72" rx="18" fill="#7A5A00"/>
+        <text x="449" y="65" text-anchor="middle" fill="white" font-size="22" font-weight="800">BACK</text>
+        <text x="449" y="91" text-anchor="middle" fill="#FFF3BF" font-size="16">contraluz</text>
+      </g>
+      <line x1="450" y1="107" x2="450" y2="190" stroke="#F7D774" stroke-width="8" stroke-linecap="round" opacity=".8"/>
+
+      <g transform="translate(420,205)">
+        <rect x="0" y="0" width="60" height="38" rx="8" fill="#1F2933"/>
+        <circle cx="30" cy="19" r="10" fill="#D9F0F4"/>
+        <text x="30" y="-10" text-anchor="middle" fill="#102A43" font-size="15" font-weight="700">Cámara</text>
+      </g>
+    </svg>
+    <div class="caption">Esquema conceptual. La colocación exacta cambia según el estilo visual y el espacio disponible.</div>
+  </div>
+
+  <div class="steps" style="margin-top:20px">
+    <div class="step">
+      <h3>KEY LIGHT — luz principal</h3>
+      <p>Es la luz que define principalmente el rostro. Produce la dirección dominante de las sombras y da forma a la escena.</p>
+    </div>
+    <div class="step">
+      <h3>FILL LIGHT — luz de relleno</h3>
+      <p>Se usa para suavizar las sombras creadas por la Key. Normalmente es menos intensa para conservar volumen.</p>
+    </div>
+    <div class="step">
+      <h3>BACK LIGHT — contraluz</h3>
+      <p>Se coloca detrás del sujeto y ayuda a separar su silueta del fondo. Puede crear un pequeño borde de luz en cabello y hombros.</p>
+    </div>
+  </div>
+</section>
+
+<section id="watts">
+  <h2>3. ¿Qué significa “W” o watts?</h2>
+  <p class="lead">
+    El <strong>watt (W)</strong> mide potencia eléctrica. En equipos tradicionales de iluminación se usa como una referencia útil
+    para comparar lámparas del mismo tipo.
+  </p>
+
+  <div class="math">
+    <div class="big">1 W = 1 joule por segundo</div>
+  </div>
+
+  <div class="callout">
+    <strong>No confundas:</strong> más watts no significa automáticamente “más brillo visible” en cualquier tecnología.
+    Un LED moderno puede producir mucha luz usando menos potencia que una lámpara antigua.
+  </div>
+
+  <table class="comparison">
+    <thead>
+      <tr><th>Dato</th><th>Qué significa</th><th>Ejemplo práctico</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Watts</td><td>Potencia eléctrica consumida</td><td>Una lámpara de 650 W consume más potencia que una de 150 W.</td></tr>
+      <tr><td>Distancia</td><td>Qué tan lejos está la lámpara</td><td>Alejar una lámpara reduce mucho la iluminación que llega al sujeto.</td></tr>
+      <tr><td>Ángulo</td><td>Dirección desde la que llega la luz</td><td>Cambia la forma de las sombras del rostro.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="distancia">
+  <h2>4. La matemática importante: distancia y luz</h2>
+  <p class="lead">
+    La idea más importante es que la luz disminuye rápidamente cuando la lámpara se aleja.
+    En un caso ideal se usa la <strong>ley del inverso del cuadrado</strong>.
+  </p>
+
+  <div class="math">
+    <div class="big">E ∝ 1 / d²</div>
+    <div style="margin-top:10px">E = iluminación que llega al sujeto<br>d = distancia entre lámpara y sujeto</div>
+  </div>
+
+  <h3>Ejemplo sencillo</h3>
+  <p>Si una lámpara está a <strong>3 metros</strong> y después la colocas a <strong>6 metros</strong>, duplicaste la distancia.</p>
+
+  <div class="math">
+    (3 / 6)² = (1 / 2)² = 1 / 4 = 25%
+  </div>
+
+  <div class="callout">
+    <strong>Traducción sencilla:</strong> al duplicar la distancia, en un modelo ideal llega aproximadamente una cuarta parte de la luz.
+  </div>
+
+  <div class="card">
+    <h3>Calculadora rápida</h3>
+    <p class="small">Compara cuánto cambia la iluminación al mover una lámpara de una distancia a otra.</p>
+    <div class="calc">
+      <div>
+        <label for="d1">Distancia inicial (m)</label>
+        <input id="d1" type="number" step="0.1" min="0.1" value="3">
+      </div>
+      <div>
+        <label for="d2">Nueva distancia (m)</label>
+        <input id="d2" type="number" step="0.1" min="0.1" value="6">
+      </div>
+    </div>
+    <button style="margin-top:14px" onclick="calcular()">Calcular</button>
+    <div id="resultado" class="result">Resultado: al pasar de 3 m a 6 m queda aproximadamente 25% de la iluminación inicial.</div>
+  </div>
+</section>
+
+<section id="ejemplo">
+  <h2>5. Ejemplo parecido al del pizarrón</h2>
+  <p class="lead">Imagina que quieres grabar una entrevista.</p>
+
+  <div class="grid-3">
+    <div class="card">
+      <span class="tag">KEY</span>
+      <h3>500 W · 3 m</h3>
+      <p>Es la luz dominante. Ilumina el rostro y marca la dirección principal.</p>
+    </div>
+    <div class="card">
+      <span class="tag">FILL</span>
+      <h3>150 W · 5–6 m</h3>
+      <p>Más débil y más alejada. Solo suaviza las sombras sin “aplanar” el rostro.</p>
+    </div>
+    <div class="card">
+      <span class="tag">BACK</span>
+      <h3>250 W · detrás</h3>
+      <p>Ayuda a que cabello y hombros se distingan del fondo.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>La idea visual:</strong> Key domina, Fill suaviza y Back separa. La fotografía deja de verse plana y adquiere volumen.
+  </div>
+</section>
+
+<section id="importancia">
+  <h2>6. ¿Por qué es importante para Comunicación?</h2>
+  <div class="steps">
+    <div class="step">
+      <h3>Porque la luz también comunica</h3>
+      <p>Una cara muy contrastada puede transmitir tensión; una iluminación suave puede verse cercana, institucional o amable.</p>
+    </div>
+    <div class="step">
+      <h3>Porque mejora la calidad profesional</h3>
+      <p>Una entrevista bien iluminada se percibe más cuidada, clara y legible visualmente.</p>
+    </div>
+    <div class="step">
+      <h3>Porque evita improvisar</h3>
+      <p>Entender potencia, distancia y ángulo permite repetir un resultado y resolver problemas en un set real.</p>
+    </div>
+    <div class="step">
+      <h3>Porque conecta técnica y narrativa</h3>
+      <p>La producción audiovisual no es solo creatividad: también usa física, matemáticas, cámara, sonido y lenguaje visual.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>7. Lo que Ingrid debe recordar para el examen</h2>
+  <div class="glossary">
+    <div class="term"><b>Key:</b> luz principal.</div>
+    <div class="term"><b>Fill:</b> luz de relleno que suaviza sombras.</div>
+    <div class="term"><b>Back:</b> contraluz que separa al sujeto del fondo.</div>
+    <div class="term"><b>Watt:</b> unidad de potencia eléctrica.</div>
+    <div class="term"><b>Distancia:</b> al aumentar, la luz que llega disminuye mucho.</div>
+    <div class="term"><b>Ley inversa:</b> E ∝ 1/d² en un modelo ideal.</div>
+  </div>
+</section>
+
+<section id="practica">
+  <h2>8. Mini práctica</h2>
+  <div class="card quiz">
+
+    <div class="q">
+      <h3>1. ¿Cuál es la luz principal?</h3>
+      <button class="option" onclick="answer(this,false,'La Fill sirve para suavizar sombras.')">Fill</button>
+      <button class="option" onclick="answer(this,true,'Correcto: la Key es la luz principal.')">Key</button>
+      <button class="option" onclick="answer(this,false,'La Back se coloca detrás.')">Back</button>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="q">
+      <h3>2. ¿Para qué sirve principalmente la Fill?</h3>
+      <button class="option" onclick="answer(this,true,'Correcto: reduce el contraste de las sombras.')">Suavizar sombras</button>
+      <button class="option" onclick="answer(this,false,'Esa función corresponde más a la Back.')">Separar del fondo</button>
+      <button class="option" onclick="answer(this,false,'La Fill no es la cámara.')">Grabar</button>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="q">
+      <h3>3. Si duplicas la distancia en un modelo ideal, ¿cuánta luz queda?</h3>
+      <button class="option" onclick="answer(this,false,'No: no queda la mitad.')">50%</button>
+      <button class="option" onclick="answer(this,true,'Correcto: aproximadamente una cuarta parte.')">25%</button>
+      <button class="option" onclick="answer(this,false,'No: todavía llega luz.')">0%</button>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="q">
+      <h3>4. ¿Los watts miden directamente la cantidad de luz visible?</h3>
+      <button class="option" onclick="answer(this,false,'No exactamente. Los watts miden potencia eléctrica.')">Sí, siempre</button>
+      <button class="option" onclick="answer(this,true,'Correcto. Los watts miden potencia; la luz visible depende también de la eficiencia de la lámpara.')">No exactamente</button>
+      <div class="feedback"></div>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <h2>9. Resumen final en una frase</h2>
+  <div class="card" style="background:linear-gradient(135deg,#102A43,#147D92);color:white">
+    <p style="font-size:1.25rem;margin:0">
+      <strong>La iluminación de tres puntos utiliza una luz principal, una de relleno y una trasera; las matemáticas ayudan a decidir
+      cuánta luz llega al sujeto y cómo cambia cuando modificamos la distancia.</strong>
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong>Guía de apoyo para Ingrid Gabriela</strong><br>
+    Comunicación audiovisual · Fundamentos de iluminación · Matemáticas aplicadas
+  </div>
+</footer>
+
+<script>
+function calcular(){
+  const d1 = parseFloat(document.getElementById('d1').value);
+  const d2 = parseFloat(document.getElementById('d2').value);
+  const out = document.getElementById('resultado');
+  if(!d1 || !d2 || d1 <= 0 || d2 <= 0){
+    out.textContent = 'Escribe distancias mayores que cero.';
+    return;
+  }
+  const ratio = Math.pow(d1/d2,2)*100;
+  out.textContent = `Resultado: al pasar de ${d1} m a ${d2} m queda aproximadamente ${ratio.toFixed(1)}% de la iluminación inicial.`;
+}
+
+function answer(btn, ok, msg){
+  const q = btn.closest('.q');
+  q.querySelectorAll('.option').forEach(b => b.classList.remove('correct','wrong'));
+  btn.classList.add(ok ? 'correct':'wrong');
+  q.querySelector('.feedback').textContent = msg;
+}
+</script>
+</body>
+</html>
