@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#211e49">
+  <meta name="description" content="English Lab: curso interactivo de inglés de nivel inicial a preparatoria, diseñado para Mayrani Narciso Laureano.">
+  <title>English Lab | El espacio de Mayrani</title>
+  <style>
+    :root{--ink:#252548;--muted:#777a96;--night:#211e49;--night-2:#312b66;--violet:#7867db;--violet-dark:#6754cf;--violet-light:#efecff;--coral:#f48e87;--coral-light:#fff0ec;--mint:#45baa7;--mint-light:#e8f9f5;--gold:#ffcd75;--gold-light:#fff6de;--paper:#f8f8ff;--white:#fff;--line:#e8e8f5;--shadow:0 15px 42px rgba(43,36,106,.07);--rad:21px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);font:15px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--coral);outline-offset:3px}button:disabled{opacity:.58;cursor:default}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .layout{display:grid;grid-template-columns:276px minmax(0,1fr);min-height:100vh}.sidebar{background:var(--night);color:#fff;min-height:100vh;position:sticky;top:0;height:100vh;overflow:auto;padding:28px 17px 22px;z-index:50;scrollbar-width:thin;scrollbar-color:#68619d transparent}.brand{display:flex;gap:11px;align-items:center;padding:4px 10px 23px;cursor:pointer}.brand-mark{width:41px;height:41px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(140deg,#ffcf8d,#ff9587);color:#292047;font-size:17px;font-weight:900;letter-spacing:-1px}.brand-title{display:block;font-weight:900;letter-spacing:-.6px;font-size:19px;line-height:1.1}.brand-caption{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#aeaadd}.sidebar-label{font-size:10px;letter-spacing:1.9px;font-weight:800;text-transform:uppercase;color:#8e89c0;margin:25px 12px 10px}.side-link{width:100%;display:flex;gap:10px;align-items:center;padding:11px 12px;border-radius:12px;background:transparent;border:0;text-align:left;color:#cbc8e6;font-weight:650;margin:3px 0;transition:.18s}.side-link:hover,.side-link.active{background:#3c3674;color:#fff}.side-link.active{box-shadow:inset 3px 0 0 var(--gold)}.side-symbol{display:grid;place-items:center;flex:none;width:26px;height:26px;border-radius:8px;background:#4b4582;font-size:14px}.side-link.active .side-symbol{background:#675cc2}.side-link.lesson-link{font-size:12px;font-weight:550;line-height:1.35;padding:9px 10px}.side-link.lesson-link .side-symbol{width:22px;height:22px;font-size:11px;border-radius:7px;font-weight:750}.lesson-done{margin-left:auto;color:#82e2b7;font-size:16px;font-weight:bold}.sidebar-bottom{background:#342f69;border:1px solid #48407d;border-radius:17px;margin:25px 4px 10px;padding:17px}.sidebar-bottom b{display:block;font-size:13px;margin-bottom:4px}.sidebar-bottom p{font-size:12px;color:#b7b3de;margin:0 0 11px;line-height:1.5}.mini-progress{height:7px;border-radius:9px;background:#58518b;overflow:hidden}.mini-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--coral),var(--gold));border-radius:9px;transition:width .4s}
+    .main{min-width:0}.topbar{height:80px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 46px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.85)}.breadcrumbs{display:flex;align-items:center;gap:9px;font-size:12px;color:#8986a3;font-weight:750;letter-spacing:.3px}.breadcrumbs b{color:var(--ink)}.topright{display:flex;align-items:center;gap:12px}.student-pill{background:#fff;border:1px solid var(--line);padding:7px 11px 7px 7px;border-radius:999px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:750}.student-avatar{height:29px;width:29px;border-radius:50%;display:grid;place-items:center;background:var(--coral-light);color:#be555b;font-size:11px;font-weight:900}.dot{height:7px;width:7px;background:var(--mint);border-radius:50%;display:inline-block}.top-tip{font-size:12px;color:var(--muted)}.content{max-width:1310px;padding:35px 46px 70px;margin:auto}.menu-btn{display:none;background:#fff;border:1px solid var(--line);border-radius:12px;font-size:20px;line-height:1;padding:8px 11px}.overlay{display:none}
+    .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:850;color:var(--violet);display:inline-flex;align-items:center;gap:7px}.eyebrow:before{content:"";width:17px;height:2px;border-radius:2px;background:currentColor}.hero{border-radius:27px;background:linear-gradient(115deg,#343077 5%,#6a59cd 65%,#8774e3);padding:43px 45px;min-height:294px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:25px;overflow:hidden;position:relative}.hero:before{content:"";position:absolute;right:-45px;bottom:-160px;width:410px;height:410px;border:1px solid #ffffff25;border-radius:50%;box-shadow:0 0 0 50px #ffffff08,0 0 0 103px #ffffff06}.hero-copy{position:relative;z-index:2;max-width:590px}.hero .eyebrow{color:#efd0ad}.hero .eyebrow:before{background:var(--gold)}.hero h1{font-size:clamp(30px,3.5vw,48px);line-height:1.13;letter-spacing:-1.9px;margin:12px 0 14px;font-weight:900}.hero p{color:#e7e2ff;max-width:480px;margin:0 0 21px;font-size:14px}.hero-art{position:relative;z-index:1;flex:0 0 245px;height:208px}.art-note{position:absolute;right:19px;top:8px;width:207px;height:178px;transform:rotate(9deg);background:#fff;border:8px solid #f3efff;box-shadow:0 25px 40px #1d19495b;border-radius:17px;color:#302c61;padding:21px 17px}.art-note:before{content:"✦";position:absolute;right:-16px;top:-24px;color:var(--gold);font-size:39px}.art-tiny{font-size:11px;color:#b29fdf;font-weight:850;letter-spacing:1.1px}.art-big{font-size:25px;line-height:1.35;font-weight:900;letter-spacing:-.6px;margin:9px 0}.art-big span{color:#ef8e89}.art-stroke{height:6px;width:88px;background:#e7e2ff;border-radius:8px;margin-top:14px}.art-stroke.short{width:57px;margin-top:9px;background:#ffe4ae}.art-bubble{position:absolute;left:0;bottom:0;background:#ffe4a8;color:#4d3f60;font-size:12px;font-weight:900;padding:11px 13px;border-radius:14px;transform:rotate(-9deg);box-shadow:0 8px 20px #231c5d4a}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:0;border-radius:12px;padding:12px 18px;background:var(--violet);color:#fff;font-size:13px;font-weight:800;text-decoration:none;transition:transform .15s,background .15s,box-shadow .15s}.btn:hover{transform:translateY(-1px);background:var(--violet-dark)}.btn:active{transform:translateY(0)}.btn.gold{background:var(--gold);color:#403761}.btn.gold:hover{background:#ffdf9c}.btn.outline{background:#fff;color:var(--ink);border:1px solid var(--line)}.btn.outline:hover{background:var(--violet-light)}.btn.soft{background:var(--violet-light);color:var(--violet-dark)}.btn.sm{font-size:12px;padding:8px 12px;border-radius:10px}.btn.icon-btn{width:35px;height:35px;padding:0;border-radius:11px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.metrics{margin:19px 0 28px}.metric{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 20px;display:flex;align-items:center;gap:14px}.metric-icon{width:47px;height:47px;display:grid;place-items:center;border-radius:14px;font-size:23px}.violet-bg{background:var(--violet-light)}.peach-bg{background:var(--coral-light)}.mint-bg{background:var(--mint-light)}.metric strong{font-size:25px;display:block;letter-spacing:-1px;line-height:1.15}.metric small{font-size:11px;color:var(--muted);font-weight:650}.section-heading{margin:35px 0 17px;display:flex;align-items:end;justify-content:space-between;gap:12px}.section-heading h2{font-size:22px;letter-spacing:-.7px;margin:2px 0;font-weight:900}.section-heading p{margin:0;font-size:13px;color:var(--muted)}.stage-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.stage-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow);position:relative;overflow:hidden}.stage-top{display:flex;align-items:center;justify-content:space-between}.stage-bubble{width:45px;height:45px;border-radius:14px;display:grid;place-items:center;font-size:22px}.stage-index{color:#c1bed2;font-size:11px;font-weight:900;letter-spacing:1.3px}.stage-card h3{margin:15px 0 4px;font-size:17px;letter-spacing:-.4px}.stage-card p{margin:0 0 15px;color:var(--muted);font-size:12px;min-height:36px}.stage-bottom{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:13px;font-size:11px;color:var(--muted);font-weight:700}.progress-bar{height:7px;background:#f0eff7;border-radius:10px;overflow:hidden}.progress-bar span{height:100%;background:var(--mint);display:block;transition:width .25s}.stage-card .progress-bar{margin-bottom:12px}.link-btn{border:0;background:transparent;color:var(--violet-dark);font-size:12px;font-weight:900;padding:4px 0;cursor:pointer}.link-btn:hover{text-decoration:underline}.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.compare-card{border:1px solid var(--line);background:#fff;border-radius:17px;padding:20px;min-width:0}.compare-card .chip{margin-bottom:13px}.compare-card strong{font-size:17px;display:block;line-height:1.3;letter-spacing:-.3px}.compare-card p{font-size:12px;color:var(--muted);margin:9px 0 0}.chip{border-radius:100px;padding:5px 10px;font-size:10px;font-weight:900;display:inline-flex;align-items:center;gap:5px}.chip.purple{background:var(--violet-light);color:#5e50bb}.chip.orange{background:var(--coral-light);color:#c46063}.chip.green{background:var(--mint-light);color:#218b7d}.chip.yellow{background:var(--gold-light);color:#a97b18}.hintbox{background:#fff;border:1px solid var(--line);border-radius:19px;padding:20px 23px;margin-top:21px;display:flex;gap:14px;align-items:flex-start}.hinticon{background:var(--gold-light);width:41px;height:41px;border-radius:13px;display:grid;place-items:center;font-size:19px;flex:none}.hintbox strong{font-size:14px}.hintbox p{margin:4px 0 0;font-size:12px;color:var(--muted)}.hintbox a{color:var(--violet-dark);font-weight:700}
+    .lesson-head{background:linear-gradient(100deg,#eeebff,#fff 80%);padding:28px 31px;border-radius:23px;border:1px solid #e9e5fa;display:flex;align-items:center;justify-content:space-between;gap:18px}.lesson-head h1,.simple-head h1{font-size:clamp(25px,3vw,34px);font-weight:900;line-height:1.18;letter-spacing:-1.1px;margin:9px 0}.lesson-head p,.simple-head p{font-size:13px;color:var(--muted);margin:0;max-width:620px}.lesson-head-art{font-size:72px;line-height:1;text-shadow:0 15px 26px #4936931f}.lesson-main{display:grid;grid-template-columns:minmax(0,1fr) 244px;gap:21px;margin-top:22px;align-items:start}.lesson-article{min-width:0}.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:25px 26px;margin-bottom:17px;box-shadow:0 3px 16px #30235a05}.panel h2{margin:0 0 14px;font-size:19px;font-weight:900;letter-spacing:-.4px}.panel h3{font-size:15px;margin:0 0 7px}.panel p{font-size:13px;line-height:1.75;color:#62647e;margin:9px 0}.panel ul{padding-left:20px;margin:9px 0;font-size:13px;color:#62647e}.panel li{margin:5px 0}.panel strong{color:var(--ink)}.panel .sublead{color:#74718d}.step-card{border:1px solid var(--line);padding:18px 18px;border-radius:15px;margin:12px 0;background:#fdfdff}.step-label{font-size:10px;color:var(--violet);font-weight:900;letter-spacing:1.3px;text-transform:uppercase}.step-card h3{margin:6px 0 6px;font-size:15px}.step-card p{margin:0}.formula-wrap{padding:16px;background:#f5f3ff;border-radius:13px;border:1px dashed #c8c0f2;margin:13px 0}.formula-title{font-size:10px;letter-spacing:1.1px;font-weight:900;color:#695bc5;margin-bottom:9px;text-transform:uppercase}.formula{font-size:13px;font-weight:850;color:#382d79;line-height:1.8;overflow-wrap:anywhere}.formula span{border-radius:6px;padding:3px 7px;margin:0 2px 4px 0;display:inline-block;background:#fff;border:1px solid #e0dbfa}.formula .plus{padding:0 4px;background:none;border:0;color:#aa9cc6}.example-list{display:grid;gap:8px}.example-row{border:1px solid var(--line);border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 12px}.example-row b{display:block;font-size:13px}.example-row small{display:block;color:var(--muted);font-size:12px;margin-top:2px}.example-row .play{background:var(--violet-light);color:var(--violet-dark);border:0;border-radius:9px;width:33px;height:33px;font-size:16px;flex:none}.example-row .play:hover{background:#e2dcff}.alert{padding:13px 16px;background:#fff4ed;border-left:3px solid var(--coral);border-radius:0 11px 11px 0;color:#856057;font-size:12px;margin-top:16px}.alert b{color:#a84e4b}.aside{position:sticky;top:18px}.aside-card{border:1px solid var(--line);background:#fff;border-radius:18px;padding:20px;margin-bottom:14px}.aside-card h3{font-size:14px;margin:0 0 12px}.aside-card p{font-size:12px;color:var(--muted);margin:7px 0}.aside-card ol{margin:0;padding-left:19px;color:var(--muted);font-size:12px;line-height:1.95}.aside-card .btn{width:100%;margin-top:10px}.aside-marker{font-size:11px;font-weight:800;color:var(--violet)}.aside-highlight{border:0;background:var(--mint-light)}.aside-highlight h3{color:#168574}.aside-highlight p{color:#39766e}.completion-box{display:flex;align-items:center;gap:10px;padding:12px;background:var(--mint-light);border-radius:12px;color:#1d8271;font-size:12px;font-weight:750;margin-top:12px}
+    .quiz-intro{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px}.quiz-intro p{margin:0}.question{border:1px solid var(--line);border-radius:16px;padding:18px 19px;margin:12px 0;background:#fff}.question.correct{border-color:#91d8c2;background:#fbfffd}.question.incorrect{border-color:#fac0b4;background:#fffdfb}.question-index{font-size:10px;color:var(--violet);font-weight:900;letter-spacing:1px;text-transform:uppercase}.question-title{font-weight:800;font-size:13px;margin:7px 0 12px}.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.option{border:1px solid #e4e3f1;border-radius:11px;text-align:left;background:#fff;color:var(--ink);padding:11px 12px;display:flex;align-items:center;gap:9px;font-size:12px;min-height:45px;transition:.15s}.option:hover{border-color:var(--violet);background:#fbfaff}.option.selected{border-color:var(--violet);background:var(--violet-light);color:#4e42a6}.option.is-right{border-color:#49bc94;background:#edfcf5;color:#1d8666}.option.is-wrong{border-color:#f19c93;background:#fff1ed;color:#ad514b}.option .option-key{font-size:10px;font-weight:900;color:#8a82b8;border:1px solid #e8e5f7;border-radius:7px;background:#faf9ff;padding:2px 6px;flex:none}.quiz-input{border:1px solid #d9d6eb;border-radius:11px;padding:12px 13px;display:block;width:100%;font-size:13px;background:#fff;color:var(--ink)}.feedback{margin-top:12px;padding:11px 13px;border-radius:10px;background:#f4f3ff;color:#686080;font-size:12px}.feedback b{color:#4b408f}.quiz-actions{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:16px}.score{margin:17px 0 0;background:var(--mint-light);border:1px solid #afe6d7;border-radius:14px;padding:17px;display:flex;align-items:center;gap:12px}.score.needs-practice{background:var(--gold-light);border-color:#f4dca0}.score strong{display:block;font-size:17px;line-height:1.3}.score small{font-size:12px;color:#537369}.score.needs-practice small{color:#896b3f}.score-emoji{font-size:30px}.lesson-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:19px}
+    .simple-head{margin:0 0 23px}.lab-intro{background:linear-gradient(115deg,#eae7ff,#f9f8ff);border:1px solid #e1dcfc;border-radius:20px;padding:20px 23px;margin-bottom:17px}.lab-intro p{font-size:13px;color:#5f6081;margin:5px 0 0}.lab-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.lab-field{display:flex;flex-direction:column;gap:7px}.lab-field label{color:#646580;font-size:11px;letter-spacing:.4px;font-weight:850}.lab-field select,.search-input{background:#fff;color:var(--ink);width:100%;padding:12px 13px;border:1px solid #e1deee;border-radius:11px;outline-offset:3px}.lab-result{background:linear-gradient(115deg,#332d78,#6658bc);color:#fff;border-radius:18px;padding:26px;margin-top:18px}.lab-result .eyebrow{color:#e1d9ff}.lab-result h2{font-size:clamp(23px,3vw,32px);line-height:1.22;letter-spacing:-.7px;margin:8px 0 11px}.lab-result p{font-size:12px;color:#e5e0ff;margin:0}.lab-result .result-formula{display:inline-block;background:#ffffff20;border-radius:9px;padding:7px 11px;color:#fff;font-size:12px;margin:12px 0 0;font-weight:700}.lab-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.pill-button{background:#fff;border:1px solid #e5e3f1;border-radius:30px;padding:7px 13px;font-size:11px;font-weight:850;color:#77738e}.pill-button.active{background:var(--violet);border-color:var(--violet);color:#fff}.word-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-top:17px}.word-card{padding:16px;border-radius:15px;border:1px solid var(--line);background:#fff;display:flex;justify-content:space-between;align-items:center;gap:8px}.word-card b{font-size:15px;display:block}.word-card small{font-size:11px;color:var(--muted)}.word-card button{border:0;border-radius:10px;background:var(--violet-light);color:var(--violet-dark);padding:7px 10px;font-size:13px}.gloss-controls{display:flex;gap:9px;flex-wrap:wrap;align-items:center}.gloss-controls .search-input{flex:1 1 230px}.gloss-empty{background:#fff;border-radius:12px;padding:20px;color:var(--muted);text-align:center}.flash{border:1px solid var(--line);border-radius:20px;padding:26px;background:#fff;text-align:center;max-width:590px;margin:18px auto;min-height:247px;display:flex;flex-direction:column;justify-content:center}.flash .flash-category{font-size:11px;color:var(--violet);letter-spacing:1.2px;font-weight:900;text-transform:uppercase}.flash .flash-word{font-size:clamp(30px,5vw,46px);font-weight:900;letter-spacing:-1.2px;margin:15px 0 8px}.flash .flash-translation{color:#807d99;font-size:15px}.flash .flash-translation.hide{filter:blur(5px);user-select:none}.flash-footer{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:15px 0}.no-data{color:var(--muted)}
+    .exam-wrap{max-width:810px}.footer{text-align:center;font-size:11px;color:#a09eaf;margin:48px 0 0}.footer strong{color:#817caf}.tiny-note{color:#9691a9;font-size:11px}.small-divider{height:1px;background:var(--line);margin:18px 0}
+    @media(max-width:1150px){.topbar{padding:0 27px}.content{padding:28px 27px 65px}.lesson-main{grid-template-columns:minmax(0,1fr) 208px}.hero-art{flex-basis:190px}.art-note{right:0}}
+    @media(max-width:900px){.layout{display:block}.sidebar{position:fixed;left:0;top:0;bottom:0;width:286px;transform:translateX(-102%);transition:transform .24s}.sidebar.open{transform:translateX(0)}.overlay.open{display:block;position:fixed;z-index:40;inset:0;background:#17132b90}.menu-btn{display:inline-block}.topbar{height:69px}.breadcrumbs{margin-right:auto}.lesson-main{grid-template-columns:1fr}.aside{position:static;display:grid;grid-template-columns:repeat(2,1fr);gap:13px}.aside-card{margin:0}.hero-art{flex:0 0 220px}}
+    @media(max-width:670px){.content{padding:22px 15px 50px}.topbar{padding:0 15px}.top-tip{display:none}.student-pill{font-size:0;gap:0;padding:5px}.student-avatar{font-size:11px}.breadcrumbs{font-size:11px}.hero{padding:29px 25px;min-height:auto}.hero h1{font-size:33px}.hero-art{display:none}.grid3{grid-template-columns:1fr;gap:9px}.metric{padding:12px 15px}.metric-icon{width:38px;height:38px;font-size:18px}.metric strong{font-size:22px}.stage-grid,.compare,.aside,.lab-grid{grid-template-columns:1fr}.stage-card p{min-height:0}.compare-card{padding:15px}.section-heading{margin-top:26px}.lesson-head{padding:25px 20px}.lesson-head-art{font-size:47px}.panel{padding:19px 17px}.options{grid-template-columns:1fr}.word-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.lab-result{padding:21px}.lesson-footer .btn{padding:10px 11px;font-size:11px}.topright{gap:6px}}
+    @media(max-width:390px){.word-grid{grid-template-columns:1fr}.hero h1{font-size:30px}.lesson-head-art{display:none}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+  </style>
+</head>
+<body>
+<div class="overlay" id="overlay" aria-hidden="true"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Menú del curso">
+    <div class="brand" data-route="home" role="button" tabindex="0" aria-label="Ir al inicio"><div class="brand-mark">MN</div><div><span class="brand-title">English Lab<span style="color:var(--gold)">.</span></span><span class="brand-caption">Mayrani's space</span></div></div>
+    <div class="sidebar-label">Mi espacio</div>
+    <button class="side-link" data-route="home"><span class="side-symbol">⌂</span> Mi inicio</button>
+    <button class="side-link" data-route="lab"><span class="side-symbol">✎</span> Construye oraciones</button>
+    <button class="side-link" data-route="glossary"><span class="side-symbol">Aa</span> Vocabulario</button>
+    <button class="side-link" data-route="exam"><span class="side-symbol">★</span> Examen final</button>
+    <div id="sidebarLessons"></div>
+    <div class="sidebar-bottom"><b>🌱 Cada paso cuenta</b><p>Aprende a tu ritmo y practica las veces que necesites.</p><div class="mini-progress"><span id="sideProgress"></span></div><p id="sideProgressText" style="margin:9px 0 0">0 de 12 lecciones terminadas</p></div>
+  </aside>
+  <div class="main">
+    <header class="topbar"><button class="menu-btn" id="menuBtn" aria-label="Abrir menú" aria-expanded="false">☰</button><div class="breadcrumbs"><span>ENGLISH LAB</span><span>›</span><b id="crumb">Mi inicio</b></div><div class="topright"><span class="top-tip"><span class="dot"></span> Guarda tu progreso en este dispositivo</span><div class="student-pill"><span class="student-avatar">MN</span>Mayrani</div></div></header>
+    <main id="app" class="content" tabindex="-1"></main>
+  </div>
+</div>
+<script>
+'use strict';
+/* Todo el curso funciona en un único archivo HTML. No necesita conexión. */
+const LESSONS = [
+  {
+    title:'Pronombres y verbo to be',stage:0,icon:'👋',mins:12,level:'Desde cero',tag:'La base de todo',
+    desc:'Aprende quién realiza la acción y cómo decir soy, eres o está.',
+    objective:'Identificar los ocho pronombres personales y elegir am, is o are.',
+    lead:'Antes de construir oraciones necesitas dos piezas: el <strong>pronombre</strong> (quién) y el verbo <strong>to be</strong> (ser o estar).',
+    steps:[
+      {title:'Conoce a los protagonistas',text:'<strong>I</strong> = yo · <strong>you</strong> = tú / ustedes · <strong>he</strong> = él · <strong>she</strong> = ella · <strong>it</strong> = eso / ello (cosas y animales) · <strong>we</strong> = nosotros · <strong>they</strong> = ellos / ellas.'},
+      {title:'Elige la forma de to be',text:'Usa <strong>am</strong> con I, <strong>is</strong> con he/she/it y <strong>are</strong> con you/we/they. En inglés, “you” sirve para singular y plural.'},
+      {title:'Arma una idea completa',text:'Combina sujeto + am/is/are + información: <em>She is a student</em> (Ella es estudiante). <em>We are happy</em> (Estamos felices).'}
+    ],
+    formulas:[{name:'Afirmativa',parts:['I / He / They','am / is / are','complemento']},{name:'Negativa',parts:['pronombre','am / is / are','not','complemento']},{name:'Pregunta',parts:['Am / Is / Are','pronombre','complemento','?']}],
+    examples:[['I am Mayrani.','Yo soy Mayrani.'],['She is a student.','Ella es estudiante.'],['They are friends.','Ellos son amigos.'],['Are you ready?','¿Estás lista?']],
+    pitfall:'No digas “I is” ni “She are”. Recuerda: <strong>I am / she is / they are</strong>.',
+    questions:[
+      {p:'Completa: I ___ a student.',a:['am','is','are','be'],right:0,why:'Con I siempre usamos am.'},
+      {p:'¿Qué pronombre corresponde a “ellos”?',a:['She','We','They','It'],right:2,why:'They significa ellos o ellas.'},
+      {p:'Completa: He ___ my brother.',a:['am','are','is','do'],right:2,why:'He, she e it utilizan is.'},
+      {p:'¿Cuál oración está bien escrita?',a:['You is happy.','We are happy.','She am happy.','They is happy.'],right:1,why:'We es plural, por eso usa are.'},
+      {p:'Escribe en inglés: «Ella es estudiante».',type:'text',accepted:['She is a student','She’s a student',"She's a student"],correct:'She is a student.',why:'She + is + a student.'}
+    ]
+  },
+  {
+    title:'Acciones y vocabulario cotidiano',stage:0,icon:'📚',mins:11,level:'Desde cero',tag:'Tus primeras palabras',
+    desc:'Aprende verbos básicos y agrega información para expresar ideas.',
+    objective:'Reconocer verbos frecuentes y distinguir verbo de complemento.',
+    lead:'Un <strong>verbo</strong> dice qué hacemos: study, play, read, work. El <strong>complemento</strong> agrega dónde, cuándo o qué: <em>at school</em>, <em>every day</em>, <em>English</em>.',
+    steps:[
+      {title:'Aprende los verbos más útiles',text:'<strong>study</strong> = estudiar; <strong>play</strong> = jugar; <strong>read</strong> = leer; <strong>work</strong> = trabajar; <strong>listen</strong> = escuchar; <strong>sleep</strong> = dormir; <strong>dance</strong> = bailar; <strong>write</strong> = escribir.'},
+      {title:'El orden de una oración es importante',text:'En una oración afirmativa sencilla: <strong>sujeto + verbo + complemento</strong>. Ejemplo: <em>I study English</em>. No traducimos palabra por palabra si cambia el orden natural.'},
+      {title:'Identifica expresiones de tiempo',text:'<strong>every day</strong> = todos los días; <strong>now / right now</strong> = ahora / justo ahora; <strong>yesterday</strong> = ayer; <strong>last week</strong> = la semana pasada.'}
+    ],
+    formulas:[{name:'Orden básico',parts:['sujeto','verbo','complemento']}],
+    examples:[['I study English.','Yo estudio inglés.'],['They play soccer.','Ellos juegan fútbol.'],['We read at school.','Nosotros leemos en la escuela.'],['I sleep at night.','Yo duermo por la noche.']],
+    pitfall:'Un verbo no es lo mismo que un pronombre: <strong>she</strong> es pronombre, <strong>studies</strong> es verbo y <strong>at school</strong> es complemento.',
+    questions:[
+      {p:'¿Qué significa “read”?',a:['Leer','Correr','Comprar','Dibujar'],right:0,why:'Read significa leer.'},
+      {p:'En “I study English”, ¿cuál es el verbo?',a:['I','English','study','No hay verbo'],right:2,why:'Study es la acción: estudiar.'},
+      {p:'¿Cómo se dice “la semana pasada”?',a:['Next week','Every week','Last week','Right now'],right:2,why:'Last week = la semana pasada.'},
+      {p:'¿Qué significa “right now”?',a:['Ayer','Justo ahora','Todos los años','Mañana'],right:1,why:'Right now indica algo que pasa en este momento.'},
+      {p:'Traduce al inglés: «Yo estudio inglés».',type:'text',accepted:['I study English'],correct:'I study English.',why:'I + study + English.'}
+    ]
+  },
+  {
+    title:'Presente simple: afirmaciones',stage:1,icon:'☀️',mins:15,level:'Básico A1',tag:'Hábitos y rutinas',
+    desc:'Di lo que haces normalmente y descubre la regla de he, she e it.',
+    objective:'Formar afirmaciones de hábitos usando correctamente -s, -es e -ies.',
+    lead:'Usamos el <strong>present simple</strong> para rutinas, hechos generales y hábitos. Piensa: “¿Esto sucede normalmente?”.',
+    steps:[
+      {title:'Para I, you, we y they',text:'El verbo se queda en su forma base: <strong>I work</strong>, <strong>you walk</strong>, <strong>we play</strong>, <strong>they read</strong>.'},
+      {title:'Para he, she e it, cambia el verbo',text:'Normalmente agrega <strong>-s</strong>: work → works. Con finales -ch, -sh, -s, -x, -o, suele agregar <strong>-es</strong>: watch → watches, go → goes. Si termina en consonante + y: study → <strong>studies</strong>.'},
+      {title:'Agrega una expresión de frecuencia',text:'<em>every day</em> = todos los días; <em>on Mondays</em> = los lunes; <em>usually</em> = generalmente; <em>always</em> = siempre. Ejemplo: <em>She studies every day</em>.'}
+    ],
+    formulas:[{name:'Afirmativa (I / you / we / they)',parts:['sujeto','verbo base','complemento']},{name:'Afirmativa (he / she / it)',parts:['he / she / it','verbo + s / es / ies','complemento']}],
+    examples:[['I work every day.','Yo trabajo todos los días.'],['She studies English.','Ella estudia inglés.'],['He listens to music.','Él escucha música.'],['They clean the classroom.','Ellos limpian el salón.']],
+    pitfall:'<strong>She study</strong> no es correcto. Debe ser <strong>She studies</strong>. En cambio, <strong>I study</strong> sí es correcto.',
+    questions:[
+      {p:'Completa: She ___ English every day.',a:['study','studying','studies','is study'],right:2,why:'Con she, study cambia y por ies.'},
+      {p:'Completa: They ___ at school.',a:['works','work','working','is work'],right:1,why:'Con they usamos el verbo base.'},
+      {p:'Completa: He ___ TV on Fridays.',a:['watches','watch','watching','is watches'],right:0,why:'Watch termina en -ch y agrega -es.'},
+      {p:'¿Cuándo usamos el presente simple?',a:['Para algo que sucede ahora mismo','Para hábitos y rutinas','Solo para ayer','Solo para preguntas'],right:1,why:'El presente simple expresa hábitos, rutinas y hechos habituales.'},
+      {p:'Escribe: «Ella estudia inglés».',type:'text',accepted:['She studies English'],correct:'She studies English.',why:'She + studies + English.'}
+    ]
+  },
+  {
+    title:'Presente simple: negaciones',stage:1,icon:'🚫',mins:13,level:'Básico A1',tag:'Don’t y doesn’t',
+    desc:'Aprende a expresar lo que no haces y evita un error muy común.',
+    objective:'Distinguir don’t y doesn’t y usar el verbo base después del auxiliar.',
+    lead:'Para decir <strong>no</strong> en presente simple usamos los auxiliares <strong>do not (don’t)</strong> y <strong>does not (doesn’t)</strong>.',
+    steps:[
+      {title:'Con I, you, we, they: don’t',text:'<strong>I don’t play</strong>. <strong>They don’t work</strong>. Don’t = do not.'},
+      {title:'Con he, she, it: doesn’t',text:'<strong>She doesn’t study</strong>. <strong>He doesn’t listen</strong>. Doesn’t = does not.'},
+      {title:'Después de don’t o doesn’t, el verbo vuelve a su base',text:'Compara <em>She studies</em> (afirmativa) con <em>She doesn’t study</em> (negativa). La terminación -s desaparece porque ya está representada en <strong>does</strong>.'}
+    ],
+    formulas:[{name:'I / you / we / they',parts:['sujeto','don’t','verbo base','complemento']},{name:'He / she / it',parts:['he / she / it','doesn’t','verbo base','complemento']}],
+    examples:[['I don’t work on Sundays.','No trabajo los domingos.'],['She doesn’t study at night.','Ella no estudia por la noche.'],['He doesn’t listen to music.','Él no escucha música.'],['We don’t play tennis.','Nosotros no jugamos tenis.']],
+    pitfall:'Nunca escribas “She doesn’t studies”. Correcto: <strong>She doesn’t study</strong>.',
+    questions:[
+      {p:'Completa: He ___ work on Sundays.',a:["don't","doesn't","isn't","aren't"],right:1,why:'He usa doesn’t.'},
+      {p:'Completa: We ___ play tennis.',a:["doesn't","not","don't","aren't"],right:2,why:'We usa don’t.'},
+      {p:'¿Cuál es la negativa correcta?',a:["She doesn't studies.","She don't study.","She doesn't study.","She not study."],right:2,why:'Tras doesn’t va el verbo en forma base.'},
+      {p:'¿Qué significa “They don’t read”?',a:['Ellos están leyendo','Ellos no leen','Ellos leyeron','Ellos leerán'],right:1,why:'Don’t forma la negación del presente simple.'},
+      {p:'Escribe: «Él no trabaja».',type:'text',accepted:["He doesn't work","He does not work"],correct:"He doesn't work.",why:'He + doesn’t + work (sin -s).'}
+    ]
+  },
+  {
+    title:'Presente simple: preguntas',stage:1,icon:'❓',mins:15,level:'Básico A1',tag:'Do / Does',
+    desc:'Haz preguntas completas y contesta con respuestas cortas.',
+    objective:'Formular preguntas con do/does y responder Yes, ... / No, ...',
+    lead:'En inglés, para preguntar sobre rutinas con verbos como study o work, colocamos <strong>Do</strong> o <strong>Does</strong> al principio.',
+    steps:[
+      {title:'Empieza con el auxiliar',text:'<strong>Do</strong> para I, you, we, they. <strong>Does</strong> para he, she, it.'},
+      {title:'Continúa con sujeto + verbo base',text:'<strong>Does she study English?</strong> Nota: no es <em>studies</em>, porque <em>does</em> ya muestra que hablamos de ella.'},
+      {title:'Responde de forma corta',text:'<em>Do you read?</em> → <strong>Yes, I do.</strong> / <strong>No, I don’t.</strong> · <em>Does he work?</em> → <strong>Yes, he does.</strong> / <strong>No, he doesn’t.</strong>'}
+    ],
+    formulas:[{name:'Pregunta general',parts:['Do / Does','sujeto','verbo base','complemento','?']},{name:'Respuesta corta',parts:['Yes / No','pronombre','do / does / don’t / doesn’t']}],
+    examples:[['Do you study English?','¿Estudias inglés?'],['Does she work here?','¿Ella trabaja aquí?'],['Do they play soccer?','¿Ellos juegan fútbol?'],['No, he doesn’t.','No, él no.']],
+    pitfall:'Para hábitos no preguntes “Does she studies?”. La pregunta correcta es <strong>Does she study?</strong>. Y con <em>to be</em> no utilizamos do/does: <strong>Are you happy?</strong>',
+    questions:[
+      {p:'Completa: ___ you read books?',a:['Does','Are','Do','Is'],right:2,why:'You utiliza do.'},
+      {p:'Completa: ___ she study English?',a:['Do','Does','Is','Was'],right:1,why:'She utiliza does y study queda en forma base.'},
+      {p:'Respuesta corta correcta a “Does he play?”',a:['Yes, he do.','Yes, he does.','Yes, he is.','Yes, he plays does.'],right:1,why:'Yes, he does.'},
+      {p:'¿Qué oración pregunta por un hábito?',a:['Is she studying?','Does she study every day?','Was she studying?','She is studying.'],right:1,why:'Does introduce una pregunta de presente simple.'},
+      {p:'Escribe: «¿Ellos trabajan?».',type:'text',accepted:['Do they work'],correct:'Do they work?',why:'Do + they + work + ?'}
+    ]
+  },
+  {
+    title:'Presente continuo: afirmaciones',stage:1,icon:'🎧',mins:16,level:'Básico A1',tag:'Am / Is / Are + -ing',
+    desc:'Explica lo que está ocurriendo ahora mismo.',
+    objective:'Formar oraciones con am/is/are + verbo -ing.',
+    lead:'El <strong>present continuous</strong> describe acciones que están pasando <strong>en este momento</strong> o situaciones temporales. En español suele equivaler a “estoy estudiando”.',
+    steps:[
+      {title:'Primero: elige am / is / are',text:'I <strong>am</strong>; he/she/it <strong>is</strong>; you/we/they <strong>are</strong>. Es el mismo <em>to be</em> que aprendiste al inicio.'},
+      {title:'Segundo: transforma el verbo a -ing',text:'study → <strong>studying</strong>; work → <strong>working</strong>; dance → <strong>dancing</strong> (quitamos e); run → <strong>running</strong> (duplicamos n); swim → <strong>swimming</strong>.'},
+      {title:'Tercero: añade un contexto',text:'<em>now</em> (ahora), <em>right now</em> (justo ahora), <em>at the moment</em> (en este momento): <strong>She is studying right now.</strong>'}
+    ],
+    formulas:[{name:'Afirmativa',parts:['sujeto','am / is / are','verbo + ing','complemento']}],
+    examples:[['I am speaking English.','Estoy hablando inglés.'],['She is cooking now.','Ella está cocinando ahora.'],['We are studying.','Estamos estudiando.'],['They are reading.','Ellos están leyendo.']],
+    pitfall:'Falta de auxiliar: “She studying” es incorrecto. Se escribe <strong>She is studying</strong>. Y “She is studies” también es incorrecto.',
+    questions:[
+      {p:'Completa: I ___ studying now.',a:['is','am','are','do'],right:1,why:'I am + verbo -ing.'},
+      {p:'Completa: He is ___ soccer.',a:['play','plays','playing','played'],right:2,why:'Después de is va la forma -ing.'},
+      {p:'¿Cuál es la forma -ing de “run”?',a:['runing','running','runs','runned'],right:1,why:'Run duplica la consonante final: running.'},
+      {p:'¿Qué significa “They are reading right now”?',a:['Leen todos los días','Están leyendo ahora mismo','Leyeron ayer','No leen'],right:1,why:'Are reading indica acción en progreso ahora.'},
+      {p:'Escribe: «Ella está cocinando».',type:'text',accepted:['She is cooking',"She's cooking"],correct:'She is cooking.',why:'She + is + cooking.'}
+    ]
+  },
+  {
+    title:'Presente continuo: no y preguntas',stage:1,icon:'💬',mins:16,level:'Básico A1',tag:'Is she studying?',
+    desc:'Niega acciones en progreso y pregunta qué está pasando.',
+    objective:'Construir negativas y preguntas con am/is/are, sin usar do/does.',
+    lead:'Partimos del continuo: <strong>She is singing</strong>. Para negar añadimos <strong>not</strong>. Para preguntar cambiamos el orden de <strong>is</strong> y <strong>she</strong>.',
+    steps:[
+      {title:'Negativa: añade not después de to be',text:'<strong>I am not crying.</strong> <strong>He is not running.</strong> <strong>They are not writing.</strong> Contracciones: isn’t = is not; aren’t = are not; I’m not = I am not.'},
+      {title:'Pregunta: mueve to be al principio',text:'<strong>Is she singing?</strong> <strong>Are they dancing?</strong> <strong>Am I learning?</strong>'},
+      {title:'Aprende respuestas cortas',text:'<em>Is he working?</em> → <strong>Yes, he is.</strong> / <strong>No, he isn’t.</strong> <em>Are you reading?</em> → <strong>Yes, I am.</strong> / <strong>No, I’m not.</strong>'}
+    ],
+    formulas:[{name:'Negativa',parts:['sujeto','am / is / are','not','verbo + ing']},{name:'Interrogativa',parts:['Am / Is / Are','sujeto','verbo + ing','?']}],
+    examples:[['I am not crying.','Yo no estoy llorando.'],['He isn’t dancing.','Él no está bailando.'],['Are you sleeping?','¿Estás durmiendo?'],['Is she visiting her aunt?','¿Ella está visitando a su tía?']],
+    pitfall:'No uses do/does con el presente continuo: <strong>Is she studying?</strong> es correcto, NO “Does she studying?”.',
+    questions:[
+      {p:'Completa: ___ you reading?',a:['Do','Are','Is','Does'],right:1,why:'Con you se pregunta Are you + -ing?'},
+      {p:'Completa: She is ___ sleeping.',a:['no','doesn’t','not','don’t'],right:2,why:'El orden es is + not + -ing.'},
+      {p:'¿Qué pregunta está bien escrita?',a:['Does she singing?','Is she singing?','She is singing?','Are she singing?'],right:1,why:'Is + she + singing + ?'},
+      {p:'Respuesta corta a “Are they studying?”',a:['Yes, they do.','Yes, they are.','Yes, they is.','Yes, they was.'],right:1,why:'En presente continuo, respondemos con are.'},
+      {p:'Escribe: «¿Ella está cantando?».',type:'text',accepted:['Is she singing'],correct:'Is she singing?',why:'Is + she + singing + ?'}
+    ]
+  },
+  {
+    title:'Pasado continuo: afirmaciones',stage:2,icon:'🕒',mins:17,level:'Intermedio A2',tag:'Was / Were + -ing',
+    desc:'Cuenta qué estaba pasando en un momento del pasado.',
+    objective:'Formar afirmaciones con was/were y verbo -ing.',
+    lead:'El <strong>past continuous</strong> o <strong>pasado continuo</strong> expresa una acción que estaba desarrollándose en un momento pasado: “Ayer a las seis estaba estudiando”.',
+    steps:[
+      {title:'Cambia am/is/are por was/were',text:'<strong>Was</strong> con I/he/she/it. <strong>Were</strong> con you/we/they. Es el verbo <em>to be</em> en pasado.'},
+      {title:'Mantén el verbo con -ing',text:'El verbo principal no cambia: <em>studying</em>, <em>reading</em>, <em>playing</em>. Ejemplo: <strong>She was studying.</strong>'},
+      {title:'Sitúa la acción en el tiempo',text:'<strong>yesterday</strong> = ayer; <strong>last night</strong> = anoche; <strong>last week</strong> = la semana pasada; <strong>at 7 p.m.</strong> = a las 7 p. m. Ejemplo: <em>We were reading last night</em>.'}
+    ],
+    formulas:[{name:'Afirmativa',parts:['sujeto','was / were','verbo + ing','complemento pasado']}],
+    examples:[['I was buying food yesterday.','Ayer estaba comprando comida.'],['He was walking at 6 p.m.','Él estaba caminando a las seis.'],['She was singing last night.','Ella estaba cantando anoche.'],['They were dancing last Saturday.','Ellos estaban bailando el sábado pasado.']],
+    pitfall:'No digas “They was reading”: debe ser <strong>They were reading</strong>. No confundas <strong>was/were</strong> (pasado) con <strong>am/is/are</strong> (presente).',
+    questions:[
+      {p:'Completa: She ___ singing last night.',a:['were','is','was','are'],right:2,why:'She utiliza was en pasado continuo.'},
+      {p:'Completa: They ___ dancing yesterday.',a:['were','was','are','is'],right:0,why:'They utiliza were.'},
+      {p:'¿Cómo se dice “anoche” en inglés?',a:['Last year','Last night','Tomorrow night','Every night'],right:1,why:'Last night significa anoche.'},
+      {p:'¿Qué expresa “I was reading”?',a:['Leo siempre','Estoy leyendo ahora','Estaba leyendo','Leeré después'],right:2,why:'Was + reading expresa acción en progreso en el pasado.'},
+      {p:'Escribe: «Nosotros estábamos leyendo».',type:'text',accepted:['We were reading'],correct:'We were reading.',why:'We + were + reading.'}
+    ]
+  },
+  {
+    title:'Pasado continuo: no y preguntas',stage:2,icon:'🔎',mins:17,level:'Intermedio A2',tag:'Was he playing?',
+    desc:'Haz preguntas y negaciones en pasado continuo.',
+    objective:'Distinguir wasn’t / weren’t y construir Was/Were + sujeto + -ing?',
+    lead:'En esta lección usamos las mismas estructuras de tus apuntes: afirmación, negación e interrogación; ahora con <strong>was/were</strong>.',
+    steps:[
+      {title:'Negativa: was not / were not',text:'<strong>I was not pushing</strong> = Yo no estaba empujando. <strong>They were not asking</strong> = Ellos no estaban preguntando. Contracciones: <strong>wasn’t</strong> y <strong>weren’t</strong>.'},
+      {title:'Interrogativa: inicia con Was o Were',text:'<strong>Was she painting yesterday?</strong> <strong>Were you reading last night?</strong>.'},
+      {title:'Respuestas cortas',text:'<em>Was he working?</em> → <strong>Yes, he was.</strong> / <strong>No, he wasn’t.</strong> · <em>Were they playing?</em> → <strong>Yes, they were.</strong> / <strong>No, they weren’t.</strong>'}
+    ],
+    formulas:[{name:'Negativa',parts:['sujeto','was / were','not','verbo + ing','complemento']},{name:'Pregunta',parts:['Was / Were','sujeto','verbo + ing','complemento','?']}],
+    examples:[['I wasn’t sleeping last night.','Yo no estaba durmiendo anoche.'],['They weren’t studying.','Ellos no estaban estudiando.'],['Was she painting yesterday?','¿Ella estaba pintando ayer?'],['Were you calling me?','¿Me estabas llamando?']],
+    pitfall:'Recuerda la ortografía: <strong>wasn’t</strong>, <strong>weren’t</strong> y <strong>last</strong> (no “lash”). Para preguntar no uses “did” junto a was/were: <strong>Were you studying?</strong>',
+    questions:[
+      {p:'Completa: ___ you reading yesterday?',a:['Was','Do','Were','Are'],right:2,why:'You usa were en pasado continuo.'},
+      {p:'Completa: He ___ playing.',a:["weren't","wasn't","don't","doesn't"],right:1,why:'He usa wasn’t.'},
+      {p:'¿Cuál es la pregunta correcta?',a:['Was she painting?','Were she painting?','Did she painting?','She was painting?'],right:0,why:'Was + she + painting + ?'},
+      {p:'¿Cuál es una respuesta correcta a “Were they studying?”?',a:['No, they wasn’t.','No, they don’t.','No, they weren’t.','No, they isn’t.'],right:2,why:'Were → weren’t para they.'},
+      {p:'Escribe: «¿Él estaba jugando?».',type:'text',accepted:['Was he playing'],correct:'Was he playing?',why:'Was + he + playing + ?'}
+    ]
+  },
+  {
+    title:'¿Presente simple o continuo?',stage:2,icon:'⚖️',mins:18,level:'Intermedio A2',tag:'Compara y decide',
+    desc:'Distingue hábitos de acciones que suceden ahora.',
+    objective:'Elegir el tiempo correcto según el contexto.',
+    lead:'La pregunta clave es: <strong>¿ocurre normalmente o está ocurriendo justo ahora?</strong> Esa idea te dice si usar presente simple o continuo.',
+    steps:[
+      {title:'Rutinas → Present Simple',text:'<strong>I study every day</strong> = Estudio todos los días. Palabras guía: <em>always, usually, often, every day</em>.'},
+      {title:'Acción en progreso → Present Continuous',text:'<strong>I am studying right now</strong> = Estoy estudiando justo ahora. Palabras guía: <em>now, right now, at the moment</em>.'},
+      {title:'Compara las tres formas',text:'Simple: <em>Does she study?</em> / Continuo: <em>Is she studying?</em> En el primero el auxiliar es <strong>does</strong>; en el segundo, <strong>is</strong>.'}
+    ],
+    formulas:[{name:'Rutina',parts:['sujeto','verbo (+s con he/she/it)','every day']},{name:'Ahora',parts:['sujeto','am / is / are','verbo + ing','right now']}],
+    examples:[['She reads every day.','Ella lee todos los días.'],['She is reading right now.','Ella está leyendo ahora mismo.'],['Do you work on Mondays?','¿Trabajas los lunes?'],['Are you working now?','¿Estás trabajando ahora?']],
+    pitfall:'<strong>Every day</strong> suele acompañar al presente simple; <strong>right now</strong> suele acompañar al presente continuo. Son pistas, no reglas absolutas.',
+    questions:[
+      {p:'Elige la oración correcta para “todos los días”.',a:['She is studying every day.','She studies every day.','She was studying every day.','She study every day.'],right:1,why:'La rutina se expresa de manera natural con presente simple.'},
+      {p:'Completa: Look! They ___ soccer now.',a:['play','plays','are playing','was playing'],right:2,why:'Look! y now indican una acción que está ocurriendo.'},
+      {p:'¿Qué auxiliar utiliza una pregunta por hábitos con she?',a:['Is','Was','Does','Are'],right:2,why:'Does she study? expresa hábitos.'},
+      {p:'Completa: I usually ___ to music.',a:['am listening','listen','was listening','listens'],right:1,why:'Usually indica frecuencia habitual; con I usamos listen.'},
+      {p:'Escribe: «Ella está leyendo ahora».',type:'text',accepted:['She is reading now',"She's reading now"],correct:'She is reading now.',why:'She + is + reading + now.'}
+    ]
+  },
+  {
+    title:'Puente: conoce el pasado simple',stage:3,icon:'🗓️',mins:17,level:'Preparatoria',tag:'Acción terminada',
+    desc:'Aprende a hablar de algo que ocurrió y ya terminó.',
+    objective:'Distinguir el pasado simple de un evento que estaba en progreso.',
+    lead:'El <strong>past simple</strong> cuenta hechos o acciones terminadas: “Ayer estudié”. Es útil para comparar después con “estaba estudiando”.',
+    steps:[
+      {title:'Verbos regulares',text:'Suelen terminar en <strong>-ed</strong>: work → worked, play → played, visit → visited, study → studied.'},
+      {title:'Verbos irregulares comunes',text:'No siguen una sola regla: go → went, eat → ate, see → saw, do → did, read → read (misma escritura, distinta pronunciación).'},
+      {title:'Para negar o preguntar usa did + verbo base',text:'<strong>I didn’t work</strong> = No trabajé. <strong>Did she study?</strong> = ¿Ella estudió? Después de did/didn’t no uses la forma pasada del verbo.'}
+    ],
+    formulas:[{name:'Afirmativa',parts:['sujeto','verbo en pasado','complemento']},{name:'Negativa',parts:['sujeto','didn’t','verbo base']},{name:'Pregunta',parts:['Did','sujeto','verbo base','?']}],
+    examples:[['I studied yesterday.','Ayer estudié.'],['She went to school.','Ella fue a la escuela.'],['We didn’t play yesterday.','Ayer no jugamos.'],['Did you finish your homework?','¿Terminaste tu tarea?']],
+    pitfall:'No se escribe “Did she studied?”. Es <strong>Did she study?</strong> porque el auxiliar did ya marca el pasado.',
+    questions:[
+      {p:'¿Cuál es el pasado de work?',a:['works','working','worked','workes'],right:2,why:'Work es regular y agrega -ed.'},
+      {p:'Completa: She ___ to school yesterday.',a:['go','goes','going','went'],right:3,why:'Went es el pasado irregular de go.'},
+      {p:'¿Cuál es la pregunta correcta?',a:['Did she studied?','Did she study?','Does she studied?','Was she study?'],right:1,why:'Después de did va el verbo base.'},
+      {p:'¿Qué oración indica acción terminada?',a:['I was studying.','I am studying.','I studied yesterday.','I study every day.'],right:2,why:'Studied es pasado simple y se refiere a un evento terminado.'},
+      {p:'Escribe: «No trabajé ayer».',type:'text',accepted:["I didn't work yesterday",'I did not work yesterday'],correct:"I didn't work yesterday.",why:'I + didn’t + work + yesterday.'}
+    ]
+  },
+  {
+    title:'Historias y repaso de preparatoria',stage:3,icon:'🚀',mins:20,level:'Preparatoria',tag:'Pon todo en práctica',
+    desc:'Combina los tiempos para hablar de tus clases y experiencias.',
+    objective:'Interpretar contexto, comparar tiempos y crear oraciones propias.',
+    lead:'¡Llegaste a la integración! Ya conoces el presente simple, el presente continuo, el pasado simple y el pasado continuo. Ahora toca elegirlos con intención.',
+    steps:[
+      {title:'Cuatro maneras de contar lo que ocurre',text:'<strong>I study English</strong> (rutina). <strong>I am studying English</strong> (ahora). <strong>I studied English yesterday</strong> (terminado). <strong>I was studying English at 7 p.m.</strong> (acción en progreso en el pasado).'},
+      {title:'Dos acciones en una historia',text:'<strong>I was studying when my friend called.</strong> = Yo estaba estudiando cuando mi amiga llamó. Acción en progreso: was studying. Suceso que interrumpe: called.'},
+      {title:'Cuenta tu propia experiencia',text:'Escribe tres ideas sobre ti: lo que haces todos los días, lo que haces ahora y lo que estabas haciendo ayer. Léelas con el botón de audio del laboratorio para practicar.'}
+    ],
+    formulas:[{name:'Rutina',parts:['I','study','every day']},{name:'Ahora',parts:['I','am studying','now']},{name:'Pasado en progreso',parts:['I','was studying','yesterday at 7']}],
+    examples:[['I walk to school every day.','Camino a la escuela todos los días.'],['I am doing my homework now.','Estoy haciendo mi tarea ahora.'],['I was reading when she called.','Estaba leyendo cuando ella llamó.'],['Did you study last night?','¿Estudiaste anoche?']],
+    pitfall:'Para elegir el tiempo observa el <strong>significado</strong>, no solo una palabra suelta: ¿rutina, ahora, acción pasada terminada o acción que estaba ocurriendo?',
+    questions:[
+      {p:'Completa: I ___ breakfast when my phone rang.',a:['eat','am eating','was eating','eats'],right:2,why:'Was eating era la acción que estaba en progreso cuando sonó el teléfono.'},
+      {p:'Completa: My sister ___ English every day.',a:['study','studies','is study','was studies'],right:1,why:'Hábito y tercera persona: studies.'},
+      {p:'Completa: Right now, we ___ our homework.',a:['do','does','are doing','did'],right:2,why:'Right now indica presente continuo.'},
+      {p:'¿Qué significa “She was reading when I arrived”?',a:['Ella lee siempre','Ella estaba leyendo cuando llegué','Ella está leyendo ahora','Ella no había leído'],right:1,why:'Was reading marca el contexto en progreso; arrived es el suceso puntual.'},
+      {p:'Escribe: «Ellos estaban estudiando ayer».',type:'text',accepted:['They were studying yesterday'],correct:'They were studying yesterday.',why:'They + were + studying + yesterday.'}
+    ]
+  }
+];
+const STAGES=[
+  {name:'Primeros pasos',desc:'Pronombres, to be y palabras esenciales.',icon:'🌱',color:'mint-bg',badge:'Nivel inicial · A0',range:[0,1]},
+  {name:'Presente sin miedo',desc:'Presente simple y continuo, en las tres formas.',icon:'☀️',color:'peach-bg',badge:'Básico · A1',range:[2,6]},
+  {name:'Viajamos al pasado',desc:'Pasado continuo y elección entre tiempos.',icon:'🕰️',color:'violet-bg',badge:'Intermedio · A2',range:[7,9]},
+  {name:'Reto de preparatoria',desc:'Pasado simple, historias y práctica integrada.',icon:'🎓',color:'mint-bg',badge:'Aplicación · Prepa',range:[10,11]}
+];
+const GLOSSARY=[
+  ['I','yo','Pronombres'],['you','tú / ustedes','Pronombres'],['he','él','Pronombres'],['she','ella','Pronombres'],['it','eso / ello','Pronombres'],['we','nosotros / nosotras','Pronombres'],['they','ellos / ellas','Pronombres'],
+  ['study','estudiar','Verbos'],['work','trabajar','Verbos'],['play','jugar / tocar','Verbos'],['read','leer','Verbos'],['write','escribir','Verbos'],['listen','escuchar','Verbos'],['speak','hablar','Verbos'],['sing','cantar','Verbos'],['dance','bailar','Verbos'],['sleep','dormir','Verbos'],['run','correr','Verbos'],['swim','nadar','Verbos'],['walk','caminar','Verbos'],['cook','cocinar','Verbos'],['wash','lavar','Verbos'],['clean','limpiar','Verbos'],['watch','mirar / ver','Verbos'],['visit','visitar','Verbos'],['buy','comprar','Verbos'],['call','llamar','Verbos'],['think','pensar','Verbos'],['eat','comer','Verbos'],
+  ['every day','todos los días','Tiempo'],['now','ahora','Tiempo'],['right now','justo ahora','Tiempo'],['at the moment','en este momento','Tiempo'],['yesterday','ayer','Tiempo'],['last night','anoche','Tiempo'],['last week','la semana pasada','Tiempo'],['last month','el mes pasado','Tiempo'],['last weekend','el fin de semana pasado','Tiempo'],['last year','el año pasado','Tiempo'],['last summer','el verano pasado','Tiempo'],['last Saturday','el sábado pasado','Tiempo'],['last morning','la mañana pasada (poco natural)','Tiempo'],['yesterday morning','ayer por la mañana','Tiempo'],
+  ['am / is / are','formas presentes de to be','Auxiliares'],['was / were','formas pasadas de to be','Auxiliares'],['do / does','auxiliares del presente simple','Auxiliares'],["don't / doesn't",'negación del presente simple','Auxiliares'],["wasn't / weren't",'negación del pasado continuo','Auxiliares'],['did / didn’t','auxiliar del pasado simple','Auxiliares']
+];
+const FINAL_QUESTIONS=[
+  {p:'Selecciona el pronombre de “nosotros”.',a:['They','He','We','It'],right:2,why:'We significa nosotros.'},
+  {p:'Completa: She ___ a student.',a:['am','are','is','do'],right:2,why:'She + is.'},
+  {p:'Completa: My brother ___ soccer every weekend.',a:['play','plays','playing','is play'],right:1,why:'Tercera persona presente simple: plays.'},
+  {p:'Completa: They ___ like coffee.',a:["doesn't","don't","isn't","wasn't"],right:1,why:'They + don’t.'},
+  {p:'Elige la pregunta correcta por un hábito.',a:['Is he working every day?','Does he work every day?','Do he works every day?','Was he work every day?'],right:1,why:'Does + he + work + every day?'},
+  {p:'Completa: I ___ reading a book now.',a:['is','were','am','do'],right:2,why:'I am + -ing.'},
+  {p:'Forma -ing de “swim”.',a:['swiming','swims','swimming','swimmed'],right:2,why:'Swim duplica m: swimming.'},
+  {p:'Negativa correcta de “She is singing”.',a:["She doesn't singing.",'She is not singing.','She not is singing.','She was not sings.'],right:1,why:'To be + not + -ing.'},
+  {p:'Completa: ___ you studying right now?',a:['Were','Do','Is','Are'],right:3,why:'Are + you + -ing? en presente continuo.'},
+  {p:'Completa: We ___ watching a movie yesterday at 8.',a:['was','are','were','is'],right:2,why:'We + were + -ing en pasado continuo.'},
+  {p:'Completa: He ___ not playing last night.',a:['were','was','is','does'],right:1,why:'He + was not + -ing.'},
+  {p:'Pregunta correcta en pasado continuo.',a:['Were they reading?','Did they reading?','Was they reading?','Do they were reading?'],right:0,why:'Were + they + -ing + ?'},
+  {p:'“Last summer” significa...',a:['El siguiente verano','Cada verano','El verano pasado','El verano actual'],right:2,why:'Last indica que fue el anterior.'},
+  {p:'Completa: She ___ to school yesterday.',a:['go','went','goes','going'],right:1,why:'Go en pasado simple es went.'},
+  {p:'Completa: I ___ studying when the teacher arrived.',a:['am','was','were','do'],right:1,why:'Was studying estaba ocurriendo cuando llegó el profesor.'},
+  {p:'Escribe: «¿Estabas leyendo ayer?».',type:'text',accepted:['Were you reading yesterday'],correct:'Were you reading yesterday?',why:'Were + you + reading + yesterday + ?'}
+];
+const LAB_VERBS=[
+  ['study','studies','studying','estudiar'],['work','works','working','trabajar'],['play','plays','playing','jugar'],['read','reads','reading','leer'],['listen','listens','listening','escuchar'],['sing','sings','singing','cantar'],['dance','dances','dancing','bailar'],['write','writes','writing','escribir'],['run','runs','running','correr'],['swim','swims','swimming','nadar'],['cook','cooks','cooking','cocinar'],['sleep','sleeps','sleeping','dormir']
+];
+const PRONOUNS=['I','you','he','she','it','we','they'];
+const storageKey='english-lab-mayrani-v1';
+function readSaved(){try{const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');return {scores:(saved.scores&&typeof saved.scores==='object')?saved.scores:{},final:typeof saved.final==='number'?saved.final:null};}catch{return {scores:{},final:null};}}
+const progress=readSaved();
+const quizState={};
+const app=document.getElementById('app');
+const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function store(){try{localStorage.setItem(storageKey,JSON.stringify(progress));}catch{/* navegación privada o almacenamiento bloqueado */}}
+function stageDone(s){return LESSONS.reduce((n,l,i)=>n+(l.stage===s&&progress.scores[i]>=70?1:0),0);}
+function countDone(){return Object.keys(progress.scores).filter(k=>Number(k)<LESSONS.length&&progress.scores[k]>=70).length;}
+function pct(){return Math.round(100*countDone()/LESSONS.length);}
+function routeFromHash(){const h=decodeURIComponent(location.hash.slice(1));if(/^leccion-\d+$/.test(h)){const id=Number(h.split('-')[1]);return {type:'lesson',id:Math.max(0,Math.min(id,LESSONS.length-1))};}if(['lab','glossary','exam'].includes(h))return {type:h};return {type:'home'};}
+function navigate(type,id){const target=type==='lesson'?'leccion-'+id:type==='home'?'inicio':type;if(location.hash.slice(1)===target){render();window.scrollTo({top:0,behavior:'smooth'});}else location.hash=target;hideMenu();}
+function showMenu(){document.getElementById('sidebar').classList.add('open');document.getElementById('overlay').classList.add('open');document.getElementById('menuBtn').setAttribute('aria-expanded','true');}
+function hideMenu(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('open');document.getElementById('menuBtn').setAttribute('aria-expanded','false');}
+function sidebarHtml(route){document.getElementById('sidebarLessons').innerHTML=STAGES.map((st,idx)=>{
+  const links=LESSONS.map((l,i)=>({l,i})).filter(x=>x.l.stage===idx).map(({l,i})=>`<button class="side-link lesson-link ${route.type==='lesson'&&route.id===i?'active':''}" data-route="lesson" data-lesson="${i}" title="${escapeHtml(l.title)}"><span class="side-symbol">${i+1}</span><span>${escapeHtml(l.title)}</span>${progress.scores[i]>=70?'<span class="lesson-done" aria-label="Completada">✓</span>':''}</button>`).join('');
+  return `<div class="sidebar-label">${escapeHtml(st.name)}</div>${links}`;
+}).join('');
+  document.querySelectorAll('.sidebar > .side-link').forEach(b=>b.classList.toggle('active',b.dataset.route===route.type));
+  document.getElementById('sideProgress').style.width=pct()+'%';
+  document.getElementById('sideProgressText').textContent=countDone()+' de '+LESSONS.length+' lecciones terminadas';
+}
+function pageFooter(){return `<footer class="footer">Hecho para <strong>Mayrani Narciso Laureano</strong> · Aprende con calma, practica con confianza. <span>✦</span><br>Contenido pensado para primeros pasos y preparatoria · El progreso se guarda en este navegador.</footer>`;}
+function renderHome(){let next=LESSONS.findIndex((l,i)=>!(progress.scores[i]>=70));if(next<0)next=LESSONS.length-1;
+  return `<section class="hero"><div class="hero-copy"><div class="eyebrow">Tu propio camino para aprender</div><h1>Hi, Mayrani! <span style="color:#ffda92">✦</span><br>Tu inglés comienza aquí.</h1><p>Desde tus primeras palabras hasta los temas de preparatoria. Explicaciones claras, ejemplos con traducción, pronunciación y retos para practicar.</p><button class="btn gold" data-route="lesson" data-lesson="${next}">${countDone()?'Continuar aprendiendo':'Empezar mi primera lección'} <span aria-hidden="true">→</span></button></div><div class="hero-art" aria-hidden="true"><div class="art-note"><span class="art-tiny">TODAY'S LESSON</span><div class="art-big">I <span>am</span><br>learning!</div><div class="art-stroke"></div><div class="art-stroke short"></div></div><div class="art-bubble">you've got this! ✿</div></div></section>
+  <section class="metrics grid3" aria-label="Mi progreso"><div class="metric"><div class="metric-icon violet-bg">📖</div><div><strong>${LESSONS.length}</strong><small>Lecciones paso a paso</small></div></div><div class="metric"><div class="metric-icon peach-bg">⭐</div><div><strong>${countDone()} / ${LESSONS.length}</strong><small>Lecciones dominadas</small></div></div><div class="metric"><div class="metric-icon mint-bg">📈</div><div><strong>${pct()}%</strong><small>Progreso del curso</small></div></div></section>
+  <section><div class="section-heading"><div><div class="eyebrow">Tu ruta de aprendizaje</div><h2>De principiante a prepa</h2><p>Cuatro etapas. Avanza en orden, pero puedes explorar cualquier tema.</p></div></div><div class="stage-grid">${STAGES.map((s,idx)=>{const total=s.range[1]-s.range[0]+1;const done=stageDone(idx);return `<article class="stage-card"><div class="stage-top"><div class="stage-bubble ${s.color}">${s.icon}</div><span class="stage-index">ETAPA 0${idx+1}</span></div><h3>${s.name}</h3><p>${s.desc}</p><div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${done}" aria-label="Progreso de ${s.name}"><span style="width:${100*done/total}%"></span></div><div class="stage-bottom"><span>${done} de ${total} lecciones</span><button class="link-btn" data-route="lesson" data-lesson="${s.range[0]}">Explorar etapa →</button></div></article>`;}).join('')}</div></section>
+  <section><div class="section-heading"><div><div class="eyebrow">Un vistazo rápido</div><h2>Las tres ideas de tus apuntes</h2><p>Observa cómo cambia la misma acción según el momento.</p></div></div><div class="compare"><article class="compare-card"><span class="chip purple">☀️ Presente simple</span><strong>She studies.</strong><p>Ella estudia. <b>Hábito</b> o rutina.</p></article><article class="compare-card"><span class="chip orange">🎧 Presente continuo</span><strong>She is studying.</strong><p>Ella está estudiando. <b>Ahora.</b></p></article><article class="compare-card"><span class="chip green">🕒 Pasado continuo</span><strong>She was studying.</strong><p>Ella estaba estudiando. <b>En el pasado.</b></p></article></div></section>
+  <div class="hintbox"><div class="hinticon">💡</div><div><strong>¿Cómo estudiar mejor?</strong><p>Dedica 15 minutos diarios. Primero lee los tres pasos de la lección, luego escucha los ejemplos y responde las cinco preguntas. Puedes repetirlas hasta obtener al menos 70% para marcar la lección como completada.</p></div></div>${pageFooter()}`;
+}
+function formulaHtml(f){return `<div class="formula-wrap"><div class="formula-title">${escapeHtml(f.name)}</div><div class="formula">${f.parts.map((p,i)=>`${i?'<span class="plus">+</span>':''}<span>${escapeHtml(p)}</span>`).join('')}</div></div>`;}
+function quizHtml(id,questions){const state=quizState[id]||{answers:{},graded:false,score:0};const final=id==='final';const saved=final?progress.final:progress.scores[Number(id.slice(1))];
+  return `<section class="panel" id="quiz" aria-label="Ejercicios de práctica"><div class="quiz-intro"><div><div class="eyebrow">Ponlo en práctica</div><h2 style="margin:7px 0 4px">${final?'Examen final':'Mini-reto de la lección'} ✍️</h2><p>${final?'16 preguntas de todo el curso. Puedes intentarlo tantas veces como quieras.':'5 preguntas para comprobar lo aprendido. Las puedes repetir.'}</p></div><span class="chip ${final?'orange':'purple'}">${questions.length} ejercicios</span></div>
+  ${questions.map((q,i)=>{const answer=state.answers[i];const correct=state.graded&&(q.type==='text'?normalize(answer)&&q.accepted.some(t=>normalize(t)===normalize(answer)):Number(answer)===q.right);return `<article class="question ${state.graded?(correct?'correct':'incorrect'):''}" id="q-${i}"><span class="question-index">Pregunta ${i+1} / ${questions.length}</span><div class="question-title">${escapeHtml(q.p)}</div>${q.type==='text'?`<label class="sr-only" for="txt-${i}">Escribe tu respuesta a la pregunta ${i+1}</label><input id="txt-${i}" class="quiz-input" data-question-input="${i}" placeholder="Escribe aquí tu oración en inglés…" type="text" autocomplete="off" ${state.graded?'disabled':''} value="${escapeHtml(answer||'')}">`:`<div class="options" role="group" aria-label="Opciones para la pregunta ${i+1}">${q.a.map((opt,k)=>`<button class="option ${answer===k?'selected':''} ${state.graded&&k===q.right?'is-right':''} ${state.graded&&answer===k&&k!==q.right?'is-wrong':''}" data-qid="${i}" data-option="${k}" ${state.graded?'disabled':''} aria-pressed="${answer===k?'true':'false'}"><span class="option-key">${'ABCD'[k]}</span><span>${escapeHtml(opt)}</span></button>`).join('')}</div>`}${state.graded?`<div class="feedback" role="status"><b>${correct?'✓ ¡Correcto!':'↗ Vamos a repasarlo.'}</b> ${escapeHtml(q.why)}${!correct?` <br><b>Respuesta:</b> ${escapeHtml(q.type==='text'?q.correct:q.a[q.right])}`:''}</div>`:''}</article>`;}).join('')}
+  ${state.graded?`<div class="score ${state.score<70?'needs-practice':''}" role="status"><div class="score-emoji">${state.score>=70?'🎉':'🌻'}</div><div><strong>${state.score}% · ${state.score>=70?'¡Muy buen avance!':'Vamos a practicar un poco más'}</strong><small>${state.score>=70?'Lección dominada. Puedes continuar con la siguiente.':'Revisa las explicaciones y vuelve a intentar. Aprender implica practicar.'}</small></div></div>`:''}
+  ${saved!==undefined&&saved!==null?`<p class="tiny-note">Tu mejor resultado guardado: ${saved}%${saved>=70?' · ✓ Objetivo alcanzado':''}</p>`:''}
+  <div class="quiz-actions">${state.graded?`<button class="btn" data-quiz-retry="${id}">↻ Volver a intentarlo</button>`:`<button class="btn" data-quiz-submit="${id}">Revisar mis respuestas →</button>`}<span class="tiny-note">${state.graded?'Las respuestas correctas están marcadas en verde.':'Objetivo para completar: al menos 70%.'}</span></div></section>`;
+}
+function lessonHtml(id){const l=LESSONS[id];const score=progress.scores[id];const st=STAGES[l.stage];return `<div class="lesson-head"><div><span class="chip purple">${escapeHtml(l.level)} · Lección ${id+1} de ${LESSONS.length}</span><h1>${escapeHtml(l.title)}</h1><p>${escapeHtml(l.desc)}</p></div><div class="lesson-head-art" aria-hidden="true">${l.icon}</div></div>
+ <div class="lesson-main"><div class="lesson-article"><section class="panel"><div class="eyebrow">Vamos desde el principio</div><h2 style="margin-top:9px">¿Qué aprenderás hoy?</h2><p>${l.lead}</p><div class="hintbox" style="margin-top:15px;border-color:#d9f2e9;background:#f6fdf9;padding:15px"><div class="hinticon mint-bg">🎯</div><div><strong>Meta de esta lección</strong><p>${escapeHtml(l.objective)}</p></div></div></section>
+ <section class="panel"><div class="eyebrow">Tu explicación paso a paso</div><h2 style="margin-top:9px">Entiéndelo en 3 pasos</h2>${l.steps.map((s,i)=>`<div class="step-card"><span class="step-label">Paso ${i+1}</span><h3>${escapeHtml(s.title)}</h3><p>${s.text}</p></div>`).join('')}</section>
+ <section class="panel"><div class="eyebrow">La regla visual</div><h2 style="margin-top:9px">Así se construye</h2><p>Lee los bloques de izquierda a derecha. Cada bloque cumple una función en la oración.</p>${l.formulas.map(formulaHtml).join('')}</section>
+ <section class="panel"><div class="eyebrow">Frases reales</div><h2 style="margin-top:9px">Ejemplos con traducción</h2><p>Escucha cada frase con el botón de sonido y repítela en voz alta.</p><div class="example-list">${l.examples.map(([en,es])=>`<div class="example-row"><div><b lang="en">${escapeHtml(en)}</b><small>${escapeHtml(es)}</small></div><button class="play" data-speak="${escapeHtml(en)}" aria-label="Escuchar ${escapeHtml(en)}" title="Escuchar pronunciación">♪</button></div>`).join('')}</div><div class="alert"><b>Ojo con este error:</b> ${l.pitfall}</div></section>
+ ${quizHtml('l'+id,l.questions)}
+ <div class="lesson-footer"><button class="btn outline" data-route="${id===0?'home':'lesson'}" ${id===0?'':`data-lesson="${id-1}"`}>← ${id===0?'Mi inicio':'Lección anterior'}</button><button class="btn" data-route="${id===LESSONS.length-1?'exam':'lesson'}" ${id===LESSONS.length-1?'':`data-lesson="${id+1}"`}>${id===LESSONS.length-1?'Ir al examen final':'Siguiente lección'} →</button></div></div>
+ <aside class="aside" aria-label="Información de la lección"><div class="aside-card"><span class="chip green">${escapeHtml(st.badge)}</span><h3 style="margin-top:15px">Tu guía de estudio</h3><ol><li>Lee cada paso.</li><li>Comprende las fórmulas.</li><li>Escucha y repite.</li><li>Resuelve el mini-reto.</li></ol><div class="small-divider"></div><p>⏱️ Tiempo sugerido: <b>${l.mins} min</b></p><p>📘 Tema de tus apuntes: <b>${escapeHtml(l.tag)}</b></p>${score>=70?`<div class="completion-box">✓ Lección completada · ${score}%</div>`:''}</div><div class="aside-card aside-highlight"><h3>✨ Una idea importante</h3><p>No necesitas memorizar todas las reglas al mismo tiempo. Aprende una estructura, úsala y después pasa a la siguiente.</p><button class="btn sm" data-route="lab">Practicar en el laboratorio →</button></div></aside></div>${pageFooter()}`;}
+function labHtml(){return `<div class="simple-head"><div class="eyebrow">Laboratorio interactivo</div><h1>Construye tus propias oraciones ✎</h1><p>Elige un tiempo verbal, el tipo de oración, un pronombre y una acción. La frase se transforma automáticamente para que observes la regla.</p></div><div class="lab-intro"><strong>🧪 Una misma acción puede decir cosas diferentes</strong><p><b>I study</b> = Estudio (hábito). <b>I am studying</b> = Estoy estudiando (ahora). <b>I was studying</b> = Estaba estudiando (pasado).</p></div>
+  <section class="panel"><h2>1. Selecciona los elementos</h2><div class="lab-grid"><div class="lab-field"><label for="lab-tense">TIEMPO VERBAL</label><select id="lab-tense"><option value="simple">Presente simple · rutina</option><option value="continuous">Presente continuo · ahora</option><option value="past">Pasado continuo · antes</option></select></div><div class="lab-field"><label for="lab-form">TIPO DE ORACIÓN</label><select id="lab-form"><option value="yes">Afirmativa ✓</option><option value="no">Negativa ✕</option><option value="ask">Interrogativa ?</option></select></div><div class="lab-field"><label for="lab-pronoun">PRONOMBRE</label><select id="lab-pronoun">${PRONOUNS.map(p=>`<option value="${p}">${p}</option>`).join('')}</select></div><div class="lab-field"><label for="lab-verb">VERBO</label><select id="lab-verb">${LAB_VERBS.map(v=>`<option value="${v[0]}">${v[0]} · ${v[3]}</option>`).join('')}</select></div></div><div class="lab-result" aria-live="polite"><div class="eyebrow">2. Observa tu resultado</div><h2 lang="en" id="lab-sentence">I study every day.</h2><p id="lab-meaning">Acción habitual / rutina.</p><div class="result-formula" id="lab-formula">Sujeto + verbo base + complemento</div><div class="lab-actions"><button class="btn gold sm" id="lab-audio">♪ Escuchar en inglés</button><button class="btn outline sm" id="lab-copy">⧉ Copiar mi oración</button></div></div></section>
+  <div class="hintbox"><div class="hinticon">🧠</div><div><strong>Prueba estas 3 combinaciones</strong><p>1. She + study + presente simple + afirmativa. 2. They + read + presente continuo + pregunta. 3. I + work + pasado continuo + negativa. Observa qué cambia en cada una.</p></div></div>${pageFooter()}`;}
+function glossaryHtml(){return `<div class="simple-head"><div class="eyebrow">Tu mini-diccionario</div><h1>Vocabulario para practicar 🔤</h1><p>Verbos, pronombres, expresiones de tiempo y auxiliares que aparecen en los apuntes. Puedes escucharlos y repasar con tarjetas.</p></div><section class="panel"><h2>Aprende con tarjetas</h2><p>Intenta recordar la traducción antes de descubrirla. Usa las flechas para cambiar de palabra.</p><div class="flash" id="flash"><div class="flash-category" id="flash-category">Verbos</div><div class="flash-word" id="flash-word">study</div><div class="flash-translation hide" id="flash-translation">estudiar</div></div><div class="flash-footer"><button class="btn outline sm" id="flash-prev">← Anterior</button><button class="btn sm" id="flash-reveal">Mostrar significado</button><button class="btn outline sm" id="flash-audio">♪ Escuchar</button><button class="btn outline sm" id="flash-next">Siguiente →</button></div><p class="tiny-note" style="text-align:center" id="flash-count"></p></section>
+ <section class="panel"><h2>Diccionario con búsqueda</h2><div class="gloss-controls"><label class="sr-only" for="gloss-search">Buscar palabra</label><input class="search-input" id="gloss-search" type="search" placeholder="Busca: study, yesterday, ellos…"><button class="pill-button active" data-filter="Todos">Todos</button><button class="pill-button" data-filter="Pronombres">Pronombres</button><button class="pill-button" data-filter="Verbos">Verbos</button><button class="pill-button" data-filter="Tiempo">Tiempo</button><button class="pill-button" data-filter="Auxiliares">Auxiliares</button></div><div id="gloss-list" class="word-grid"></div></section>${pageFooter()}`;}
+function examHtml(){return `<div class="exam-wrap"><div class="simple-head"><span class="chip orange">★ Desafío de preparatoria</span><h1>Examen final de Mayrani 🎓</h1><p>Un reto de ${FINAL_QUESTIONS.length} preguntas de los temas de su cuaderno: pronombres, presente simple, presente continuo y pasado continuo, más el puente al pasado simple. Obtén 70% o más para alcanzar el objetivo.</p></div><div class="hintbox" style="margin-bottom:19px"><div class="hinticon">🌟</div><div><strong>Antes de empezar</strong><p>No hay límite de tiempo. Puedes consultar tus lecciones y volver a intentar el examen. Tu mejor resultado se conservará en este navegador.</p></div></div>${quizHtml('final',FINAL_QUESTIONS)}</div>${pageFooter()}`;}
+function normalize(s){return String(s??'').toLowerCase().trim().normalize('NFKC').replace(/[‘’]/g,"'").replace(/[^\p{L}\p{N}'\s]/gu,'').replace(/\s+/g,' ').trim();}
+function saveScore(id,value){if(id==='final'){progress.final=Math.max(progress.final||0,value);}else{const n=Number(id.slice(1));progress.scores[n]=Math.max(progress.scores[n]||0,value);}store();}
+function handleQuizSubmit(id){const questions=id==='final'?FINAL_QUESTIONS:LESSONS[Number(id.slice(1))]?.questions;if(!questions)return;const state=quizState[id]||(quizState[id]={answers:{},graded:false,score:0});if(state.graded)return;
+  document.querySelectorAll('#quiz [data-question-input]').forEach(el=>{state.answers[Number(el.dataset.questionInput)]=el.value;});
+  if(questions.some((q,i)=>state.answers[i]===undefined||String(state.answers[i]).trim()==='')){const missing=questions.findIndex((q,i)=>state.answers[i]===undefined||String(state.answers[i]).trim()==='');const el=document.getElementById('q-'+missing);if(el){el.style.borderColor='#e3a25e';el.scrollIntoView({behavior:'smooth',block:'center'});el.querySelector('input,button')?.focus();}return;}
+  let count=0;questions.forEach((q,i)=>{const value=state.answers[i];if(q.type==='text'?q.accepted.some(t=>normalize(t)===normalize(value)):Number(value)===q.right)count++;});
+  state.graded=true;state.score=Math.round(100*count/questions.length);saveScore(id,state.score);render();requestAnimationFrame(()=>{document.getElementById('quiz')?.scrollIntoView({block:'start',behavior:'smooth'});});
+}
+function render(){const route=routeFromHash();const map={home:'Mi inicio',lesson:LESSONS[route.id||0]?.title||'Lección',lab:'Laboratorio',glossary:'Vocabulario',exam:'Examen final'};document.getElementById('crumb').textContent=map[route.type];sidebarHtml(route);
+  if(route.type==='lesson')app.innerHTML=lessonHtml(route.id);else if(route.type==='lab')app.innerHTML=labHtml();else if(route.type==='glossary')app.innerHTML=glossaryHtml();else if(route.type==='exam')app.innerHTML=examHtml();else app.innerHTML=renderHome();
+  if(route.type==='lab')updateLab();if(route.type==='glossary'){renderFlash();updateGlossary();}
+}
+function speak(text){if(!('speechSynthesis' in window)){alert('Este navegador no ofrece lectura en voz alta. Puedes leer la frase y practicar su pronunciación.');return;}try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=.82;u.pitch=1;const voices=speechSynthesis.getVoices();const enVoice=voices.find(v=>v.lang.toLowerCase().startsWith('en'));if(enVoice)u.voice=enVoice;speechSynthesis.speak(u);}catch{alert('No se pudo iniciar la pronunciación en este dispositivo.');}}
+let labSentence='I study every day.';
+function updateLab(){const tense=document.getElementById('lab-tense');if(!tense)return;const t=tense.value;const f=document.getElementById('lab-form').value;const p=document.getElementById('lab-pronoun').value;const verb=LAB_VERBS.find(v=>v[0]===document.getElementById('lab-verb').value)||LAB_VERBS[0];const third=['he','she','it'].includes(p);const is=p==='I'?'am':third?'is':'are';const was=['I','he','she','it'].includes(p)?'was':'were';const aux=third?'does':'do';const main=t==='simple'?(f==='yes'&&third?verb[1]:verb[0]):verb[2];const time=t==='simple'?'every day':t==='continuous'?'right now':'yesterday at 6 PM';let s,formula;
+ if(t==='simple'){formula=f==='ask'?'Do/Does + sujeto + verbo base + ?':f==='no'?'Sujeto + don’t/doesn’t + verbo base':'Sujeto + verbo (+s con he/she/it)';s=f==='ask'?`${aux} ${p} ${verb[0]} ${time}?`:f==='no'?`${p} ${third?"doesn't":"don't"} ${verb[0]} ${time}.`:`${p} ${main} ${time}.`;}
+ else{const tobe=t==='past'?was:is;formula=f==='ask'?'Was/Were o Am/Is/Are + sujeto + -ing + ?':f==='no'?'Sujeto + to be + not + verbo -ing':'Sujeto + to be + verbo -ing';s=f==='ask'?`${tobe} ${p} ${main} ${time}?`:f==='no'?`${p} ${tobe} not ${main} ${time}.`:`${p} ${tobe} ${main} ${time}.`;}
+ labSentence=s.charAt(0).toUpperCase()+s.slice(1);document.getElementById('lab-sentence').textContent=labSentence;document.getElementById('lab-formula').textContent=formula;document.getElementById('lab-meaning').textContent=t==='simple'?'Presente simple: un hábito o acción habitual.':t==='continuous'?'Presente continuo: algo que sucede en este momento.':'Pasado continuo: algo que estaba pasando en un momento anterior.';}
+let glossFilter='Todos',flashIndex=7,flashRevealed=false;
+function renderFlash(){const item=GLOSSARY[flashIndex];const w=document.getElementById('flash-word');if(!w)return;document.getElementById('flash-category').textContent=item[2];w.textContent=item[0];const translation=document.getElementById('flash-translation');translation.textContent=item[1];translation.classList.toggle('hide',!flashRevealed);document.getElementById('flash-reveal').textContent=flashRevealed?'Ocultar significado':'Mostrar significado';document.getElementById('flash-count').textContent=`Tarjeta ${flashIndex+1} de ${GLOSSARY.length}`;}
+function moveFlash(delta){flashIndex=(flashIndex+delta+GLOSSARY.length)%GLOSSARY.length;flashRevealed=false;renderFlash();}
+function updateGlossary(){const el=document.getElementById('gloss-list');if(!el)return;const search=(document.getElementById('gloss-search').value||'').toLocaleLowerCase('es');const items=GLOSSARY.filter(([en,es,cat])=>(glossFilter==='Todos'||cat===glossFilter)&&(en.toLowerCase().includes(search)||es.toLocaleLowerCase('es').includes(search)));
+  el.innerHTML=items.length?items.map(([en,es])=>`<div class="word-card"><div><b lang="en">${escapeHtml(en)}</b><small>${escapeHtml(es)}</small></div><button data-speak="${escapeHtml(en)}" title="Escuchar ${escapeHtml(en)}" aria-label="Escuchar ${escapeHtml(en)}">♪</button></div>`).join(''):'<div class="gloss-empty">No encontramos esa palabra. Prueba con otra.</div>';
+  document.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('active',b.dataset.filter===glossFilter));}
+
+document.addEventListener('click',e=>{
+ const target=e.target.closest('button,[role="button"],.brand');if(!target)return;
+ if(target.hasAttribute('data-route')){navigate(target.dataset.route,Number(target.dataset.lesson)||0);return;}
+ if(target.hasAttribute('data-speak')){speak(target.dataset.speak);return;}
+ if(target.hasAttribute('data-qid')){const route=routeFromHash();const id=route.type==='exam'?'final':'l'+route.id;const state=quizState[id]||(quizState[id]={answers:{},graded:false,score:0});if(!state.graded){const i=Number(target.dataset.qid);state.answers[i]=Number(target.dataset.option);const parent=target.closest('.options');parent.querySelectorAll('.option').forEach(x=>{const selected=x===target;x.classList.toggle('selected',selected);x.setAttribute('aria-pressed',String(selected));});}return;}
+ if(target.hasAttribute('data-quiz-submit')){handleQuizSubmit(target.dataset.quizSubmit);return;}
+ if(target.hasAttribute('data-quiz-retry')){delete quizState[target.dataset.quizRetry];render();requestAnimationFrame(()=>document.getElementById('quiz')?.scrollIntoView({block:'start',behavior:'smooth'}));return;}
+ if(target.id==='lab-audio'){speak(labSentence);return;}
+ if(target.id==='lab-copy'){if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(labSentence).then(()=>{target.textContent='✓ Copiada';setTimeout(()=>{if(target.isConnected)target.textContent='⧉ Copiar mi oración';},1400);}).catch(()=>fallbackCopy(target));}else fallbackCopy(target);return;}
+ if(target.id==='flash-next'){moveFlash(1);return;}
+ if(target.id==='flash-prev'){moveFlash(-1);return;}
+ if(target.id==='flash-reveal'){flashRevealed=!flashRevealed;renderFlash();return;}
+ if(target.id==='flash-audio'){speak(GLOSSARY[flashIndex][0]);return;}
+ if(target.hasAttribute('data-filter')){glossFilter=target.dataset.filter;updateGlossary();return;}
+});
+function fallbackCopy(button){const t=document.createElement('textarea');t.value=labSentence;t.style.position='fixed';t.style.top='-1000px';document.body.append(t);t.select();let ok=false;try{ok=document.execCommand('copy');}catch{}t.remove();button.textContent=ok?'✓ Copiada':'Selecciona el texto para copiar';}
+document.addEventListener('change',e=>{if(e.target.matches('#lab-tense,#lab-form,#lab-pronoun,#lab-verb'))updateLab();});
+document.addEventListener('input',e=>{if(e.target.id==='gloss-search')updateGlossary();});
+document.getElementById('menuBtn').addEventListener('click',()=>document.getElementById('sidebar').classList.contains('open')?hideMenu():showMenu());
+document.getElementById('overlay').addEventListener('click',hideMenu);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')hideMenu();if((e.key==='Enter'||e.key===' ')&&e.target.classList?.contains('brand')){e.preventDefault();navigate('home');}});
+window.addEventListener('hashchange',()=>{render();window.scrollTo(0,0);});
+render();
+</script>
+</body>
+</html>
