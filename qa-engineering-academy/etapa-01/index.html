@@ -1,0 +1,536 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>QA Engineering Academy | 50 preguntas · Etapa 01</title><style>
+:root{--ink:#20243b;--muted:#69718a;--line:#e5e8f3;--bg:#f7f8fd;--blue:#3976ef;--violet:#7957e8;--pink:#d96cb8;--card:#fff;--shadow:0 14px 42px rgba(35,48,103,.065)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);font:17px/1.7 Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}a{color:inherit;text-decoration:none}button,input{font:inherit}button{cursor:pointer}.shell{display:grid;grid-template-columns:265px minmax(0,1fr);min-height:100vh}.sidebar{background:#fff;border-right:1px solid var(--line);padding:28px 19px;position:sticky;top:0;height:100vh;overflow:auto}.brand{display:flex;gap:12px;align-items:center;font-size:17px;font-weight:800;line-height:1.3}.logo{width:44px;height:44px;display:grid;place-items:center;border-radius:14px;color:white;background:linear-gradient(130deg,#4285f4,#8465e9 58%,#d96cb8);font-size:22px}.brand small{display:block;font-size:11px;font-weight:700;letter-spacing:.12em;color:#7a82a1}.nav-title{font-size:11px;font-weight:800;letter-spacing:.15em;color:#8b91a6;margin:35px 10px 12px}.nav a{display:block;padding:11px 13px;border-radius:12px;color:#505a78;font-weight:650;font-size:14px;margin-bottom:4px}.nav a:hover,.nav a.active{background:#eef1ff;color:#4c49bf}.side-note{border:1px solid #e7e3ff;border-radius:15px;background:linear-gradient(145deg,#f4f1ff,#fff);padding:16px;font-size:13px;color:#5e6283;margin-top:30px}.main{min-width:0}.topbar{height:68px;background:rgba(255,255,255,.92);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 42px;position:sticky;top:0;z-index:4;backdrop-filter:blur(14px)}.topbar strong{font-size:14px}.tag{border:1px solid #e5e3f7;background:#f9f8ff;color:#6153ae;border-radius:99px;padding:5px 13px;font-size:12px;font-weight:750}.content{max-width:1250px;margin:auto;padding:38px 42px 80px}.hero{position:relative;overflow:hidden;border-radius:26px;padding:45px 46px 40px;background:linear-gradient(116deg,#f0f5ff 0%,#f3efff 58%,#fff0f8 100%);border:1px solid #e7e8fa}.hero:before{content:"";position:absolute;right:-85px;top:-125px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(111,99,245,.17),transparent 67%)}.hero>*{position:relative}.eyebrow{color:#6c59cb;letter-spacing:.14em;font-size:11px;font-weight:850;text-transform:uppercase}h1{font-size:clamp(33px,4vw,55px);line-height:1.13;letter-spacing:-.04em;margin:12px 0 18px;max-width:790px}h1 span{background:linear-gradient(100deg,#377df4,#7c5be8,#c45eaf);color:transparent;background-clip:text}.hero p{max-width:750px;color:#56617c;font-size:18px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:24px 0 32px}.stat{background:white;border:1px solid var(--line);border-radius:17px;padding:18px 22px;box-shadow:var(--shadow)}.stat strong{display:block;font-size:32px;line-height:1.2;letter-spacing:-.04em}.stat span{font-size:13px;color:var(--muted);font-weight:650}.toolbar{background:#fff;border:1px solid var(--line);padding:16px;border-radius:18px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;position:sticky;top:78px;z-index:3;box-shadow:0 7px 25px #2535680c}.search{flex:1;min-width:220px;border:1px solid #dce1ef;border-radius:11px;padding:12px 15px;outline:none;font-size:15px}.search:focus{border-color:#7d73e7;box-shadow:0 0 0 4px #7d73e71a}.filter,.utility{background:#f7f8fe;border:1px solid #e1e4f1;padding:11px 14px;border-radius:10px;font-size:13px;font-weight:750;color:#555e7b}.filter.selected{background:#6554d8;color:#fff;border-color:#6554d8}.progress-wrap{margin:20px 0 38px}.progress-label{display:flex;justify-content:space-between;font-size:13px;font-weight:750;color:#616b85}.track{height:10px;background:#e9eaf5;border-radius:20px;overflow:hidden;margin-top:9px}.fill{height:100%;width:0;background:linear-gradient(90deg,#4285f4,#8c65e8,#df78c3);transition:width .25s}.section-head{margin:34px 0 18px}.section-head h2{font-size:27px;letter-spacing:-.025em;margin:0}.section-head p{color:var(--muted);margin:3px 0}.question{background:#fff;border:1px solid #e6e8f3;border-radius:20px;padding:29px 33px;margin-bottom:20px;box-shadow:var(--shadow);scroll-margin-top:180px}.q-top{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.number{font-weight:850;color:#5b53bc;font-size:14px}.pill{font-size:11px;font-weight:850;padding:4px 11px;border-radius:30px}.basic{background:#e8f3ff;color:#2e6eac}.medium{background:#f1ebff;color:#7551bb}.hard{background:#ffebf5;color:#ae4382}.topic{font-size:12px;color:#8b91a7;font-weight:700}.question h3{font-size:clamp(21px,2.1vw,27px);line-height:1.36;letter-spacing:-.02em;margin:14px 0 20px}.answer{border-left:4px solid #7a68e8;background:#f8f7ff;padding:18px 20px;border-radius:0 12px 12px 0}.answer p{margin:7px 0 0;font-weight:550;font-size:17px}.steps h4{font-size:16px;margin:24px 0 8px}.steps ol{padding-left:27px;margin:0 0 22px}.steps li{padding:3px 0}.example{border:1px solid #e2e7f4;border-radius:14px;overflow:hidden;margin-top:18px}.code-title{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#edf1fb;color:#505c7c;font-size:12px;font-weight:750}.copy{border:1px solid #d8def0;background:white;border-radius:8px;padding:4px 12px;color:#4c57a0;font-size:12px;font-weight:750}pre{margin:0;padding:20px;background:#17233d;color:#e4ecff;overflow-x:auto;font-size:14px;line-height:1.65;tab-size:2}code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.output{padding:12px 16px;background:#f8faff;color:#4c5873;font-size:14px;white-space:pre-line}.insight{margin-top:18px;border-radius:12px;background:#f4f9ff;padding:15px 18px;border:1px solid #e2edff}.insight b{font-size:13px;color:#3468b7}.insight p{margin:4px 0 0;font-size:15px}.q-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);margin-top:24px;padding-top:17px;gap:12px;font-size:13px;font-weight:750;color:#635ab6}.q-footer label{display:flex;align-items:center;gap:8px;cursor:pointer}.q-footer input{accent-color:#6955d9;width:18px;height:18px}.question.mastered{border-color:#b9d9cc}.empty{display:none;text-align:center;padding:35px}.footer{margin-top:42px;color:#77809b;font-size:13px;text-align:center}.print-only{display:none}@media(max-width:1050px){.shell{grid-template-columns:1fr}.sidebar{position:static;height:auto;padding:15px 24px}.nav,.nav-title,.side-note{display:none}.topbar{padding:0 22px}.content{padding:24px}.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){body{font-size:16px}.hero{padding:30px 23px}.hero p{font-size:16px}.stats{gap:10px}.stat{padding:13px}.stat strong{font-size:26px}.question{padding:22px 18px}.toolbar{top:68px}.topbar .tag{display:none}.content{padding:15px}.question h3{font-size:22px}}@media print{.sidebar,.topbar,.toolbar,.q-footer,.copy{display:none!important}.shell{display:block}.content{padding:0;max-width:none}.hero{padding:22px}.question{break-inside:avoid;box-shadow:none;margin-bottom:15px;padding:18px}.stats{display:none}pre{white-space:pre-wrap;word-break:break-word}.print-only{display:block}}
+</style></head><body id="top"><div class="shell"><aside class="sidebar"><div class="brand"><div class="logo">✦</div><div>QA Engineering<br>Academy<small>LEARNING OPERATING SYSTEM</small></div></div><div class="nav-title">ETAPA 01 · NAVEGACIÓN</div><nav class="nav"><a href="#top" class="active">◈ Vista general</a><a href="#q1">◉ Fundamentos de Java</a><a href="#q19">◇ Nivel intermedio</a><a href="#q37">✧ Nivel avanzado</a><a href="#criterios">✓ Criterios de salida</a></nav><div class="side-note"><b>Ruta de aprendizaje</b><br>50 preguntas desarrolladas con explicación, ejemplo y aplicación QA. Documento de estudio independiente; no contiene información interna.</div></aside><main class="main"><header class="topbar"><strong>Etapa 01 / Java · Algorithms · Data Structures</strong><span class="tag">GUÍA INTERACTIVA · 2026</span></header><div class="content"><section class="hero"><div class="eyebrow">✦ Technical interview preparation · QA engineer</div><h1>50 preguntas para dominar <span>Java y algoritmos</span></h1><p>De los fundamentos a la resolución de problemas. Cada pregunta incluye una respuesta razonada, pasos de solución, ejemplos de código y criterios de calidad para entrevistas técnicas.</p><div class="tag" style="display:inline-block;margin-top:9px">100% español · ejemplos Java · estudio autodirigido</div></section><div class="stats"><div class="stat"><strong>50</strong><span>Preguntas explicadas</span></div><div class="stat"><strong>18</strong><span>Nivel básico</span></div><div class="stat"><strong>18</strong><span>Nivel intermedio</span></div><div class="stat"><strong>14</strong><span>Nivel avanzado</span></div></div><div class="toolbar"><input class="search" id="search" type="search" placeholder="⌕ Buscar concepto, pregunta, estructura..." aria-label="Buscar preguntas"><button class="filter selected" data-filter="Todos">Todos</button><button class="filter" data-filter="Básico">Básico</button><button class="filter" data-filter="Intermedio">Intermedio</button><button class="filter" data-filter="Avanzado">Avanzado</button><button class="utility" id="print">⎙ PDF</button></div><div class="progress-wrap"><div class="progress-label"><span>Progreso de dominio (guardado en este navegador)</span><span id="progressText">0 / 50 · 0%</span></div><div class="track"><div class="fill" id="fill"></div></div></div><div class="section-head"><h2>Banco de conocimientos</h2><p>Lee la respuesta, sigue los pasos y reproduce los ejemplos. Algunos fragmentos requieren imports, clases envolventes o dependencias indicadas.</p></div><div id="questions"><article class="question" id="q1" data-level="Básico" data-topic="Java y JVM" data-search="¿qué es java y por qué se utiliza en qa? java y jvm java es un lenguaje de programación de tipado estático que se compila a bytecode y puede ejecutarse sobre una jvm compatible. en qa permite escribir automatización, utilidades y validadores.">
+ <div class="q-top"><span class="number">Q01</span><span class="pill basic">Básico</span><span class="topic">Java y JVM</span></div>
+ <h3>¿Qué es Java y por qué se utiliza en QA?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Java es un lenguaje de programación de tipado estático que se compila a bytecode y puede ejecutarse sobre una JVM compatible. En QA permite escribir automatización, utilidades y validadores.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Distingue lenguaje (Java) de herramienta de pruebas (Selenium).</li><li>Un programa expresa reglas mediante clases y métodos.</li><li>Un test automatizado compara resultados observados contra expectativas.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>class SmokeCheck {
+  public static void main(String[] args) {
+    boolean passed = true;
+    System.out.println(&quot;PASS: &quot; + passed);
+  }
+}</code></pre><div class="output"><b>Resultado / comportamiento:</b> PASS: true</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Relaciona cada concepto con un uso concreto, no confundas Java con Selenium.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="1"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q2" data-level="Básico" data-topic="Java y JVM" data-search="¿en qué se diferencian jdk, jre y jvm? java y jvm el jdk contiene herramientas para desarrollar; el jre es el entorno de ejecución; la jvm ejecuta bytecode. en java moderno el runtime puede distribuirse de forma modular.">
+ <div class="q-top"><span class="number">Q02</span><span class="pill basic">Básico</span><span class="topic">Java y JVM</span></div>
+ <h3>¿En qué se diferencian JDK, JRE y JVM?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>El JDK contiene herramientas para desarrollar; el JRE es el entorno de ejecución; la JVM ejecuta bytecode. En Java moderno el runtime puede distribuirse de forma modular.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Escribes un archivo .java.</li><li>javac del JDK lo transforma en .class.</li><li>La JVM carga y ejecuta ese bytecode.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>// Terminal
+javac Hello.java
+java Hello</code></pre><div class="output"><b>Resultado / comportamiento:</b> Se ejecuta el método main de Hello</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>En entrevista explica el flujo fuente → compilación → bytecode → JVM.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="2"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q3" data-level="Básico" data-topic="Sintaxis" data-search="¿qué función cumple public static void main(string[] args)? sintaxis es el punto de entrada convencional de una aplicación java ejecutada desde la línea de comandos.">
+ <div class="q-top"><span class="number">Q03</span><span class="pill basic">Básico</span><span class="topic">Sintaxis</span></div>
+ <h3>¿Qué función cumple public static void main(String[] args)?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Es el punto de entrada convencional de una aplicación Java ejecutada desde la línea de comandos.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>public permite acceder al método.</li><li>static evita necesitar crear un objeto.</li><li>void indica que no devuelve valor; args recibe argumentos.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>public class Start {
+  public static void main(String[] args) {
+    System.out.println(&quot;Ready&quot;);
+  }
+}</code></pre><div class="output"><b>Resultado / comportamiento:</b> Ready</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>No afirmes que todo código Java necesita main: bibliotecas y tests pueden ejecutarse mediante otros mecanismos.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="3"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q4" data-level="Básico" data-topic="Sintaxis" data-search="¿qué son una clase, un método y una sentencia? sintaxis una clase agrupa estado y comportamiento; un método define una operación; una sentencia es una instrucción ejecutable.">
+ <div class="q-top"><span class="number">Q04</span><span class="pill basic">Básico</span><span class="topic">Sintaxis</span></div>
+ <h3>¿Qué son una clase, un método y una sentencia?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Una clase agrupa estado y comportamiento; un método define una operación; una sentencia es una instrucción ejecutable.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Define una clase llamada Counter.</li><li>Declara el método add.</li><li>Ejecuta una sentencia return dentro del método.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>class Counter {
+  int add(int a, int b) {
+    return a + b;
+  }
+}</code></pre><div class="output"><b>Resultado / comportamiento:</b> add(2, 3) devuelve 5</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Identifica llaves, paréntesis, tipos y punto y coma.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="4"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q5" data-level="Básico" data-topic="Tipos" data-search="¿cuál es la diferencia entre int, double, boolean y string? tipos int representa enteros de 32 bits; double representa punto flotante; boolean, verdadero/falso; string es una referencia a texto inmutable.">
+ <div class="q-top"><span class="number">Q05</span><span class="pill basic">Básico</span><span class="topic">Tipos</span></div>
+ <h3>¿Cuál es la diferencia entre int, double, boolean y String?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>int representa enteros de 32 bits; double representa punto flotante; boolean, verdadero/falso; String es una referencia a texto inmutable.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Selecciona int para conteos enteros.</li><li>Utiliza double para aproximaciones numéricas, no para dinero exacto.</li><li>String es clase, no tipo primitivo.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>int tests = 12;
+double duration = 2.5;
+boolean passed = true;
+String suite = &quot;Smoke&quot;;</code></pre><div class="output"><b>Resultado / comportamiento:</b> tests=12; duration=2.5; passed=true; suite=Smoke</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Para importes monetarios precisos considera BigDecimal.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="5"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q6" data-level="Básico" data-topic="Tipos" data-search="¿qué es tipado estático y qué ocurre al asignar un tipo incompatible? tipos en java los tipos de variables se comprueban en compilación; una asignación incompatible normalmente produce error de compilación.">
+ <div class="q-top"><span class="number">Q06</span><span class="pill basic">Básico</span><span class="topic">Tipos</span></div>
+ <h3>¿Qué es tipado estático y qué ocurre al asignar un tipo incompatible?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>En Java los tipos de variables se comprueban en compilación; una asignación incompatible normalmente produce error de compilación.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Declara int count.</li><li>Asigna un entero: válido.</li><li>Intenta asignar texto: error de tipos.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>int count = 4;
+// count = &quot;four&quot;; // No compila</code></pre><div class="output"><b>Resultado / comportamiento:</b> count vale 4</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>No confundas un error de compilación con una excepción de ejecución.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="6"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q7" data-level="Básico" data-topic="Operadores" data-search="¿qué hacen +, -, *, / y % con enteros? operadores suman, restan, multiplican, dividen y calculan el residuo. la división entre enteros trunca hacia cero.">
+ <div class="q-top"><span class="number">Q07</span><span class="pill basic">Básico</span><span class="topic">Operadores</span></div>
+ <h3>¿Qué hacen +, -, *, / y % con enteros?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Suman, restan, multiplican, dividen y calculan el residuo. La división entre enteros trunca hacia cero.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Calcula 7 / 2 usando int.</li><li>Calcula 7 % 2.</li><li>Convierte un operando a double si necesitas decimales.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>System.out.println(7 / 2);
+System.out.println(7 % 2);
+System.out.println(7 / 2.0);</code></pre><div class="output"><b>Resultado / comportamiento:</b> 3
+1
+3.5</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>En pruebas verifica límites como divisor cero y números negativos.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="7"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q8" data-level="Básico" data-topic="Operadores" data-search="¿qué diferencia existe entre =, == y equals()? operadores = asigna; == compara valores primitivos o identidad de referencias; equals() compara igualdad lógica según su implementación.">
+ <div class="q-top"><span class="number">Q08</span><span class="pill basic">Básico</span><span class="topic">Operadores</span></div>
+ <h3>¿Qué diferencia existe entre =, == y equals()?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>= asigna; == compara valores primitivos o identidad de referencias; equals() compara igualdad lógica según su implementación.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Asigna una variable con =.</li><li>Compara int con ==.</li><li>Compara contenido de String con equals().</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>String a = new String(&quot;ok&quot;);
+String b = new String(&quot;ok&quot;);
+System.out.println(a == b);
+System.out.println(a.equals(b));</code></pre><div class="output"><b>Resultado / comportamiento:</b> false
+true</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Para cadenas evita == si buscas igualdad de contenido.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="8"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q9" data-level="Básico" data-topic="Control de flujo" data-search="¿cómo funciona if / else y cuándo usarlo? control de flujo ejecuta bloques diferentes según una condición booleana; es útil para evaluar resultados y reglas.">
+ <div class="q-top"><span class="number">Q09</span><span class="pill basic">Básico</span><span class="topic">Control de flujo</span></div>
+ <h3>¿Cómo funciona if / else y cuándo usarlo?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Ejecuta bloques diferentes según una condición booleana; es útil para evaluar resultados y reglas.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Evalúa la condición.</li><li>Si es true, ejecuta if.</li><li>Si es false, ejecuta else.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>int failures = 0;
+if (failures == 0) {
+  System.out.println(&quot;PASS&quot;);
+} else {
+  System.out.println(&quot;FAIL&quot;);
+}</code></pre><div class="output"><b>Resultado / comportamiento:</b> PASS</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Prueba ambos caminos y condiciones de frontera.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="9"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q10" data-level="Básico" data-topic="Control de flujo" data-search="¿cuál es la diferencia entre for y while? control de flujo for expresa cómodamente iteraciones con contador; while repite mientras la condición sea verdadera.">
+ <div class="q-top"><span class="number">Q10</span><span class="pill basic">Básico</span><span class="topic">Control de flujo</span></div>
+ <h3>¿Cuál es la diferencia entre for y while?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>for expresa cómodamente iteraciones con contador; while repite mientras la condición sea verdadera.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Usa for si conoces el rango.</li><li>Usa while cuando dependes de una condición dinámica.</li><li>Garantiza una condición de salida.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>for (int i = 0; i &lt; 3; i++) {
+  System.out.println(i);
+}</code></pre><div class="output"><b>Resultado / comportamiento:</b> 0
+1
+2</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Un while sin límite puede bloquear una automatización.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="10"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q11" data-level="Básico" data-topic="Métodos" data-search="¿qué son parámetros, argumentos y valor de retorno? métodos los parámetros son variables declaradas en el método; los argumentos son valores enviados al llamarlo; return entrega un resultado.">
+ <div class="q-top"><span class="number">Q11</span><span class="pill basic">Básico</span><span class="topic">Métodos</span></div>
+ <h3>¿Qué son parámetros, argumentos y valor de retorno?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Los parámetros son variables declaradas en el método; los argumentos son valores enviados al llamarlo; return entrega un resultado.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Declara un método con parámetros.</li><li>Invócalo con argumentos.</li><li>Almacena su valor de retorno.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>static int sum(int a, int b) {
+  return a + b;
+}
+int result = sum(2, 5);</code></pre><div class="output"><b>Resultado / comportamiento:</b> result = 7</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Los métodos pequeños facilitan pruebas unitarias.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="11"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q12" data-level="Básico" data-topic="Arrays" data-search="¿qué es un array y cómo se indexa? arrays un array contiene elementos de un tipo y tamaño fijo; sus índices comienzan en cero.">
+ <div class="q-top"><span class="number">Q12</span><span class="pill basic">Básico</span><span class="topic">Arrays</span></div>
+ <h3>¿Qué es un array y cómo se indexa?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Un array contiene elementos de un tipo y tamaño fijo; sus índices comienzan en cero.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Crea un arreglo de tres números.</li><li>Accede a índice 0.</li><li>Comprueba length antes de acceder al último índice.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>int[] scores = {8, 9, 10};
+System.out.println(scores[0]);
+System.out.println(scores.length);</code></pre><div class="output"><b>Resultado / comportamiento:</b> 8
+3</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Índice válido: 0 ≤ i &lt; length.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="12"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q13" data-level="Básico" data-topic="Strings" data-search="¿cómo obtengo longitud y caracteres de un string? strings length() devuelve la longitud en unidades utf-16 y charat(i) una unidad char en la posición i.">
+ <div class="q-top"><span class="number">Q13</span><span class="pill basic">Básico</span><span class="topic">Strings</span></div>
+ <h3>¿Cómo obtengo longitud y caracteres de un String?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>length() devuelve la longitud en unidades UTF-16 y charAt(i) una unidad char en la posición i.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Define un String.</li><li>Consulta length().</li><li>Lee charAt(0) sin salir de rango.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>String name = &quot;QA&quot;;
+System.out.println(name.length());
+System.out.println(name.charAt(0));</code></pre><div class="output"><b>Resultado / comportamiento:</b> 2
+Q</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>No confundas String.length() con array.length; Unicode puede requerir codePoints().</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="13"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q14" data-level="Básico" data-topic="Errores" data-search="¿qué diferencia hay entre error de compilación, excepción y error lógico? errores un error de compilación impide generar código válido; una excepción ocurre durante la ejecución; un error lógico produce resultados incorrectos sin necesariamente fallar.">
+ <div class="q-top"><span class="number">Q14</span><span class="pill basic">Básico</span><span class="topic">Errores</span></div>
+ <h3>¿Qué diferencia hay entre error de compilación, excepción y error lógico?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Un error de compilación impide generar código válido; una excepción ocurre durante la ejecución; un error lógico produce resultados incorrectos sin necesariamente fallar.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Identifica en qué fase ocurre el problema.</li><li>Reproduce con un caso mínimo.</li><li>Contrasta expected vs actual.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>int price = 100;
+int discount = 20;
+int finalPrice = price + discount;
+System.out.println(finalPrice);</code></pre><div class="output"><b>Resultado / comportamiento:</b> 120 (incorrecto si se esperaba 80)</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Un test debe detectar errores lógicos que el compilador no puede advertir.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="14"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q15" data-level="Básico" data-topic="Excepciones" data-search="¿qué sucede al dividir un int entre cero? excepciones el programa compila, pero la operación entera provoca arithmeticexception durante la ejecución.">
+ <div class="q-top"><span class="number">Q15</span><span class="pill basic">Básico</span><span class="topic">Excepciones</span></div>
+ <h3>¿Qué sucede al dividir un int entre cero?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>El programa compila, pero la operación entera provoca ArithmeticException durante la ejecución.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>El compilador acepta variables enteras.</li><li>En ejecución el divisor vale cero.</li><li>La JVM lanza una excepción.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>int a = 10;
+int b = 0;
+System.out.println(a / b);</code></pre><div class="output"><b>Resultado / comportamiento:</b> ArithmeticException: / by zero</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Distingue división entera entre cero de operaciones con double, que pueden producir Infinity o NaN.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="15"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q16" data-level="Básico" data-topic="POO" data-search="¿qué es un objeto y cómo se crea con new? poo un objeto es una instancia de una clase que combina datos y operaciones.">
+ <div class="q-top"><span class="number">Q16</span><span class="pill basic">Básico</span><span class="topic">POO</span></div>
+ <h3>¿Qué es un objeto y cómo se crea con new?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Un objeto es una instancia de una clase que combina datos y operaciones.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Define una clase.</li><li>Crea una instancia con new.</li><li>Accede a su método.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>class TestCase {
+  String status = &quot;READY&quot;;
+}
+TestCase tc = new TestCase();
+System.out.println(tc.status);</code></pre><div class="output"><b>Resultado / comportamiento:</b> READY</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Relaciona objetos con Page Objects y modelos de dominio.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="16"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q17" data-level="Básico" data-topic="Colecciones" data-search="¿qué diferencias básicas hay entre arraylist y hashset? colecciones arraylist mantiene orden de inserción y admite duplicados; hashset evita duplicados y no garantiza orden de iteración.">
+ <div class="q-top"><span class="number">Q17</span><span class="pill basic">Básico</span><span class="topic">Colecciones</span></div>
+ <h3>¿Qué diferencias básicas hay entre ArrayList y HashSet?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>ArrayList mantiene orden de inserción y admite duplicados; HashSet evita duplicados y no garantiza orden de iteración.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Elige lista para conservar posiciones y repetidos.</li><li>Elige conjunto para unicidad.</li><li>Recuerda que sus operaciones tienen costos distintos.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>List&lt;String&gt; names = new ArrayList&lt;&gt;();
+names.add(&quot;A&quot;); names.add(&quot;A&quot;);
+Set&lt;String&gt; unique = new HashSet&lt;&gt;(names);
+System.out.println(unique.size());</code></pre><div class="output"><b>Resultado / comportamiento:</b> 1</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Necesitas imports de java.util para List, Set, ArrayList y HashSet.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="17"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q18" data-level="Básico" data-topic="Big O" data-search="¿qué significa o(n) y por qué importa en entrevistas? big o big o describe cómo crece un costo en función del tamaño de entrada, normalmente como cota superior asintótica.">
+ <div class="q-top"><span class="number">Q18</span><span class="pill basic">Básico</span><span class="topic">Big O</span></div>
+ <h3>¿Qué significa O(n) y por qué importa en entrevistas?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Big O describe cómo crece un costo en función del tamaño de entrada, normalmente como cota superior asintótica.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Identifica n, el tamaño de datos.</li><li>Cuenta cuántas veces se ejecuta el trabajo dominante.</li><li>Explica costo temporal y memoria por separado.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>for (int x : numbers) {
+  System.out.println(x);
+}</code></pre><div class="output"><b>Resultado / comportamiento:</b> n iteraciones → O(n) tiempo</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>O(n) no significa exactamente n milisegundos.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="18"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q19" data-level="Intermedio" data-topic="Arrays" data-search="¿cómo encuentras máximo y mínimo en una sola pasada? arrays inicializa ambos con el primer elemento y actualízalos al recorrer el array. tiempo o(n), espacio o(1).">
+ <div class="q-top"><span class="number">Q19</span><span class="pill medium">Intermedio</span><span class="topic">Arrays</span></div>
+ <h3>¿Cómo encuentras máximo y mínimo en una sola pasada?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Inicializa ambos con el primer elemento y actualízalos al recorrer el array. Tiempo O(n), espacio O(1).</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Valida que el arreglo no esté vacío.</li><li>Inicializa min y max.</li><li>Compara cada elemento y actualiza.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>int[] a = {8, 3, 15, 2};
+int min = a[0], max = a[0];
+for (int x : a) {
+  if (x &lt; min) min = x;
+  if (x &gt; max) max = x;
+}
+System.out.println(min + &quot;, &quot; + max);</code></pre><div class="output"><b>Resultado / comportamiento:</b> 2, 15</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Añade pruebas con negativos, duplicados y un solo elemento.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="19"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q20" data-level="Intermedio" data-topic="Búsqueda binaria" data-search="¿qué condición debe cumplir un array para aplicar binary search? búsqueda binaria debe estar ordenado según el mismo comparador que utiliza el algoritmo; en la versión ascendente se exige orden ascendente.">
+ <div class="q-top"><span class="number">Q20</span><span class="pill medium">Intermedio</span><span class="topic">Búsqueda binaria</span></div>
+ <h3>¿Qué condición debe cumplir un array para aplicar binary search?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Debe estar ordenado según el mismo comparador que utiliza el algoritmo; en la versión ascendente se exige orden ascendente.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Comprueba el orden.</li><li>Compara el objetivo con el centro.</li><li>Descarta la mitad incompatible.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>int[] a = {1, 3, 5, 7};
+int pos = Arrays.binarySearch(a, 5);
+System.out.println(pos);</code></pre><div class="output"><b>Resultado / comportamiento:</b> 2</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Arrays.binarySearch requiere import java.util.Arrays; en no encontrado retorna un valor negativo codificado.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="20"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q21" data-level="Intermedio" data-topic="Búsqueda binaria" data-search="¿cómo implementas binary search iterativo? búsqueda binaria mantén límites low y high; calcula mid sin overflow; reduce el intervalo hasta encontrar el objetivo o agotarlo.">
+ <div class="q-top"><span class="number">Q21</span><span class="pill medium">Intermedio</span><span class="topic">Búsqueda binaria</span></div>
+ <h3>¿Cómo implementas binary search iterativo?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Mantén límites low y high; calcula mid sin overflow; reduce el intervalo hasta encontrar el objetivo o agotarlo.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Inicializa low=0 y high=n−1.</li><li>Calcula mid=low+(high−low)/2.</li><li>Ajusta low/high según comparación.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>static int find(int[] a, int target) {
+  int low=0, high=a.length-1;
+  while (low &lt;= high) {
+    int mid=low+(high-low)/2;
+    if (a[mid]==target) return mid;
+    if (a[mid]&lt;target) low=mid+1;
+    else high=mid-1;
+  }
+  return -1;
+}</code></pre><div class="output"><b>Resultado / comportamiento:</b> find(new int[]{2,4,6}, 4) → 1</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Tiempo O(log n); memoria O(1); la entrada debe estar ordenada.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="21"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q22" data-level="Intermedio" data-topic="HashMap" data-search="¿qué es un hashmap y cómo se usa para contar frecuencias? hashmap almacena pares clave-valor; permite consultas e inserciones o(1) esperadas con hashing adecuado.">
+ <div class="q-top"><span class="number">Q22</span><span class="pill medium">Intermedio</span><span class="topic">HashMap</span></div>
+ <h3>¿Qué es un HashMap y cómo se usa para contar frecuencias?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Almacena pares clave-valor; permite consultas e inserciones O(1) esperadas con hashing adecuado.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Crea Map&lt;Integer,Integer&gt;.</li><li>Lee la frecuencia actual o cero.</li><li>Incrementa por cada aparición.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>Map&lt;Integer,Integer&gt; freq = new HashMap&lt;&gt;();
+for (int x : new int[]{2,2,3}) {
+  freq.put(x, freq.getOrDefault(x,0)+1);
+}
+System.out.println(freq.get(2));</code></pre><div class="output"><b>Resultado / comportamiento:</b> 2</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>El orden de HashMap no está garantizado; usa imports java.util.*.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="22"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q23" data-level="Intermedio" data-topic="HashMap" data-search="¿cómo cuentas pares de índices que suman un target en o(n) esperado? hashmap recorre el arreglo y suma cuántas veces apareció el complemento; luego registra el valor actual.">
+ <div class="q-top"><span class="number">Q23</span><span class="pill medium">Intermedio</span><span class="topic">HashMap</span></div>
+ <h3>¿Cómo cuentas pares de índices que suman un target en O(n) esperado?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Recorre el arreglo y suma cuántas veces apareció el complemento; luego registra el valor actual.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Define target y mapa de frecuencias previas.</li><li>Para x, consulta target−x.</li><li>Suma esa frecuencia y registra x.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>int[] a={2,4,3,5,7}; int target=9;
+Map&lt;Integer,Integer&gt; seen=new HashMap&lt;&gt;();
+int count=0;
+for(int x:a){
+  count+=seen.getOrDefault(target-x,0);
+  seen.put(x,seen.getOrDefault(x,0)+1);
+}
+System.out.println(count);</code></pre><div class="output"><b>Resultado / comportamiento:</b> 2</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Cuenta pares de posiciones i&lt;j, incluso duplicados; especifica esta definición en entrevista.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="23"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q24" data-level="Intermedio" data-topic="Arrays" data-search="¿cómo encuentras el número faltante del 1 al n? arrays si hay exactamente un faltante y el resto son únicos y válidos, resta la suma observada a n(n+1)/2.">
+ <div class="q-top"><span class="number">Q24</span><span class="pill medium">Intermedio</span><span class="topic">Arrays</span></div>
+ <h3>¿Cómo encuentras el número faltante del 1 al n?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Si hay exactamente un faltante y el resto son únicos y válidos, resta la suma observada a n(n+1)/2.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Valida la premisa 1..n.</li><li>Calcula la suma esperada con long.</li><li>Resta la suma real.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>int[] a={1,2,4,5}; long n=5;
+long expected=n*(n+1)/2;
+long actual=0;
+for(int x:a) actual+=x;
+System.out.println(expected-actual);</code></pre><div class="output"><b>Resultado / comportamiento:</b> 3</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Usa long para reducir riesgo de overflow y verifica duplicados si el contrato no los excluye.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="24"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q25" data-level="Intermedio" data-topic="Linked List" data-search="¿cómo eliminas un nodo intermedio de una lista simplemente enlazada? linked list busca el nodo anterior y redirige previous.next hacia current.next.">
+ <div class="q-top"><span class="number">Q25</span><span class="pill medium">Intermedio</span><span class="topic">Linked List</span></div>
+ <h3>¿Cómo eliminas un nodo intermedio de una lista simplemente enlazada?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Busca el nodo anterior y redirige previous.next hacia current.next.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Recorre manteniendo prev y current.</li><li>Cuando current coincide, enlaza prev.next=current.next.</li><li>Si es head, actualiza head directamente.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>class Node { int value; Node next; Node(int v){value=v;} }
+// Si prev y current son nodos válidos:
+prev.next = current.next;</code></pre><div class="output"><b>Resultado / comportamiento:</b> A → B → C se convierte en A → C al eliminar B</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Comprueba cabeza, cola, lista vacía y valor inexistente.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="25"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q26" data-level="Intermedio" data-topic="Linked List" data-search="¿qué diferencias hay entre array y linked list? linked list el array ofrece acceso aleatorio o(1) y tamaño fijo; una lista enlazada simple requiere o(n) para acceder por posición, pero puede insertar o(1) si ya tienes la referencia adecuada.">
+ <div class="q-top"><span class="number">Q26</span><span class="pill medium">Intermedio</span><span class="topic">Linked List</span></div>
+ <h3>¿Qué diferencias hay entre array y linked list?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>El array ofrece acceso aleatorio O(1) y tamaño fijo; una lista enlazada simple requiere O(n) para acceder por posición, pero puede insertar O(1) si ya tienes la referencia adecuada.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Compara acceso por índice.</li><li>Compara inserciones según posición conocida.</li><li>Considera memoria y localidad de caché.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>int[] a={10,20,30};
+System.out.println(a[1]);</code></pre><div class="output"><b>Resultado / comportamiento:</b> 20</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>No afirmes que LinkedList siempre es más rápida para insertar: localizar el lugar puede costar O(n).</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="26"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q27" data-level="Intermedio" data-topic="Strings" data-search="¿por qué string es inmutable y cuándo usar stringbuilder? strings las operaciones sobre string crean valores nuevos; stringbuilder acumula cambios de forma mutable, útil para concatenaciones repetidas.">
+ <div class="q-top"><span class="number">Q27</span><span class="pill medium">Intermedio</span><span class="topic">Strings</span></div>
+ <h3>¿Por qué String es inmutable y cuándo usar StringBuilder?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Las operaciones sobre String crean valores nuevos; StringBuilder acumula cambios de forma mutable, útil para concatenaciones repetidas.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Observa que concat no modifica el original.</li><li>Asigna el resultado o utiliza StringBuilder.</li><li>Convierte a String al terminar.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>String s=&quot;QA&quot;;
+s.concat(&quot;E&quot;);
+System.out.println(s);
+StringBuilder b=new StringBuilder(&quot;QA&quot;);
+b.append(&quot;E&quot;);
+System.out.println(b);</code></pre><div class="output"><b>Resultado / comportamiento:</b> QA
+QAE</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>StringBuilder no es sincronizado; no lo compartas sin protección entre hilos.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="27"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q28" data-level="Intermedio" data-topic="Métodos" data-search="¿qué es sobrecarga de métodos (overloading)? métodos permite varios métodos con el mismo nombre y diferentes listas de parámetros; el tipo de retorno por sí solo no basta.">
+ <div class="q-top"><span class="number">Q28</span><span class="pill medium">Intermedio</span><span class="topic">Métodos</span></div>
+ <h3>¿Qué es sobrecarga de métodos (overloading)?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Permite varios métodos con el mismo nombre y diferentes listas de parámetros; el tipo de retorno por sí solo no basta.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Define un método con dos int.</li><li>Agrega otro con tres int.</li><li>El compilador selecciona por argumentos.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>static int sum(int a,int b){return a+b;}
+static int sum(int a,int b,int c){return a+b+c;}</code></pre><div class="output"><b>Resultado / comportamiento:</b> sum(2,3)=5; sum(2,3,4)=9</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Distingue overloading de overriding (sobrescritura en herencia).</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="28"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q29" data-level="Intermedio" data-topic="POO" data-search="¿qué es encapsulación y cómo mejora la testabilidad? poo oculta estado interno y expone operaciones controladas, facilitando invariantes y pruebas de comportamiento.">
+ <div class="q-top"><span class="number">Q29</span><span class="pill medium">Intermedio</span><span class="topic">POO</span></div>
+ <h3>¿Qué es encapsulación y cómo mejora la testabilidad?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Oculta estado interno y expone operaciones controladas, facilitando invariantes y pruebas de comportamiento.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Declara campos private.</li><li>Expón métodos públicos con reglas.</li><li>Prueba el contrato observable en vez de detalles internos.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>class Run {
+  private int failures;
+  void recordFailure(){failures++;}
+  int getFailures(){return failures;}
+}</code></pre><div class="output"><b>Resultado / comportamiento:</b> Tras recordFailure(), getFailures() devuelve 1</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>No confundas encapsulación con poner getters/setters para todo.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="29"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q30" data-level="Intermedio" data-topic="POO" data-search="¿cómo funcionan herencia y sobrescritura (override)? poo una subclase puede especializar un método heredado con la misma firma compatible; el despacho dinámico selecciona la implementación en ejecución.">
+ <div class="q-top"><span class="number">Q30</span><span class="pill medium">Intermedio</span><span class="topic">POO</span></div>
+ <h3>¿Cómo funcionan herencia y sobrescritura (override)?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Una subclase puede especializar un método heredado con la misma firma compatible; el despacho dinámico selecciona la implementación en ejecución.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Define clase base con método.</li><li>Extiende y usa @Override.</li><li>Invoca desde una referencia de tipo base.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>class Check { String run(){return &quot;base&quot;;} }
+class ApiCheck extends Check {
+  @Override String run(){return &quot;api&quot;;}
+}
+Check c=new ApiCheck();
+System.out.println(c.run());</code></pre><div class="output"><b>Resultado / comportamiento:</b> api</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Usa composición cuando no exista una verdadera relación «es-un».</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="30"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q31" data-level="Intermedio" data-topic="Excepciones" data-search="¿cómo funciona try/catch/finally? excepciones try contiene código que puede fallar; catch maneja excepciones compatibles; finally se ejecuta normalmente al salir del bloque, incluso con excepciones.">
+ <div class="q-top"><span class="number">Q31</span><span class="pill medium">Intermedio</span><span class="topic">Excepciones</span></div>
+ <h3>¿Cómo funciona try/catch/finally?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>try contiene código que puede fallar; catch maneja excepciones compatibles; finally se ejecuta normalmente al salir del bloque, incluso con excepciones.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Encierra la operación riesgosa en try.</li><li>Captura la excepción específica.</li><li>Libera recursos preferentemente con try-with-resources.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>try {
+  Integer.parseInt(&quot;abc&quot;);
+} catch (NumberFormatException e) {
+  System.out.println(&quot;Invalid number&quot;);
+} finally {
+  System.out.println(&quot;Done&quot;);
+}</code></pre><div class="output"><b>Resultado / comportamiento:</b> Invalid number
+Done</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>No silencies excepciones en tests: registra contexto y falla el test cuando corresponda.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="31"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q32" data-level="Intermedio" data-topic="Testing" data-search="¿cómo escribirías una prueba unitaria de una función sum? testing define entradas, resultado esperado y una aserción; separa el código bajo prueba del test.">
+ <div class="q-top"><span class="number">Q32</span><span class="pill medium">Intermedio</span><span class="topic">Testing</span></div>
+ <h3>¿Cómo escribirías una prueba unitaria de una función sum?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Define entradas, resultado esperado y una aserción; separa el código bajo prueba del test.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Prepara los datos.</li><li>Ejecuta la función.</li><li>Compara expected y actual con assertEquals.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>// JUnit 5 (requiere dependencia JUnit)
+@Test
+void addsTwoNumbers() {
+  assertEquals(5, Calculator.sum(2,3));
+}</code></pre><div class="output"><b>Resultado / comportamiento:</b> PASS si sum(2,3) devuelve 5</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Los imports y dependencias JUnit se configuran en el proyecto; este es un fragmento de test.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="32"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q33" data-level="Intermedio" data-topic="Testing" data-search="¿qué son boundary values y equivalence partitions? testing particiones de equivalencia agrupan entradas que deberían comportarse igual; valores límite comprueban bordes de rangos.">
+ <div class="q-top"><span class="number">Q33</span><span class="pill medium">Intermedio</span><span class="topic">Testing</span></div>
+ <h3>¿Qué son boundary values y equivalence partitions?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Particiones de equivalencia agrupan entradas que deberían comportarse igual; valores límite comprueban bordes de rangos.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Identifica el rango válido.</li><li>Elige representante válido e inválido.</li><li>Prueba exactamente en y alrededor de los límites.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>// Regla: edad válida entre 18 y 65
+int[] boundaryCases={17,18,19,64,65,66};</code></pre><div class="output"><b>Resultado / comportamiento:</b> 17/66 inválidos; 18..65 válidos</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Documenta claramente si los límites son inclusivos o exclusivos.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="33"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q34" data-level="Intermedio" data-topic="Debugging" data-search="¿cómo diagnosticas un nullpointerexception? debugging identifica la referencia nula usando stack trace y reproduce el escenario; añade validación o corrige la inicialización según contrato.">
+ <div class="q-top"><span class="number">Q34</span><span class="pill medium">Intermedio</span><span class="topic">Debugging</span></div>
+ <h3>¿Cómo diagnosticas un NullPointerException?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Identifica la referencia nula usando stack trace y reproduce el escenario; añade validación o corrige la inicialización según contrato.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Lee el stack trace y la línea.</li><li>Verifica cuál referencia es null.</li><li>Corrige causa raíz y agrega test de regresión.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>String status=null;
+// status.length(); // lanzaría NPE
+System.out.println(status == null);</code></pre><div class="output"><b>Resultado / comportamiento:</b> true</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Evita capturar NullPointerException indiscriminadamente: corrige la causa.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="34"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q35" data-level="Intermedio" data-topic="Complejidad" data-search="¿qué complejidad tienen dos ciclos anidados? complejidad si cada ciclo recorre n elementos independientemente, el costo temporal es o(n²); si recorren tamaños distintos, o(n·m).">
+ <div class="q-top"><span class="number">Q35</span><span class="pill medium">Intermedio</span><span class="topic">Complejidad</span></div>
+ <h3>¿Qué complejidad tienen dos ciclos anidados?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Si cada ciclo recorre n elementos independientemente, el costo temporal es O(n²); si recorren tamaños distintos, O(n·m).</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Cuenta iteraciones externas.</li><li>Multiplica por iteraciones internas.</li><li>Distingue espacio extra del tiempo.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>for(int i=0;i&lt;n;i++){
+  for(int j=0;j&lt;n;j++){
+    compare(i,j);
+  }
+}</code></pre><div class="output"><b>Resultado / comportamiento:</b> n × n comparaciones → O(n²)</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>No todos los bucles anidados son O(n²); analiza límites concretos.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="35"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q36" data-level="Intermedio" data-topic="Colecciones" data-search="¿qué es generics y qué beneficio aporta list&lt;string&gt;? colecciones los genéricos permiten expresar el tipo esperado de elementos y detectar incompatibilidades en compilación.">
+ <div class="q-top"><span class="number">Q36</span><span class="pill medium">Intermedio</span><span class="topic">Colecciones</span></div>
+ <h3>¿Qué es Generics y qué beneficio aporta List&lt;String&gt;?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Los genéricos permiten expresar el tipo esperado de elementos y detectar incompatibilidades en compilación.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Declara List&lt;String&gt;.</li><li>Añade cadenas.</li><li>Una inserción de Integer fallaría al compilar.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>List&lt;String&gt; browsers=new ArrayList&lt;&gt;();
+browsers.add(&quot;Chrome&quot;);
+// browsers.add(123); // error de tipos</code></pre><div class="output"><b>Resultado / comportamiento:</b> [Chrome]</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Los genéricos usan type erasure; no son un sistema de tipos reificado completo.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="36"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q37" data-level="Avanzado" data-topic="Búsqueda binaria" data-search="¿cómo evitas overflow al calcular mid y qué sucede con duplicados? búsqueda binaria calcula mid=low+(high−low)/2. la búsqueda estándar puede devolver cualquier coincidencia; para primera ocurrencia continúa a la izquierda.">
+ <div class="q-top"><span class="number">Q37</span><span class="pill hard">Avanzado</span><span class="topic">Búsqueda binaria</span></div>
+ <h3>¿Cómo evitas overflow al calcular mid y qué sucede con duplicados?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Calcula mid=low+(high−low)/2. La búsqueda estándar puede devolver cualquier coincidencia; para primera ocurrencia continúa a la izquierda.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Evita (low+high)/2 si podría desbordarse.</li><li>Al encontrar target, guarda posición.</li><li>Reduce high para buscar una coincidencia anterior.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>int answer=-1;
+while(low&lt;=high){
+  int mid=low+(high-low)/2;
+  if(a[mid]&gt;=target){
+    if(a[mid]==target) answer=mid;
+    high=mid-1;
+  } else low=mid+1;
+}</code></pre><div class="output"><b>Resultado / comportamiento:</b> En [2,2,2,5], target=2 → índice 0</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Requiere array ordenado ascendentemente y low/high inicializados.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="37"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q38" data-level="Avanzado" data-topic="HashMap" data-search="¿qué ocurre con colisiones hash y cuál es la complejidad real de hashmap? hashmap distintas claves pueden compartir bucket. hashmap resuelve colisiones mediante estructuras internas; o(1) es promedio esperado, no garantía absoluta.">
+ <div class="q-top"><span class="number">Q38</span><span class="pill hard">Avanzado</span><span class="topic">HashMap</span></div>
+ <h3>¿Qué ocurre con colisiones hash y cuál es la complejidad real de HashMap?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Distintas claves pueden compartir bucket. HashMap resuelve colisiones mediante estructuras internas; O(1) es promedio esperado, no garantía absoluta.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>hashCode distribuye claves entre buckets.</li><li>equals decide igualdad lógica de claves.</li><li>Colisiones afectan rendimiento; una mala función hash puede degradarlo.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>Map&lt;String,Integer&gt; map=new HashMap&lt;&gt;();
+map.put(&quot;a&quot;,1);
+map.put(&quot;a&quot;,2);
+System.out.println(map.size());</code></pre><div class="output"><b>Resultado / comportamiento:</b> 1</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Claves mutables con hashCode variable pueden romper búsquedas posteriores.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="38"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q39" data-level="Avanzado" data-topic="HashMap" data-search="¿por qué equals() y hashcode() deben ser coherentes? hashmap si dos objetos son iguales por equals(), deben tener el mismo hashcode(); de lo contrario fallan búsquedas en estructuras hash.">
+ <div class="q-top"><span class="number">Q39</span><span class="pill hard">Avanzado</span><span class="topic">HashMap</span></div>
+ <h3>¿Por qué equals() y hashCode() deben ser coherentes?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Si dos objetos son iguales por equals(), deben tener el mismo hashCode(); de lo contrario fallan búsquedas en estructuras hash.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Define igualdad lógica.</li><li>Asegura hashCode consistente con los campos de igualdad.</li><li>Prueba inserción y consulta con objetos equivalentes.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>record Key(String id) {}
+Set&lt;Key&gt; keys=new HashSet&lt;&gt;();
+keys.add(new Key(&quot;X&quot;));
+System.out.println(keys.contains(new Key(&quot;X&quot;)));</code></pre><div class="output"><b>Resultado / comportamiento:</b> true</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>record genera equals y hashCode coherentes para sus componentes.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="39"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q40" data-level="Avanzado" data-topic="Arrays" data-search="¿cómo detectas duplicados y faltantes cuando la fórmula de suma ya no es válida? arrays si hay duplicados o valores fuera de rango, la resta de sumas puede engañar; valida con un boolean[] o set y determina los ausentes.">
+ <div class="q-top"><span class="number">Q40</span><span class="pill hard">Avanzado</span><span class="topic">Arrays</span></div>
+ <h3>¿Cómo detectas duplicados y faltantes cuando la fórmula de suma ya no es válida?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Si hay duplicados o valores fuera de rango, la resta de sumas puede engañar; valida con un boolean[] o Set y determina los ausentes.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Comprueba que cada x esté entre 1 y n.</li><li>Marca apariciones y registra duplicados.</li><li>Recorre 1..n para hallar faltantes.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>int[] a={1,2,2,4}; int n=4;
+boolean[] seen=new boolean[n+1];
+for(int x:a){
+  if(x&gt;=1 &amp;&amp; x&lt;=n) seen[x]=true;
+}
+for(int i=1;i&lt;=n;i++)
+  if(!seen[i]) System.out.println(i);</code></pre><div class="output"><b>Resultado / comportamiento:</b> 3</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Espacio O(n); define política para valores inválidos y duplicados.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="40"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q41" data-level="Avanzado" data-topic="Linked List" data-search="¿cómo detectas un ciclo en una lista enlazada con o(1) memoria? linked list el algoritmo de floyd utiliza dos punteros: slow avanza uno y fast dos. si se encuentran, existe ciclo.">
+ <div class="q-top"><span class="number">Q41</span><span class="pill hard">Avanzado</span><span class="topic">Linked List</span></div>
+ <h3>¿Cómo detectas un ciclo en una lista enlazada con O(1) memoria?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>El algoritmo de Floyd utiliza dos punteros: slow avanza uno y fast dos. Si se encuentran, existe ciclo.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Inicializa slow y fast en head.</li><li>Avanza slow una posición y fast dos.</li><li>Si coinciden, hay ciclo; si fast llega a null, no hay.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>Node slow=head, fast=head;
+boolean cycle=false;
+while(fast!=null &amp;&amp; fast.next!=null){
+  slow=slow.next; fast=fast.next.next;
+  if(slow==fast){cycle=true;break;}
+}</code></pre><div class="output"><b>Resultado / comportamiento:</b> cycle = true si existe ciclo</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Tiempo O(n), espacio O(1).</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="41"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q42" data-level="Avanzado" data-topic="Colecciones" data-search="¿cuándo preferir arraylist frente a linkedlist? colecciones arraylist suele ser mejor para lectura por índice, iteración y localidad de memoria. linkedlist puede ayudar en inserciones/eliminaciones con nodo ya localizado, pero tiene sobrecosto.">
+ <div class="q-top"><span class="number">Q42</span><span class="pill hard">Avanzado</span><span class="topic">Colecciones</span></div>
+ <h3>¿Cuándo preferir ArrayList frente a LinkedList?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>ArrayList suele ser mejor para lectura por índice, iteración y localidad de memoria. LinkedList puede ayudar en inserciones/eliminaciones con nodo ya localizado, pero tiene sobrecosto.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Define patrón de acceso real.</li><li>Evalúa costos de búsqueda y memoria.</li><li>Mide con benchmarks representativos si es crítico.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>List&lt;Integer&gt; list=new ArrayList&lt;&gt;();
+list.add(10); list.add(20);
+System.out.println(list.get(1));</code></pre><div class="output"><b>Resultado / comportamiento:</b> 20</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>No optimices únicamente por complejidad teórica: importa la carga real.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="42"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q43" data-level="Avanzado" data-topic="POO" data-search="¿qué diferencia hay entre interfaz y clase abstracta? poo una interfaz define contratos implementables por múltiples clases; una clase abstracta puede compartir estado y comportamiento base.">
+ <div class="q-top"><span class="number">Q43</span><span class="pill hard">Avanzado</span><span class="topic">POO</span></div>
+ <h3>¿Qué diferencia hay entre interfaz y clase abstracta?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Una interfaz define contratos implementables por múltiples clases; una clase abstracta puede compartir estado y comportamiento base.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Usa interfaz para capacidades.</li><li>Usa clase abstracta si existe base común con estado.</li><li>Implementa dependencias contra abstracciones.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>interface Validator { boolean valid(String s); }
+class NonEmpty implements Validator {
+  public boolean valid(String s){
+    return s!=null &amp;&amp; !s.isBlank();
+  }
+}</code></pre><div class="output"><b>Resultado / comportamiento:</b> valid(&quot;QA&quot;) → true</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Una clase puede implementar varias interfaces pero extender una sola clase.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="43"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q44" data-level="Avanzado" data-topic="POO" data-search="¿cómo aplicas polimorfismo al diseño de un framework de qa? poo puedes definir un contrato de ejecución y varias implementaciones; el runner no necesita conocer los detalles de cada tipo de test.">
+ <div class="q-top"><span class="number">Q44</span><span class="pill hard">Avanzado</span><span class="topic">POO</span></div>
+ <h3>¿Cómo aplicas polimorfismo al diseño de un framework de QA?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Puedes definir un contrato de ejecución y varias implementaciones; el runner no necesita conocer los detalles de cada tipo de test.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Define interfaz Check.</li><li>Implementa ApiCheck y UiCheck.</li><li>Itera sobre List&lt;Check&gt; e invoca run().</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>interface Check { boolean run(); }
+class ApiCheck implements Check {
+  public boolean run(){return true;}
+}
+Check c=new ApiCheck();
+System.out.println(c.run());</code></pre><div class="output"><b>Resultado / comportamiento:</b> true</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Separa orquestación de implementación para facilitar mantenimiento.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="44"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q45" data-level="Avanzado" data-topic="Excepciones" data-search="¿cuándo usar checked y unchecked exceptions? excepciones checked exceptions requieren declaración o captura; unchecked (runtimeexception) no. elige según contrato y capacidad de recuperación.">
+ <div class="q-top"><span class="number">Q45</span><span class="pill hard">Avanzado</span><span class="topic">Excepciones</span></div>
+ <h3>¿Cuándo usar checked y unchecked exceptions?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Checked exceptions requieren declaración o captura; unchecked (RuntimeException) no. Elige según contrato y capacidad de recuperación.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Identifica si el llamador puede recuperarse.</li><li>Propaga con contexto cuando no puedas resolver.</li><li>No uses excepciones para flujo normal de negocio.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>static void read() throws java.io.IOException {
+  throw new java.io.IOException(&quot;Missing file&quot;);
+}</code></pre><div class="output"><b>Resultado / comportamiento:</b> El llamador debe manejar o declarar IOException</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>En pruebas distingue fallo del producto de fallo del entorno de test.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="45"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q46" data-level="Avanzado" data-topic="Testing" data-search="¿cómo diseñarías pruebas parametrizadas de una regla de descuentos? testing usa tabla de entradas y salidas para cubrir clases válidas, límites e inválidos, evitando duplicación de lógica de test.">
+ <div class="q-top"><span class="number">Q46</span><span class="pill hard">Avanzado</span><span class="topic">Testing</span></div>
+ <h3>¿Cómo diseñarías pruebas parametrizadas de una regla de descuentos?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Usa tabla de entradas y salidas para cubrir clases válidas, límites e inválidos, evitando duplicación de lógica de test.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Define contrato y redondeo.</li><li>Crea dataset de casos con expected.</li><li>Ejecuta la misma aserción para cada caso.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>// JUnit 5, fragmento conceptual
+@CsvSource({&quot;100,20,80&quot;, &quot;50,0,50&quot;})
+@ParameterizedTest
+void discount(int price,int off,int expected){
+  assertEquals(expected,price-off);
+}</code></pre><div class="output"><b>Resultado / comportamiento:</b> Ambos casos PASS</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Incluye casos off&gt;price y negativos si el contrato los contempla.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="46"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q47" data-level="Avanzado" data-topic="Debugging" data-search="¿cómo depuras un test intermitente (flaky) sin ocultar el defecto? debugging captura evidencia, clasifica condiciones, controla sincronización y datos; no sustituyas la investigación por reintentos ciegos.">
+ <div class="q-top"><span class="number">Q47</span><span class="pill hard">Avanzado</span><span class="topic">Debugging</span></div>
+ <h3>¿Cómo depuras un test intermitente (flaky) sin ocultar el defecto?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Captura evidencia, clasifica condiciones, controla sincronización y datos; no sustituyas la investigación por reintentos ciegos.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Registra versión, entorno, logs, timestamps y semilla.</li><li>Compara ejecuciones PASS/FAIL y reproduce.</li><li>Aplica fix de causa raíz y mide estabilidad.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>// Pseudocódigo de espera acotada
+wait.until(driver -&gt;
+  driver.findElement(By.id(&quot;status&quot;)).getText().equals(&quot;READY&quot;)
+);</code></pre><div class="output"><b>Resultado / comportamiento:</b> Continúa cuando status=READY o falla por timeout</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>Evita Thread.sleep fijo como solución general.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="47"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q48" data-level="Avanzado" data-topic="Complejidad" data-search="¿cómo comparas o(n log n) frente a o(n²) en un problema de pares? complejidad ordenar y aplicar dos punteros puede costar o(n log n); hashing logra o(n) esperado con o(n) memoria. la definición de pares y preservación de índices importan.">
+ <div class="q-top"><span class="number">Q48</span><span class="pill hard">Avanzado</span><span class="topic">Complejidad</span></div>
+ <h3>¿Cómo comparas O(n log n) frente a O(n²) en un problema de pares?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Ordenar y aplicar dos punteros puede costar O(n log n); hashing logra O(n) esperado con O(n) memoria. La definición de pares y preservación de índices importan.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Define si cuentas pares únicos de valores o pares de índices.</li><li>Analiza duplicados y orden original.</li><li>Compara tiempo, memoria y estabilidad.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>int[] a={1,1,2,2}; int target=3;
+// Pares de índices: 2 × 2 = 4</code></pre><div class="output"><b>Resultado / comportamiento:</b> 4 pares de índices; 1 par único de valores (1,2)</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>La elección del algoritmo depende del contrato exacto.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="48"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q49" data-level="Avanzado" data-topic="Java y memoria" data-search="¿cuál es la diferencia entre stack, heap y referencias? java y memoria las variables locales y marcos de llamada se gestionan conceptualmente en stacks; los objetos se alojan normalmente en heap; las referencias apuntan a objetos.">
+ <div class="q-top"><span class="number">Q49</span><span class="pill hard">Avanzado</span><span class="topic">Java y memoria</span></div>
+ <h3>¿Cuál es la diferencia entre stack, heap y referencias?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Las variables locales y marcos de llamada se gestionan conceptualmente en stacks; los objetos se alojan normalmente en heap; las referencias apuntan a objetos.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Crea un objeto.</li><li>Asigna su referencia a otra variable.</li><li>Modificar el objeto se observa desde ambas referencias.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>List&lt;Integer&gt; a=new ArrayList&lt;&gt;();
+List&lt;Integer&gt; b=a;
+b.add(7);
+System.out.println(a.size());</code></pre><div class="output"><b>Resultado / comportamiento:</b> 1</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>No confundas copiar una referencia con clonar un objeto.</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="49"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article>
+<article class="question" id="q50" data-level="Avanzado" data-topic="Integración QA" data-search="¿cómo resolverías una pregunta de código en entrevista técnica de forma estructurada? integración qa explica contrato, ejemplos, casos límite, algoritmo, complejidad, implementación y pruebas. comunica supuestos antes de escribir.">
+ <div class="q-top"><span class="number">Q50</span><span class="pill hard">Avanzado</span><span class="topic">Integración QA</span></div>
+ <h3>¿Cómo resolverías una pregunta de código en entrevista técnica de forma estructurada?</h3><div class="answer"><span class="eyebrow">RESPUESTA EXPLICADA</span><p>Explica contrato, ejemplos, casos límite, algoritmo, complejidad, implementación y pruebas. Comunica supuestos antes de escribir.</p></div>
+ <div class="steps"><h4>Explicación paso a paso</h4><ol><li>Aclara inputs y outputs, nulos, duplicados y límites.</li><li>Propón solución y analiza Big O.</li><li>Codifica, recorre ejemplo y valida edge cases.</li></ol></div>
+ <div class="example"><div class="code-title"><span>Ejemplo · Java / terminal</span><button class="copy" type="button">Copiar</button></div><pre><code>// Contrato de ejemplo:
+// input: int[] {2,4,3,5,7}, target=9
+// output: 2 pares de índices</code></pre><div class="output"><b>Resultado / comportamiento:</b> Resultado esperado: 2</div></div>
+ <div class="insight"><b>Enfoque QA / entrevista</b><p>En inglés: “First, I would clarify the input constraints and edge cases…”</p></div>
+ <div class="q-footer"><label><input type="checkbox" class="done" data-id="50"> Marcar como dominada</label><a href="#top">↑ Volver arriba</a></div></article></div><p class="empty" id="empty">No se encontraron preguntas con esos filtros.</p><section class="question" id="criterios"><div class="eyebrow">Criterios de salida · Etapa 01</div><h3>¿Cuándo estás listo para pasar a la siguiente etapa?</h3><div class="steps"><ol><li>Explicas sin apuntes JDK/JVM, tipos, control de flujo, métodos y POO.</li><li>Implementas búsqueda binaria, conteo de pares, número faltante y máximo/mínimo desde cero.</li><li>Justificas complejidad temporal y espacial de cada solución.</li><li>Detectas errores de compilación, ejecución y lógica, con pruebas de borde.</li><li>Resuelves problemas y comunicas supuestos, decisiones y pruebas en inglés técnico.</li></ol></div><div class="insight"><b>Nota metodológica</b><p>Las preguntas se basan en los temas de la Etapa 01 y amplían su alcance pedagógico. No son preguntas oficiales ni una clave de evaluación de ninguna empresa.</p></div></section><div class="footer">QA Engineering Academy · Guía de estudio autónoma · Diseño visual inspirado en la familia cromática de Gemini, sin afiliación oficial.</div></div></main></div><script>
+const all=[...document.querySelectorAll('.question[data-level]')];const search=document.querySelector('#search');const filters=[...document.querySelectorAll('.filter')];let active='Todos';function render(){let shown=0;const query=search.value.toLocaleLowerCase('es').trim();all.forEach(el=>{const ok=(active==='Todos'||el.dataset.level===active)&&el.dataset.search.includes(query);el.hidden=!ok;if(ok)shown++});document.querySelector('#empty').style.display=shown?'none':'block'}filters.forEach(b=>b.addEventListener('click',()=>{active=b.dataset.filter;filters.forEach(x=>x.classList.toggle('selected',x===b));render()}));search.addEventListener('input',render);function progress(){let n=0;document.querySelectorAll('.done').forEach(c=>{if(c.checked)n++;c.closest('.question').classList.toggle('mastered',c.checked)});document.querySelector('#progressText').textContent=`${n} / 50 · ${Math.round(n/50*100)}%`;document.querySelector('#fill').style.width=(n/50*100)+'%'}document.querySelectorAll('.done').forEach(c=>{try{c.checked=localStorage.getItem('qa-stage1-q'+c.dataset.id)==='1'}catch(e){}c.addEventListener('change',()=>{try{localStorage.setItem('qa-stage1-q'+c.dataset.id,c.checked?'1':'0')}catch(e){}progress()})});progress();document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{const val=b.closest('.example').querySelector('code').innerText;try{await navigator.clipboard.writeText(val);b.textContent='Copiado ✓';setTimeout(()=>b.textContent='Copiar',1400)}catch(e){b.textContent='Selecciona el código'}}));document.querySelector('#print').addEventListener('click',()=>window.print());
+</script></body></html>
