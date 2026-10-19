@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#14234c">
+<meta name="description" content="Juego de 100 palabras para Brian. Escucha, combina círculos de letras y sílabas y toca una batería musical.">
+<title>Brian y las 100 palabras | Laboratorio de sonidos</title>
+<style>
+:root{--ink:#14234c;--blue:#4053d8;--blue2:#6678ff;--sky:#eaf4ff;--yellow:#ffcb51;--mint:#22b996;--pink:#fb7ba8;--purple:#825fe0;--paper:#fff;--muted:#63718a;--shadow:0 18px 50px rgba(30,50,99,.12)}
+*{box-sizing:border-box}body{margin:0;font-family:ui-rounded,"Arial Rounded MT Bold",Nunito,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 9% 9%,#d5f1ff 0,transparent 28%),radial-gradient(circle at 95% 16%,#ffebbd 0,transparent 24%),linear-gradient(145deg,#f5f9ff,#eef0ff);color:var(--ink);min-height:100vh}
+button,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.42}button:focus-visible,select:focus-visible{outline:4px solid #ffb100;outline-offset:3px}
+.shell{max-width:1160px;margin:auto;padding:22px 18px 48px}
+header{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:13px}.logo{width:67px;height:67px;border-radius:23px;background:linear-gradient(145deg,#6367ff,#3449b4);color:white;display:grid;place-items:center;font-size:34px;box-shadow:0 10px 24px #3544c23d;transform:rotate(-6deg)}
+h1{font-size:clamp(1.5rem,3.8vw,2.45rem);margin:0;letter-spacing:-.055em;line-height:1.15}header p{margin:4px 0 0;color:var(--muted);font-weight:650}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:999px;background:#fff;box-shadow:0 5px 16px #25315712;font-weight:850;font-size:.88rem;color:#4e5980}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:19px}.stat{background:#fff;border-radius:20px;padding:16px 15px;box-shadow:0 5px 21px #263c8010;min-width:0}.stat strong{font-size:clamp(1.3rem,2.9vw,2rem);display:block;line-height:1.16}.stat span{font-size:.77rem;color:var(--muted);font-weight:800;display:block;margin-top:4px}.stat:nth-child(2) strong{color:#ec9c00}.stat:nth-child(3) strong{color:var(--mint)}
+.progressCard{background:#fff;border-radius:21px;padding:18px 20px;box-shadow:0 7px 23px #263c8012;margin-bottom:19px}.progressRow{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:12px;font-weight:850}.progressRow small{color:var(--muted);font-size:.79rem}.track{height:14px;border-radius:100px;background:#e8edff;overflow:hidden}.fill{width:0;height:100%;background:linear-gradient(90deg,var(--mint),#7be3bf);border-radius:100px;transition:width .55s}
+.columns{display:grid;grid-template-columns:minmax(0,1fr) 282px;gap:18px;align-items:start}.card{background:var(--paper);border-radius:28px;box-shadow:var(--shadow);overflow:hidden}
+.gameTop{background:linear-gradient(115deg,#4154cf,#7973f1);color:white;padding:20px 26px 22px}.gameTopLine{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.badge{background:#ffffff32;border:1px solid #ffffff3d;border-radius:999px;padding:7px 12px;font-size:.84rem;font-weight:900;letter-spacing:.02em}.gameTop h2{font-size:clamp(1.2rem,3vw,1.67rem);margin:10px 0 0;line-height:1.22}.gameTop p{margin:5px 0 0;color:#e4e8ff;font-size:.93rem}
+.settings{padding:17px 24px 7px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.seg{display:inline-flex;background:#f1f3ff;padding:5px;border-radius:15px;gap:3px}.seg button{border:0;border-radius:11px;background:transparent;font-weight:850;color:#57618a;padding:9px 15px;font-size:.86rem}.seg button.active{background:#fff;color:#3847ba;box-shadow:0 3px 9px #273b851c}.timeChoice{display:flex;align-items:center;gap:8px;color:#586780;font-size:.82rem;font-weight:800}.timeChoice select{background:#f5f7ff;border:1px solid #e0e5fc;color:#344167;border-radius:11px;padding:9px 10px;max-width:150px}
+.puzzle{padding:6px 25px 20px;text-align:center}.emoji{font-size:clamp(4.4rem,12vw,7.1rem);line-height:1.3;filter:drop-shadow(0 8px 6px #20345c12);margin:8px 0 4px}.clue{font-size:clamp(1.06rem,2.5vw,1.36rem);font-weight:950;line-height:1.4;margin:0 auto 12px;max-width:490px}.instructions{font-size:.91rem;color:var(--muted);font-weight:650;margin:0 0 19px}
+.listen{border:none;background:#e8f3ff;color:#1c54a6;border-radius:999px;padding:11px 17px;font-weight:900;display:inline-flex;gap:8px;align-items:center;box-shadow:0 5px 11px #3f93d71a}.listen:hover{background:#d7ebff}
+.workArea{margin-top:22px;padding:18px 10px 4px;background:#f7f9ff;border:2px dashed #dbe2ff;border-radius:20px}.tinyTitle{font-weight:950;letter-spacing:.065em;color:#69759c;font-size:.69rem;text-transform:uppercase;margin:0 0 14px}.slots,.tiles{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}.slots{min-height:66px;align-items:center}
+.slot{width:48px;height:55px;display:grid;place-items:center;border-radius:16px;border:2px dashed #b7c4f7;background:#fff;color:#3849be;font-size:1.48rem;font-weight:1000;box-shadow:0 4px 0 #edf0ff}.slot.filled{border-style:solid;border-color:#869aff;background:#eaf0ff}.slot.correct{background:#d3fff1;border-color:#24ba91;color:#0d8765}.slot.hinted{border-color:#ffbe3e}
+.tilesWrap{margin:22px 0 10px}.tiles{gap:10px;min-height:65px;align-items:center}
+.tile{height:59px;min-width:59px;padding:0 11px;border:0;border-radius:999px;color:#fff;background:linear-gradient(145deg,#7a78ef,#3d56cc);font-size:1.44rem;font-weight:1000;box-shadow:0 7px 0 #3542a0,0 9px 15px #2a38851c;transition:transform .15s,filter .15s}.tile:nth-child(5n+2){background:linear-gradient(145deg,#ff9e9c,#ef658b);box-shadow:0 7px 0 #c74778,0 9px 15px #85334a1c}.tile:nth-child(5n+3){background:linear-gradient(145deg,#42cfb2,#12a98e);box-shadow:0 7px 0 #09876f,0 9px 15px #2085761c}.tile:nth-child(5n+4){background:linear-gradient(145deg,#ffce63,#f2a83d);box-shadow:0 7px 0 #bb7f22,0 9px 15px #805b2c1c}.tile:nth-child(5n){background:linear-gradient(145deg,#aa8ef6,#7753d1);box-shadow:0 7px 0 #6044a7,0 9px 15px #7141a21c}.tile:not(:disabled):active{transform:translateY(5px);box-shadow:0 2px 0 #3542a0}.tile.used{opacity:.24;transform:translateY(5px);filter:grayscale(.5);box-shadow:none}
+.feedback{min-height:48px;display:grid;place-items:center;font-weight:900;line-height:1.4;padding:7px 3px;color:#54627c}.feedback.good{color:#087b5d}.feedback.bad{color:#c84365}
+.actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:4px}.btn{border:0;border-radius:13px;padding:12px 15px;background:#eef2ff;color:#4451ae;font-weight:900}.btn:hover{background:#e1e8ff}.btn.primary{background:linear-gradient(110deg,#3e52cf,#675ce4);color:white;box-shadow:0 7px 18px #4858c62b}.btn.primary:hover{filter:brightness(1.08)}
+.gameFooter{padding:15px 24px 20px;border-top:1px solid #eef0fa;display:flex;justify-content:space-between;gap:10px;align-items:center}.gameFooter .btn{min-width:118px}
+.side{display:grid;gap:17px}.sideInner{padding:20px}.side h3{font-size:1.13rem;margin:0 0 7px;letter-spacing:-.025em}.side p{font-size:.85rem;line-height:1.48;color:var(--muted);margin:0 0 16px}.drums{display:grid;grid-template-columns:1fr 1fr;gap:12px}.drum{border:0;min-height:112px;border-radius:24px;background:#ffeff6;color:#a73370;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;box-shadow:inset 0 -5px #f4c9dc;transition:transform .12s}.drum span:first-child{font-size:2.1rem;line-height:1.2}.drum span:last-child{font-size:.8rem;font-weight:950}.drum:nth-child(2){background:#e9f4ff;color:#3970bb;box-shadow:inset 0 -5px #c8e4fa}.drum:nth-child(3){background:#fff4df;color:#bf8226;box-shadow:inset 0 -5px #f4dfb5}.drum:nth-child(4){background:#e8fcf2;color:#188768;box-shadow:inset 0 -5px #c5f0da}.drum:active,.drum.hit{transform:scale(.93)}.smallBtn{border:1px solid #dce1f7;background:#fff;color:#4150a5;border-radius:12px;padding:9px 12px;font-weight:850;font-size:.79rem;width:100%;margin-top:14px}
+.tips{background:linear-gradient(140deg,#fff8e8,#fff);border:1px solid #ffecd0}.tips ul{padding-left:18px;margin:11px 0 0;color:#6d6072;font-size:.84rem;line-height:1.65}.tips li{margin-bottom:4px}.footerNote{text-align:center;color:#8190aa;font-size:.78rem;font-weight:650;margin-top:18px}.timer{font-variant-numeric:tabular-nums;font-weight:1000}.timer.danger{color:#ffec89}
+.winBanner{display:none;margin:0 24px 20px;background:linear-gradient(110deg,#d6fff0,#e8fff9);border:2px solid #a6efd7;border-radius:17px;padding:17px;font-weight:1000;color:#067a5a;font-size:1.05rem;text-align:center}.winBanner.show{display:block}
+@keyframes pop{0%{transform:scale(.75)}60%{transform:scale(1.13)}100%{transform:scale(1)}}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}.celebrate .emoji{animation:pop .5s both}.shake .workArea{animation:shake .34s}.completion{display:none;background:linear-gradient(135deg,#fff4c7,#fff,#e7ffe9);margin:0 24px 20px;border:2px solid #efce66;border-radius:22px;padding:22px;text-align:center}.completion.show{display:block}.completion strong{font-size:1.25rem}.completion p{line-height:1.5;color:#695a3e}
+@media(max-width:820px){.columns{grid-template-columns:1fr}.side{grid-template-columns:1fr 1fr}.sideInner{padding:17px}.drum{min-height:89px}.stats{gap:8px}}
+@media(max-width:550px){.shell{padding:16px 10px 32px}header{align-items:flex-start}header .chip{font-size:.73rem;padding:7px 9px}.logo{width:53px;height:53px;font-size:27px;border-radius:17px}header p{font-size:.82rem}.stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.stat{padding:12px 7px;border-radius:14px}.stat span{font-size:.64rem}.stat strong{font-size:1.24rem}.progressCard{padding:13px 15px}.gameTop{padding:16px 18px}.puzzle{padding:7px 12px 17px}.settings{padding:15px 13px 3px;gap:11px}.slot{width:34px;height:43px;border-radius:11px;font-size:1.02rem}.slots{gap:5px;min-height:45px}.tile{height:47px;min-width:47px;font-size:1.15rem;padding:0 9px;box-shadow:0 5px 0 #3542a0}.tiles{gap:8px}.side{grid-template-columns:1fr}.gameFooter{padding:13px;gap:6px}.gameFooter .btn{min-width:0;font-size:.87rem;padding:11px 12px}.btn{padding:11px 13px}.workArea{padding:14px 5px 4px}.chip.desktop{display:none}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header>
+ <div class="brand"><div class="logo" aria-hidden="true">🥁</div><div><h1>Brian y las 100 palabras</h1><p>Laboratorio de sonidos · Aprende jugando</p></div></div>
+ <span class="chip desktop">🎓 Primaria · 3.º y 4.º</span>
+</header>
+<section class="stats" aria-label="Tus estadísticas">
+ <div class="stat"><strong id="completeCount">0</strong><span>Completadas</span></div>
+ <div class="stat"><strong id="streak">0 🔥</strong><span>Racha actual</span></div>
+ <div class="stat"><strong id="bestStreak">0</strong><span>Mejor racha</span></div>
+ <div class="stat"><strong id="points">0</strong><span>Estrellas ⭐</span></div>
+</section>
+<section class="progressCard"><div class="progressRow"><span>🚀 Tu aventura de palabras</span><small id="progressText">0 de 100</small></div><div class="track" role="progressbar" aria-label="Progreso del juego" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressTrack"><div id="progressFill" class="fill"></div></div></section>
+<div class="columns">
+ <main class="card" id="mainGame">
+  <div class="gameTop"><div class="gameTopLine"><span class="badge" id="stageLabel">🌱 Nivel fácil</span><span class="badge">Reto <span id="challengeNumber">1</span> / 100</span><span class="badge timer" id="timer">∞ Sin reloj</span></div><h2>Escucha, descubre y forma la palabra</h2><p>¡Cada círculo tiene un sonido que puedes explorar!</p></div>
+  <div class="settings">
+   <div class="seg" aria-label="Modo de juego"><button type="button" id="lettersMode" class="active" aria-pressed="true">🔤 Letras</button><button type="button" id="syllablesMode" aria-pressed="false">🧩 Sílabas</button></div>
+   <label class="timeChoice" for="timeSelect">⏱️ Tiempo <select id="timeSelect"><option value="0">Sin límite</option><option value="60">60 segundos</option><option value="30">30 segundos</option></select></label>
+  </div>
+  <div class="puzzle">
+   <div class="emoji" id="wordEmoji" aria-hidden="true">☀️</div>
+   <p class="clue" id="wordClue">Ilumina el día</p>
+   <p class="instructions">Mira la pista, escucha la palabra y toca los círculos en orden.</p>
+   <button class="listen" id="listenWord" type="button">🔊 Escuchar la palabra</button>
+   <div class="workArea"><p class="tinyTitle">Aquí se forma tu palabra</p><div class="slots" id="slots" aria-label="Espacios de la palabra"></div>
+    <div class="tilesWrap"><p class="tinyTitle">Toca los círculos para formar la palabra</p><div class="tiles" id="tiles" aria-label="Círculos de sonidos"></div></div>
+   </div>
+   <div class="feedback" id="feedback" role="status" aria-live="polite">¡Tú puedes, Brian! 💙</div>
+   <div class="actions"><button class="btn" id="hint" type="button">💡 Una pista</button><button class="btn" id="clear" type="button">↩ Borrar intento</button><button class="btn" id="repeat" type="button">🔄 Mezclar</button></div>
+  </div>
+  <div class="winBanner" id="winBanner">🌟 ¡Excelente, Brian! ¡Lo conseguiste!</div>
+  <div class="completion" id="completion"><div style="font-size:3rem">🏆🎊🥁</div><strong>¡Brian, completaste las 100 palabras!</strong><p>Escuchaste sonidos, ordenaste letras y sílabas y llegaste al último desafío. ¡Eres un campeón de las palabras!</p></div>
+  <div class="gameFooter"><button class="btn" id="prev" type="button">← Anterior</button><button class="btn primary" id="next" type="button">Siguiente reto →</button></div>
+ </main>
+ <aside class="side">
+  <section class="card"><div class="sideInner"><h3>🥁 Batería de Brian</h3><p>¡Toca los tambores! Cada sonido es diferente. También sonarán cuando superes un reto.</p>
+   <div class="drums"><button type="button" class="drum" data-drum="kick" aria-label="Tocar bombo"><span>🥁</span><span>Bombo</span></button><button type="button" class="drum" data-drum="snare" aria-label="Tocar caja"><span>🪘</span><span>Caja</span></button><button type="button" class="drum" data-drum="hat" aria-label="Tocar platillo"><span>✨</span><span>Platillo</span></button><button type="button" class="drum" data-drum="tom" aria-label="Tocar tom"><span>🎵</span><span>Tom</span></button></div>
+   <button type="button" class="smallBtn" id="soundToggle" aria-pressed="true">🔊 Sonido activado</button>
+  </div></section>
+  <section class="card tips"><div class="sideInner"><h3>🧠 ¡Aprendamos jugando!</h3><p>Los retos cambian poco a poco, para que Brian avance a su ritmo.</p><ul><li><strong>1–30:</strong> palabras cortas y sencillas.</li><li><strong>31–65:</strong> nuevos sonidos y letras.</li><li><strong>66–100:</strong> palabras largas y retos expertos.</li><li>Si te equivocas, ¡puedes intentar otra vez!</li><li>El progreso se guarda en este navegador.</li></ul><button class="smallBtn" id="restart" type="button">↻ Borrar progreso y comenzar</button></div></section>
+ </aside>
+</div>
+<p class="footerNote">Hecho con cariño para Brian 💙 · Funciona sin instalar aplicaciones · Las voces dependen del navegador</p>
+</div>
+<script>
+(function () {
+ "use strict";
+ // Formato: palabra | emoji | pista | sílabas correctas
+ const raw = String.raw`SOL|☀️|Nos ilumina durante el día.|sol
+PAN|🍞|Alimento que se compra en la panadería.|pan
+OSO|🐻|Animal grande, peludo y de cuatro patas.|o-so
+OJO|👁️|Lo usamos para mirar.|o-jo
+MAR|🌊|Tiene mucha agua salada.|mar
+LUZ|💡|Nos ayuda a ver cuando está oscuro.|luz
+PIE|🦶|Parte del cuerpo con la que caminamos.|pie
+SAL|🧂|Condimento blanco para la comida.|sal
+UVA|🍇|Fruta pequeña que crece en racimos.|u-va
+OLA|🌊|Se forma en el agua del mar.|o-la
+AVE|🐦|Animal que suele tener plumas y alas.|a-ve
+ALA|🪽|Parte que usan las aves para volar.|a-la
+MIEL|🍯|Dulce alimento que fabrican las abejas.|miel
+LUNA|🌙|La vemos muchas noches en el cielo.|lu-na
+GATO|🐱|Animal que dice miau.|ga-to
+PATO|🦆|Ave que nada y hace cuac.|pa-to
+MESA|🪑|Mueble donde comemos o estudiamos.|me-sa
+SOPA|🍲|Comida líquida que se sirve en un plato.|so-pa
+CASA|🏠|Lugar donde vive una familia.|ca-sa
+DEDO|☝️|Tenemos cinco en cada mano.|de-do
+VACA|🐮|Animal de granja que produce leche.|va-ca
+RANA|🐸|Animal verde que salta y croa.|ra-na
+PELO|💇|Crece en la cabeza.|pe-lo
+FOCO|💡|Objeto que se enciende para iluminar.|fo-co
+TAZA|☕|Recipiente con asa para beber.|ta-za
+BOLA|⚽|Objeto redondo que puede rebotar.|bo-la
+FLOR|🌸|Tiene pétalos y puede oler bonito.|flor
+TREN|🚆|Transporte que avanza sobre rieles.|tren
+NUBE|☁️|Forma blanca o gris que flota en el cielo.|nu-be
+MANO|✋|Parte del cuerpo con cinco dedos.|ma-no
+ROSA|🌹|Flor que puede tener espinas.|ro-sa
+LORO|🦜|Ave que puede repetir palabras.|lo-ro
+PERA|🍐|Fruta verde o amarilla con forma de campana.|pe-ra
+LAGO|🏞️|Gran extensión de agua rodeada de tierra.|la-go
+RÍO|🏞️|Corriente de agua que fluye por la tierra.|rí-o
+LEÓN|🦁|Felino conocido como rey de la selva.|le-ón
+ÁRBOL|🌳|Planta grande con tronco y ramas.|ár-bol
+RATÓN|🐭|Animal pequeño con bigotes y cola.|ra-tón
+LIBRO|📖|Tiene páginas con historias e información.|li-bro
+LLAVE|🔑|Sirve para abrir una puerta.|lla-ve
+PLATO|🍽️|Recipiente donde servimos la comida.|pla-to
+QUESO|🧀|Alimento que se elabora con leche.|que-so
+PIZZA|🍕|Comida redonda con queso y otros ingredientes.|piz-za
+NARIZ|👃|Parte de la cara con la que olemos.|na-riz
+HUEVO|🥚|Lo ponen las gallinas.|hue-vo
+CEBRA|🦓|Animal parecido a un caballo con rayas.|ce-bra
+RELOJ|⌚|Objeto que indica la hora.|re-loj
+DULCE|🍬|Golosina que sabe a azúcar.|dul-ce
+PLAYA|🏖️|Lugar de arena junto al mar.|pla-ya
+BARCO|🚢|Medio de transporte que navega en el agua.|bar-co
+CIELO|🌌|Está sobre nosotros y allí vemos las nubes.|cie-lo
+ZORRO|🦊|Animal de orejas puntiagudas y cola peluda.|zo-rro
+SILLA|🪑|Mueble que usamos para sentarnos.|si-lla
+LÁPIZ|✏️|Lo usamos para escribir y dibujar.|lá-piz
+FUEGO|🔥|Produce calor, luz y llamas.|fue-go
+FRUTA|🍎|Alimento que crece en muchas plantas y árboles.|fru-ta
+NOCHE|🌃|Momento en el que suele oscurecer.|no-che
+CAMPO|🌾|Zona rural donde puede haber sembradíos.|cam-po
+PERRO|🐶|Animal que ladra y mueve la cola.|pe-rro
+NIÑOS|🧒|Personas pequeñas que juegan y aprenden.|ni-ños
+HELADO|🍦|Postre frío que se derrite con el calor.|he-la-do
+PELOTA|⚽|Objeto redondo que usamos para jugar.|pe-lo-ta
+CAMINO|🛤️|Ruta por donde vamos a un lugar.|ca-mi-no
+VENTANA|🪟|Abertura de una casa por donde entra la luz.|ven-ta-na
+ESCUELA|🏫|Lugar al que vamos para aprender.|es-cue-la
+MOCHILA|🎒|Bolsa donde llevamos útiles escolares.|mo-chi-la
+ZAPATOS|👟|Los usamos para proteger nuestros pies.|za-pa-tos
+GALLINA|🐔|Ave de granja que pone huevos.|ga-lli-na
+CABALLO|🐴|Animal que puede galopar.|ca-ba-llo
+ESTRELLA|⭐|Brilla en el cielo nocturno.|es-tre-lla
+MANZANA|🍎|Fruta roja, verde o amarilla.|man-za-na
+CORAZÓN|❤️|Órgano que late dentro de nuestro pecho.|co-ra-zón
+SONRISA|😄|Expresión alegre que hacemos con la boca.|son-ri-sa
+BALLENA|🐳|Mamífero muy grande que vive en el mar.|ba-lle-na
+DELFÍN|🐬|Mamífero marino inteligente que salta.|del-fín
+MARIPOSA|🦋|Insecto que vuela con alas de colores.|ma-ri-po-sa
+ELEFANTE|🐘|Animal enorme que tiene trompa.|e-le-fan-te
+JIRAFA|🦒|Animal africano de cuello muy largo.|ji-ra-fa
+TORTUGA|🐢|Animal que lleva un caparazón.|tor-tu-ga
+PLANETA|🪐|Cuerpo celeste que gira alrededor de una estrella.|pla-ne-ta
+DINOSAURIO|🦖|Animal prehistórico que vivió hace millones de años.|di-no-sau-rio
+CARACOL|🐌|Animal que puede llevar una concha en espiral.|ca-ra-col
+SEMÁFORO|🚦|Tiene luces roja, amarilla y verde.|se-má-fo-ro
+BICICLETA|🚲|Vehículo de dos ruedas que se mueve con pedales.|bi-ci-cle-ta
+CHOCOLATE|🍫|Dulce que se prepara a partir del cacao.|cho-co-la-te
+COMPUTADORA|💻|Máquina que usamos para estudiar y crear.|com-pu-ta-do-ra
+BIBLIOTECA|📚|Lugar donde encontramos muchos libros.|bi-blio-te-ca
+PRIMAVERA|🌷|Estación del año en la que florecen plantas.|pri-ma-ve-ra
+ARCOÍRIS|🌈|Arco de colores que aparece con sol y lluvia.|ar-co-í-ris
+ASTRONAUTA|👨‍🚀|Persona que viaja al espacio.|as-tro-nau-ta
+MICRÓFONO|🎤|Aparato que capta sonidos y la voz.|mi-cró-fo-no
+HELICÓPTERO|🚁|Aeronave que vuela con hélices grandes.|he-li-cóp-te-ro
+REFRIGERADOR|🧊|Electrodoméstico que mantiene fríos los alimentos.|re-fri-ge-ra-dor
+IMAGINACIÓN|💭|Capacidad de crear ideas en nuestra mente.|i-ma-gi-na-ción
+MURCIÉLAGO|🦇|Mamífero que puede volar y suele salir de noche.|mur-cié-la-go
+ROMPECABEZAS|🧩|Juego donde unimos piezas para formar una imagen.|rom-pe-ca-be-zas
+EXPERIMENTO|🧪|Actividad para investigar y comprobar una idea.|ex-pe-ri-men-to
+NATURALEZA|🌿|Conjunto de seres vivos y elementos del mundo.|na-tu-ra-le-za
+RESPONSABLE|🤝|Persona que cumple sus compromisos.|res-pon-sa-ble
+CONOCIMIENTO|🧠|Lo que aprendemos al estudiar y experimentar.|co-no-ci-mien-to`;
+ const words=raw.trim().split("\n").map(function(line){var p=line.split("|");return {word:p[0],emoji:p[1],clue:p[2],syllables:p[3].toLocaleUpperCase("es-MX").split("-")};});
+ // Esto detecta errores de contenido durante el desarrollo, sin depender de librerías.
+ if(words.length!==100 || new Set(words.map(function(w){return w.word;})).size!==100 || words.some(function(w){return w.syllables.join("")!==w.word;})){throw Error("La lista de 100 palabras necesita revisión");}
+ const STORAGE="brian_100_palabras_v1";
+ function readStored(){try{return JSON.parse(localStorage.getItem(STORAGE))||{};}catch(e){return {};}}
+ const saved=readStored();
+ var solved=Array.isArray(saved.solved)?Array.from({length:100},function(_,i){return !!saved.solved[i];}):Array(100).fill(false);
+ // Sólo desbloquear retos contiguos completados.
+ var unlocked=1;
+ while(unlocked<100 && solved[unlocked-1])unlocked++;
+ var level=Number.isInteger(saved.level)?Math.max(0,Math.min(saved.level,unlocked-1)):0;
+ var streak=Number.isFinite(saved.streak)?Math.max(0,saved.streak):0;
+ var best=Number.isFinite(saved.best)?Math.max(streak,saved.best):streak;
+ var mode=saved.mode==="syllables"?"syllables":"letters";
+ var limit=[0,30,60].includes(Number(saved.limit))?Number(saved.limit):0;
+ var soundOn=saved.soundOn!==false;
+ var chunks=[],tiles=[],selected=[],won=false,blocked=false,attemptErrors=0,hintShown=false;
+ var deadline=0,secondsLeft=0,timerId=null,resetId=null,audioCtx=null;
+ var $=function(id){return document.getElementById(id);};
+ function save(){try{localStorage.setItem(STORAGE,JSON.stringify({solved:solved,level:level,streak:streak,best:best,mode:mode,limit:limit,soundOn:soundOn}));}catch(e){}}
+ function mix(arr){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+ function extraTokens(){var count=level<30?0:level<65?1:2;if(mode==="syllables"){count=level<25?0:level<70?1:2;}var pool=mode==="letters"?["A","E","I","O","U","M","P","S","L","R","T","N","C","D"]:["LA","MA","SO","PA","RI","BO","TE","NA","CO","PO","LE","MI"];return mix(pool.filter(function(c){return !chunks.includes(c);})).slice(0,count);}
+ function speak(text,rate){if(!soundOn||!("speechSynthesis" in window))return;try{window.speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(text);u.lang="es-MX";u.rate=rate||.82;u.pitch=1.08;var es=window.speechSynthesis.getVoices().filter(function(v){return /^es(-|_)/i.test(v.lang);});if(es.length)u.voice=es.find(function(v){return /mex|MX/i.test(v.lang);})||es[0];window.speechSynthesis.speak(u);}catch(e){}}
+ var names={B:"be",C:"ce",D:"de",F:"efe",G:"ge",H:"hache",J:"jota",K:"ka",L:"ele",M:"eme",N:"ene",Ñ:"eñe",P:"pe",Q:"cu",R:"erre",S:"ese",T:"te",V:"uve",W:"doble uve",X:"equis",Y:"ye",Z:"zeta"};
+ function speakTile(s){speak(mode==="syllables"?s.toLowerCase():names[s]||s.toLowerCase(),.78);}
+ function soundContext(){if(!soundOn)return null;try{var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;if(!audioCtx)audioCtx=new AC();if(audioCtx.state==="suspended")audioCtx.resume();return audioCtx;}catch(e){return null;}}
+ function playDrum(type){var c=soundContext();if(!c)return;var now=c.currentTime;
+   try{if(type==="kick"||type==="tom"){var osc=c.createOscillator(),gain=c.createGain();osc.type="sine";osc.frequency.setValueAtTime(type==="kick"?160:230,now);osc.frequency.exponentialRampToValueAtTime(type==="kick"?52:91,now+.17);gain.gain.setValueAtTime(.5,now);gain.gain.exponentialRampToValueAtTime(.001,now+.23);osc.connect(gain);gain.connect(c.destination);osc.start(now);osc.stop(now+.24);}
+   else {var len=Math.floor(c.sampleRate*(type==="hat"?.10:.18)),buffer=c.createBuffer(1,len,c.sampleRate),data=buffer.getChannelData(0);for(var i=0;i<len;i++)data[i]=Math.random()*2-1;var source=c.createBufferSource(),filter=c.createBiquadFilter(),vol=c.createGain();source.buffer=buffer;filter.type="highpass";filter.frequency.value=type==="hat"?6500:1100;vol.gain.setValueAtTime(type==="hat"?.20:.30,now);vol.gain.exponentialRampToValueAtTime(.001,now+(type==="hat"?.09:.17));source.connect(filter);filter.connect(vol);vol.connect(c.destination);source.start(now);source.stop(now+(type==="hat"?.10:.18));}}
+   catch(e){}
+ }
+ function littleDrumParty(){["kick","hat","snare","kick","tom"].forEach(function(d,i){setTimeout(function(){playDrum(d);var b=document.querySelector('[data-drum="'+d+'"]');if(b){b.classList.add("hit");setTimeout(function(){b.classList.remove("hit");},125);}},i*125);});}
+ function stopTimer(){if(timerId!==null){clearInterval(timerId);timerId=null;}deadline=0;}
+ function clockLabel(){var el=$("timer");el.classList.toggle("danger",limit>0&&secondsLeft<=10);el.textContent=limit===0?"∞ Sin reloj":"⏱️ "+secondsLeft+" s";}
+ function startTimer(){if(!limit||timerId!==null||won||blocked)return;deadline=Date.now()+secondsLeft*1000;timerId=setInterval(function(){secondsLeft=Math.max(0,Math.ceil((deadline-Date.now())/1000));clockLabel();if(secondsLeft<=0){stopTimer();mistake("⏰ Se acabó el tiempo. ¡Inténtalo otra vez!");}},150);clockLabel();}
+ function setFeedback(text,kind){var e=$("feedback");e.textContent=text;e.className="feedback"+(kind?" "+kind:"");}
+ function updateStats(){var completed=solved.filter(Boolean).length;$("completeCount").textContent=completed;$("progressText").textContent=completed+" de 100";$("progressFill").style.width=completed+"%";$("progressTrack").setAttribute("aria-valuenow",String(completed));$("streak").textContent=streak+" 🔥";$("bestStreak").textContent=best;$("points").textContent=completed*10;}
+ function drawBoard(){var slots=$("slots"),circleArea=$("tiles");slots.replaceChildren();circleArea.replaceChildren();
+   chunks.forEach(function(chunk,i){var b=document.createElement("button");b.type="button";b.className="slot"+(i<selected.length?" filled":"")+(won?" correct":"")+(hintShown&&i===0?" hinted":"");b.textContent=i<selected.length?tiles[selected[i]].text:"·";b.title=i<selected.length?"Toca para quitar este círculo":"Espacio "+(i+1);b.setAttribute("aria-label",b.title);b.disabled=blocked||won||i>=selected.length;b.addEventListener("click",function(){if(won||blocked)return;selected.splice(i,1);drawBoard();});slots.appendChild(b);});
+   tiles.forEach(function(t,i){var b=document.createElement("button");b.type="button";b.className="tile"+(selected.includes(i)?" used":"");b.textContent=t.text;b.disabled=won||blocked||selected.includes(i)||selected.length>=chunks.length;b.setAttribute("aria-label","Escuchar y colocar "+t.text);b.addEventListener("click",function(){pick(i);});circleArea.appendChild(b);});
+ }
+ function render(){var word=words[level],tier=level<30?"🌱 Fácil":level<65?"🌻 Intermedio":"🚀 Experto";
+   $("challengeNumber").textContent=level+1;$("stageLabel").textContent=tier;$("wordEmoji").textContent=word.emoji;$("wordClue").textContent=word.clue;
+   $("lettersMode").classList.toggle("active",mode==="letters");$("syllablesMode").classList.toggle("active",mode==="syllables");
+   $("lettersMode").setAttribute("aria-pressed",String(mode==="letters"));$("syllablesMode").setAttribute("aria-pressed",String(mode==="syllables"));
+   $("timeSelect").value=String(limit);$("soundToggle").textContent=soundOn?"🔊 Sonido activado":"🔇 Activar sonido";$("soundToggle").setAttribute("aria-pressed",String(soundOn));
+   $("prev").disabled=level===0;$("next").disabled=!solved[level]||level===99;$("next").textContent=level===99?"🏆 Fin del juego":"Siguiente reto →";
+   $("winBanner").classList.toggle("show",won);$("completion").classList.toggle("show",level===99&&solved[99]);
+   $("hint").disabled=won||blocked;$("clear").disabled=won||blocked;$("repeat").disabled=won||blocked;
+   clockLabel();updateStats();drawBoard();
+ }
+ function newRound(){stopTimer();if(resetId!==null){clearTimeout(resetId);resetId=null;}blocked=false;won=false;selected=[];attemptErrors=0;hintShown=false;secondsLeft=limit;
+   chunks=mode==="syllables"?words[level].syllables.slice():Array.from(words[level].word);
+   tiles=mix(chunks.concat(extraTokens()).map(function(text,id){return {text:text,id:id};}));
+   $("mainGame").classList.remove("celebrate","shake");setFeedback("¡Tú puedes, Brian! 💙");save();render();
+ }
+ function pick(index){if(won||blocked||selected.includes(index)||selected.length>=chunks.length)return;startTimer();selected.push(index);speakTile(tiles[index].text);drawBoard();
+   if(selected.length===chunks.length){var guess=selected.map(function(i){return tiles[i].text;}).join("");if(guess===chunks.join(""))win();else mistake("Casi, Brian. Escucha y vuelve a intentarlo. 💪");}
+ }
+ function mistake(message){if(blocked||won)return;stopTimer();blocked=true;attemptErrors++;streak=0;save();setFeedback(message,"bad");$("mainGame").classList.add("shake");render();
+   resetId=setTimeout(function(){selected=[];blocked=false;secondsLeft=limit;$("mainGame").classList.remove("shake");drawBoard();clockLabel();$("hint").disabled=false;$("clear").disabled=false;$("repeat").disabled=false;},950);
+ }
+ function win(){won=true;stopTimer();var wasNew=!solved[level];if(wasNew){solved[level]=true;streak++;best=Math.max(streak,best);unlocked=Math.max(unlocked,Math.min(100,level+2));}save();render();$("mainGame").classList.add("celebrate");
+   setFeedback("✅ ¡Correcto! "+words[level].word+" · "+(attemptErrors===0?"¡Sin errores! ⭐⭐⭐":"¡Buen esfuerzo! ⭐"),"good");littleDrumParty();setTimeout(function(){speak("¡Muy bien, Brian! "+words[level].word,.91);},720);
+ }
+ function moveTo(target){if(target<0||target>=100||target>=unlocked)return;level=target;newRound();}
+ $("lettersMode").addEventListener("click",function(){if(mode!=="letters"){mode="letters";newRound();}});
+ $("syllablesMode").addEventListener("click",function(){if(mode!=="syllables"){mode="syllables";newRound();}});
+ $("timeSelect").addEventListener("change",function(){limit=Number(this.value);newRound();});
+ $("listenWord").addEventListener("click",function(){speak(words[level].word,.74);});
+ $("hint").addEventListener("click",function(){if(won||blocked)return;hintShown=true;setFeedback("💡 Comienza con: "+chunks[0]+(chunks.length>1?" …":"")+". Escucha el sonido y sigue.", "");speakTile(chunks[0]);drawBoard();});
+ $("clear").addEventListener("click",function(){if(blocked||won)return;selected=[];drawBoard();setFeedback("¡Prueba otro orden!");});
+ $("repeat").addEventListener("click",function(){if(blocked||won)return;stopTimer();secondsLeft=limit;selected=[];tiles=mix(tiles);clockLabel();drawBoard();setFeedback("¡Nuevos círculos para explorar!");});
+ $("prev").addEventListener("click",function(){moveTo(level-1);});
+ $("next").addEventListener("click",function(){if(solved[level])moveTo(level+1);});
+ $("soundToggle").addEventListener("click",function(){soundOn=!soundOn;if(!soundOn&&"speechSynthesis" in window)window.speechSynthesis.cancel();save();render();});
+ Array.from(document.querySelectorAll("[data-drum]")).forEach(function(b){b.addEventListener("click",function(){playDrum(b.getAttribute("data-drum"));b.classList.add("hit");setTimeout(function(){b.classList.remove("hit");},145);});});
+ $("restart").addEventListener("click",function(){if(!window.confirm("¿Quieres borrar las 100 palabras completadas y comenzar otra vez desde el reto 1?"))return;solved=Array(100).fill(false);unlocked=1;level=0;streak=0;best=0;newRound();});
+ document.addEventListener("keydown",function(event){if(event.target instanceof HTMLInputElement||event.target instanceof HTMLSelectElement)return;if(event.key==="Backspace"&&!won&&!blocked&&selected.length){selected.pop();drawBoard();}});
+ newRound();
+})();
+</script>
+</body>
+</html>
